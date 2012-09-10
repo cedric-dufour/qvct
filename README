@@ -1,0 +1,37 @@
+Qt Virtual Chart Table (QVCT)
+=============================
+
+Synopsis and Features
+---------------------
+
+The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
+navigation software that simulates the chart table (and instruments corner)
+usually found in ships.
+
+It is thus suitable for sailing, flying or any other outdoor activity performed
+using a conventional navigation/planning approach:
+ - using heading, speed and time as primary navigation means
+ - using easily identifiable landmarks as references
+ - navigating along discrete waypoints routes
+ - relying on GPS only as a secondary navigation mean
+ - using offline charts (rather than Internet-dependent online resources)
+
+It features:
+ - loading offline geo-referenced charts, stored in any format/projection
+   supported by the Geospatial Data Abstraction Library (GDAL)
+ - creating, loading, saving and managing landmarks, routes and tracks, stored
+   in GPX or QVCT (XML) format
+ - creating, loading, saving and managing (multiple) vessels, stored in QVCT
+   (XML) format and linkable, individually or globally (dynamic flotilla), to
+   (multiple) navigation devices (see below)
+ - defining and using multiple navigation devices, including:
+    * GPS daemon (GPSD) - GPS mode
+ - loading and saving entire navigation/planning projects, stored in QVCT (XML)
+   format
+ - printing charts and overlays (landmarks, routes, etc.) in standard (screen)
+   or high (1200 DPI) resolution
+ - touchscreen-friendly user interface (you really don't need a mouse or key-
+   board while navigating)
+
+(Please check the attached ROADMAP for planned or under-development features)
+

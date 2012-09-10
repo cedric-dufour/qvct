@@ -1,0 +1,8 @@
+# Ignore temporary/backup files
+*#
+*~
+semantic.cache
+
+# Build directories
+/obj-*
+
