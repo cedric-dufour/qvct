@@ -130,16 +130,16 @@ void CTrackPoint::parseQVCT( const QDomElement& _rqDomElement )
   {
     CDataPosition::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
                                _rqDomElement.attribute( "latitude" ).toDouble(),
-                               _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION ) ).toDouble() );
+                                _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' ) ).toDouble() );
   }
   QString __qsTime = _rqDomElement.attribute( "time" );
   if( !__qsTime.isEmpty() )
     CDataTime::setTime( QDateTime::fromString( __qsTime, Qt::ISODate ).toTime_t() );
   qsFixType = _rqDomElement.attribute( "fixtype" );
   iSatelliteCount = _rqDomElement.attribute( "satcount", "0" ).toInt();
-  fdDopHorizontal = _rqDomElement.attribute( "hdop", QString::number( CDeviceDataDop::UNDEFINED_VALUE ) ).toDouble();
-  fdDopVertical = _rqDomElement.attribute( "vdop", QString::number( CDeviceDataDop::UNDEFINED_VALUE ) ).toDouble();
-  fdDopPositional = _rqDomElement.attribute( "pdop", QString::number( CDeviceDataDop::UNDEFINED_VALUE ) ).toDouble();
+  fdDopHorizontal = _rqDomElement.attribute( "hdop", QString::number( CDeviceDataDop::UNDEFINED_VALUE, 'f' ) ).toDouble();
+  fdDopVertical = _rqDomElement.attribute( "vdop", QString::number( CDeviceDataDop::UNDEFINED_VALUE, 'f' ) ).toDouble();
+  fdDopPositional = _rqDomElement.attribute( "pdop", QString::number( CDeviceDataDop::UNDEFINED_VALUE, 'f' ) ).toDouble();
 }
 
 void CTrackPoint::parseGPX( const QDomElement& _rqDomElement )
@@ -148,7 +148,7 @@ void CTrackPoint::parseGPX( const QDomElement& _rqDomElement )
   if( _rqDomElement.hasAttribute( "lon" ) && _rqDomElement.hasAttribute( "lat" ) )
   {
     QString __qsElevation = _rqDomElement.firstChildElement( "ele" ).text();
-    if( __qsElevation.isEmpty() ) __qsElevation = QString::number( CDataPosition::UNDEFINED_ELEVATION );
+    if( __qsElevation.isEmpty() ) __qsElevation = QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' );
     CDataPosition::setPosition( _rqDomElement.attribute( "lon" ).toDouble(),
                                _rqDomElement.attribute( "lat" ).toDouble(),
                                __qsElevation.toDouble() );

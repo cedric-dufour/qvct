@@ -156,7 +156,7 @@ void CRoutePoint::parseQVCT( const QDomElement& _rqDomElement )
   {
     COverlayPoint::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
                                 _rqDomElement.attribute( "latitude" ).toDouble(),
-                                _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION ) ).toDouble() );
+                                _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' ) ).toDouble() );
   }
   qsType = _rqDomElement.attribute( "type" );
   qsSymbol = _rqDomElement.attribute( "symbol" );
@@ -171,7 +171,7 @@ void CRoutePoint::parseGPX( const QDomElement& _rqDomElement )
   if( _rqDomElement.hasAttribute( "lon" ) && _rqDomElement.hasAttribute( "lat" ) )
   {
     QString __qsElevation = _rqDomElement.firstChildElement( "ele" ).text();
-    if( __qsElevation.isEmpty() ) __qsElevation = QString::number( CDataPosition::UNDEFINED_ELEVATION );
+    if( __qsElevation.isEmpty() ) __qsElevation = QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' );
     COverlayPoint::setPosition( _rqDomElement.attribute( "lon" ).toDouble(),
                                 _rqDomElement.attribute( "lat" ).toDouble(),
                                 __qsElevation.toDouble() );

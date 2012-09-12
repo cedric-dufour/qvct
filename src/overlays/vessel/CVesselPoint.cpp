@@ -293,7 +293,7 @@ void CVesselPoint::parseQVCT( const QDomElement& _rqDomElement )
   {
     COverlayCourse::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
                                  _rqDomElement.attribute( "latitude" ).toDouble(),
-                                 _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION ) ).toDouble() );
+                                 _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' ) ).toDouble() );
   }
   QString __qsTime = _rqDomElement.attribute( "time" );
   if( !__qsTime.isEmpty() )
@@ -313,16 +313,16 @@ void CVesselPoint::parseQVCT( const QDomElement& _rqDomElement )
     QDomElement __qDomElement = __qDomElementCourse.firstChildElement( "Ground" );
     if( !__qDomElement.isNull() )
     {
-      CDataCourseGA::GroundCourse.setBearing( __qDomElement.attribute( "bearing", QString::number( CDataCourse::UNDEFINED_BEARING ) ).toDouble() );
-      CDataCourseGA::GroundCourse.setSpeed( __qDomElement.attribute( "speed", QString::number( CDataCourse::UNDEFINED_SPEED ) ).toDouble() );
-      CDataCourseGA::GroundCourse.setSpeedVertical( __qDomElement.attribute( "speed_vertical", QString::number( CDataCourse::UNDEFINED_SPEED ) ).toDouble() );
+      CDataCourseGA::GroundCourse.setBearing( __qDomElement.attribute( "bearing", QString::number( CDataCourse::UNDEFINED_BEARING, 'f' ) ).toDouble() );
+      CDataCourseGA::GroundCourse.setSpeed( __qDomElement.attribute( "speed", QString::number( CDataCourse::UNDEFINED_SPEED, 'f' ) ).toDouble() );
+      CDataCourseGA::GroundCourse.setSpeedVertical( __qDomElement.attribute( "speed_vertical", QString::number( CDataCourse::UNDEFINED_SPEED, 'f' ) ).toDouble() );
     }
     __qDomElement = __qDomElementCourse.firstChildElement( "Apparent" );
     if( !__qDomElement.isNull() )
     {
-      CDataCourseGA::ApparentCourse.setBearing( __qDomElement.attribute( "bearing", QString::number( CDataCourse::UNDEFINED_BEARING ) ).toDouble() );
-      CDataCourseGA::ApparentCourse.setSpeed( __qDomElement.attribute( "speed", QString::number( CDataCourse::UNDEFINED_SPEED ) ).toDouble() );
-      CDataCourseGA::ApparentCourse.setSpeedVertical( __qDomElement.attribute( "speed_vertical", QString::number( CDataCourse::UNDEFINED_SPEED ) ).toDouble() );
+      CDataCourseGA::ApparentCourse.setBearing( __qDomElement.attribute( "bearing", QString::number( CDataCourse::UNDEFINED_BEARING, 'f' ) ).toDouble() );
+      CDataCourseGA::ApparentCourse.setSpeed( __qDomElement.attribute( "speed", QString::number( CDataCourse::UNDEFINED_SPEED, 'f' ) ).toDouble() );
+      CDataCourseGA::ApparentCourse.setSpeedVertical( __qDomElement.attribute( "speed_vertical", QString::number( CDataCourse::UNDEFINED_SPEED, 'f' ) ).toDouble() );
     }
   }
 
