@@ -1,0 +1,611 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8" />
+<LINK REL="stylesheet" TYPE="text/css" HREF="../style.css" />
+<TITLE>Qt Virtual Chart Table (QVCT) - User Manual</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1>Qt Virtual Chart Table (QVCT) - User Manual</H1>
+<DIV CLASS="H1">
+
+<UL>
+<LI><A HREF="#overview">Usage Overview</A></LI>
+<LI><A HREF="#chart_table">Using the Chart Table and Controls</A></LI>
+<LI><A HREF="#overlay_list">Using the Overlay List</A></LI>
+<LI><A HREF="#overlay_detail">Using the Overlay Detail</A></LI>
+<LI><A HREF="#settings">Changing the Application Settings</A></LI>
+<LI><A HREF="#chart_create">Create your own Charts</A></LI>
+</UL>
+
+<HR/>
+
+<H2><A ID="overview"/>Usage Overview</H2>
+<DIV CLASS="H2">
+<P>Using the <DFN>Qt Virtual Chart Table (QVCT)</DFN> comes down to working with:</P>
+
+<DIV CLASS="NO-BORDER">
+<TABLE CLASS="LARGE-PADDING">
+
+<TR>
+<TD><IMG SRC="../images/icons/chart.png" ALT="chart.png"/></TD>
+<TD><B>Charts</B>, stored on disk in any format supported by <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> (but preferrably <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A>).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/landmark.png" ALT="landmark.png"/></TD>
+<TD><B>Landmarks</B>, which are geographical points which may be useful to plan your navigation: harbours/airports, navigational aids, easily identifiable places, etc.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/route.png" ALT="route.png"/></TD>
+<TD><B>Routes</B>, which are collections of ordered waypoints which you plan to follow in order to go from one point to another.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/track.png" ALT="track.png"/></TD>
+<TD><B>Tracks</B>, which are the recorded path followed by geo-localized vessels (see below).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/vessel.png" ALT="vessel.png"/></TD>
+<TD><B>Vessels</B>, which are either your own vessel - ship, aircraft, etc. - of any other vessel you wish to appear on your chart(s).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/device.png" ALT="device.png"/></TD>
+<TD><B>Devices</B>, which are navigation devices that allow: either to provide geo-localization data (time, position, course) for a particular individual vessel (e.g. with a GPS-like device) or automatically create vessels as part of a <I>dynamic</I> flotilla and as they appear &quot;on the wire&quot; (e.g. with an AIS-like device).</TD>
+</TR>
+
+</TABLE>
+</DIV>
+
+<P>The various components of the interface which shall be mentioned in this manual are:</P>
+<P STYLE="TEXT-ALIGN:center;"><IMG SRC="../images/qvct-user.jpg" ALT="qvct-user.jpg"/></P>
+<P>Note that all but the <DFN>Chart[...]</DFN> components can be freely moved around by grabbing and dragging their title bar.</P>
+</DIV><!-- DIV CLASS="H2" -->
+
+
+<H2><A ID="chart_table"/>Using the Chart Table and Controls</H2>
+<DIV CLASS="H2">
+<P>Directly surrounding the (central) chart area are several buttons, which function is to:</P>
+
+<DIV CLASS="NO-BORDER">
+<TABLE CLASS="LARGE-PADDING">
+
+<TR>
+<TD><IMG SRC="../images/icons/chart_load.png" ALT="chart_load.png"/></TD>
+<TD><B>Load Chart</B>: Load a new chart from disk and have it appear as a new tab (which you can use to quickly switch view from one chart to another).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/move_lock.png" ALT="move_lock.png"/></TD>
+<TD><B>Position Lock</B>: Any chart that is <I>position-locked</I> will have its position synchronized with other <I>position-locked</I> charts. This allows to go from one chart to another and be centered at the same position. When unlocked, a chart can be freely moved without affecting the position of other charts.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/zoom_lock.png" ALT="zoom_lock.png"/></TD>
+<TD><B>Scale Lock</B>: Any chart that is <I>scale-locked</I> will have its scale synchronized with other <I>scale-locked</I> charts. This allows to go from one chart to another and have the same scale applied. When unlocked, a chart can have its scale freely changed without it affecting the scale of other charts.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/zoom_actual.png" ALT="zoom_actual.png"/></TD>
+<TD><B>Scale Actual</B>: Set the scale so that the ratio between the currently visible chart and screen pixels is 1:1. This can also be achieved by <B>double-clicking</B> on the chart (anywhere except on an overlay object).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/zoom_in.png" ALT="zoom_in.png"/></TD>
+<TD><B>Scale Decrease (Zoom In)</B>: Decrease the scale used to display the chart (zoom in).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/zoom_out.png" ALT="zoom_out.png"/></TD>
+<TD><B>Scale Decrease (Zoom Out)</B>: Increase the scale used to display the chart (zoom out).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/zoom_fit.png" ALT="zoom_fit.png"/></TD>
+<TD><B>Scale Fit</B>: Set the scale so that the currently visible chart gets displayed on screen in its entirety.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/measure_single.png" ALT="measure_single.png"/></TD>
+<TD><B>Single Measurement</B>: Perform a single measurement by <B>clicking</B> on two points on the charts.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/measure.png" ALT="measure.png"/></TD>
+<TD><B>Ongoing Measurement</B>: Keep performing measurements, either several single measurements one after another (if <DFN>Single Measurement</DFN> is on) or by creating a path along the points clicked on the map (if <DFN>Single Measurement</DFN> is off).</TD>
+</TR>
+
+</TABLE>
+</DIV>
+
+</DIV><!-- DIV CLASS="H2" -->
+
+
+<H2><A ID="overlay_list"/>Using the Overlay List</H2>
+<DIV CLASS="H2">
+<P>Landmarks, routes, tracks and vessels - herefrom called <DFN>objects</DFN> - are gathered in separate overlays, which a &quot;graphically applied&quot; on top of the loaded charts.</P>
+<P>By <B>single-clicking</B> on an object, in the in the <DFN>Overlay List</DFN> or on the chart, you make it appear in the <DFN>Overlay Detail</DFN> widget, where all available details about the object are displayed.</P>
+<P>By <B>double-clicking</B> on an object that actually correspond to a geographical position, you center the chart on that object.</P>
+
+<P>Two of the columns in the <DFN>Overlay List</DFN> have a particular function:</P>
+
+<DIV CLASS="NO-BORDER">
+<TABLE CLASS="LARGE-PADDING">
+
+<TR>
+<TD><IMG SRC="../images/icons/visible.png" ALT="visible.png"/></TD>
+<TD><B>Visibility</B>: Toggle the global visibility of the object on the chart(s).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/select.png" ALT="select.png"/></TD>
+<TD><B>Selection</B>: Select the object for saving or deletion. This can also be achieved by <B>double-clicking</B> on the object on the chart.</TD>
+</TR>
+
+</TABLE>
+</DIV>
+
+<P>Below the <DFN>Overlay List</DFN> are several buttons, which function is to:</P>
+
+<DIV CLASS="NO-BORDER">
+<TABLE CLASS="LARGE-PADDING">
+
+<TR>
+<TD><IMG SRC="../images/icons/load.png" ALT="load.png"/></TD>
+<TD><B>Load</B>: Load objects from disk, stored either in GPX or QVCT (XML) format.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/add.png" ALT="add.png"/></TD>
+<TD><B>Add</B>: Add a new objects container (landmarks set, route, track, flotilla) to the overlay.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/save_select.png" ALT="save_select.png"/></TD>
+<TD><B>Save Selected</B>: Save the selected objects to disk, using either the GPX or QVCT (XML) format.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/delete_select.png" ALT="delete_select.png"/></TD>
+<TD><B>Delete Selected</B>: Delete the selected objects.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/sort_ascending.png" ALT="sort_ascending.png"/></TD>
+<TD><B>Sort Ascending/Move Up</B>: Depending on the active object, either sort its children in ascending order or move the object itself one step up among its siblings.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/sort_descending.png" ALT="sort_descending.png"/></TD>
+<TD><B>Sort Descending/Move Down</B>: Depending on the active object, either sort its children in descending order or move the object itself one step down among its siblings.</TD>
+</TR>
+
+</TABLE>
+</DIV>
+
+</DIV><!-- DIV CLASS="H2" -->
+
+
+<H2><A ID="overlay_detail"/>Using the Overlay Detail</H2>
+<DIV CLASS="H2">
+<P>The details of overlay objects are organized in several tabs - <CODE>Position</CODE>, <CODE>Course</CODE>, etc. - in the <DFN>Overlay Detail</DFN> widget. Some of those details can also be displayed along the object on the chart itself.</P>
+<P>Below the <DFN>Overlay List</DFN> are several buttons, which function is to:</P>
+
+<DIV CLASS="NO-BORDER">
+<TABLE CLASS="LARGE-PADDING">
+
+<TR>
+<TD><IMG SRC="../images/icons/visible.png" ALT="visible.png"/></TD>
+<TD><B>Visibility</B>: Toggle the details visibility status of the object on the chart.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/center.png" ALT="center.png"/></TD>
+<TD><B>Center</B>: Center the chart on this object (or this group of objects). This can also be achived by <B>double-right-clicking</B> on the object on the chart.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/center_lock.png" ALT="center_lock.png"/></TD>
+<TD><B>Center Lock (Vessels Only)</B>: Keep the chart centered on this vessel (even as its position changes according to its navigation devices). This also makes the vessel position and course appear in the <DFN>Vessel Position</DFN> and <DFN>Vessel Course</DFN> high-contrast widgets.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/move.png" ALT="move.png"/></TD>
+<TD><B>Move (Landmarks and Waypoints only)</B>: Change the position of the object by <B>clicking</B> its new position on the chart.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/edit.png" ALT="edit.png"/></TD>
+<TD><B>Edit</B>: Edit the object details.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/save.png" ALT="save.png"/></TD>
+<TD><B>Save (Objects Containers only)</B>: Save the object's content (children objects) to disk, using either teh GPX or QVCT (XML) format.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/delete.png" ALT="delete.png"/></TD>
+<TD><B>Delete</B>: Delete the object (and all its dependencies).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/landmark_add.png" ALT="landmark_add.png"/></TD>
+<TD><B>New Landmark (Pointer, Waypoints and Track Points only)</B>: Create a new landmark by copying the object's current position (and details).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/route_add.png" ALT="route_add.png"/></TD>
+<TD><B>New Waypoint (Pointer, Landmarks and Track Points only)</B>: Create a new (route) waypoint by copying the object's current position (and details).</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/track_start.png" ALT="track_start.png"/></TD>
+<TD><B>Track Recording (Vessels Only)</B>: Start/stop the recording of the path of this vessel into a track with corresponding name. Each time the recording is stopped/started, a new track segment is created.</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/device_add.png" ALT="device_add.png"/></TD>
+<TD><B>Device Dependency (Vessels Only)</B>: Add a new navigation device to the object. In the case of a vessel, it allows to automatically update its time, position and course (on the ground or apparent). In the case of a flotilla, it allows to automatically create vessels (and update their position/course) as they appear on the device's &quot;wire&quot;</TD>
+</TR>
+
+<TR>
+<TD><IMG SRC="../images/icons/device_connect.png" ALT="device_connect.png"/></TD>
+<TD><B>Device Connection (Vessels Only)</B>: Connect the vessel's device (defined and potentially saved on disk) to the actual device (available on the present host) by matching their names. In normal circumstances, devices will be automatically connected. Manually connecting a device will be necessary if a vessel's device has been created or loaded from file while the actual device (with a matching name) wasn't already defined.</TD>
+</TR>
+
+</TABLE>
+</DIV>
+
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2><A ID="settings"/>Changing the Application Settings</H2>
+<DIV CLASS="H2">
+<P>By selecting teh <CODE>Settings...</CODE> entry the <CODE>File</CODE> menu, you can modify the application settings in a way that fits your requirements.</P>
+
+<H3>Units</H3>
+<DIV CLASS="H3">
+<P>The format/unit of every value displayed in QVCT - time, position, distance, bearing, speed, etc. - can be customized using the <CODE>Units</CODE> tab in the application settings dialog.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Device Data Validity</H3>
+<DIV CLASS="H3">
+<P>The parameters that allow to control the validity of data supplied by navigational devices can be modified using the <CODE>Validity</CODE> tab in the application settings dialog. Invalid data will appear in <I>italic</I> in the user interface or result in <I>dot-line</I> symbols on the chart(s).</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Miscellaneous</H3>
+<DIV CLASS="H3">
+<P>Some other options can be customized using the <CODE>Misc.</CODE> tab in the application settings dialog.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2><A ID="chart_create"/>Create your own Charts</H2>
+<DIV CLASS="H2">
+<P>By design, QVCT requires charts to be stored on disk, using a geo-referenced image/file format supported by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> (preferrably the <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).</P>
+<P>The good news is that (almost) any image can be converted into a <CITE>GeoTIFF</CITE> file. The bad news is that it requires using the (command-line) <CITE>GDAL</CITE> utilities to do so. While it may appear an impossible task to people that are not used to the command-line, I beg you keep on reading the following few paragraphs, for in the end, you should be able to deal with <CITE>GDAL</CITE> and georeference most (if not all) your images/files.</P>
+
+<H3>Step 1: Obtain a Chart in Numeric (Raster) Format</H3>
+<DIV CLASS="H3">
+<P>There are several ways you can obtain a chart in numeric (raster) format:</P>
+
+<H4>Buy it</H4>
+<DIV CLASS="H4">
+<P>First option is to buy a chart in numeric (raster) format directly from a topograhic material supplier (e.g. <A HREF="http://www.swisstopo.ch/" TARGET="_blank"><CITE>SwissTopo</CITE></A> for Switzerland charts).</P>
+<P>Prices keep going down, to the point where one may really want to look into this solution. Also, the material obtained will be of the best possible quality and part of the georeferencing work may already have been done by the supplier.</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Scan it</H4>
+<DIV CLASS="H4">
+<P>Second option is to scan a paper chart you already have.</P>
+<P>The quality will not be as good as what the former solution would provide. Also, it may appear cheaper... but given the time you will spend at the task, it may eventually end up more expensive than buying the numeric counterpart (depending on how much you hourly-rate yourself).</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Online &rarr; Offline</H4>
+<DIV CLASS="H4">
+<P>Last option is to create an offline version of an online chart, using for example the <A HREF="http://mobac.sourceforge.net/" TARGET="_blank"><CITE>Mobile Atlas Creator (MOBAC)</CITE></A>.</P>
+<P>When using <CITE>MOBAC</CITE>, make sure to choose the <CODE>PNG + Worldfile (PNG &amp; PGW)</CODE> output format, which will result in: 1. a (single) large - very large! - image (*.png) file; 2. a <A HREF="http://en.wikipedia.org/wiki/World_file"><CITE>World File</CITE></A> (*.pgw) containing georeferencing information that you will need later; 3. an auxiliary data file (*.aux.xml) containing other georeferencing information that you will need later.</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<DIV CLASS="H4">
+<P>For the purpose of this manual, we will use <CITE>MOBAC</CITE> to create an offline version of <A HREF="http://www.openstreetmap.org/" TARGET="_blank"><CITE>OpenStreetMap</CITE></A> world map:</P>
+<UL>
+<LI>Atlas format: <B>PNG + Worldfile (PNG &amp; PGW)</B></LI>
+<LI>Map source: <B>OpenStreeMap MapQuest</B></LI>
+<LI>Zoom Level: <B>5</B></LI>
+<LI>Selection: <B>entire available area</B></LI>
+</UL>
+<P>Once the &quot;atlas&quot; created, the following files will be available (renamed for the sake of clarity):<P>
+<UL>
+<LI>Image file: <B>openstreetmap-world.png</B></LI>
+<LI>World file: <B>openstreetmap-world.pgw</B></LI>
+<LI>Auxiliary data: <B>openstreetmap-world.png.aux.xml</B></LI>
+</UL>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Switzerland ICAO VFR Chart Example</H4>
+<DIV CLASS="H4">
+<P>We shall also refer to Switzerland ICAO VFR chart for the sake of further examples:</P>
+<UL>
+<LI>Supplier: <B><A HREF="http://www.swisstopo.ch/" TARGET="_blank">SwissTopo</A></B> (Cost: &sim;50.- EUR)</LI>
+<LI>Scale: <B>1:500000</B></LI>
+<LI>Datum: <B>CH-1903</B></LI>
+<LI>Projection: <B>Lambert Conform Conical</B> tangential at <B>46d57'08.66&quot;N 7d26'22.50&quot;E</B></LI>
+<LI>Ellipsoid: <B>Bessel (1841)</B></LI>
+</UL>
+</DIV><!-- DIV CLASS="H4" -->
+
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 2: Make sure the Chart is Level</H3>
+<DIV CLASS="H3">
+<P>Though is it theoretically possible to correct some charts rotation or skew issues using <CITE>GDAL</CITE>, it will be much easier to start with a chart that does not have such issues.</P>
+<P>Charts obtained from topographic material suppliers or created from online sources will not present this problem.</P>
+<P>On the other hand, scanned charts may require to have the scanner's rotation and/or skew issues be corrected using your preferred image editing software (e.g. <A HREF="http://www.gimp.org/" TARGET="_blank"><CITE>GIMP</CITE></A>).</P>
+<P><B>Keypoint: make sure the numeric version of your chart is aligned identically to the paper version, in respect with their respective horizontal/vertical borders.</B>.</P>
+</UL>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 3: Convert the Chart to an Indexed-Color TIFF File</H3>
+<DIV CLASS="H3">
+<P>Once you have a numeric (raster) and level chart at hand, you must convert it to a color-indexed <CITE>TIFF</CITE> file in order to: 1. reduce its size as much as possible (thus the color indexing); 2. prepare it for georeferencing (and exporting to <CITE>GeoTIFF</CITE> format).</P>
+<P>This step is easily achieved using the <CODE>convert</CODE> utility provided by <A HREF="http://www.imagemagick.org/" TARGET="_blank"><CITE>ImageMagick</CITE></A>:</P>
+<PRE>
+$ convert openstreetmap-world.png -colors 256 -type Palette -compress lzw openstreetmap-world.tif
+</PRE>
+<P>Note that you could choose to index less than 256 colors but you would end up either with a neglectable size gain or a much-degraded image quality.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 4: Find-Out the Chart's Corner Positions</H3>
+<DIV CLASS="H3">
+<P>You now need to know the <B>geographical positions of the upper-left and lower-right corners</B> of your chart.</P>
+<P><B>IMPORTANT NOTE:</B> The coordinates system used by the chart depends on its datum and units. Thus, at this stage, we are not talking of longitude or latitude expressed in degrees. In the case of the Switzerland's ICAO VFR chart, the coordinates are meters, relative to a reference point situated at &lt;600000;200000&gt; (and corresponding to Bern old observatory's position).</P>
+
+<H4>Using GDAL</H4>
+<DIV CLASS="H4">
+<P>Beforehand, it may pay to check whether this information is not already included in your file (if you bought it form a topographic material supplier). To do so, you shall use the <CODE>gdalinfo</CODE> tool and check its output for <CODE>Corner Coordinates</CODE> data:<P>
+<PRE>
+$ gdalinfo -nomd -nogcp -noct openstreetmap-world.geo.tif
+[...]
+Corner Coordinates:
+Upper Left  (-20039954.328,19997316.030)
+Lower Left  (-20039954.328,-19992434.469)
+Upper Right (20035062.358,19997316.030)
+Lower Right (20035062.358,-19992434.469)
+Center      (   -2445.985,    2440.780)
+[...]
+</PRE>
+<P></I>Since the <CITE>MOBAC</CITE> original image files do not contain such information, we have used the final georeferenced <CITE>GeoTIFF</CITE> file for the sake of the example.</I></P>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Using the World File</H4>
+<DIV CLASS="H4">
+<P>If bought from a topographic material supplier or created with <CITE>MOBAC</CITE>, you chart may (will in the latter case) come bundled with its corresponding <A HREF="http://en.wikipedia.org/wiki/World_file"><CITE>World File</CITE></A>. The content of this file is very simple:</P>
+<PRE>
+$ cat openstreetmap-world.pgw
+4891.969810251280000  # [A] X-axis offset per pixel (going from left to right)
+0.0                   # [B] Y-axis rotation; if non-zero, we're screwed (unless we're GDAL gurus)
+0.0                   # [C] X-axis rotation; if non-zero, we're screwed (unless we're GDAL gurus)
+-4881.561340260210000 # [D] Y-axis offset per pixel (going from top to bottom)
+-20037508.3427892     # [E] X coordinate (longitude) of the *middle* of the upper-left pixel
+19994875.2497058      # [F] Y coordinate (latitude) of the *middle* of the upper-left pixel
+</PRE>
+<P>Along with the <CITE>World File</CITE> data, you will need to know the exact width and height of the image, which can easily obtained with the <CODE>identify</CODE> utility provided by <A HREF="http://www.imagemagick.org/" TARGET="_blank"><CITE>ImageMagick</CITE></A>:</P>
+<PRE>
+$ identify openstreetmap-world.png
+openstreetmap-world.png PNG 8192x8192 8192x8192+0+0 8-bit DirectClass 28.54MiB 0.470u 0:00.469
+# [G] Width:  8192
+# [H] Height: 8192
+</PRE>
+<P>Given all those data, one can easily compute the <B>coordinates of the upper-left and lower-right corners of the chart</B>:</P>
+<PRE>
+[UL_X] Upper-Left X  = [E] - [A]/2      = -20039954.3276
+[UL_Y] Upper-Left Y  = [F] - [D]/2      =  19997316.03
+[LR_X] Lower-Right X = [UL_X] + [G]*[A] =  20035062.358
+[LR_Y] Lower-Right Y = [UL_Y] + [H]*[D] = -19992434.4694
+</PRE>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Using a Ruler</H4>
+<DIV CLASS="H4">
+<P>If no other mean is available, you will need to get a good ruler, measure as precisely as possible the positions of your chart corners relatively to its existing coordinates system and apply a good old rule of three.</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+<P>In the end, those data will be used to fill-in the values of the <CODE>-a_ullr</CODE> option of the <CODE>gdal_translate</CODE> utility (see below).</P>
+
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 5: Find-Out the Chart's Geodetic Characteristics</H3>
+<DIV CLASS="H3">
+<P>Now here is where the most difficult task lies, for this information is often not readily available to end users. If you're lucky, closely inspecting your chart may reveal some clues about its projection, datum, ellipsoid, etc. If not, you will need to do some Internet digging and acquire some general knowledge about what your country or topographic material supplier favors.</P>
+
+<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<DIV CLASS="H4">
+<P>Offline version of online charts created with <CITE>MOBAC</CITE> (see above) will be created along with a <CITE>World File</CITE> (*.pgw) and a auxiliary data file (*.aux.xml) which luckily contains all the information we need:</P>
+<PRE>
+$ cat openstreetmap-world.png.aux.xml
+&lt;PAMDataset&gt;
+  &lt;SRS&gt;
+PROJCS[&quot;World_Mercator&quot;,
+  GEOGCS[&quot;GCS_WGS_1984&quot;,
+    DATUM[&quot;WGS_1984&quot;,SPHEROID[&quot;WGS_1984&quot;,6378137.0,298.257223563]],
+    PRIMEM[&quot;Greenwich&quot;,0.0],
+    UNIT[&quot;Degree&quot;,0.0174532925199433]
+  ],
+  PROJECTION[&quot;Mercator_1SP&quot;],
+  PARAMETER[&quot;False_Easting&quot;,0.0],
+  PARAMETER[&quot;False_Northing&quot;,0.0],
+  PARAMETER[&quot;Central_Meridian&quot;,0.0],
+  PARAMETER[&quot;latitude_of_origin&quot;,0.0],
+  UNIT[&quot;Meter&quot;,1.0]
+]
+  &lt;/SRS&gt;
+&lt;/PAMDataset&gt;
+</PRE>
+<P>And eventually allows us to identify the <B>key geodetic characteristics of the chart</B>:</P>
+<UL>
+<LI>Projection: <B>World Mercator</B></LI>
+<LI>Datum: <B>WGS-84</B></LI>
+<LI>Ellipsoid: <B>WGS-84</B></LI>
+<LI>Units: <B>meters</B></LI>
+</UL>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Switzerland ICAO VFR Chart Example</H4>
+<DIV CLASS="H4">
+<P>In the case of Switzerland ICAO VFR chart, general knowledge has it that Switzerland uses the so-called <VAR>CH-1903</VAR> datum for most of its charts, while close inspection of the chart itself (in paper format) reveals its other geodetic characteristics:</P>
+<UL>
+<LI>Datum: <B>CH-1903</B></LI>
+<LI>Units: <B>meters</B></LI>
+<LI>Projection: <B>Lambert Conform Conical</B> tangential at <B>46d57'08.66&quot;N 7d26'22.50&quot;E</B></LI>
+<LI>Ellipsoid: <B>Bessel (1841)</B></LI>
+</UL>
+</DIV><!-- DIV CLASS="H4" -->
+
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 6: Find-Out GDAL (PROJ.4) Codes for the Datum, Projection and Ellipsoid</H3>
+<DIV CLASS="H3">
+<P>Once you know the actual geodetic characteristics of your chart, we need to find the corresponding stanza to feed to <CITE>GDAL</CITE>.</P>
+<P><CITE>GDAL</CITE> actually relies on the <A HREF="http://proj.osgeo.org/" TARGET="_blank"><CITE>PROJ.4</CITE></A> project and library to do its internal magic. We must thus find-out the <CITE>PROJ.4</CITE> codes that match the geodetic characteristics of the chart.</P>
+
+<H4>Using the EPSG Database</H4>
+<DIV CLASS="H4">
+<P>Most common chart reference and transformation systems are listed and attributed a unique ID number by the <A HREF="http://www.epsg.org/" TARGET="_blank"><CITE>European Petroleum Survey Group (EPSG)</CITE></A>. The <CITE>PROJ.4</CITE> project keeps a list of those <CITE>EPSG</CITE> numbers as part of its resources, which can then be fed to the <CODE>-a_srs EPSG:&lt;ID&gt;</CODE> option of the <CODE>gdal_translate</CODE> utility in place of the actual geodetic characteristics (<CODE>+proj=... +datum=... +ellps=... +units=...</CODE>).</P>
+<PRE>
+$ cat /usr/share/proj/epsg
+[...]
+# WGS 84 / World Mercator
+&lt;3395&gt; +proj=merc +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs
+[...]
+# CH1903 / LV03
+&lt;21781&gt; +proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=600000 +y_0=200000
+        +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs
+[...]
+</PRE>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Using the PROJ Utility</H4>
+<DIV CLASS="H4">
+<P>The <CODE>proj</CODE> utility allows you to list its supported projections, datums and ellipsoids. You may thus find the <CITE>PROJ.4</CITE> codes matching your chart's geodetic characteristics:</P>
+<PRE>
+$ proj -lp  # Projections ('+proj=...')
+$ proj -ld  # Datums ('+datum=...')
+$ proj -le  # Ellipsoid ('+ellps=...')
+$ proj -lu  # Units ('+units=...')
+</PRE>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<DIV CLASS="H4">
+<P>Matching the content of <CODE>openstreetmap-world.png.aux.xml</CODE> file (see above) to the <CITE>EPSG</CITE> database's leads us straight to the corresponding <B>EPSG&nbsp;ID:&nbsp;3395</B>.</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Switzerland ICAO VFR Chart Example</H4>
+<DIV CLASS="H4">
+<P>Based on the data already at hand, we could erroneously jump to conclusions and choose the <CITE>EPSG</CITE> ID 21781 as the solution to our problem. While this would be fine for Switzerland topographic maps (which use a <I>Swiss Oblique Mercator</I> projection; <CODE>+proj=somerc</CODE> in <CITE>PROJ.4</CITE> stanza), it is not correct for the ICAO VFR chart, which uses a <B>Lambert Conform Conical</B> projection (<CODE>+proj=lcc</CODE> in <CITE>PROJ.4</CITE> stanza).</P>
+<P>Unfortunately, there is no matching <CITE>EPSG</CITE> ID that matches this particular projection along with the <B>CH-1903</B> datum.</P>
+<P>Besides, since QVCT uses the <VAR>WGS-84</VAR> reference system internally, we MUST either have a chart that uses the <VAR>WGS-84</VAR> datum or one that has an <CITE>EPSG</CITE> entry which provides the <CODE>+towgs84=...</CODE> <CITE>PROJ.4</CITE> stanza to perform the tranformation from one datum to the other.</P>
+<P>Thus, the only way we can use the Switzerland ICAO VFR chart is by pretending it actually uses the <VAR>WGS-84</VAR> datum and adjusting the reference point coordinates correspondingly:</P>
+<PRE>
++proj=lcc
++lat_1=46d57'03.9\"N +lat_2=46d57'03.9\"N +lat_0=46d57'03.9\"N +lon_0=7d26'19.1\"E
++x_0=600000 +y_0=200000 +k_0=1
++datum=WGS84
++ellps=WGS84
++no_defs
+</PRE>
+<P>Where <B>46d57'03.9&quot;N 7d26'19.1&quot;E</B> are the <B>WGS-84</B> coordinates of the reference point (Bern old observatory). Practically, this leads to no discernable error when using the chart in QVCT.</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 7: Georeference your Chart using GDAL</H3>
+<DIV CLASS="H3">
+<P>Now comes the easiest part: the creation of the final georeferenced <CITE>GeoTIFF</CITE> file, which is performed using the <CODE>gdal_translate</CODE> utility...</P>
+
+<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<DIV CLASS="H4">
+<P>... using the <B>coordinates of the upper-left and lower-right corners</B> and the <B>EPSG ID</B> you now have at hand:</P>
+<PRE>
+$ gdal_translate \
+   -a_ullr 20039954.3276 19997316.03 20035062.358 -19992434.4694 \
+   -a_srs EPSG:3395 \
+   -co TILED=YES -co COMPRESS=DEFLATE -co ZLEVEL=9 \
+   openstreetmap-world.tif openstreetmap-world.geo.tif
+</PRE>
+</DIV><!-- DIV CLASS="H4" -->
+
+<H4>Switzerland ICAO VFR Chart Example</H4>
+<DIV CLASS="H4">
+<P>... using the <B>coordinates of the upper-left and lower-right corners</B> and the <B>geodetic parameters</B> you now have at hand:</P>
+<PRE>
+$ gdal_translate \
+   -a_ullr 395000 347450 928400 -4000 \
+   -a_srs "+proj=lcc +lat_1=46d57'03.9\"N +lat_2=46d57'03.9\"N +lat_0=46d57'03.9\"N +lon_0=7d26'19.1\"E
+           +x_0=600000 +y_0=200000 +k_0=1 +datum=WGS84 +ellps=WGS84 +no_defs" \
+   -co TILED=YES -co COMPRESS=DEFLATE -co ZLEVEL=9 \
+   ch-icao-vfr.tif ch-icao-vfr.geo.tif
+</PRE>
+</DIV><!-- DIV CLASS="H4" -->
+
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3>Step 8: Checking and Using your Chart in QVCT</H3>
+<DIV CLASS="H3">
+<P>Before loading the chart in QVCT, you may want to check whether its georeferencing data actually make sense, using <CITE>GDAL</CITE>'s <CODE>gdalinfo</CODE> utility one last time:</P>
+
+<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<DIV CLASS="H4">
+<P>Using the <B>coordinates of the upper-left and lower-right corners</B> and the <B>EPSG ID</B> of the chart, you just need:</P>
+<PRE>
+$ gdalinfo -nomd -nogcp -noct openstreetmap-world.geo.tif
+Driver: GTiff/GeoTIFF
+Files: openstreetmap-world.geo.tif
+Size is 8192, 8192
+Coordinate System is:
+PROJCS["WGS 84 / World Mercator",
+    GEOGCS["WGS 84",
+        DATUM["WGS_1984",
+            SPHEROID["WGS 84",6378137,298.2572235630016,
+                AUTHORITY["EPSG","7030"]],
+            AUTHORITY["EPSG","6326"]],
+        PRIMEM["Greenwich",0],
+        UNIT["degree",0.0174532925199433],
+        AUTHORITY["EPSG","4326"]],
+    PROJECTION["Mercator_1SP"],
+    PARAMETER["central_meridian",0],
+    PARAMETER["scale_factor",1],
+    PARAMETER["false_easting",0],
+    PARAMETER["false_northing",0],
+    UNIT["metre",1,
+        AUTHORITY["EPSG","9001"]],
+    AUTHORITY["EPSG","3395"]]
+Origin = (-20039954.327599998563528,19997316.030000001192093)
+Pixel Size = (4891.969810253905962,-4881.561340258789642)
+Corner Coordinates:
+Upper Left  (-20039954.328,19997316.030) (179d58'40.90"E, 85d 3'10.87"N)
+Lower Left  (-20039954.328,-19992434.469) (179d58'40.90"E, 85d 2'57.25"S)
+Upper Right (20035062.358,19997316.030) (179d58'40.90"E, 85d 3'10.87"N)
+Lower Right (20035062.358,-19992434.469) (179d58'40.90"E, 85d 2'57.25"S)
+Center      (   -2445.985,    2440.780) (  0d 1'19.10"W,  0d 1'19.47"N)
+Band 1 Block=256x256 Type=Byte, ColorInterp=Palette
+  Color Table (RGB with 256 entries)
+</PRE>
+<P><B>You're done!</B> You may now enjoy your new chart in QVCT.</P>
+</DIV><!-- DIV CLASS="H4" -->
+
+</DIV><!-- DIV CLASS="H3" -->
+
+</DIV><!-- DIV CLASS="H2" -->
+
+</DIV><!-- DIV CLASS="H1" -->
+
+</BODY>
+</HTML>

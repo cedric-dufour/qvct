@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Qt Virtual Chart Table
+Exec=qvct
+Icon=qvct
+Terminal=false
+Type=Application
+X-MultipleArgs=false
+Categories=Qt;Utility;Geography;
+GenericName=Chart and GPS navigation utility

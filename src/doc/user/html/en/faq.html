@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8" />
+<LINK REL="stylesheet" TYPE="text/css" HREF="../style.css" />
+<TITLE>Qt Virtual Chart Table (QVCT) - Frequently Asked Questions</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1>Qt Virtual Chart Table (QVCT) - Frequently Asked Questions</H1>
+<DIV CLASS="H1">
+
+<P><B>General Questions</B></P>
+<UL>
+<LI><A HREF="#general_platform">On what platforms does QVCT run?</A></LI>
+<LI><A HREF="#general_howbig">How big a project is QVCT?</A></LI>
+<LI><A HREF="#general_whowhy">Who is behind QVCT (and why)?</A></LI>
+</UL>
+<P><B>Chart-related Questions</B></P>
+<UL>
+<LI><A HREF="#chart_provided">Are charts provided along with QVCT?</A></LI>
+<LI><A HREF="#chart_type">What kind of charts can I use in QVCT?</A></LI>
+<LI><A HREF="#chart_create">Can I create my own charts?</A></LI>
+<LI><A HREF="#chart_online">Can I use online charts?</A></LI>
+<LI><A HREF="#chart_size">How big can charts be?</A></LI>
+</UL>
+<P><B>Device-related Questions</B></P>
+<UL>
+<LI><A HREF="#device_supported">What navigation devices are supported by QVCT?</A></LI>
+<LI><A HREF="#device_create">Can I create my own device?</A></LI>
+</UL>
+<P><B>Usage Questions</B></P>
+<UL>
+<LI><A HREF="#usage_landmarks_gpx">Why do landmarks get aggregated when saved in GPX format?</A></LI>
+<LI><A HREF="#usage_vessel_dynamic">What are <I>dynamic</I> flotilla?</A></LI>
+<LI><A HREF="#usage_device_multiple">Why have multiple devices for a single vessel?</A></LI>
+</UL>
+
+<HR/>
+
+<H2>General Questions</H2>
+<DIV CLASS="H2">
+
+<H3><A ID="general_platform"/>On what platforms does QVCT run?</H3>
+<DIV CLASS="H3">
+<P>Currently only <CITE>Linux</CITE>. However, being based on <CITE>Qt4</CITE>, it can theoretically also be compiled for <CITE>Windows</CITE> and <CITE>Mac</CITE> (or any other platform supported by <CITE>Qt</CITE>). <A HREF="http://www.qlandkarte.org/" TARGET=_blank"><CITE>QLandkarteGT</CITE></A> is a similar open source project that actually supports all formentionned platforms.<BR/>
+Patches to enable QVCT support of new platforms are of course welcome!</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="general_howbig"/>How big a project is QVCT?</H3>
+<DIV CLASS="H3">
+<P>Excluding blank and comment lines, QVCT totals &sim;25'000 lines of C/C++ code (25 KLOC).</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="general_whowhy"/>Who is behind QVCT (and why)?</H3>
+<DIV CLASS="H3">
+<P>I - C&eacute;dric Dufour (System and Software Engineer) - am the sole developer of QVCT. As a <CITE>Linux</CITE> evangelist, I had become fed up of switching to <CITE>Windows</CITE> to perform the navigation planning required by my private pilot activity. Additionaly, I wanted to have a touchscreen-friendly and ergonomic navigation software to use on my (<CITE>Linux</CITE>) tablet while under way.</P>
+<P>Besides, using a PC to perform navigation tasks while in the same time holding the commands of an airplane or a ship raises several issues which I found weren't properly addressed in other existing (open source, <CITE>Linux</CITE>-compatible) software. Among those issues are: use your own (offline) charts (e.g. ICAO or marine charts), provide a clean and efficient user interface (suitable for a moving environment and a fast achievement of tasks), track multiple vessels, using multiple devices (GPS, compass, <I>IAS</I>/<I>loch</I>, pressure altimeter, etc.) for your own vessel (thus being able to distinguish between its true and apparent course), etc. QVCT answers those requirements (at least from my point of view).</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2>Chart-related Questions</H2>
+<DIV CLASS="H2">
+
+<H3><A ID="chart_provided"/>Are charts provided along with QVCT?</H3>
+<DIV CLASS="H3">
+<P>No. You must create/use your own charts.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="chart_type"/>What kind of charts can I use in QVCT?</H3>
+<DIV CLASS="H3">
+<P>Theoretically, any image/file type supported by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A>. In practice, you will most likely want to use <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> files, which are the most common geo-referenced
+files.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="chart_create"/>Can I create my own charts?</H3>
+<DIV CLASS="H3">
+<P>Yes, absolutely! Any image can be converted into a geo-referenced file - preferrably in <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format - using the tools provided by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A>.<BR/>
+Please refer to QVCT's <A HREF="manual.html" TARGET="QVCT_MANUAL">User Manual</A> for detailed instructions.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="chart_online"/>Can I use online charts?</H3>
+<DIV CLASS="H3">
+<P>No, not directly. One of the objective of QVCT is to be independent of any network connection. On the other hand, you can create offline versions of many
+online map services using the <A HREF="http://mobac.sourceforge.net/" TARGET="_blank"><CITE>Mobile Atlas Creator (MOBAC)</CITE></A>.<BR/>
+Please refer to QVCT's <A HREF="manual.html" TARGET="QVCT_MANUAL">User Manual</A> for detailed instructions.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="chart_size"/>How big can charts be?</H3>
+<DIV CLASS="H3">
+<P>On recent hardware, charts can be as big as 100-200MB, the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> being very good at working with large files (at least in <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).<BR/>
+I personally have charts of all Switzerland at 1:500000 (ICAO) and 1:200000 (topographic) which weight respectively 30MB and 120MB and
+which I use daily on an <CITE>Intel Core i5 2467M</CITE> tablet.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2>Device-related Questions</H2>
+<DIV CLASS="H2">
+
+<H3><A ID="device_supported"/>What navigation devices are supported by QVCT?</H3>
+<DIV CLASS="H3">
+<P>Currently, any device that is supported by the <A HREF="http://gpsd.berlios.de/" TARGET="_blank"><CITE>GPS daemon (GPSD)</CITE></A>, used either as a GPS (single vessel localization) or AIS receiver (dynamic flotilla).</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="device_create"/>Can I create my own device?</H3>
+<DIV CLASS="H3">
+<P>Yes, provided you have some knowledge of C/C++. The source code of QVCT includes a <CODE>SAMPLE_DRIVER</CODE> example that should allow you to create your own
+device in a matter of minutes (if the device's protocol is simple enough). To give you a clue of the task at hand, each GPS daemon driver (GPS or AIS mode) is less than 400 lines of code.<BR/>
+Please refer to QVCT's Developer Documentation for further information.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2>Usage Questions</H2>
+<DIV CLASS="H2">
+
+<H3><A ID="usage_landmarks_gpx"/>Why do landmarks get aggregated when saved in GPX format?</H3>
+<DIV CLASS="H3">
+<P>The <A HREF="http://www.topografix.com/GPX/1/1/" TARGET="_blank">GPX format</A> does not provide a way to gather landmarks (GPX waypoints) in distinct containers. Thus, when landmarks are saved in GPX format, they are all gathered in the same &quot;pot&quot;.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="usage_vessel_dynamic"/>What are <I>dynamic</I> flotilla?</H3>
+<DIV CLASS="H3">
+<P>QVCT provides two way of managing vessels: either individually, by manually creating each vessel (and optionally associating one or more navigation devices to it for geo-localization purposes) or by associating a device to a flotilla, in which case it becomes <I>dynamic</I>, meaning that vessels will be automatically created (and geo-localized) as data appear on the device's wire.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="usage_device_multiple"/>Why have multiple devices for a single vessel?</H3>
+<DIV CLASS="H3">
+<P>The idea actually comes from the marine world, where several navigation devices are available (GPS, compass, <I>loch</I>, depth meter, etc.) and (potentially) linked together - usually using the <CITE>NMEA 0183</CITE> protocol - to provide information in an integrated environment.</P>
+<P>In QVCT, provided you do have several devices available, this allows in particular to distinguish the ground course from the apparent course (thus indicating the presence and importance of drift wind or current).</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+</DIV><!-- DIV CLASS="H2" -->
+
+</DIV><!-- DIV CLASS="H1" -->
+
+</BODY>
+</HTML>

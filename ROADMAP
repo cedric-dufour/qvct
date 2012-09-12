@@ -1,0 +1,48 @@
+Qt Virtual Chart Table (QVCT)
+=============================
+
+Roadmap
+-------
+
+ * [TODO]
+ - analyze tracks
+
+ * [2012.09.12, Cedric Dufour]
+ - user and developer manuals
+
+ * [2012.09.11, Cedric Dufour]
+ - new navigation device driver: GPSD daemon (AIS mode)
+
+ * [2012.09.10, Cedric Dufour]
+ - dynamic vessels support (paving the way for AIS/ADS-B/etc. devices)
+
+ * [2012.09.06, Cedric Dufour]
+ - printing support (screen and high-resolution)
+
+ * [2012.09.05, Cedric Dufour]
+ - create, load, save and manage vessels
+ - create and manage navigation devices
+ - new navigation device driver: GPSD daemon (GPS mode)
+
+ * [2012.08.29, Cedric Dufour]
+ - create, load, save and manage landmarks, routes and tracks
+   (stored in GPX or QVCT format)
+ - load and save navigation/planning projects
+   (stored in QVCT format)
+
+ * [2012.07.27, Cedric Dufour]
+ - load offline geo-referenced charts
+   (stored in any format/projection supported by GDAL)
+   
+ * [2012.07.19, Cedric Dufour]
+ - start development
+
+Wish List
+---------
+AKA: Things that may be nice to have one day, but not yet planned for implementation
+
+ - new navigation device drivers:
+    - AIS hubs (AISHub, MarineTraffic, other?)
+    - ADS-B hubs (OpenSkyMap, FlightRadar24, other?)
+    - geolocation services (Google, Facebook, other?)
+ 

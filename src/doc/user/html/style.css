@@ -1,0 +1,25 @@
+BODY { WIDTH:1024px; MARGIN:auto; FONT:normal 100% sans-serif; MARGIN-BOTTOM:50px; }
+H1 { MARGIN:15px 0px 5px; FONT-SIZE:1.50em; FONT-WEIGHT:bold; TEXT-DECORATION:underline; }
+DIV.H1 { MARGIN:0px 0px; }
+H2 { MARGIN:15px 0px 5px; FONT-SIZE:1.25em; FONT-WEIGHT:bold; }
+DIV.H2 { MARGIN:0px 10px; }
+H3 { MARGIN:15px 0px 5px; FONT-SIZE:1.00em; FONT-WEIGHT:bold; }
+DIV.H3 { MARGIN:0px 10px 10px; }
+H4 { MARGIN:15px 0px 5px; FONT-SIZE:0.85em; FONT-WEIGHT:bold; FONT-STYLE:italic; }
+DIV.H4 { MARGIN:0px 10px 10px; FONT-SIZE:85%; }
+P { MARGIN:5px 0px; }
+UL,OL { MARGIN:5px 0px; FONT-SIZE:0.90em; LIST-STYLE-POSITION:outside; }
+DFN { FONT:normal 1.00em serif; }
+CITE { FONT:italic normal 1.00em serif; }
+PRE { MARGIN:10px 40px; FONT-SIZE:1.10em; BACKGROUND:#E0E0E0; }
+KBD { FONT:bold 1.10em monospace; BACKGROUND:#E0E0E0; }
+SAMP { FONT:italic bold 1.10em monospace; BACKGROUND:#E0E0E0; }
+CODE { FONT:normal 1.10em monospace; BACKGROUND:#E0E0E0; }
+VAR { FONT:italic normal 1.10em monospace; BACKGROUND:#E0E0E0; }
+TABLE { MARGIN:10px 40px; FONT:normal 0.85em sans-serif; BORDER:solid 2px black; BORDER-COLLAPSE:collapse; }
+.NO-BORDER TABLE { BORDER:none; }
+TH { PADDING:1px 3px; FONT-WEIGHT:bold; BACKGROUND:#F0F0F0; BORDER:solid 1px black; }
+.NO-BORDER TH { BORDER:none; }
+TD { PADDING:1px 3px; BORDER:solid 1px black; }
+.NO-BORDER TD { BORDER:none; }
+.LARGE-PADDING TD { PADDING:10px; }

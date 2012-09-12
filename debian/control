@@ -1,0 +1,57 @@
+Source: qvct
+Priority: optional
+Maintainer: Cedric Dufour <cedric.dufour@ced-network.net>
+Build-Depends: cdbs, debhelper (>= 5), cmake (>= 2.8), libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libproj-dev (>= 4.7) | proj, imagemagick
+Standards-Version: 3.8.4
+Homepage: http://www.ced-network.net/qvct
+
+Package: qvct
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libproj-dev (>= 4.7)
+Recommends: qvct-charts, qvct-doc-user
+Description: Qt Virtual Chart Table (QVCT)
+ The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
+ navigation software that simulates the chart table (and instruments corner)
+ usually found in ships.
+ .
+ It is thus suitable for sailing, flying or any other outdoor activity performed
+ using a conventional navigation/planning approach:
+  - using heading, speed and time as primary navigation means
+  - using easily identifiable landmarks as references
+  - navigating along discrete waypoints routes
+  - relying on GPS only as a secondary navigation mean
+  - using offline charts (rather than Internet-dependent online resources)
+ .
+ It features:
+  - loading offline geo-referenced charts, stored in any format/projection
+    supported by the Geospatial Data Abstraction Library (GDAL)
+  - creating, loading, saving and managing landmarks, routes and tracks, stored
+    in GPX or QVCT (XML) format
+  - creating, loading, saving and managing (multiple) vessels, stored in QVCT
+    (XML) format and linkable, individually or globally (dynamic flotilla), to
+    (multiple) navigation devices (see below)
+  - defining and using multiple navigation devices, including:
+     * GPS daemon (GPSD) - GPS mode
+     * GPS daemon (GPSD) - AIS mode
+  - loading and saving entire navigation/planning projects, stored in QVCT (XML)
+    format
+  - printing charts and overlays (landmarks, routes, etc.) in standard (screen)
+    or high (1200 DPI) resolution
+  - touchscreen-friendly user interface (you really don't need a mouse or key-
+    board while navigating)
+
+Package: qvct-charts
+Architecture: all
+Recommends: qvct
+Description: Qt Virtual Chart Table (QVCT) - Charts
+
+Package: qvct-doc-user
+Architecture: all
+Recommends: qvct
+Description: Qt Virtual Chart Table (QVCT) - User Manual
+
+Package: qvct-doc-devel
+Architecture: all
+Recommends: qvct, qvct-doc-user
+Description: Qt Virtual Chart Table (QVCT) - Development Documentation
+

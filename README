@@ -26,6 +26,7 @@ It features:
    (multiple) navigation devices (see below)
  - defining and using multiple navigation devices, including:
     * GPS daemon (GPSD) - GPS mode
+    * GPS daemon (GPSD) - AIS mode
  - loading and saving entire navigation/planning projects, stored in QVCT (XML)
    format
  - printing charts and overlays (landmarks, routes, etc.) in standard (screen)

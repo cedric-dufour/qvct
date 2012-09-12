@@ -1,0 +1,130 @@
+CODING CONVENTIONS
+==================
+
+The following coding and naming conventions shall be used in order to:
+ - allow easy code inspection with a basic viewer (no IDE)
+ - allow dependencies (e.g. via inheritance) to be easily recognized
+ - allow variable types to be easily recognized
+ - allow function actions to be easily recognized
+
+
+Indenting
+---------
+
+Indenting shall be performed using 2-characaters white spaces.
+
+All source files shall include the following Emacs/VI magic line:
+// INDENTING (emacs/vi): -*- mode:c++; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
+
+Lines should not be longer than 80 characters, unless this breaks the logical
+"integrity" of the statement.
+
+
+Code Blocks
+-----------
+
+A code block shall always begin on a new/separate line.
+A code block shall always end on a new/separate line.
+A code block may exceptionally appear on the same line as its predicant or
+without enclosing brackets when brief enough.
+
+Example:
+
+void function()
+{
+  if( error ) return;
+}
+
+
+Parenthesis and Syntax Separators
+---------------------------------
+
+Opening parenthesis shall always be followed by a white space.
+Closing parenthesis shall always be preceded by a white space.
+Commas, colons, semi-colons (syntax separators) shall always be followed by a
+white space.
+Arguments shall be split in multiple lines in order to prevent extra-long lines
+or exhibit logical grouping.
+
+Example:
+
+void function( arg1, arg2, arg3,
+               arg4, arg5, arg6 );
+
+
+Structure and Variables (Fields) Naming
+---------------------------------------
+
+Structures and variables names shall be explicit and each word in the name shall
+be capitalized: MySampleName
+
+Structures (classes, enums, etc.) names shall begin by uppercase character(s)
+reflecting their type:
+ - CSample: sample class
+ - ISample: sample interface
+ - ESample: sample enum
+ - TSample: sample type
+
+Variable names shall begin by lowercase character(s) reflecting their type:
+ - iVar, ibVar, ilVar, illVar: integer variables (int, byte, long, long long)
+ - fVar, fdVar, fldVar: floating-point variables (float, double, long double)
+ - sVar: string variable
+ - oVar: object variable (class instantiation)
+ - qVar, qsVar: QT class variable (object), Qt String
+ - eVar: enum variable
+ - tVar: typed variable
+
+Pointers and by-reference variables shall shall be prefixed with the correspon-
+ding identifier:
+ - piVar, pfVar, poVar, ...: pointers
+ - riVar, rfVar, roVar, ...: by-reference variables
+
+Functions arguments and local variables shall be prefixed with the correspon-
+ding identifier:
+ - iVar, pfVar, roVar: global variables or class member fields
+ - _iVar, _pfVar, _roVar: function arguments
+ - __iVar, __pfVar, __roVar: local variables
+
+
+Functions (Methods) Naming
+--------------------------
+
+Functions names shall be explicit and each word in the name shall be
+capitalized: MySampleName
+
+Functions names shall begin by lowercase character(s) reflecting their action
+type; in particular:
+ - getMyField: get a (const) copy of the internal field value
+ - setMyField: set the value of the internal field
+ - useMyField: retrieve a pointer to the internal structure
+ - isEnabled, hasStatus:  retrieve the boolean value for an internal flag
+
+
+Classes and Scope
+-----------------
+
+Classes resouces ('*.hpp' and '*.cpp') files shall be based on the provided
+template ('SAMPLE.hpp' and 'SAMPLE.cpp').
+
+All fields shall be private (unless exceptions are justified).
+
+Calls to parent (inherited) fields and methods shall be explicitely prefixed
+by 'this' the parent name ('CParent::...'), especially so for fields and methods
+that are inherited from classes external of the current application/API.
+
+
+Documenting
+-----------
+
+Comments and documentation shall be compatible with doxygen documentation
+generator, using C/C++ style tags:
+ - /// Brief description
+ - /** Long description [begin]
+    *  [...]
+    *  [end] */
+
+Units
+-----
+
+Internal variables shall be based on SI units and these units always specified
+in the documentation of parameters and return values.

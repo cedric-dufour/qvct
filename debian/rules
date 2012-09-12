@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/cmake.mk
+
+build/qvct-doc-devel:: build/qvct
+	# Build documentation
+	$(MAKE) -C $(DEB_BUILDDIR) doc
+
+install/qvct::
+	# Convert icon to XPM format
+	convert debian/tmp/usr/share/pixmaps/qvct.png \
+		-resize 32x32 debian/tmp/usr/share/pixmaps/qvct.xpm
+	rm debian/tmp/usr/share/pixmaps/qvct.png
+
+clean::
+

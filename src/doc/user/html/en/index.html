@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=UTF-8" />
+<LINK REL="stylesheet" TYPE="text/css" HREF="../style.css" />
+<TITLE>Qt Virtual Chart Table (QVCT)</TITLE>
+</HEAD>
+
+<BODY>
+
+<H1>Qt Virtual Chart Table (QVCT)</H1>
+<P STYLE="MARGIN-BOTTOM:15px;"><CITE>A Qt4 application for conventional chart and GPS navigation</CITE></P>
+<DIV CLASS="H1">
+
+<P><B>Author:</B> C&eacute;dric Dufour <A HREF="http://cedric.dufour.name" TARGET="_blank">&lt;http://cedric.dufour.name&gt;</A></P>
+<P><B>Website:</B> <A HREF="http://www.ced-network.net/qvct">http://www.ced-network.net/qvct</A></P>
+<P STYLE="TEXT-ALIGN:center;"><IMG SRC="../images/qvct.jpg" ALT="qvct.jpg"/><BR/>(<I>Switzerland ICAO chart &copy;<A HREF="http://www.swisstopo.admin.ch/" TARGET="_blank">SwissTopo</A></I>)</P>
+
+<H2>Synopsis and Features</H2>
+<DIV CLASS="H2">
+<P>The <DFN>Qt Virtual Chart Table (QVCT)</DFN> is a <A HREF="http://qt.nokia.com/" TARGER="_blank"><CITE>Qt4</CITE></A> application which provides a
+navigation software that simulates the chart table (and instruments corner)
+usually found in ships.</P>
+<P>It is thus suitable for sailing, flying or any other outdoor activity performed
+using a conventional navigation/planning approach:</P>
+<UL>
+<LI>using heading, speed and time as primary navigation means</LI>
+<LI>using easily identifiable landmarks as references</LI>
+<LI>navigating along discrete waypoints routes</LI>
+<LI>relying on GPS only as a secondary navigation mean</LI>
+<LI>using offline charts (rather than Internet-dependent online resources)</LI>
+</UL>
+<P>It features:</P>
+<UL>
+<LI>loading offline geo-referenced charts, stored in any format/projection
+supported by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A></LI>
+<LI>creating, loading, saving and managing landmarks, routes and tracks, stored
+in GPX or QVCT (XML) format</LI>
+<LI>creating, loading, saving and managing (multiple) vessels, stored in QVCT
+(XML) format and linkable, individually or globally (dynamic flotilla), to
+(multiple) navigation devices (see below)</LI>
+<LI>defining and using multiple navigation devices, including:</BR>
+ * <A HREF="http://gpsd.berlios.de/" TARGET="_blank"><CITE>GPS daemon (GPSD)</CITE></A> - GPS mode</LI>
+ * <A HREF="http://gpsd.berlios.de/" TARGET="_blank"><CITE>GPS daemon (GPSD)</CITE></A> - AIS mode</LI>
+<LI>loading and saving entire navigation/planning projects, stored in QVCT (XML)
+format</LI>
+<LI>printing charts and overlays (landmarks, routes, etc.) in standard (screen)
+or high (1200 DPI) resolution</LI>
+<LI>touchscreen-friendly user interface (you really don't need a mouse or keyboard
+while navigating)</LI>
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2>Copyright</H2>
+<DIV CLASS="H2">
+<P>The <DFN>Qt Virtual Chart Table (QVCT)</DFN> is free software:</BR>
+you can redistribute it and/or modify it under the terms of the <CITE>GNU General
+Public License as published by the Free Software Foundation, Version 3</CITE>.</P>
+<P>The <DFN>Qt Virtual Chart Table (QVCT)</DFN> is distributed in the hope that it will be
+useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</P>
+<P>See the <A HREF="http://www.gnu.org/copyleft/gpl.html" TARGET="_blank">GNU General
+Public License</A> for more details.</P>
+<P>The <DFN>Qt Virtual Chart Table (QVCT)</DFN> includes all resources which contain the
+mention <CODE>&quot;Qt Virtual Chart Table (QVCT)&quot;</CODE> in their preamble.</P>
+<P>Other resources are (and must be) used according to their original license,
+which is (should be made) available from their respective author.</P>
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2>Build and Install</H2>
+<DIV CLASS="H2">
+<P>The first step is recovering the source code using the <CITE>GIT</CITE> versioning system:</P>
+<PRE>
+mkdir /path/to/source && cd /path/to/source
+git clone <A HREF="https://github.com/cedric-dufour/qvct/" TARGET="_blank">https://github.com/cedric-dufour/qvct</A>
+</PRE>
+<P>Build environment configuration is then achieved using <CITE>CMake</CITE>:</P>
+<PRE>
+mkdir /path/to/build && cd /path/to/build
+cmake /path/to/source
+</PRE>
+<P>Compilation and installation are then achieved using regular <CITE>Make</CITE>:</P>
+<PRE>
+cd /path/to/build
+make && ls -al ./bin
+make doc && ls -al ./doc
+make install
+</PRE>
+<P>Alternatively (to <CITE>Make</CITE>), distribution-specific <CITE>Debian</CITE> packages can be built
+and installed using the ad-hoc commands:</P>
+<PRE>
+cd /path/to/source
+debuild -us -uc -b && ls -al ../qvct*.deb
+dpkg -i ../qvct*.deb
+</PRE>
+</DIV><!-- DIV CLASS="H2" -->
+
+<H2>Usage</H2>
+<DIV CLASS="H2">
+<P>Please refer to the <A HREF="manual.html">User Manual</A> and the <A HREF="faq.html">Frequently Asked Questions</A>.</P>
+</DIV><!-- DIV CLASS="H2" -->
+
+</DIV><!-- DIV CLASS="H1" -->
+
+</BODY>
+</HTML>
