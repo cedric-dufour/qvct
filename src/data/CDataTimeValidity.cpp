@@ -46,11 +46,10 @@ CDataTimeValidity::CDataTimeValidity()
 bool CDataTimeValidity::isValidTime() const
 {
   if( bInvalidTime ) return false;
-  if( fdErrorTime == UNDEFINED_VALUE || fdTimeLastTime == UNDEFINED_VALUE ) return false;
-  if( fdErrorTime > QVCTRuntime::useSettings()->getMaxErrorTime() ) return false;
+  if( fdErrorTime != UNDEFINED_VALUE && fdErrorTime > QVCTRuntime::useSettings()->getMaxErrorTime() ) return false;
   QDateTime __qDateTime = QDateTime::currentDateTime();
   double __fdCurrentTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
-  if( __fdCurrentTime - fdTimeLastTime > QVCTRuntime::useSettings()->getMaxAgeTime() ) return false;
+  if( fdTimeLastTime != UNDEFINED_VALUE && __fdCurrentTime - fdTimeLastTime > QVCTRuntime::useSettings()->getMaxAgeTime() ) return false;
   return true;
 }
 
