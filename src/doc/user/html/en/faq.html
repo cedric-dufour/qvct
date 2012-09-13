@@ -24,6 +24,7 @@
 <LI><A HREF="#chart_create">Can I create my own charts?</A></LI>
 <LI><A HREF="#chart_online">Can I use online charts?</A></LI>
 <LI><A HREF="#chart_size">How big can charts be?</A></LI>
+<LI><A HREF="#chart_gdal">What is the georeferencing and GDAL all about?</A></LI>
 </UL>
 <P><B>Device-related Questions</B></P>
 <UL>
@@ -93,6 +94,13 @@ Please refer to QVCT's <A HREF="manual.html" TARGET="QVCT_MANUAL">User Manual</A
 <P>On recent hardware, charts can be as big as 100-200MB, the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> being very good at working with large files (at least in <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).<BR/>
 I personally have charts of all Switzerland at 1:500000 (ICAO) and 1:200000 (topographic) which weight respectively 30MB and 120MB and
 which I use daily on an <CITE>Intel Core i5 2467M</CITE> tablet.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="chart_gdal"/>What is this georeferencing and GDAL all about?</H3>
+<DIV CLASS="H3">
+<P>In order to use an image file as a chart, one needs to know how to translate pixel positions into (accurate) geographical positions.</P>
+<P>In order to do so, the information about the reference and transformation systems that were use to create the chart - the so-called <I>datum</I> (<CITE>WGS-84</CITE>, <CITE>CH-1903</CITE>, etc.), <I>projection</I> (<CITE>Mercator</CITE>, <CITE>Lambert Conformal Conic</CITE>, etc.) and <I>ellipsoid</I> (<CITE>WGS-84</CITE>, <CITE>Bessel (1841)</CITE>, etc.) - must be available in the image file itself, using a format that allows such embedding (e.g. the <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).</P>
+<P>The <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> is a set of utilities that allow to achieve this georeferencing/embedding, relying on the <A HREF="http://proj.osgeo.org/" TARGET="_blank"><CITE>PROJ.4</CITE></A> library to encode the georeferencing parameters and perform the transformations from one system to another.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
 </DIV><!-- DIV CLASS="H2" -->
