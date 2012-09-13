@@ -3,7 +3,7 @@
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/class/cmake.mk
 
-build/qvct-doc-devel:: build/qvct
+build/qvct-doc-devel::
 	# Build documentation
 	$(MAKE) -C $(DEB_BUILDDIR) doc
 

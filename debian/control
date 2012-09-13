@@ -1,14 +1,17 @@
 Source: qvct
+Section: misc
 Priority: optional
 Maintainer: Cedric Dufour <cedric.dufour@ced-network.net>
-Build-Depends: cdbs, debhelper (>= 5), cmake (>= 2.8), libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libproj-dev (>= 4.7) | proj, imagemagick
+Build-Depends: cdbs, cmake (>= 2.8), debhelper (>= 5), doxygen, imagemagick, libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libgps-dev
 Standards-Version: 3.8.4
 Homepage: http://www.ced-network.net/qvct
 
 Package: qvct
+Section: misc
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, libproj-dev (>= 4.7)
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: qvct-charts, qvct-doc-user
+Suggests: gdal-bin, imagemagick, proj-bin
 Description: Qt Virtual Chart Table (QVCT)
  The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
  navigation software that simulates the chart table (and instruments corner)
@@ -41,17 +44,27 @@ Description: Qt Virtual Chart Table (QVCT)
     board while navigating)
 
 Package: qvct-charts
+Section: misc
 Architecture: all
 Recommends: qvct
 Description: Qt Virtual Chart Table (QVCT) - Charts
+ Contents:
+  - World (source: OpenStreetMap; see attached COPYRIGHT)
 
 Package: qvct-doc-user
+Section: misc
 Architecture: all
 Recommends: qvct
 Description: Qt Virtual Chart Table (QVCT) - User Manual
+ Contents:
+  - user interface presentation
+  - chart creation instructions
 
 Package: qvct-doc-devel
+Section: misc
 Architecture: all
 Recommends: qvct, qvct-doc-user
-Description: Qt Virtual Chart Table (QVCT) - Development Documentation
+Description: Qt Virtual Chart Table (QVCT) - Developer Documentation
+ Contents:
+  - doxygen-generated source code documentation
 
