@@ -162,9 +162,8 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
     if( __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED )
     {
       __qsGroundSpeed = CUnitSpeed::toString( __fdGroundSpeed );
-      QBrush __qBrush;
+      QBrush __qBrush = __poOverlay->getBrushMarker();
       __qBrush.setStyle( Qt::SolidPattern );
-      __qBrush.setColor( __qPen.color() );
       if( _poDataCourseValidityGA && !_poDataCourseValidityGA->GroundCourseValidity.isValidSpeed() )
       {
         __bInvalid = true;
@@ -179,9 +178,6 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
         {
           double __fdLengthTick = (__i+1)*__fdLengthMinute;
           if( __fdLengthTick > __fdLength ) break;
-          // __qPen.setWidth( ( 10.0 - __i ) * __fdZoom );
-          // _pqPainter->setPen( __qPen );
-          // _pqPainter->drawPoint( __qPointF + __fdLengthTick * __qPointFBearing );
           double __fdRadius = ( 10.0 - __i ) * __fdZoom;
           _pqPainter->drawEllipse( __qPointF + __fdLengthTick * __qPointFBearing, __fdRadius, __fdRadius );
         }
