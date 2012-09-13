@@ -307,13 +307,15 @@ void CVesselPoint::parseQVCT( const QDomElement& _rqDomElement )
   // ... position
   if( _rqDomElement.hasAttribute( "longitude" ) && _rqDomElement.hasAttribute( "longitude" ) )
   {
-    COverlayCourse::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
-                                 _rqDomElement.attribute( "latitude" ).toDouble(),
-                                 _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' ) ).toDouble() );
+    CDataPosition::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
+                                _rqDomElement.attribute( "latitude" ).toDouble(),
+                                _rqDomElement.attribute( "elevation", QString::number( CDataPosition::UNDEFINED_ELEVATION, 'f' ) ).toDouble() );
   }
   QString __qsTime = _rqDomElement.attribute( "time" );
   if( !__qsTime.isEmpty() )
+  {
     CDataTime::setTime( QDateTime::fromString( __qsTime, Qt::ISODate ).toTime_t() );
+  }
 
   // ... info
   qsType = _rqDomElement.attribute( "type" );
@@ -341,6 +343,17 @@ void CVesselPoint::parseQVCT( const QDomElement& _rqDomElement )
       CDataCourseGA::ApparentCourse.setSpeedVertical( __qDomElement.attribute( "speed_vertical", QString::number( CDataCourse::UNDEFINED_SPEED, 'f' ) ).toDouble() );
     }
   }
+
+  // ... validity
+  CDataPositionValidity::setValidityPosition( CDataPositionValidity::UNDEFINED_VALUE, CDataPositionValidity::UNDEFINED_VALUE, true );
+  CDataPositionValidity::setValidityElevation( CDataPositionValidity::UNDEFINED_VALUE, CDataPositionValidity::UNDEFINED_VALUE, true );
+  CDataTimeValidity::setValidityTime( CDataTimeValidity::UNDEFINED_VALUE, CDataTimeValidity::UNDEFINED_VALUE, true );
+  CDataCourseValidityGA::GroundCourseValidity.setValidityBearing( CDataCourseValidity::UNDEFINED_VALUE, CDataCourseValidity::UNDEFINED_VALUE, true );
+  CDataCourseValidityGA::GroundCourseValidity.setValiditySpeed( CDataCourseValidity::UNDEFINED_VALUE, CDataCourseValidity::UNDEFINED_VALUE, true );
+  CDataCourseValidityGA::GroundCourseValidity.setValiditySpeedVertical( CDataCourseValidity::UNDEFINED_VALUE, CDataCourseValidity::UNDEFINED_VALUE, true );
+  CDataCourseValidityGA::ApparentCourseValidity.setValidityBearing( CDataCourseValidity::UNDEFINED_VALUE, CDataCourseValidity::UNDEFINED_VALUE, true );
+  CDataCourseValidityGA::ApparentCourseValidity.setValiditySpeed( CDataCourseValidity::UNDEFINED_VALUE, CDataCourseValidity::UNDEFINED_VALUE, true );
+  CDataCourseValidityGA::ApparentCourseValidity.setValiditySpeedVertical( CDataCourseValidity::UNDEFINED_VALUE, CDataCourseValidity::UNDEFINED_VALUE, true );
 
   // ... devices
   for( QDomElement __qDomElementDevice = _rqDomElement.firstChildElement( "Device" );
@@ -393,7 +406,7 @@ void CVesselPoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
     _rqXmlStreamWriter.writeEndElement(); // Comment
   }
   // ... course
-  if( CDataCourseGA::GroundCourse != CDataCourse::UNDEFINED && CDataCourseGA::ApparentCourse != CDataCourse::UNDEFINED )
+  if( CDataCourseGA::GroundCourse != CDataCourse::UNDEFINED || CDataCourseGA::ApparentCourse != CDataCourse::UNDEFINED )
   {
     _rqXmlStreamWriter.writeStartElement( "Course" );
     if( CDataCourseGA::GroundCourse != CDataCourse::UNDEFINED )
