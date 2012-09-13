@@ -319,7 +319,7 @@ void CSettings::validate()
   if( iPrecisionSpeedVertical < 0 ) iPrecisionSpeedVertical = 0; if( iPrecisionSpeedVertical > 3 ) iPrecisionSpeedVertical = 3;
 
   // Minimum values
-  if( fdMinValueBearing < 0.0 ) fdMinValueBearing = 0.0;
+  if( fdMinValueBearing < 0.0 ) fdMinValueBearing = 0.0; if( fdMinValueBearing > 180.0 ) fdMinValueBearing = 180.0;
   if( fdMinValuePosition < 0.0 ) fdMinValuePosition = 0.0;
   if( fdMinValueSpeed < 0.0 ) fdMinValueSpeed = 0.0;
   if( fdMinValueSpeedVertical < 0.0 ) fdMinValueSpeedVertical = 0.0;
