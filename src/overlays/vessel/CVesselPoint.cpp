@@ -59,6 +59,7 @@ CVesselPoint::CVesselPoint( const QString& _rqsName, bool _bDynamic )
   , iTrackRecordRate( 1 )
   , bTrackRecord (false )
   , tLastTrackRecord ( 0 )
+  , fdLastTrackBearing ( CDataCourse::UNDEFINED_BEARING )
 {
   QTreeWidgetItem::setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled );
   QTreeWidgetItem::setText( CVesselOverlay::NAME, qsName );
@@ -197,6 +198,7 @@ void CVesselPoint::toggleMultiSelected()
 
 bool CVesselPoint::setTrackRecord( bool _bTrackRecord )
 {
+  if( _bTrackRecord == bTrackRecord ) return bTrackRecord;
   if( _bTrackRecord )
   {
     CTrackContainer* __poTrackContainer = QVCTRuntime::useTrackOverlay()->pickContainer( COverlayObject::getName() );
@@ -213,6 +215,7 @@ bool CVesselPoint::setTrackRecord( bool _bTrackRecord )
     }
   }
   bTrackRecord = _bTrackRecord;
+  fdLastTrackBearing = CDataCourse::UNDEFINED_BEARING;
   return bTrackRecord;
 }
 
@@ -256,10 +259,23 @@ void CVesselPoint::onDeviceDataFix()
       // ... retrieve current track
       CTrackSubContainer* __poTrackSubContainer = QVCTRuntime::useTrackOverlay()->pickSubContainer( COverlayObject::getName() );
 
-      // ... check distance
+      // ... check distance and bearing delta
+      bool __bSkipBearing = false;
+      if( CDataCourseGA::GroundCourse.getBearing() != CDataCourse::UNDEFINED_BEARING )
+      {
+        if( fdLastTrackBearing != CDataCourse::UNDEFINED_BEARING )
+        {
+          double __fdDeltaBearing = fabs( CDataCourseGA::GroundCourse.getBearing() - fdLastTrackBearing );
+          if( __fdDeltaBearing > 180.0 ) __fdDeltaBearing = 360 - __fdDeltaBearing;
+          if( __fdDeltaBearing < __poSettings->getMinValueBearing() ) __bSkipBearing = true;
+        }
+        fdLastTrackBearing = CDataCourseGA::GroundCourse.getBearing();
+      }
+      bool __bSkipDistance = false;
       CTrackPoint* __poTrackPointLast = __poTrackSubContainer->getLastPoint();
       if( __poTrackPointLast
-          && CDataPosition::distanceRL( *__poTrackPointLast, *this ) < __poSettings->getMinValuePosition() ) break;
+          && CDataPosition::distanceRL( *__poTrackPointLast, *this ) < __poSettings->getMinValuePosition() ) __bSkipDistance = true;
+      if( __bSkipBearing && __bSkipDistance ) break;
 
       // ... add new point
       QString __qsName;
