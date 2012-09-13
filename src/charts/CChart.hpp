@@ -20,9 +20,11 @@
 #define QVCT_CCHART_HPP
 
 // QT
+#include <QDomElement> // QtXml module
 #include <QPrinter>
 #include <QRectF>
 #include <QWidget>
+#include <QXmlStreamWriter>
 
 // QVCT
 #include "QVCT.hpp"
@@ -149,6 +151,12 @@ protected:
 public:
   /// Prints the chart
   void print( QPrinter* _pqPrinter );
+
+public:
+  /// Retrieves this object's content from the given QVCT source (file)
+  void parseQVCT( const QDomElement& _rqDomElement );
+  /// Stores this object's content to the given QVCT destination (file)
+  void dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const;
 
 };
 

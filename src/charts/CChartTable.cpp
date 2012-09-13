@@ -136,7 +136,6 @@ void CChartTable::slotLoad()
   clear();
   __pqMutexDataChange->unlock();
   load( __qsFilename );
-  if( QTabWidget::count() ) QTabWidget::setCurrentIndex( 0 );
   updateChart();
 }
 
@@ -714,12 +713,18 @@ void CChartTable::load( const QString& _rqsFilename )
       __qsError = QString( "Invalid XML document type (%1); expected: 'QVCT'" ).arg( __qFile.fileName() );
       break;
     }
-    // ... charts
-    for( QDomElement __qDomElementChart = __qDomElement.firstChildElement( "Chart" );
-         !__qDomElementChart.isNull();
-         __qDomElementChart = __qDomElementChart.nextSiblingElement( "Chart" ) )
+    // ... chart table
+    if( parseQVCT( __qDomElement ) )
     {
-      loadChart( __qDomElementChart.attribute( "file" ) );
+      QTabWidget::setCurrentIndex( 0 );
+      CChartControl* __poChartControl = QVCTRuntime::useChartControl();
+      CChart* __poChart = (CChart*)QTabWidget::currentWidget();
+      bIgnoreUpdate = true;
+      __poChartControl->lockPosition( __poChart->isPositionLocked() );
+      __poChartControl->lockScale( __poChart->isZoomLocked() );
+      __poChartControl->setScale( toScale( __poChart->getZoom(), __poChart ) );
+      __poChartControl->enableControls( true );
+      bIgnoreUpdate = false;
     }
     // ... overlays
     QVCTRuntime::useLandmarkOverlay()->parseQVCT( __qDomElement );
@@ -765,14 +770,8 @@ void CChartTable::save( const QString& _rqsFilename ) const
 
   // Data
   __qXmlStreamWriter.writeStartElement( "QVCT" );
-  // ... charts
-  int __iCount = QTabWidget::count();
-  for( int __i = 0; __i < __iCount; __i++ )
-  {
-    __qXmlStreamWriter.writeStartElement( "Chart" );
-    __qXmlStreamWriter.writeAttribute( "file", ((CChart*)QTabWidget::widget( __i ))->getFileName() );
-    __qXmlStreamWriter.writeEndElement(); // Chart
-  }
+  // ... chart table
+  dumpQVCT( __qXmlStreamWriter );
   // ... overlays
   QVCTRuntime::useLandmarkOverlay()->dumpQVCT( __qXmlStreamWriter, 0, true );
   QVCTRuntime::useRouteOverlay()->dumpQVCT( __qXmlStreamWriter, 0, true );
@@ -788,7 +787,52 @@ void CChartTable::save( const QString& _rqsFilename ) const
   __qFile.close();
 }
 
-void CChartTable::loadChart( const QString& _rqsFilename )
+int CChartTable::parseQVCT( const QDomElement& _rqDomElement )
+{
+  // Chart table
+  QDomElement __qDomElementChartTable = _rqDomElement.firstChildElement( "ChartTable" );
+  if( __qDomElementChartTable.isNull() ) return 0;
+  if( __qDomElementChartTable.hasAttribute( "longitude" ) && __qDomElementChartTable.hasAttribute( "longitude" ) )
+  {
+    oGeoPositionReference.setPosition( __qDomElementChartTable.attribute( "longitude" ).toDouble(),
+                                       __qDomElementChartTable.attribute( "latitude" ).toDouble() );
+  }
+  if( __qDomElementChartTable.hasAttribute( "scale" ) )
+    fdScaleReference = __qDomElementChartTable.attribute( "scale" ).toDouble();
+  // ... charts
+  int __iCount = 0;
+  for( QDomElement __qDomElementChart = __qDomElementChartTable.firstChildElement( "Chart" );
+       !__qDomElementChart.isNull();
+       __qDomElementChart = __qDomElementChart.nextSiblingElement( "Chart" ) )
+  {
+    CChart* __poChart = loadChart( __qDomElementChart.attribute( "file" ) );
+    if( !__poChart ) continue;
+    __poChart->parseQVCT( __qDomElementChart );
+    __iCount++;
+  }
+  return __iCount;
+}
+
+void CChartTable::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
+{
+  // Chart table
+  _rqXmlStreamWriter.writeStartElement( "ChartTable" );
+  if( oGeoPositionReference != CDataPosition::UNDEFINED )
+  {
+    _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( oGeoPositionReference.getLongitude() ) );
+    _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( oGeoPositionReference.getLatitude() ) );
+  }
+  if( fdScaleReference >= 0.0 )
+    _rqXmlStreamWriter.writeAttribute( "scale", QString::number( fdScaleReference ) );
+  // ... charts
+  int __iCount = QTabWidget::count();
+  for( int __i = 0; __i < __iCount; __i++ )
+    ((CChart*)QTabWidget::widget( __i ))->dumpQVCT( _rqXmlStreamWriter );
+  // ... [end]
+  _rqXmlStreamWriter.writeEndElement(); // ChartTable
+}
+
+CChart* CChartTable::loadChart( const QString& _rqsFilename )
 {
   // Create new chart widget
   CChart* __poChart = new CChart( this, _rqsFilename );
@@ -796,7 +840,7 @@ void CChartTable::loadChart( const QString& _rqsFilename )
   {
     delete __poChart;
     QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, _rqsFilename );
-    return;
+    return 0;
   }
 
   // Set reference position
@@ -814,6 +858,7 @@ void CChartTable::loadChart( const QString& _rqsFilename )
   QFileInfo __qFileInfo( _rqsFilename );
   addTab( __poChart, __qFileInfo.baseName() );
   setCurrentWidget( __poChart );
+  return __poChart;
 }
 
 void CChartTable::updateChart()

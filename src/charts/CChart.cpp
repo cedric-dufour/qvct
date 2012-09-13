@@ -20,11 +20,13 @@
 #include <cmath>
 
 // QT
+#include <QDomElement> // QtXml module
 #include <QKeyEvent>
 #include <QPainter>
 #include <QPixmap>
 #include <QRectF>
 #include <QWidget>
+#include <QXmlStreamWriter>
 
 // QVCT
 #include "QVCT.hpp"
@@ -214,4 +216,36 @@ void CChart::print( QPrinter* _pqPrinter )
   QVCTRuntime::usePointerOverlay()->draw( this, &__qPainter );
   // ... [end]
   __qPainter.end();
+}
+
+void CChart::parseQVCT( const QDomElement& _rqDomElement )
+{
+  // Chart table
+  if( _rqDomElement.hasAttribute( "longitude" ) && _rqDomElement.hasAttribute( "longitude" ) )
+  {
+    bPositionLock = false;
+    CDataPosition __oGeoPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
+                                  _rqDomElement.attribute( "latitude" ).toDouble() );
+    qPointFDatPosition = poChartGDAL->toDatPosition( __oGeoPosition );
+  }
+  if( _rqDomElement.hasAttribute( "zoom" ) )
+  {
+    bZoomLock = false;
+    fdZoom = _rqDomElement.attribute( "zoom" ).toDouble();
+  }
+}
+
+void CChart::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
+{
+  _rqXmlStreamWriter.writeStartElement( "Chart" );
+  _rqXmlStreamWriter.writeAttribute( "file", poChartGDAL->getFileName() );
+  if( !bPositionLock )
+  {
+    CDataPosition __oDataPosition = poChartGDAL->toGeoPosition( qPointFDatPosition );
+    _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( __oDataPosition.getLongitude() ) );
+    _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( __oDataPosition.getLatitude() ) );
+  }
+  if( !bZoomLock )
+    _rqXmlStreamWriter.writeAttribute( "zoom", QString::number( fdZoom ) );
+  _rqXmlStreamWriter.writeEndElement(); // Chart
 }
