@@ -109,6 +109,12 @@ void CSettingsValidityEditView::constructLayout()
   // ... bearing validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Bearing")+":" ), __iRow, 0 );
+  QLineEdit* __pqLineEditMinValueBearing = new QLineEdit( this );
+  __pqLineEditMinValueBearing->setToolTip( "[deg]" );
+  __pqLineEditMinValueBearing->setInputMask( "009.99" );
+  __pqLineEditMinValueBearing->setText( QString::number( __poSettings->getMinValueBearing(), 'f', 2 ).prepend("  ").right(6) );
+  __pqGridLayout->addWidget( __pqLineEditMinValueBearing, __iRow, 1 );
+  connect( __pqLineEditMinValueBearing, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMinValueBearing(const QString&) ) );
   QLineEdit* __pqLineEditMaxErrorBearing = new QLineEdit( this );
   __pqLineEditMaxErrorBearing->setToolTip( "[deg]" );
   __pqLineEditMaxErrorBearing->setInputMask( "09.99" );

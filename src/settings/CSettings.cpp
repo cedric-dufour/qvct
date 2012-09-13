@@ -53,13 +53,14 @@ CSettings::CSettings()
   , iPrecisionSpeed( 0 )
   , iPrecisionElevation( 0 )
   , iPrecisionSpeedVertical( 0 )
+  , fdMinValueBearing( 30.0 )
   , fdMinValuePosition( 50.0 )
   , fdMinValueSpeed( 0.5 )
   , fdMinValueSpeedVertical( 0.25 )
   , fdMaxErrorPosition( 25.0 )
   , fdMaxErrorElevation( 50.0 )
   , fdMaxErrorTime( 1.0 )
-  , fdMaxErrorBearing( 5.0 )
+  , fdMaxErrorBearing( 10.0 )
   , fdMaxErrorSpeed( 10.0 )
   , fdMaxErrorSpeedVertical( 10.0 )
   , fdMaxAgePosition( 30.0 )
@@ -152,6 +153,11 @@ void CSettings::slotUnitElevation( const QString& _rqsSymbol )
 void CSettings::slotUnitSpeedVertical( const QString& _rqsSymbol )
 {
   eUnitSpeedVertical = CUnitSpeedVertical::fromSymbol( _rqsSymbol );
+}
+
+void CSettings::slotMinValueBearing( const QString& _rqsMinValue )
+{
+  fdMinValueBearing = _rqsMinValue.toDouble();
 }
 
 void CSettings::slotMinValuePosition( const QString& _rqsMinValue )
@@ -313,6 +319,7 @@ void CSettings::validate()
   if( iPrecisionSpeedVertical < 0 ) iPrecisionSpeedVertical = 0; if( iPrecisionSpeedVertical > 3 ) iPrecisionSpeedVertical = 3;
 
   // Minimum values
+  if( fdMinValueBearing < 0.0 ) fdMinValueBearing = 0.0;
   if( fdMinValuePosition < 0.0 ) fdMinValuePosition = 0.0;
   if( fdMinValueSpeed < 0.0 ) fdMinValueSpeed = 0.0;
   if( fdMinValueSpeedVertical < 0.0 ) fdMinValueSpeedVertical = 0.0;
@@ -452,6 +459,7 @@ void CSettings::save( const QString& _rqsFilename )
   __qXmlStreamWriter.writeEndElement(); // Time
   // ... bearing validity parameters
   __qXmlStreamWriter.writeStartElement( "Bearing" );
+  __qXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueBearing ) );
   __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorBearing ) );
   __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeBearing ) );
   __qXmlStreamWriter.writeEndElement(); // Bearing
@@ -704,7 +712,8 @@ void CSettings::load( const QString& _rqsFilename )
       __qDomElement = __qDomElementContext.firstChildElement( "Bearing" );
       if( !__qDomElement.isNull() )
       {
-        fdMaxErrorBearing = __qDomElement.attribute( "max_error", "5.0" ).toDouble();
+        fdMinValueBearing = __qDomElement.attribute( "min_value", "30.0" ).toDouble();
+        fdMaxErrorBearing = __qDomElement.attribute( "max_error", "10.0" ).toDouble();
         fdMaxAgeBearing = __qDomElement.attribute( "max_age", "30.0" ).toDouble();
       }
       // ... horizontal speed validity parameters

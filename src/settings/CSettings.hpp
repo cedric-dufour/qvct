@@ -120,6 +120,8 @@ private:
 
   /// [MinValue] Minimum (absolute) position (delta), in meters
   double fdMinValuePosition;
+  /// [MinValue] Minimum (absolute) bearing (delta), in degrees
+  double fdMinValueBearing;
   /// [MinValue] Minimum (absolute) horizontal speed, in meters per second
   double fdMinValueSpeed;
   /// [MinValue] Minimum (absolute) vertical speed, in meters per second
@@ -253,6 +255,8 @@ private slots:
 
   /// [MinValue] Slot to modify the minimum (absolute) position (delta)
   void slotMinValuePosition( const QString& _rqsMinValue );
+  /// [MinValue] Slot to modify the minimum (absolute) bearing (delta)
+  void slotMinValueBearing( const QString& _rqsMinValue );
   /// [MinValue] Slot to modify the minimum (absolute) horizontal speed
   void slotMinValueSpeed( const QString& _rqsMinValue );
   /// [MinValue] Slot to modify the minimum (absolute) vertical speed
@@ -356,6 +360,8 @@ public:
 
   /// [MinValue] Returns the minimum (absolute) position (delta), in meters
   double getMinValuePosition() { return fdMinValuePosition; };
+  /// [MinValue] Returns the minimum (absolute) bearing (delta), in meters
+  double getMinValueBearing() { return fdMinValueBearing; };
   /// [MinValue] Returns the minimum (absolute) horizontal speed, in meters per second
   double getMinValueSpeed() { return fdMinValueSpeed; };
   /// [MinValue] Returns the minimum (absolute) vertical speed, in meters per second
