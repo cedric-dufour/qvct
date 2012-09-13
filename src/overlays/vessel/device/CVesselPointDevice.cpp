@@ -99,15 +99,7 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
       && CDeviceDataFix::getSourceName() != _roDeviceDataFix.getSourceName() ) return;
 
   // Copy fix data
-  CDeviceDataFix::setFix( _roDeviceDataFix, false, false, false, false );
-  if( _roDeviceDataFix.CDataTime::operator!=( CDataTime::UNDEFINED ) )
-    CDeviceDataFix::setTime( _roDeviceDataFix );
-  if( _roDeviceDataFix.CDataPosition::operator!=( CDataPosition::UNDEFINED ) )
-    CDeviceDataFix::setPosition( _roDeviceDataFix );
-  if( _roDeviceDataFix.CDataCourse::operator!=( CDataCourse::UNDEFINED ) )
-    CDeviceDataFix::setCourse( _roDeviceDataFix );
-  if( _roDeviceDataFix.CDeviceDataDop::operator!=( CDeviceDataDop::UNDEFINED ) )
-    CDeviceDataFix::setDop( _roDeviceDataFix );
+  CDeviceDataFix::setFix( _roDeviceDataFix );
 
   // Retrieve data
   CSettings* __poSettings = QVCTRuntime::useSettings();
