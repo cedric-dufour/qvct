@@ -167,4 +167,7 @@ dpkg -i ../qvct*.deb
 #define CONFDIR_STRING "/.config/qvct"
 #endif
 
+/// Returns the system time with microseconds resolution, in seconds
+double microtime();
+
 #endif // QVCT_MAIN_HPP

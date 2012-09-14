@@ -16,6 +16,9 @@
  * See the GNU General Public License for more details.
  */
 
+// C/C++
+#include <sys/time.h>
+
 // QT
 #include <QApplication>
 #include <QDir>
@@ -23,6 +26,13 @@
 
 // QVCT
 #include "QVCTRuntime.hpp"
+
+double microtime()
+{
+  timeval tTimeval;
+  gettimeofday( &tTimeval, 0 ) ;
+  return( (double)tTimeval.tv_sec + (double)tTimeval.tv_usec/1000000.0 );
+}
 
 int main( int argc, char* argv[] )
 {
