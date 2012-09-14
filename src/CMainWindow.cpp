@@ -16,9 +16,6 @@
  * See the GNU General Public License for more details.
  */
 
-// C/C++
-#include <ctime>
-
 // QT
 #include <QAction>
 #include <QApplication>
@@ -49,7 +46,7 @@
 //------------------------------------------------------------------------------
 
 CMainWindow::CMainWindow()
-  : tTimeLastRedraw( 0 )
+  : fdTimeLastRedraw( 0.0 )
 {
   setWindowTitle( tr("Qt Virtual Chart Table") );
   constructLayout();
@@ -264,10 +261,10 @@ void CMainWindow::slotTimerRefresh()
   QVCTRuntime::useTrackContainerDetailView()->refreshContent();
   QVCTRuntime::useTrackSubContainerDetailView()->refreshContent();
   QVCTRuntime::useVesselPointDetailView()->refreshContent();
-  time_t __tCurrentTime = time( 0 );
-  if( difftime( __tCurrentTime, tTimeLastRedraw ) >= (double)QVCTRuntime::useSettings()->getRateRedraw() )
+  double __fdSystemTime = microtime();
+  if( __fdSystemTime - fdTimeLastRedraw >= (double)QVCTRuntime::useSettings()->getRateRedraw() )
   {
-    tTimeLastRedraw = __tCurrentTime;
+    fdTimeLastRedraw = __fdSystemTime;
     QVCTRuntime::useVesselOverlay()->forceRedraw();
   }
   QVCTRuntime::useChartTable()->updateChart();

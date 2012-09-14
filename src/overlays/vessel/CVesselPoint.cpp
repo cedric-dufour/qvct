@@ -57,9 +57,9 @@ CVesselPoint::CVesselPoint( const QString& _rqsName, bool _bDynamic )
   , fdDopHorizontal( CDeviceDataDop::UNDEFINED_VALUE )
   , fdDopVertical( CDeviceDataDop::UNDEFINED_VALUE )
   , iTrackRecordRate( 1 )
-  , bTrackRecord (false )
-  , tLastTrackRecord ( 0 )
-  , fdLastTrackBearing ( CDataCourse::UNDEFINED_BEARING )
+  , bTrackRecord(false )
+  , fdTrackRecordTimeLast( -9999.0 )
+  , fdTrackRecordBearingLast( CDataCourse::UNDEFINED_BEARING )
 {
   QTreeWidgetItem::setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled );
   QTreeWidgetItem::setText( CVesselOverlay::NAME, qsName );
@@ -215,7 +215,7 @@ bool CVesselPoint::setTrackRecord( bool _bTrackRecord )
     }
   }
   bTrackRecord = _bTrackRecord;
-  fdLastTrackBearing = CDataCourse::UNDEFINED_BEARING;
+  fdTrackRecordBearingLast = CDataCourse::UNDEFINED_BEARING;
   return bTrackRecord;
 }
 
@@ -246,11 +246,11 @@ void CVesselPoint::onDeviceDataFix()
     QVCTRuntime::useChartTable()->synchronizeVesselPoint();
 
   // Track recording
-  time_t __tCurrentTime = time( 0 );
+  double __fdSystemTime = microtime();
   if( bTrackRecord
       && this->CDataPosition::operator!=( CDataPosition::UNDEFINED )
       && this->CDataTime::operator!=( CDataTime::UNDEFINED )
-      && difftime( __tCurrentTime, tLastTrackRecord ) >= (double)iTrackRecordRate )
+      && __fdSystemTime - fdTrackRecordTimeLast >= (double)iTrackRecordRate )
   {
     CSettings* __poSettings = QVCTRuntime::useSettings();
 
@@ -263,13 +263,13 @@ void CVesselPoint::onDeviceDataFix()
       bool __bSkipBearing = false;
       if( CDataCourseGA::GroundCourse.getBearing() != CDataCourse::UNDEFINED_BEARING )
       {
-        if( fdLastTrackBearing != CDataCourse::UNDEFINED_BEARING )
+        if( fdTrackRecordBearingLast != CDataCourse::UNDEFINED_BEARING )
         {
-          double __fdDeltaBearing = fabs( CDataCourseGA::GroundCourse.getBearing() - fdLastTrackBearing );
+          double __fdDeltaBearing = fabs( CDataCourseGA::GroundCourse.getBearing() - fdTrackRecordBearingLast );
           if( __fdDeltaBearing > 180.0 ) __fdDeltaBearing = 360 - __fdDeltaBearing;
           if( __fdDeltaBearing < __poSettings->getMinValueBearing() ) __bSkipBearing = true;
         }
-        fdLastTrackBearing = CDataCourseGA::GroundCourse.getBearing();
+        fdTrackRecordBearingLast = CDataCourseGA::GroundCourse.getBearing();
       }
       bool __bSkipDistance = false;
       CTrackPoint* __poTrackPointLast = __poTrackSubContainer->getLastPoint();
@@ -292,7 +292,7 @@ void CVesselPoint::onDeviceDataFix()
       QVCTRuntime::useTrackOverlay()->forceRedraw();
 
       // ... update track recording time
-      tLastTrackRecord = __tCurrentTime;
+      fdTrackRecordTimeLast = __fdSystemTime;
     }
     while( false ); // error-catching loop
   }

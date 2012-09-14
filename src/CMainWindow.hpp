@@ -19,9 +19,6 @@
 #ifndef QVCT_CMAINWINDOW_HPP
 #define QVCT_CMAINWINDOW_HPP
 
-// C/C++
-#include <ctime>
-
 // QT
 #include <QMainWindow>
 #include <QPixmap>
@@ -60,7 +57,7 @@ private:
 
 private:
   /// Content last redraw time
-  time_t tTimeLastRedraw;
+  double fdTimeLastRedraw;
 
 
   //------------------------------------------------------------------------------

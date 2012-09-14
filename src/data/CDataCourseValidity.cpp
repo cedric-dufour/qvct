@@ -63,9 +63,7 @@ bool CDataCourseValidity::isValidBearing() const
 {
   if( bInvalidBearing ) return false;
   if( fdErrorBearing != UNDEFINED_VALUE && fdErrorBearing > QVCTRuntime::useSettings()->getMaxErrorBearing() ) return false;
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdCurrentTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
-  if( fdTimeLastBearing != UNDEFINED_VALUE && __fdCurrentTime - fdTimeLastBearing > QVCTRuntime::useSettings()->getMaxAgeBearing() ) return false;
+  if( fdTimeLastBearing != UNDEFINED_VALUE && microtime() - fdTimeLastBearing > QVCTRuntime::useSettings()->getMaxAgeBearing() ) return false;
   return true;
 }
 
@@ -73,9 +71,7 @@ bool CDataCourseValidity::isValidSpeed() const
 {
   if( bInvalidSpeed ) return false;
   if( fdErrorSpeed != UNDEFINED_VALUE && fdErrorSpeed > QVCTRuntime::useSettings()->getMaxErrorSpeed() ) return false;
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdCurrentTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
-  if( fdTimeLastSpeed != UNDEFINED_VALUE && __fdCurrentTime - fdTimeLastSpeed > QVCTRuntime::useSettings()->getMaxAgeSpeed() ) return false;
+  if( fdTimeLastSpeed != UNDEFINED_VALUE && microtime() - fdTimeLastSpeed > QVCTRuntime::useSettings()->getMaxAgeSpeed() ) return false;
   return true;
 }
 
@@ -83,9 +79,7 @@ bool CDataCourseValidity::isValidSpeedVertical() const
 {
   if( bInvalidSpeedVertical ) return false;
   if( fdErrorSpeedVertical != UNDEFINED_VALUE && fdErrorSpeedVertical > QVCTRuntime::useSettings()->getMaxErrorSpeedVertical() ) return false;
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdCurrentTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
-  if( fdTimeLastSpeedVertical != UNDEFINED_VALUE && __fdCurrentTime - fdTimeLastSpeedVertical > QVCTRuntime::useSettings()->getMaxAgeSpeedVertical() ) return false;
+  if( fdTimeLastSpeedVertical != UNDEFINED_VALUE && microtime() - fdTimeLastSpeedVertical > QVCTRuntime::useSettings()->getMaxAgeSpeedVertical() ) return false;
   return true;
 }
 

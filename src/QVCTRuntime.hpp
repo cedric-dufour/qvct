@@ -31,6 +31,7 @@
 #include <QTimer>
 
 // QVCT
+#include "main.hpp"
 #include "CMainWindow.hpp"
 #include "CTimeView.hpp"
 #include "charts/CChartTable.hpp"

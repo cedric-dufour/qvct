@@ -20,7 +20,6 @@
 #include <cmath>
 
 // QT
-#include <QDateTime>
 #include <QDomElement> // QtXml module
 #include <QPainter>
 #include <QPointF>
@@ -105,8 +104,7 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
   CSettings* __poSettings = QVCTRuntime::useSettings();
   CVesselPoint* __poVesselPoint = (CVesselPoint*)QTreeWidgetItem::parent();
   // ... system time
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdSystemTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
+  double __fdSystemTime = microtime();
   // ... device time
   double __fdTime = bSynchronizeTime ? CDataTime::getTime() : CDataTime::UNDEFINED_TIME;
   double __fdTimeDelta = __fdTime != CDataTime::UNDEFINED_TIME && __poVesselPoint->getTime() != CDataTime::UNDEFINED_TIME

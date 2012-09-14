@@ -18,7 +18,6 @@
 
 // QT
 #include <QCheckBox>
-#include <QDateTime>
 #include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QHBoxLayout>
@@ -358,8 +357,7 @@ void CVesselPointEditView::accept()
 
   // Set data
   // ... system time
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdSystemTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
+  double __fdSystemTime = microtime();
   // ... name
   __poVesselPoint->setText( CVesselOverlay::NAME, pqLineEditName->text() ); // NOTE: Item's name will be updated via QTreeWidget::itemChanged()
   // ... position

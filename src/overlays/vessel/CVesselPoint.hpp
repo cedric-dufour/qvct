@@ -76,9 +76,9 @@ private:
   /// Vessel's track recording status
   bool bTrackRecord;
   /// Vessel's track last recording time
-  time_t tLastTrackRecord;
+  double fdTrackRecordTimeLast;
   /// Vessel's track last recorded bearing
-  double fdLastTrackBearing;
+  double fdTrackRecordBearingLast;
 
 
   //------------------------------------------------------------------------------

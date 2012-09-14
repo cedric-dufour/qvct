@@ -50,9 +50,7 @@ bool CDataPositionValidity::isValidPosition() const
 {
   if( bInvalidPosition ) return false;
   if( fdErrorPosition != UNDEFINED_VALUE && fdErrorPosition > QVCTRuntime::useSettings()->getMaxErrorPosition() ) return false;
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdCurrentTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
-  if( fdTimeLastPosition != UNDEFINED_VALUE && __fdCurrentTime - fdTimeLastPosition > QVCTRuntime::useSettings()->getMaxAgePosition() ) return false;
+  if( fdTimeLastPosition != UNDEFINED_VALUE && microtime() - fdTimeLastPosition > QVCTRuntime::useSettings()->getMaxAgePosition() ) return false;
   return true;
 }
 
@@ -60,8 +58,6 @@ bool CDataPositionValidity::isValidElevation() const
 {
   if( bInvalidElevation ) return false;
   if( fdErrorElevation != UNDEFINED_VALUE && fdErrorElevation > QVCTRuntime::useSettings()->getMaxErrorElevation() ) return false;
-  QDateTime __qDateTime = QDateTime::currentDateTime();
-  double __fdCurrentTime = __qDateTime.toUTC().toTime_t()+__qDateTime.time().msec()/1000.0;
-  if( fdTimeLastElevation != UNDEFINED_VALUE && __fdCurrentTime - fdTimeLastElevation > QVCTRuntime::useSettings()->getMaxAgeElevation() ) return false;
+  if( fdTimeLastElevation != UNDEFINED_VALUE && microtime() - fdTimeLastElevation > QVCTRuntime::useSettings()->getMaxAgeElevation() ) return false;
   return true;
 }
