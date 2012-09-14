@@ -275,13 +275,33 @@ void CMainWindow::slotTimerRefresh()
   //qDebug( "DEBUG[%s]: End", Q_FUNC_INFO );
 }
 
+void CMainWindow::slotWarning( const QString& _rqsMessage )
+{
+  warningMessage( _rqsMessage );
+}
+
+void CMainWindow::slotError( const QString& _rqsMessage )
+{
+  errorMessage( _rqsMessage );
+}
+
 //
 // OTHER
 //
 
+void CMainWindow::warningMessage( const QString& _rqsMessage )
+{
+  QMessageBox::warning( 0, "[QVCT] "+tr("WARNING"), _rqsMessage );
+}
+
+void CMainWindow::errorMessage( const QString& _rqsMessage )
+{
+  QMessageBox::critical( 0, "[QVCT] "+tr("ERROR"), _rqsMessage );
+}
+
 bool CMainWindow::deleteConfirm( const QString& _rqsName )
 {
-  return( QMessageBox::question( 0, tr("Please Confirm")+"...", tr("The following item is about to be deleted")+QString(":\n  %1\n").arg( _rqsName )+tr("Do you want to proceed?"), QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok );
+  return( QMessageBox::question( 0, "[QVCT] "+tr("Please Confirm")+"...", tr("The following item is about to be deleted")+QString(":\n  %1\n").arg( _rqsName )+tr("Do you want to proceed?"), QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok );
 }
 
 QString CMainWindow::fileDialog( QVCT::EFileOperation _eFileOperation, const QString& _rqsTitle, const QString& _rqsFilter )
@@ -290,10 +310,10 @@ QString CMainWindow::fileDialog( QVCT::EFileOperation _eFileOperation, const QSt
   switch( _eFileOperation )
   {
   case QVCT::OPEN:
-    __qsFilename = QFileDialog::getOpenFileName( 0, _rqsTitle, QVCTRuntime::useSettings()->getPathWorkingDirectory(), _rqsFilter );
+    __qsFilename = QFileDialog::getOpenFileName( 0, "[QVCT] "+_rqsTitle, QVCTRuntime::useSettings()->getPathWorkingDirectory(), _rqsFilter );
     break;
   case QVCT::SAVE:
-    __qsFilename = QFileDialog::getSaveFileName( 0, _rqsTitle, QVCTRuntime::useSettings()->getPathWorkingDirectory(), _rqsFilter );
+    __qsFilename = QFileDialog::getSaveFileName( 0, "[QVCT] "+_rqsTitle, QVCTRuntime::useSettings()->getPathWorkingDirectory(), _rqsFilter );
     break;
   }
   if( !__qsFilename.isEmpty() )
@@ -315,12 +335,12 @@ bool CMainWindow::fileCheck( QVCT::EFileOperation _eFileOperation, const QString
   case QVCT::OPEN:
     if( !__qFileInfo.exists() )
     {
-      QMessageBox::critical( 0, tr("ERROR"), tr("The requested file cannot be found")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
+      errorMessage( tr("The requested file cannot be found")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
       return false;
     }
     if( !__qFileInfo.isFile() || !__qFileInfo.isReadable() )
     {
-      QMessageBox::critical( 0, tr("ERROR"), tr("The requested file cannot be read from")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
+      errorMessage( tr("The requested file cannot be read from")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
       return false;
     }
     break;
@@ -330,7 +350,7 @@ bool CMainWindow::fileCheck( QVCT::EFileOperation _eFileOperation, const QString
     {
       if( !__qFileInfo.isFile() || !__qFileInfo.isWritable() )
       {
-        QMessageBox::critical( 0, tr("ERROR"), tr("The requested file cannot be written to")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
+        errorMessage( tr("The requested file cannot be written to")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
         return false;
       }
     }
@@ -345,7 +365,7 @@ bool CMainWindow::fileCheck( QVCT::EFileOperation _eFileOperation, const QString
     if( !_pqsListExtensions->contains( __qsExtension ) )
     {
       {
-        QMessageBox::critical( 0, tr("ERROR"), tr("The file format/extension is not supported")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
+        errorMessage( tr("The file format/extension is not supported")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
         return false;
       }
     }
@@ -360,17 +380,17 @@ void CMainWindow::fileError( QVCT::EFileOperation _eFileOperation, const QString
   switch( _eFileOperation )
   {
   case QVCT::OPEN:
-    QMessageBox::critical( 0, tr("ERROR"), tr("The requested file could not be loaded")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
+    errorMessage( tr("The requested file could not be loaded")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
     break;
   case QVCT::SAVE:
-    QMessageBox::critical( 0, tr("ERROR"), tr("The requested file could not be saved")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
+    errorMessage( tr("The requested file could not be saved")+QString(":\n  .../%1").arg( __qFileInfo.fileName() ) );
     break;
   }
 }
 
 void CMainWindow::parseError( const QString& _rqsString )
 {
-  QMessageBox::critical( 0, tr("ERROR"), tr("The following data could not be parsed")+QString(":\n  %1").arg( _rqsString ) );
+  errorMessage( tr("The following data could not be parsed")+QString(":\n  %1").arg( _rqsString ) );
 }
 
 bool CMainWindow::symbolExists( const QString& _rqsSymbol )

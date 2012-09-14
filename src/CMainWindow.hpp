@@ -87,9 +87,17 @@ private slots:
   void slotToggleFullscreen();
   /// Slot to periodically refresh the user interface
   void slotTimerRefresh();
+  /// Slot to display a warning message
+  void slotWarning( const QString& _rqsMessage );
+  /// Slot to display an error message
+  void slotError( const QString& _rqsMessage );
 
   // OTHER
 public:
+  /// Display a warning message
+  void warningMessage( const QString& _rqsMessage );
+  /// Display an error message
+  void errorMessage( const QString& _rqsMessage );
   /// Displays a generic confirmation request before deleting content
   /** @param[in] _rqsName Content's name
    *  @return Confirmation status (TRUE if deletion is accepted, FALSE otherwise) */
