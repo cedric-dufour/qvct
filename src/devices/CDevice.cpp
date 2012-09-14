@@ -35,4 +35,5 @@ CDevice::CDevice( const QString& _rqsName )
   QTreeWidgetItem::setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable );
   QTreeWidgetItem::setText( CDeviceOverlay::NAME, qsName );
   QTreeWidgetItem::setCheckState( CDeviceOverlay::SELECT, Qt::Unchecked );
+  QObject::connect( this, SIGNAL( signalError(const QString&) ), QVCTRuntime::useMainWindow(), SLOT( slotError(const QString&) ) );
 }
