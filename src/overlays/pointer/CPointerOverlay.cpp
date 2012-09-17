@@ -38,6 +38,7 @@ CPointerOverlay::CPointerOverlay()
 {
   importSettings();
   QTreeWidgetItem::addChild( new CPointerPoint( tr("Mouse") ) );
+  QTreeWidgetItem::addChild( new CPointerPoint( tr("Target") ) );
 }
 
 CPointerOverlay::~CPointerOverlay()
@@ -58,13 +59,25 @@ CPointerOverlay::~CPointerOverlay()
 void CPointerOverlay::drawContent( const CChart* _poChart, QPainter* _pqPainter ) const
 {
   if( !bVisible ) return;
+
+  // Draw
+
+  // ... mouse pointer
   CPointerPoint* __poPointerPoint = (CPointerPoint*)QTreeWidgetItem::child( 0 );
   __poPointerPoint->draw( _poChart, _pqPainter );
+
+  // ... target
+  __poPointerPoint = (CPointerPoint*)QTreeWidgetItem::child( 1 );
+  __poPointerPoint->draw( _poChart, _pqPainter );
+  CVesselPoint* __poVesselPoint = QVCTRuntime::useChartTable()->getVesselPointSynchronize();
+  if( __poVesselPoint ) __poPointerPoint->drawLine( _poChart, _pqPainter, __poVesselPoint );
+
+  // ... path
   int __iCount = QTreeWidgetItem::childCount();
-  if( __iCount < 3 ) return;
-  CPointerPoint* __poPointerPathFrom = (CPointerPoint*)QTreeWidgetItem::child( 1 );
+  if( __iCount < 4 ) return;
+  CPointerPoint* __poPointerPathFrom = (CPointerPoint*)QTreeWidgetItem::child( 2 );
   CPointerPoint* __poPointerPathTo = 0;
-  for( int __i = 2; __i < __iCount; __i++ )
+  for( int __i = 3; __i < __iCount; __i++ )
   {
     __poPointerPathTo = (CPointerPoint*)QTreeWidgetItem::child( __i );
     __poPointerPathFrom->drawLine( _poChart, _pqPainter, __poPointerPathTo );
@@ -108,12 +121,12 @@ void CPointerOverlay::setPosition( const QTreeWidgetItem* _pqTreeWidgetItem ) co
 
 bool CPointerOverlay::hasPath() const
 {
-  return QTreeWidgetItem::childCount() > 1;
+  return QTreeWidgetItem::childCount() > 2;
 }
 
 int CPointerOverlay::getPathSegments() const
 {
-  int __iCount = QTreeWidgetItem::childCount() - 2;
+  int __iCount = QTreeWidgetItem::childCount() - 3;
   if( __iCount < 0 ) __iCount = 0;
   return __iCount;
 }
@@ -122,9 +135,9 @@ int CPointerOverlay::getPathSegments() const
 // USERS
 //
 
-CPointerPoint* CPointerOverlay::usePointerPoint()
+CPointerPoint* CPointerOverlay::usePointerPoint( bool _bTarget )
 {
-  return (CPointerPoint*)QTreeWidgetItem::child( 0 );
+  return (CPointerPoint*)QTreeWidgetItem::child( _bTarget ? 1 : 0 );
 }
 
 //
@@ -142,33 +155,23 @@ void CPointerOverlay::importSettings()
   qPenLine.setColor( __qColor );
 }
 
-void CPointerOverlay::setPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition )
+void CPointerOverlay::setPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition, bool _bTarget )
 {
   CDataPosition __oDataPosition = _poChart->toGeoPosition( _rqPointFScrPosition );
   __oDataPosition.resetElevation();
-  setPosition( __oDataPosition );
+  setPosition( __oDataPosition, _bTarget );
 }
 
-void CPointerOverlay::setPosition( const CDataPosition& _roDataPosition )
+void CPointerOverlay::setPosition( const CDataPosition& _roDataPosition, bool _bTarget )
 {
-  CPointerPoint* __poPointerPoint = (CPointerPoint*)QTreeWidgetItem::child( 0 );
-  if( __poPointerPoint->CDataPosition::operator!=( _roDataPosition ) )
-  {
-    __poPointerPoint->setPosition( _roDataPosition );
-    COverlay::forceRedraw();
-    QVCTRuntime::useChartTable()->update();
-  }
+  CPointerPoint* __poPointerPoint = (CPointerPoint*)QTreeWidgetItem::child( _bTarget ? 1 : 0 );
+  __poPointerPoint->setPosition( _roDataPosition );
 }
 
-void CPointerOverlay::clearPosition()
+void CPointerOverlay::clearPosition( bool _bTarget )
 {
-  CPointerPoint* __poPointerPoint = (CPointerPoint*)QTreeWidgetItem::child( 0 );
-  if( __poPointerPoint->CDataPosition::operator!=( CDataPosition::UNDEFINED ) )
-  {
-    __poPointerPoint->setPosition( CDataPosition::UNDEFINED );
-    COverlay::forceRedraw();
-    QVCTRuntime::useChartTable()->update();
-  }
+  CPointerPoint* __poPointerPoint = (CPointerPoint*)QTreeWidgetItem::child( _bTarget ? 1 : 0 );
+  __poPointerPoint->setPosition( CDataPosition::UNDEFINED );
 }
 
 void CPointerOverlay::setPath( const CChart* _poChart, const QPointF& _rqPointFScrPosition )
@@ -185,18 +188,16 @@ void CPointerOverlay::setPath( const CDataPosition& _roDataPosition )
   CPointerPoint* __poPointerPoint = new CPointerPoint( "Path"+QString::number( QTreeWidgetItem::childCount() ) );
   __poPointerPoint->setPosition( _roDataPosition );
   QTreeWidgetItem::addChild( __poPointerPoint );
-  COverlay::forceRedraw();
-  QVCTRuntime::useChartTable()->update();
 }
 
 double CPointerOverlay::getPathLengthRL()
 {
   int __iCount = QTreeWidgetItem::childCount();
-  if( __iCount < 3 ) return 0.0;
-  CPointerPoint* __poPointerPathFrom = (CPointerPoint*)QTreeWidgetItem::child( 1 );
+  if( __iCount < 4 ) return 0.0;
+  CPointerPoint* __poPointerPathFrom = (CPointerPoint*)QTreeWidgetItem::child( 2 );
   CPointerPoint* __poPointerPathTo = 0;
   double __fdLength = 0;
-  for( int __i = 2; __i < __iCount; __i++ )
+  for( int __i = 3; __i < __iCount; __i++ )
   {
     __poPointerPathTo = (CPointerPoint*)QTreeWidgetItem::child( __i );
     __fdLength += CDataPosition::distanceRL( *__poPointerPathFrom, *__poPointerPathTo );
@@ -208,18 +209,18 @@ double CPointerOverlay::getPathLengthRL()
 double CPointerOverlay::getPathLengthGC()
 {
   int __iCount = QTreeWidgetItem::childCount();
-  if( __iCount < 3 ) return 0.0;
-  CPointerPoint* __poPointerPathFrom = (CPointerPoint*)QTreeWidgetItem::child( 1 );
+  if( __iCount < 4 ) return 0.0;
+  CPointerPoint* __poPointerPathFrom = (CPointerPoint*)QTreeWidgetItem::child( 2 );
   CPointerPoint* __poPointerPathTo = (CPointerPoint*)QTreeWidgetItem::child( __iCount-1 );
   return CDataPosition::distanceGC( *__poPointerPathFrom, *__poPointerPathTo );
 }
 
 void CPointerOverlay::clearPath()
 {
-  QTreeWidgetItem* __pqTreeWidgetItem = QTreeWidgetItem::takeChild( 1 );
+  QTreeWidgetItem* __pqTreeWidgetItem = QTreeWidgetItem::takeChild( 2 );
   while( __pqTreeWidgetItem )
   {
     delete (CPointerPoint*)__pqTreeWidgetItem;
-    __pqTreeWidgetItem = QTreeWidgetItem::takeChild( 1 );
+    __pqTreeWidgetItem = QTreeWidgetItem::takeChild( 2 );
   }
 }

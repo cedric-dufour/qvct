@@ -74,19 +74,19 @@ public:
 
   // USERS
 public:
-  /// Returns the pointer point corresponding to the mouse
-  CPointerPoint* usePointerPoint();
+  /// Returns the pointer point corresponding to the mouse pointer or target
+  CPointerPoint* usePointerPoint( bool _bTarget = false );
 
   // OTHER
 public:
   /// Imports settings from the application's global settings
   void importSettings();
-  /// Sets the mouse pointer at the given screen position
-  void setPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition );
-  /// Sets the mouse pointer at the given geographical position
-  void setPosition( const CDataPosition& _roDataPosition );
-  /// Clears the mouse pointer
-  void clearPosition();
+  /// Sets the mouse pointer or target at the given screen position
+  void setPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition, bool _bTarget = false );
+  /// Sets the mouse pointer or targetat the given geographical position
+  void setPosition( const CDataPosition& _roDataPosition, bool _bTarget = false );
+  /// Clears the mouse pointer or target
+  void clearPosition( bool _bTarget = false );
   /// Adds the given screen position to the pointer path
   void setPath( const CChart* _poChart, const QPointF& _rqPointFScrPosition );
   /// Adds the given geographical position to the pointer path
