@@ -84,7 +84,7 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
   static const QPixmap __qPixmapSelect( ":icons/32x32/select.png" );
 
   // Exit if we're not visible
-  if( !bVisible ) return;
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible ) return;
 
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
@@ -125,7 +125,7 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
 void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, const CDataCourseValidityGA* _poDataCourseValidityGA )
 {
   // Exit if we're not visible
-  if( !bVisible || !bVisibleCourse ) return;
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible || !bVisibleCourse ) return;
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
@@ -192,7 +192,7 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
       __qsGroundSpeedVertical = CUnitSpeedVertical::toString( __fdGroundSpeedVertical );
       if( _poDataCourseValidityGA && !_poDataCourseValidityGA->GroundCourseValidity.isValidSpeedVertical() ) __bInvalid = true;
     }
-    double __fdBearingOffset = ( 40.0 + 10.0*fabs( pow( sin( __fdGroundBearing ), 3 ) ) ) * __fdZoom;
+    double __fdBearingOffset = ( 35.0 + 25.0*fabs( pow( sin( __fdGroundBearing ), 3 ) ) ) * __fdZoom;
     drawText( _poChart, _pqPainter, __qsGroundBearing+QString::fromUtf8("·")+__qsGroundSpeed+"\n"+__qsGroundSpeedVertical, __qPointF+QPointF( __fdBearingOffset*sin( __fdGroundBearing ), -__fdBearingOffset*cos( __fdGroundBearing ) ), __bInvalid );
   }
 

@@ -210,7 +210,7 @@ void COverlayPoint::drawMarker( const CChart* _poChart, QPainter* _pqPainter, co
   static const QPixmap __qPixmapSelect( ":icons/32x32/select.png" );
 
   // Exit if we're not visible
-  if( !bVisible ) return;
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible ) return;
 
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
@@ -240,7 +240,7 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
                              const CDataTimeValidity* _poDataTimeValidity, const CDataPositionValidity* _poDataPositionValidity )
 {
   // Exit if we're not visible
-  if( !bVisible || !bVisibleName ) return;
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible || !bVisibleName ) return;
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
@@ -357,7 +357,8 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
 void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, const COverlayPoint* _poOverlayPoint )
 {
   // Exit if we're not visible
-  if( !bVisible || !_poOverlayPoint->bVisible ) return;
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
+      || _poOverlayPoint->CDataPosition::operator==( CDataPosition::UNDEFINED ) || !_poOverlayPoint->bVisible ) return;
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
@@ -374,7 +375,7 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
   _pqPainter->drawLine( __qPointFFrom, __qPointFTo );
   // ... course data
   double __fdBearingTo = CDataPosition::bearingRL( *this, *_poOverlayPoint );
-  double __fdDeltaLimit = 75.0 + 100.0*fabs( pow( sin( __fdBearingTo*0.01745329 ), 3 ) );
+  double __fdDeltaLimit = ( 100.0 + 100.0*fabs( pow( sin( __fdBearingTo*0.01745329 ), 3 ) ) ) * __fdZoom;
   if( ( !bVisibleRouting && !_poOverlayPoint->bVisibleRouting )
       || __qPointFDelta.x()*__qPointFDelta.x() + __qPointFDelta.y()*__qPointFDelta.y() < __fdDeltaLimit*__fdDeltaLimit
       || __fdZoom < 0.5 ) return;
@@ -389,7 +390,7 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
     QString __qsBearingFrom = CUnitBearing::toString( __fdBearingFrom );
     __fdBearingFrom *= 0.01745329; // degree -> radian
     __fdBearingTo *= 0.01745329; // degree -> radian
-    double __fdBearingOffset = ( 20.0 + 20.0*fabs( pow( sin( __fdBearingTo ), 3 ) ) ) * __fdZoom;
+    double __fdBearingOffset = ( 35.0 + 25.0*fabs( pow( sin( __fdBearingTo ), 3 ) ) ) * __fdZoom;
     if( bVisibleRouting ) drawText( _poChart, _pqPainter, __qsBearingTo+QString::fromUtf8("·")+__qsBearingFrom, __qPointFFrom+QPointF( __fdBearingOffset*sin( __fdBearingTo ), -__fdBearingOffset*cos( __fdBearingTo ) ) );
     if( _poOverlayPoint->bVisibleRouting ) drawText( _poChart, _pqPainter, __qsBearingFrom+QString::fromUtf8("·")+__qsBearingTo, __qPointFTo+QPointF( __fdBearingOffset*sin( __fdBearingFrom ), -__fdBearingOffset*cos( __fdBearingFrom ) ) );
   }
@@ -397,6 +398,9 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
 
 bool COverlayPoint::matchScrPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition ) const
 {
+  // Exit if we're not visible
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible ) return false;
+
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
   if( __fdZoom < 0.2 ) __fdZoom = 0.2;
