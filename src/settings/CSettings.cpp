@@ -53,22 +53,22 @@ CSettings::CSettings()
   , iPrecisionSpeed( 0 )
   , iPrecisionElevation( 0 )
   , iPrecisionSpeedVertical( 0 )
-  , fdMinValuePosition( 50.0 )
+  , fdMinValuePosition( 100.0 )
   , fdMinValueBearing( 30.0 )
-  , fdMinValueSpeed( 0.5 )
+  , fdMinValueSpeed( 0.25 )
   , fdMinValueSpeedVertical( 0.25 )
   , fdMaxErrorPosition( 25.0 )
-  , fdMaxErrorElevation( 50.0 )
+  , fdMaxErrorElevation( 25.0 )
   , fdMaxErrorTime( 1.0 )
   , fdMaxErrorBearing( 10.0 )
   , fdMaxErrorSpeed( 10.0 )
   , fdMaxErrorSpeedVertical( 10.0 )
-  , fdMaxAgePosition( 30.0 )
-  , fdMaxAgeElevation( 60.0 )
+  , fdMaxAgePosition( 5.0 )
+  , fdMaxAgeElevation( 5.0 )
   , fdMaxAgeTime( 5.0 )
-  , fdMaxAgeBearing( 30.0 )
-  , fdMaxAgeSpeed( 30.0 )
-  , fdMaxAgeSpeedVertical( 60.0 )
+  , fdMaxAgeBearing( 5.0 )
+  , fdMaxAgeSpeed( 5.0 )
+  , fdMaxAgeSpeedVertical( 5.0 )
   , qColorPointer( 64, 64, 64 )
   , qColorLandmark( 0, 64, 0 )
   , qColorRoute( 0, 0, 128 )
@@ -697,16 +697,16 @@ void CSettings::load( const QString& _rqsFilename )
       __qDomElement = __qDomElementContext.firstChildElement( "Position" );
       if( !__qDomElement.isNull() )
       {
-        fdMinValuePosition = __qDomElement.attribute( "min_value", "50.0" ).toDouble();
+        fdMinValuePosition = __qDomElement.attribute( "min_value", "100.0" ).toDouble();
         fdMaxErrorPosition = __qDomElement.attribute( "max_error", "25.0" ).toDouble();
-        fdMaxAgePosition = __qDomElement.attribute( "max_age", "30.0" ).toDouble();
+        fdMaxAgePosition = __qDomElement.attribute( "max_age", "5.0" ).toDouble();
       }
       // ... elevation validity parameters
       __qDomElement = __qDomElementContext.firstChildElement( "Elevation" );
       if( !__qDomElement.isNull() )
       {
-        fdMaxErrorElevation = __qDomElement.attribute( "max_error", "50.0" ).toDouble();
-        fdMaxAgeElevation = __qDomElement.attribute( "max_age", "60.0" ).toDouble();
+        fdMaxErrorElevation = __qDomElement.attribute( "max_error", "25.0" ).toDouble();
+        fdMaxAgeElevation = __qDomElement.attribute( "max_age", "5.0" ).toDouble();
       }
       // ... time validity parameters
       __qDomElement = __qDomElementContext.firstChildElement( "Time" );
@@ -721,15 +721,15 @@ void CSettings::load( const QString& _rqsFilename )
       {
         fdMinValueBearing = __qDomElement.attribute( "min_value", "30.0" ).toDouble();
         fdMaxErrorBearing = __qDomElement.attribute( "max_error", "10.0" ).toDouble();
-        fdMaxAgeBearing = __qDomElement.attribute( "max_age", "30.0" ).toDouble();
+        fdMaxAgeBearing = __qDomElement.attribute( "max_age", "5.0" ).toDouble();
       }
       // ... horizontal speed validity parameters
       __qDomElement = __qDomElementContext.firstChildElement( "Speed" );
       if( !__qDomElement.isNull() )
       {
-        fdMinValueSpeed = __qDomElement.attribute( "min_value", "0.5" ).toDouble();
+        fdMinValueSpeed = __qDomElement.attribute( "min_value", "0.25" ).toDouble();
         fdMaxErrorSpeed = __qDomElement.attribute( "max_error", "10.0" ).toDouble();
-        fdMaxAgeSpeed = __qDomElement.attribute( "max_age", "30.0" ).toDouble();
+        fdMaxAgeSpeed = __qDomElement.attribute( "max_age", "5.0" ).toDouble();
       }
       // ... vertical speed validity parameters
       __qDomElement = __qDomElementContext.firstChildElement( "SpeedVertical" );
@@ -737,7 +737,7 @@ void CSettings::load( const QString& _rqsFilename )
       {
         fdMinValueSpeedVertical = __qDomElement.attribute( "min_value", "0.25" ).toDouble();
         fdMaxErrorSpeedVertical = __qDomElement.attribute( "max_error", "10.0" ).toDouble();
-        fdMaxAgeSpeedVertical = __qDomElement.attribute( "max_age", "60.0" ).toDouble();
+        fdMaxAgeSpeedVertical = __qDomElement.attribute( "max_age", "5.0" ).toDouble();
       }
     }
   }
