@@ -98,7 +98,7 @@ private:
   COverlayPoint* poOverlayPointMove;
 
   /// Vessel point to synchronize to
-  /** @see setVesselPointSynchronize(), getVesselPointSynchronize() */
+  /** @see setVesselPointSynchronize(), resetVesselPointSynchronize(), getVesselPointSynchronize() */
   CVesselPoint* poVesselPointSynchronize;
 
 
@@ -163,6 +163,9 @@ private slots:
   /// [UI:Slot] Slot to enable/disable single measurement (pointer path)
   void slotPointerPathSingle( bool _bEnable );
 
+  /// [APP:Slot] Slot to handle vessel point destruction
+  void slotVesselPointDestroyed( QObject* _pqObject );
+
   // HANDLERS
 private:
   /// Key events handler
@@ -215,7 +218,9 @@ public:
   /// Sets the overlay point to be moved (and lock all other actions while it is ongoing)
   void setOverlayPointMove( COverlayPoint* _poOverlayPoint );
   /// Sets the vessel point used to synchronize the chart reference (geographical) position
-  void setVesselPointSynchronize( CVesselPoint* _poVesselPoint ) { poVesselPointSynchronize = _poVesselPoint; };
+  void setVesselPointSynchronize( CVesselPoint* _poVesselPoint );
+  /// Resets (clears) the vessel point used to synchronize the chart reference (geographical) position
+  void resetVesselPointSynchronize();
 
   // GETTERS
 public:

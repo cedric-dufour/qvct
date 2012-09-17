@@ -277,6 +277,12 @@ void CChartTable::slotPointerPathSingle( bool _bEnable )
   __pqMutexDataChange->unlock();
 }
 
+void CChartTable::slotVesselPointDestroyed( QObject* _pqObject )
+{
+  if( !_pqObject || (QObject*)poVesselPointSynchronize != _pqObject ) return;
+  resetVesselPointSynchronize();
+}
+
 //
 // HANDLERS
 //
@@ -730,6 +736,19 @@ void CChartTable::setOverlayPointMove( COverlayPoint* _poOverlayPoint )
 {
   poOverlayPointMove = _poOverlayPoint;
   QVCTRuntime::useChartControl()->allowMeasure( poOverlayPointMove ? false : true );
+}
+
+void CChartTable::setVesselPointSynchronize( CVesselPoint* _poVesselPoint )
+{
+  if( poVesselPointSynchronize == _poVesselPoint ) return;
+  poVesselPointSynchronize = _poVesselPoint;
+  QObject::connect( poVesselPointSynchronize, SIGNAL( destroyed(QObject*) ), this, SLOT( slotVesselPointDestroyed(QObject*) ) );
+}
+
+void CChartTable::resetVesselPointSynchronize()
+{
+  if( poVesselPointSynchronize ) QObject::disconnect( poVesselPointSynchronize, 0, this, 0 );
+  poVesselPointSynchronize = 0;
 }
 
 //

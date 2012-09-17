@@ -506,7 +506,7 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
   else if( QVCTRuntime::useChartTable()->getVesselPointSynchronize() == __poVesselPoint )
   {
     pqPushButtonCenterLock->setIcon( QIcon( ":icons/32x32/center_unlock.png" ) );
-    QVCTRuntime::useChartTable()->setVesselPointSynchronize( 0 );
+    QVCTRuntime::useChartTable()->resetVesselPointSynchronize();
     QVCTRuntime::useVesselPositionDockView()->resetVesselPoint();
     QVCTRuntime::useVesselCourseDockView()->resetVesselPoint();
   }
