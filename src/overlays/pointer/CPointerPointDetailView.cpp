@@ -298,7 +298,7 @@ void CPointerPointDetailView::slotAddLandmark()
   if( __poPointerOverlay->hasPath() )
   {
     int __iCount = __poPointerOverlay->childCount();
-    for( int __i = 1; __i < __iCount; __i++ )
+    for( int __i = 2; __i < __iCount; __i++ )
     {
       QString __qsName = __poLandmarkContainer->newChildName( tr("Landmark"), 1, true );
       __poLandmarkContainer->addPoint( __qsName, *(CPointerPoint*)__poPointerOverlay->child( __i ) );
@@ -331,7 +331,7 @@ void CPointerPointDetailView::slotAddRoute()
   if( __poPointerOverlay->hasPath() )
   {
     int __iCount = __poPointerOverlay->childCount();
-    for( int __i = 1; __i < __iCount; __i++ )
+    for( int __i = 2; __i < __iCount; __i++ )
     {
       QString __qsName = __poRouteContainer->newChildName( tr("Waypoint"), 1, true );
       __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)__poPointerOverlay->child( __i ) );
