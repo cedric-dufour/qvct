@@ -368,7 +368,7 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
 
   // Draw
   COverlay* __poOverlay = useOverlay();
-  QPen __qPen = __poOverlay->getPenMarker();
+  QPen __qPen = __poOverlay->getPenLine();
   __qPen.setWidth( __qPen.width() * ( __fdZoom >= 1.0 ? __fdZoom : 1.0 ) );
   // ... line
   _pqPainter->setPen( __qPen );
