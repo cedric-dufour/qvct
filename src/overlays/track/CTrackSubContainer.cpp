@@ -20,12 +20,14 @@
 #include <QDateTime>
 #include <QDomElement> // QtXml module
 #include <QPainter>
+#include <QPen>
 #include <QPointF>
 #include <QTreeWidgetItem>
 #include <QXmlStreamWriter>
 
 // QVCT
 #include "QVCTRuntime.hpp"
+#include "charts/CChart.hpp"
 #include "overlays/track/CTrackPoint.hpp"
 #include "overlays/track/CTrackSubContainer.hpp"
 
@@ -70,7 +72,16 @@ void CTrackSubContainer::unserialize( QDataStream& _rqDataStream )
 
 void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
 {
+  // Exit if we're not visible
   if( !bVisible ) return;
+
+  // Retrieve and adjust drawing parameters
+  double __fdZoom = _poChart->getZoom();
+  QPen __qPenMultiSelect = QVCTRuntime::useTrackOverlay()->getPenLine();
+  __qPenMultiSelect.setColor( QColor( 0, 192, 0, 192 ) );
+  __qPenMultiSelect.setWidth( __qPenMultiSelect.width() * __fdZoom );
+
+  // Draw
   int __iCount = QTreeWidgetItem::childCount();
   if( __iCount < 2 ) return;
   CTrackPoint* __poTrackPointFrom = (CTrackPoint*)QTreeWidgetItem::child( 0 );
@@ -79,7 +90,17 @@ void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
   {
     __poTrackPointTo = (CTrackPoint*)QTreeWidgetItem::child( __i );
     __poTrackPointFrom->drawLine( _poChart, _pqPainter, __poTrackPointTo );
+    if( __poTrackPointFrom->isMultiSelected() )
+    {
+      _pqPainter->setPen( __qPenMultiSelect );
+      _pqPainter->drawPoint( _poChart->toDrawPosition( *__poTrackPointFrom ) );
+    }
     __poTrackPointFrom = __poTrackPointTo;
+  }
+  if( __poTrackPointTo && __poTrackPointFrom->isMultiSelected() )
+  {
+    _pqPainter->setPen( __qPenMultiSelect );
+    _pqPainter->drawPoint( _poChart->toDrawPosition( *__poTrackPointTo ) );
   }
   ((CTrackPoint*)QTreeWidgetItem::child( 0 ))->draw( _poChart, _pqPainter );
   ((CTrackPoint*)QTreeWidgetItem::child( __iCount-1 ))->draw( _poChart, _pqPainter );
