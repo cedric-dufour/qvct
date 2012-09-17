@@ -24,7 +24,7 @@
 <LI><A HREF="#chart_create">Can I create my own charts?</A></LI>
 <LI><A HREF="#chart_online">Can I use online charts?</A></LI>
 <LI><A HREF="#chart_size">How big can charts be?</A></LI>
-<LI><A HREF="#chart_gdal">What is the georeferencing and GDAL all about?</A></LI>
+<LI><A HREF="#chart_gdal">What is this georeferencing and GDAL all about?</A></LI>
 </UL>
 <P><B>Device-related Questions</B></P>
 <UL>
@@ -34,6 +34,7 @@
 <P><B>Usage Questions</B></P>
 <UL>
 <LI><A HREF="#usage_landmarks_gpx">Why do landmarks get aggregated when saved in GPX format?</A></LI>
+<LI><A HREF="#usage_file_format">Are file formats other than GPX and QVCT (XML) supported?</A></LI>
 <LI><A HREF="#usage_vessel_dynamic">What are <I>dynamic</I> flotilla?</A></LI>
 <LI><A HREF="#usage_device_multiple">Why have multiple devices for a single vessel?</A></LI>
 </UL>
@@ -128,6 +129,11 @@ Please refer to QVCT's Developer Documentation for further information.</P>
 <H3><A ID="usage_landmarks_gpx"/>Why do landmarks get aggregated when saved in GPX format?</H3>
 <DIV CLASS="H3">
 <P>The <A HREF="http://www.topografix.com/GPX/1/1/" TARGET="_blank">GPX format</A> does not provide a way to gather landmarks (GPX waypoints) in distinct containers. Thus, when landmarks are saved in GPX format, they are all gathered in the same &quot;pot&quot;.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="usage_file_format"/>Are file formats other than GPX and QVCT (XML) supported?</H3>
+<DIV CLASS="H3">
+<P>No, not directly. On the other hand, one can use the <A HREF="http://www.gpsbabel.org/" TARGET="_blank"><CITE>gpsbabel</CITE></A> utility to convert from/to the <A HREF="http://www.topografix.com/GPX/1/1/" TARGET="_blank">GPX format</A> to/from most of the other existing file formats.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
 <H3><A ID="usage_vessel_dynamic"/>What are <I>dynamic</I> flotilla?</H3>
