@@ -177,8 +177,11 @@ private:
   QString qsMainWindowState;
 
   /// [Misc] Screen Dots-per-Inch (DPI)
-  /** @see slotDpiScreen(), getDpiScreen() */
-  int iDpiScreen;
+  /** @see slotScreenDpi(), getScreenDpi() */
+  int iScreenDpi;
+  /// [Misc] Screen (multitouch) gestures (activation status)
+  /** @see slotScreenGestures(), isScreenGestures() */
+  bool bScreenGestures;
   /// [Misc] Content refresh rate, in milliseconds
   /** @see slotRateRefresh(), getRateRefresh() */
   int iRateRefresh;
@@ -289,7 +292,9 @@ private slots:
   void slotMaxAgeSpeedVertical( const QString& _rqsMaxAge );
 
   /// [Misc] Slot to modify the screen Dots-per-Inch (DPI)
-  void slotDpiScreen( int _iDpiScreen );
+  void slotScreenDpi( int _iScreenDpi );
+  /// [Misc] Slot to modify the (multitouch) screen gestures activation status
+  void slotScreenGestures( int _iScreenGestures );
   /// [Misc] Slot to modify the content refresh rate
   void slotRateRefresh( int _iRateRefresh );
   /// [Misc] Slot to modify the content redraw rate
@@ -409,7 +414,9 @@ public:
   /// [Misc] Returns the main window state (Base64-encoded binary data)
   QString getMainWindowState() { return qsMainWindowState; };
   /// [Misc] Returns the screen Dots-per-Inch (DPI)
-  int getDpiScreen() { return iDpiScreen; };
+  int getScreenDpi() { return iScreenDpi; };
+  /// [Misc] Returns the screen (multitouch) gestures activation status
+  bool isScreenGestures() { return bScreenGestures; };
   /// [Misc] Returns the content refresh rate, in milliseconds
   int getRateRefresh() { return iRateRefresh; };
   /// [Misc] Returns the content redraw rate, in seconds

@@ -23,14 +23,18 @@
 #include <QDialog>
 #include <QDomDocument> // QtXml module
 #include <QFileInfo>
+#include <QGesture>
+#include <QGestureEvent>
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QMouseEvent>
+#include <QPinchGesture>
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QRect>
 #include <QTabBar>
 #include <QTabWidget>
+#include <QWheelEvent>
 #include <QWidget>
 #include <QXmlStreamWriter>
 
@@ -58,6 +62,8 @@ CChartTable::CChartTable( QWidget* _pqParent )
   , bIgnoreUpdate( true )
   , bMousePressed( false )
   , bMouseDrag( false )
+  , fdGestureTimeLast( 0.0 )
+  , fdGestureZoomReference( 0.0 )
   , bPointerPath( false )
   , bPointerPathSingle( false )
   , poOverlayPointMove( 0 )
@@ -65,9 +71,9 @@ CChartTable::CChartTable( QWidget* _pqParent )
 {
   constructLayout();
   QWidget::setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-  QWidget::setFocusPolicy( Qt::StrongFocus );
   tabBar()->installEventFilter( this );
-  iDpi = QVCTRuntime::useSettings()->getDpiScreen();
+
+  iDpi = QVCTRuntime::useSettings()->getScreenDpi();
 }
 
 void CChartTable::constructLayout()
@@ -101,18 +107,29 @@ bool CChartTable::eventFilter( QObject* _pqObject, QEvent* _pqEvent )
   //qDebug( "DEBUG[%s] %d", Q_FUNC_INFO, _pqEvent->type() );
   switch( _pqEvent->type() )
   {
+
   case QEvent::KeyPress:
     return handlerKeyEvent( static_cast<QKeyEvent *>(_pqEvent) );
+
   case QEvent::Wheel:
     if( _pqObject == tabBar() ) return false;
     return handlerWheelEvent( static_cast<QWheelEvent *>(_pqEvent) );
+
   case QEvent::MouseButtonDblClick:
   case QEvent::MouseButtonPress:
   case QEvent::MouseButtonRelease:
   case QEvent::MouseMove:
-    if( _pqObject != QTabWidget::currentWidget() ) return false;
+    if( _pqObject != (QObject*)QTabWidget::currentWidget() ) return false;
+    if( microtime() - fdGestureTimeLast < 0.350 ) return false; // Ongoing gestures tend to send QMouseEvent artefacts; let's get rid of those
     return handlerMouseEvent( static_cast<QMouseEvent *>(_pqEvent) );
+
+  case QEvent::Gesture:
+    if( _pqObject != (QObject*)QTabWidget::currentWidget() ) return false;
+    fdGestureTimeLast = microtime();
+    return handlerGestureEvent( static_cast<QGestureEvent *>(_pqEvent) );
+
   default:; // Ignore other events
+
   }
   return QTabWidget::eventFilter( _pqObject, _pqEvent );
 }
@@ -188,7 +205,7 @@ void CChartTable::slotPrintChart()
   // ... print
   __poChart->print( &__qPrinter );
   // ... set draw area, zoom and DPI back to screen's
-  iDpi = QVCTRuntime::useSettings()->getDpiScreen();
+  iDpi = QVCTRuntime::useSettings()->getScreenDpi();
   __poChart->resetDrawArea();
   __poChart->setZoom( __fdZoomScreen );
   __pqMutexDataChange->unlock();
@@ -273,9 +290,9 @@ bool CChartTable::handlerKeyEvent( QKeyEvent* _pqKeyEvent )
   {
     // Position
   case Qt::Key_Home: setPositionHome(); __bReturn = true; break;
-  case Qt::Key_Up: stepScrPosition( false, true, __bControlKey ); __bReturn = true; break;
+  case Qt::Key_Up: stepScrPosition( false, false, __bControlKey ); __bReturn = true; break;
   case Qt::Key_Right: stepScrPosition( true, true, __bControlKey ); __bReturn = true; break;
-  case Qt::Key_Down: stepScrPosition( false, false, __bControlKey ); __bReturn = true; break;
+  case Qt::Key_Down: stepScrPosition( false, true, __bControlKey ); __bReturn = true; break;
   case Qt::Key_Left: stepScrPosition( true, false, __bControlKey ); __bReturn = true; break;
     // Scale
   case Qt::Key_Plus: stepScale( true, __bControlKey ); __bReturn = true; break;
@@ -485,6 +502,40 @@ bool CChartTable::handlerWheelEvent( QWheelEvent* _pqWheelEvent )
   return true;
 }
 
+bool CChartTable::handlerGestureEvent( QGestureEvent* _pqGestureEvent )
+{
+  if( QTabWidget::currentIndex() < 0 ) return false;
+  bool __bReturn = false;
+  QGesture* __pqGesture = _pqGestureEvent->gesture( Qt::PinchGesture );
+  if( __pqGesture )
+  {
+    // NOTE: To provide a good "user experience", we must use the underlying
+    //       chart's linear zoom factor rather than the UI's logarithmic scale
+    //       factor.
+    QPinchGesture* __pqPinchGesture = static_cast<QPinchGesture *>(__pqGesture);
+    switch( __pqPinchGesture->state() )
+    {
+
+    case Qt::GestureStarted:
+      __pqPinchGesture->setGestureCancelPolicy( QGesture::CancelAllInContext );
+      _pqGestureEvent->accept( __pqPinchGesture );
+      fdGestureZoomReference = ((CChart*)QTabWidget::currentWidget())->getZoom();
+      break;
+
+    case Qt::GestureUpdated:
+    case Qt::GestureFinished:
+      if( __pqPinchGesture->changeFlags() & QPinchGesture::ScaleFactorChanged )
+        setZoom( fdGestureZoomReference * __pqPinchGesture->totalScaleFactor() );
+      break;
+
+    default:;
+
+    }
+    __bReturn = true;
+  }
+  return __bReturn;
+}
+
 
 //
 // SETTERS
@@ -610,6 +661,30 @@ void CChartTable::lockScale( bool _bLock )
   if( _bLock ) setScale( fdScaleReference );
   __poChart->lockZoom( _bLock );
   //if( _bLock ) setScale( toScale( __poChart->getZoom(), __poChart ), true );
+}
+
+void CChartTable::setZoom( double _fdZoom, bool _bSkipCurrent, bool _bUpdateControl )
+{
+  if( count() < 1 ) return;
+  //qDebug( "DEBUG[%s] %f", Q_FUNC_INFO, _fdZoom );
+  double __fdScale = toScale( _fdZoom );
+  int __iWidgetCurrentIndex = QTabWidget::currentIndex();
+  bool __bLocked = ((CChart*)QTabWidget::currentWidget())->isZoomLocked();
+  if( __bLocked ) fdScaleReference = __fdScale;
+  for( int __iWidgetIndex = count() - 1; __iWidgetIndex >= 0; __iWidgetIndex-- )
+  {
+    CChart* __poChart = (CChart*)widget( __iWidgetIndex );
+    if( __iWidgetIndex != __iWidgetCurrentIndex && __bLocked && __poChart->isZoomLocked() )
+    {
+      __poChart->setZoom( _fdZoom );
+    }
+    if( __iWidgetIndex == __iWidgetCurrentIndex && !_bSkipCurrent )
+    {
+      __poChart->setZoom( _fdZoom );
+      if( _bUpdateControl ) QVCTRuntime::useChartControl()->setScale( __fdScale );
+      __poChart->update();
+    }
+  }
 }
 
 void CChartTable::enablePointerPath( bool _bEnable )
@@ -853,6 +928,8 @@ CChart* CChartTable::loadChart( const QString& _rqsFilename )
 
   // Have the chart table manage chart events
   __poChart->installEventFilter( this );
+  // ... including pinch gestures
+  if( QVCTRuntime::useSettings()->isScreenGestures() ) __poChart->grabGesture( Qt::PinchGesture );
 
   // Add chart to chart table
   QFileInfo __qFileInfo( _rqsFilename );

@@ -50,15 +50,25 @@ void CSettingsMiscEditView::constructLayout()
   // Add items
   int __iRow = -1;
 
-  // ... screen
+  // ... screen resolution (DPI)
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Screen Resolution")+":" ), __iRow, 0 );
-  QSpinBox* __pqSpinBoxDpiScreen = new QSpinBox( this );
-  __pqSpinBoxDpiScreen->setToolTip( "[DPI]" );
-  __pqSpinBoxDpiScreen->setRange( 1, 1200 );
-  __pqSpinBoxDpiScreen->setValue( __poSettings->getDpiScreen() );
-  __pqGridLayout->addWidget( __pqSpinBoxDpiScreen, __iRow, 1 );
-  connect( __pqSpinBoxDpiScreen, SIGNAL( valueChanged(int) ), __poSettings, SLOT( slotDpiScreen(int) ) );
+  QSpinBox* __pqSpinBoxScreenDpi = new QSpinBox( this );
+  __pqSpinBoxScreenDpi->setToolTip( "[DPI]" );
+  __pqSpinBoxScreenDpi->setRange( 1, 1200 );
+  __pqSpinBoxScreenDpi->setValue( __poSettings->getScreenDpi() );
+  __pqGridLayout->addWidget( __pqSpinBoxScreenDpi, __iRow, 1 );
+  connect( __pqSpinBoxScreenDpi, SIGNAL( valueChanged(int) ), __poSettings, SLOT( slotScreenDpi(int) ) );
+
+  // ... screen gestures
+  __iRow++;
+  __pqGridLayout->addWidget( new QLabel( tr("Screen Gestures")+":" ), __iRow, 0 );
+  QCheckBox* __pqCheckBoxScreenGestures = new QCheckBox( this );
+  __pqCheckBoxScreenGestures->setCheckState( __poSettings->isScreenGestures() ? Qt::Checked : Qt::Unchecked );
+  __pqGridLayout->addWidget( __pqCheckBoxScreenGestures, __iRow, 1 );
+  connect( __pqCheckBoxScreenGestures, SIGNAL( stateChanged(int) ), __poSettings, SLOT( slotScreenGestures(int) ) );
+  __iRow++;
+  __pqGridLayout->addWidget( new QLabel( "<I>"+tr("WARNING: this leads to unresponsive interface on (evdev) touchscreens!")+"</I>" ), __iRow, 1 );
 
   // ... refresh rate
   __iRow++;

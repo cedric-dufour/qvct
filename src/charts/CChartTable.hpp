@@ -20,7 +20,12 @@
 
 // QT
 #include <QDomElement> // QtXml module
+#include <QGestureEvent>
+#include <QKeyEvent>
+#include <QMouseEvent>
+#include <QWheelEvent>
 #include <QTabWidget>
+#include <QTimer>
 #include <QWidget>
 #include <QXmlStreamWriter>
 
@@ -75,6 +80,11 @@ private:
   bool bMousePressed;
   /// Mouse-drag status
   bool bMouseDrag;
+
+  /// Keep track of when a gesture event last occured
+  double fdGestureTimeLast;
+  /// Reference zoom for pinch gesture
+  double fdGestureZoomReference;
 
   /// Pointer path status
   /** @see enablePointerPath() */
@@ -134,7 +144,7 @@ private slots:
   void slotSave();
   /// [UI:Slot] Slot to load a new chart
   void slotLoadChart();
-  /// [UI:Slot] Slot to print the currently display chart
+  /// [UI:Slot] Slot to print the currently displayed chart
   void slotPrintChart();
   /// [UI:Slot] Slot to handle active tab change
   /** @see QTabWidget::currentChanged() */
@@ -164,6 +174,9 @@ private:
   /// Wheel events handler
   /** @see eventFilter() */
   bool handlerWheelEvent( QWheelEvent* _pqWheelEvent );
+  /// Gesture events handler
+  /** @see eventFilter() */
+  bool handlerGestureEvent( QGestureEvent* _pqGestureEvent );
 
   // SETTERS
 public:
@@ -189,6 +202,12 @@ public:
   void setScaleArea( const CDataPosition& _roGeoPosition1, const CDataPosition& _roGeoPosition2, double _fdScaleCorrection = 1.0 );
   /// Sets the scale lock/unlock status
   void lockScale( bool _bLock );
+
+private:
+  /// Sets the reference zoom factor
+  void setZoom( double _fdZoom, bool _bSkipCurrent = false, bool _bUpdateControl = true );
+
+public:
   /// Enables/disables ongoing measurements (pointer path)
   void enablePointerPath( bool _bEnable );
   /// Enables/disables single measurement (pointer path)

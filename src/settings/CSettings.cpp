@@ -74,7 +74,8 @@ CSettings::CSettings()
   , qColorRoute( 0, 0, 128 )
   , qColorTrack( 128, 0, 128 )
   , qColorVessel( 128, 0, 0 )
-  , iDpiScreen( 96 )
+  , iScreenDpi( 96 )
+  , bScreenGestures( false )
   , iRateRefresh( 1000 )
   , iRateRedraw( 5 )
   , bVisibleSymbols( true )
@@ -235,9 +236,14 @@ void CSettings::slotMaxAgeSpeedVertical( const QString& _rqsMaxAge )
   fdMaxAgeSpeedVertical = _rqsMaxAge.toDouble();
 }
 
-void CSettings::slotDpiScreen( int _iDpiScreen )
+void CSettings::slotScreenDpi( int _iScreenDpi )
 {
-  iDpiScreen = _iDpiScreen;
+  iScreenDpi = _iScreenDpi;
+}
+
+void CSettings::slotScreenGestures( int _iScreenGestures )
+{
+  bScreenGestures = _iScreenGestures == Qt::Checked;
 }
 
 void CSettings::slotRateRefresh( int _iRateRefresh )
@@ -342,7 +348,7 @@ void CSettings::validate()
 
 
   // Misc.
-  if( iDpiScreen < 1 ) iDpiScreen = 1; if( iDpiScreen > 1200 ) iDpiScreen = 1200;
+  if( iScreenDpi < 1 ) iScreenDpi = 1; if( iScreenDpi > 1200 ) iScreenDpi = 1200;
   if( iRateRefresh < 100 ) iRateRefresh = 100; if( iRateRefresh > 5000 ) iRateRefresh = 5000;
   if( iRateRedraw < 1 ) iRateRedraw = 1; if( iRateRedraw > 300 ) iRateRedraw = 300;
 }
@@ -522,7 +528,8 @@ void CSettings::save( const QString& _rqsFilename )
   __qXmlStreamWriter.writeEndElement(); // MainWindow
   // ... screen
   __qXmlStreamWriter.writeStartElement( "Screen" );
-  __qXmlStreamWriter.writeAttribute( "dpi", QString::number( iDpiScreen ) );
+  __qXmlStreamWriter.writeAttribute( "dpi", QString::number( iScreenDpi ) );
+  __qXmlStreamWriter.writeAttribute( "gestures", QString::number( (int)bScreenGestures ) );
   __qXmlStreamWriter.writeEndElement(); // Screen
   // ... rates
   __qXmlStreamWriter.writeStartElement( "Rates" );
@@ -805,7 +812,8 @@ void CSettings::load( const QString& _rqsFilename )
       __qDomElement = __qDomElementContext.firstChildElement( "Screen" );
       if( !__qDomElement.isNull() )
       {
-        iDpiScreen = __qDomElement.attribute( "dpi", "96" ).toInt();
+        iScreenDpi = __qDomElement.attribute( "dpi", "96" ).toInt();
+        bScreenGestures = (bool)__qDomElement.attribute( "gestures", "0" ).toInt();
       }
       // ... rates
       __qDomElement = __qDomElementContext.firstChildElement( "Rates" );
