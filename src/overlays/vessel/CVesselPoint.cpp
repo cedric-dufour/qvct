@@ -139,7 +139,7 @@ void CVesselPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
   // ... object tag
   double __fdGroundBearing = CDataCourseGA::GroundCourse.getBearing();
   if( __fdGroundBearing == CDataCourse::UNDEFINED_SPEED ) __fdGroundBearing = 0;
-  COverlayCourse::drawTag( _poChart, _pqPainter, __fdGroundBearing < 180 ? COverlayPoint::TAG_LEFT : COverlayPoint::TAG_RIGHT, this, this );
+  COverlayCourse::drawTag( _poChart, _pqPainter, __fdGroundBearing < 180.0 ? COverlayPoint::TAG_LEFT : COverlayPoint::TAG_RIGHT, this, this );
 }
 
 void CVesselPoint::showDetail()
@@ -290,15 +290,12 @@ void CVesselPoint::onDeviceDataFix()
 
       // ... check distance and bearing delta
       bool __bSkipBearing = false;
-      if( CDataCourseGA::GroundCourse.getBearing() != CDataCourse::UNDEFINED_BEARING )
+      if( CDataCourseGA::GroundCourse.getBearing() != CDataCourse::UNDEFINED_BEARING
+          && fdTrackRecordBearingLast != CDataCourse::UNDEFINED_BEARING )
       {
-        if( fdTrackRecordBearingLast != CDataCourse::UNDEFINED_BEARING )
-        {
-          double __fdDeltaBearing = fabs( CDataCourseGA::GroundCourse.getBearing() - fdTrackRecordBearingLast );
-          if( __fdDeltaBearing > 180.0 ) __fdDeltaBearing = 360 - __fdDeltaBearing;
-          if( __fdDeltaBearing < __poSettings->getMinValueBearing() ) __bSkipBearing = true;
-        }
-        fdTrackRecordBearingLast = CDataCourseGA::GroundCourse.getBearing();
+        double __fdDeltaBearing = fabs( CDataCourseGA::GroundCourse.getBearing() - fdTrackRecordBearingLast );
+        if( __fdDeltaBearing > 180.0 ) __fdDeltaBearing = 360.0 - __fdDeltaBearing;
+        if( __fdDeltaBearing < __poSettings->getMinValueBearing() ) __bSkipBearing = true;
       }
       bool __bSkipDistance = false;
       CTrackPoint* __poTrackPointLast = __poTrackSubContainer->getLastPoint();
@@ -318,6 +315,7 @@ void CVesselPoint::onDeviceDataFix()
       __poTrackPoint->setDopVertical( fdDopVertical );
       if( fdDopHorizontal != CDeviceDataDop::UNDEFINED_VALUE && fdDopVertical != CDeviceDataDop::UNDEFINED_VALUE )
         __poTrackPoint->setDopPositional( sqrt( fdDopHorizontal*fdDopHorizontal + fdDopVertical*fdDopVertical ) );
+      fdTrackRecordBearingLast = CDataCourseGA::GroundCourse.getBearing();
       QVCTRuntime::useTrackOverlay()->forceRedraw();
       __bUpdateChart = true;
 
