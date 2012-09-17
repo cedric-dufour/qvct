@@ -298,6 +298,7 @@ void CTrackContainerDetailView::slotPositionCenter()
   }
   if( __iCountBox > 1 ) QVCTRuntime::useChartTable()->setScaleArea( __oDataPositionLower, __oDataPositionUpper, 0.9 );
   else if( __iCountBox == 1 ) QVCTRuntime::useChartTable()->setGeoPosition( __oDataPositionLower );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CTrackContainerDetailView::slotSave()

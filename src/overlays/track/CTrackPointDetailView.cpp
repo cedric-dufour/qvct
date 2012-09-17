@@ -313,6 +313,7 @@ void CTrackPointDetailView::slotPositionCenter()
   if( !poOverlayObject ) return;
   CTrackPoint* __poTrackPoint = (CTrackPoint*)poOverlayObject;
   QVCTRuntime::useChartTable()->setGeoPosition( *__poTrackPoint );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CTrackPointDetailView::slotDelete()

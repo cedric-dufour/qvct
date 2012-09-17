@@ -77,8 +77,7 @@ void CTrackPoint::unserialize( QDataStream& _rqDataStream )
 void CTrackPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
 {
   // Draw
-  if( !bVisible
-      || this->CDataPosition::operator==( CDataPosition::UNDEFINED )
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return;
   COverlayPoint::drawTag( _poChart, _pqPainter );
 }
@@ -98,8 +97,7 @@ void CTrackPoint::showDetail()
 
 bool CTrackPoint::matchScrPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition ) const
 {
-  if( !bVisible
-      || this->CDataPosition::operator==( CDataPosition::UNDEFINED )
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return false;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
   __qPointF -= _rqPointFScrPosition;

@@ -321,6 +321,7 @@ void CLandmarkPointDetailView::slotPositionCenter()
   if( !poOverlayObject ) return;
   CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)poOverlayObject;
   QVCTRuntime::useChartTable()->setGeoPosition( *__poLandmarkPoint );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CLandmarkPointDetailView::slotMove( bool _bEnable )

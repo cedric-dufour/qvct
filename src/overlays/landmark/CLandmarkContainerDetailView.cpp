@@ -219,6 +219,7 @@ void CLandmarkContainerDetailView::slotPositionCenter()
   int __iCount = COverlayPoint::getPositionBox( poOverlayObject, &__oDataPositionLower, &__oDataPositionUpper );
   if( __iCount > 1 ) QVCTRuntime::useChartTable()->setScaleArea( __oDataPositionLower, __oDataPositionUpper, 0.9 );
   else if( __iCount == 1 ) QVCTRuntime::useChartTable()->setGeoPosition( __oDataPositionLower );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CLandmarkContainerDetailView::slotSave()

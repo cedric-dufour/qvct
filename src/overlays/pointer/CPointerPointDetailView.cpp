@@ -267,6 +267,7 @@ void CPointerPointDetailView::slotPositionCenter()
   if( !poOverlayObject ) return;
   CPointerPoint* __poPointerPoint = (CPointerPoint*)poOverlayObject;
   QVCTRuntime::useChartTable()->setGeoPosition( *__poPointerPoint );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CPointerPointDetailView::slotDelete()

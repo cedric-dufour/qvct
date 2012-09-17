@@ -34,7 +34,7 @@
 
 CChartControl::CChartControl( QWidget* _pqParent )
   : QWidget( _pqParent )
-  , bAllowMeasure( true )
+  , bPointerEnable( true )
 {
   constructLayout();
 }
@@ -109,8 +109,16 @@ void CChartControl::constructLayout()
   __pqFrameSeparator2->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator2 );
 
+  pqPushButtonTarget = new QPushButton( QIcon( ":icons/32x32/target.png" ), "", this );
+  pqPushButtonTarget->setToolTip( tr("Enable target destination") );
+  pqPushButtonTarget->installEventFilter( __poChartTable );
+  pqPushButtonTarget->setMaximumSize( 36, 34 );
+  pqPushButtonTarget->setCheckable( true );
+  __pqVBoxLayout->addWidget( pqPushButtonTarget );
+  QWidget::connect( pqPushButtonTarget, SIGNAL( toggled(bool) ), __poChartTable, SLOT( slotPointerTarget(bool) ) );
+
   pqPushButtonMeasureSingle = new QPushButton( QIcon( ":icons/32x32/measure_single.png" ), "", this );
-  pqPushButtonMeasureSingle->setToolTip( tr("Restrict measurement(s) to a single segment") );
+  pqPushButtonMeasureSingle->setToolTip( tr("Enable single segment measurement(s)") );
   pqPushButtonMeasureSingle->installEventFilter( __poChartTable );
   pqPushButtonMeasureSingle->setMaximumSize( 36, 34 );
   pqPushButtonMeasureSingle->setCheckable( true );
@@ -118,7 +126,7 @@ void CChartControl::constructLayout()
   QWidget::connect( pqPushButtonMeasureSingle, SIGNAL( toggled(bool) ), __poChartTable, SLOT( slotPointerPathSingle(bool) ) );
 
   pqPushButtonMeasure = new QPushButton( QIcon( ":icons/32x32/measure.png" ), "", this );
-  pqPushButtonMeasure->setToolTip( tr("Enable measurement mode (pointer path)") );
+  pqPushButtonMeasure->setToolTip( tr("Enable ongoing measurements (pointer path)") );
   pqPushButtonMeasure->installEventFilter( __poChartTable );
   pqPushButtonMeasure->setMaximumSize( 36, 34 );
   pqPushButtonMeasure->setCheckable( true );
@@ -206,6 +214,12 @@ void CChartControl::stepScale( bool _bIncrease, bool _bBigStep )
   pqSliderScale->setValue( pqSliderScale->value() + ( _bIncrease ? 1 : -1 ) * ( _bBigStep ? pqSliderScale->pageStep() : pqSliderScale->singleStep() ) );
 }
 
+void CChartControl::enableTarget( bool _bEnable )
+{
+  if( !pqPushButtonTarget->isEnabled() ) return;
+  pqPushButtonTarget->setChecked( _bEnable );
+}
+
 void CChartControl::enableMeasureSingle( bool _bEnable )
 {
   if( !pqPushButtonMeasureSingle->isEnabled() ) return;
@@ -238,18 +252,20 @@ void CChartControl::enableControls( bool _bEnable )
     pqPushButtonScaleLock->setChecked( false );
     pqSliderScale->setValue( 0 );
   }
-  if( !_bEnable || bAllowMeasure )
+  if( !_bEnable || bPointerEnable )
   {
     if( !_bEnable ) QVCTRuntime::useChartTable()->enablePointerPath( false );
+    pqPushButtonTarget->setEnabled( _bEnable );
     pqPushButtonMeasureSingle->setEnabled( _bEnable );
     pqPushButtonMeasure->setEnabled( _bEnable );
   }
 }
 
-void CChartControl::allowMeasure( bool _bAllow )
+void CChartControl::enablePointer( bool _bEnable )
 {
-  bAllowMeasure = _bAllow;
-  if( !bAllowMeasure ) QVCTRuntime::useChartTable()->enablePointerPath( false );
-  pqPushButtonMeasureSingle->setEnabled( bAllowMeasure );
-  pqPushButtonMeasure->setEnabled( bAllowMeasure );
+  bPointerEnable = _bEnable;
+  if( !bPointerEnable ) QVCTRuntime::useChartTable()->enablePointerPath( false );
+  pqPushButtonTarget->setEnabled( bPointerEnable );
+  pqPushButtonMeasureSingle->setEnabled( bPointerEnable );
+  pqPushButtonMeasure->setEnabled( bPointerEnable );
 }

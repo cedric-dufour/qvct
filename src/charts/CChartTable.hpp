@@ -70,7 +70,7 @@ private:
   /// Resolution, in Dots-per-Inch (DPI)
   int iDpi;
 
-  /// Flag that disables position, scale and pointer path updates
+  /// Flag that disables position, scale and pointer updates
   //  (used when switching tabs and synchronizing the chart controls)
   bool bIgnoreUpdate;
 
@@ -86,6 +86,9 @@ private:
   /// Reference zoom for pinch gesture
   double fdGestureZoomReference;
 
+  /// Pointer target status
+  /** @see enablePointerTarget() */
+  bool bPointerTarget;
   /// Pointer path status
   /** @see enablePointerPath() */
   bool bPointerPath;
@@ -158,6 +161,8 @@ private slots:
   void slotScaleActual();
   /// [UI:Slot] Slot to trigger scaling to "fit" scale
   void slotScaleFit();
+  /// [UI:Slot] Slot to enable/disable pointer target
+  void slotPointerTarget( bool _bEnable );
   /// [UI:Slot] Slot to enable/disable ongoing measurements (pointer path)
   void slotPointerPath( bool _bEnable );
   /// [UI:Slot] Slot to enable/disable single measurement (pointer path)
@@ -211,6 +216,8 @@ private:
   void setZoom( double _fdZoom, bool _bSkipCurrent = false, bool _bUpdateControl = true );
 
 public:
+  /// Enables/disables pointer target
+  void enablePointerTarget( bool _bEnable );
   /// Enables/disables ongoing measurements (pointer path)
   void enablePointerPath( bool _bEnable );
   /// Enables/disables single measurement (pointer path)

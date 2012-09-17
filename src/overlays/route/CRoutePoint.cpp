@@ -86,8 +86,7 @@ void CRoutePoint::draw( const CChart* _poChart, QPainter* _pqPainter )
 
   // Draw
   CMainWindow* __poMainWindow = QVCTRuntime::useMainWindow();
-  if( !bVisible
-      || this->CDataPosition::operator==( CDataPosition::UNDEFINED )
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return;
   COverlayPoint::drawMarker( _poChart, _pqPainter );
   if( QVCTRuntime::useSettings()->isVisibleSymbols() && __poMainWindow->symbolExists( qsSymbol ) )
@@ -126,8 +125,7 @@ void CRoutePoint::showEdit()
 
 bool CRoutePoint::matchScrPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition ) const
 {
-  if( !bVisible
-      || this->CDataPosition::operator==( CDataPosition::UNDEFINED )
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return false;
   return COverlayPoint::matchScrPosition( _poChart, _rqPointFScrPosition );
 }

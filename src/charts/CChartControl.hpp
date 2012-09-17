@@ -58,14 +58,18 @@ private:
   QPushButton* pqPushButtonScaleOut;
   /// [UI:Button] Scale fit
   QPushButton* pqPushButtonScaleFit;
+  /// [UI:Button] Target
+  QPushButton* pqPushButtonTarget;
   /// [UI:Button] Single measurement
   QPushButton* pqPushButtonMeasureSingle;
   /// [UI:Button] Ongoing measurements
   QPushButton* pqPushButtonMeasure;
   /// [UI:Button] Scale slider
   QSlider* pqSliderScale;
-  /// Flag that indicates whether measurements can be performed
-  bool bAllowMeasure;
+
+  /// Pointer actions activation status
+  /** @see enablePointer() */
+  bool bPointerEnable;
 
 
   //------------------------------------------------------------------------------
@@ -108,6 +112,8 @@ private:
   void setScale( double _fdScale );
   /// Increases/decreases the scale by discrete steps
   void stepScale( bool _bIncrease, bool _bBigStep = true );
+  /// Enables/disables target
+  void enableTarget( bool _bEnable );
   /// Enables/disables single measurement
   void enableMeasureSingle( bool _bEnable );
   /// Enables/disables ongoing measurements
@@ -117,8 +123,8 @@ private:
 public:
   /// Enables/disables all chart controls
   void enableControls( bool _bEnable );
-  /// Allows/disallows measurements
-  void allowMeasure( bool _bAllow );
+  /// Enables/disables pointer actions
+  void enablePointer( bool _bEnable );
 
 };
 

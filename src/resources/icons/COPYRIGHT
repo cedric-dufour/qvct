@@ -40,6 +40,7 @@ sort_ascending.png,FATCOW,sort_ascending.png
 sort_descending.png,FATCOW,sort_descending.png
 start.png,FATCOW,control_play.png
 stop.png,FATCOW,control_stop.png
+target.png,FATCOW,radiolocator.png
 track.png,FATCOW,stopwatch_start.png
 track_point.png,FATCOW,stopwatch_start+flag_1.png
 track_start.png,FATCOW,stopwatch_start.png+control_start.png

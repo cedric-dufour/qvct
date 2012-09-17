@@ -30,6 +30,7 @@
 #include "QVCTRuntime.hpp"
 #include "charts/CChart.hpp"
 #include "devices/data/CDeviceDataFix.hpp"
+#include "overlays/pointer/CPointerPoint.hpp"
 #include "overlays/track/CTrackContainer.hpp"
 #include "overlays/track/CTrackPoint.hpp"
 #include "overlays/track/CTrackSubContainer.hpp"
@@ -119,18 +120,23 @@ void CVesselPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
 
   // Draw
   CMainWindow* __poMainWindow = QVCTRuntime::useMainWindow();
-  if( !bVisible
-      || this->CDataPosition::operator==( CDataPosition::UNDEFINED )
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return;
+
+  // ... course vector
   double __fdGroundSpeed = CDataCourseGA::GroundCourse.getSpeed();
   if( __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED && __fdGroundSpeed >= QVCTRuntime::useSettings()->getMinValueSpeed() )
     COverlayCourse::drawVector( _poChart, _pqPainter, this );
+
+  // ... position marker
   COverlayCourse::drawMarker( _poChart, _pqPainter, this );
   if( QVCTRuntime::useSettings()->isVisibleSymbols() && __poMainWindow->symbolExists( qsSymbol ) )
   {
     double __fdZoom = _poChart->getZoom();
     if( __fdZoom > 0.5 ) _pqPainter->drawPixmap( _poChart->toDrawPosition( *this )+__qPointFSymbol*(__fdZoom/2.0), __poMainWindow->symbolPixmap( qsSymbol ).scaled( __qSizeSymbol*(__fdZoom/2.0), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
   }
+
+  // ... object tag
   double __fdGroundBearing = CDataCourseGA::GroundCourse.getBearing();
   if( __fdGroundBearing == CDataCourse::UNDEFINED_SPEED ) __fdGroundBearing = 0;
   COverlayCourse::drawTag( _poChart, _pqPainter, __fdGroundBearing < 180 ? COverlayPoint::TAG_LEFT : COverlayPoint::TAG_RIGHT, this, this );
@@ -163,10 +169,23 @@ void CVesselPoint::showEdit()
 
 bool CVesselPoint::matchScrPosition( const CChart* _poChart, const QPointF& _rqPointFScrPosition ) const
 {
-  if( !bVisible
-      || this->CDataPosition::operator==( CDataPosition::UNDEFINED )
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return false;
   return COverlayCourse::matchScrPosition( _poChart, _rqPointFScrPosition );
+}
+
+
+  //------------------------------------------------------------------------------
+  // METHODS: COverlayVisibility (override)
+  //------------------------------------------------------------------------------
+
+void CVesselPoint::toggleVisible()
+{
+  double __fdGroundSpeed = CDataCourseGA::GroundCourse.getSpeed();
+  COverlayVisibility::toggleVisible( __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED
+                                     && __fdGroundSpeed >= QVCTRuntime::useSettings()->getMinValueSpeed(),
+                                     QVCTRuntime::useChartTable()->getVesselPointSynchronize() == this
+                                     && QVCTRuntime::usePointerOverlay()->usePointerPoint( true )->CDataPosition::operator!=( CDataPosition::UNDEFINED ) );
 }
 
 
@@ -240,16 +259,26 @@ void CVesselPoint::disconnectDevice()
 
 void CVesselPoint::onDeviceDataFix()
 {
+  bool __bUpdateChart = false;
+
   // Synchronize chart center position
   if( this->CDataPosition::operator!=( CDataPosition::UNDEFINED )
       && QVCTRuntime::useChartTable()->getVesselPointSynchronize() == this )
+  {
     QVCTRuntime::useChartTable()->synchronizeVesselPoint();
+    CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
+    if( __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator!=( CDataPosition::UNDEFINED ) )
+    {
+       __poPointerOverlay->forceRedraw();
+       __bUpdateChart = true;
+    }
+  }
 
   // Track recording
   double __fdSystemTime = microtime();
   if( bTrackRecord
-      && this->CDataPosition::operator!=( CDataPosition::UNDEFINED )
-      && this->CDataTime::operator!=( CDataTime::UNDEFINED )
+      && CDataPosition::operator!=( CDataPosition::UNDEFINED )
+      && CDataTime::operator!=( CDataTime::UNDEFINED )
       && __fdSystemTime - fdTrackRecordTimeLast >= (double)iTrackRecordRate )
   {
     CSettings* __poSettings = QVCTRuntime::useSettings();
@@ -290,6 +319,7 @@ void CVesselPoint::onDeviceDataFix()
       if( fdDopHorizontal != CDeviceDataDop::UNDEFINED_VALUE && fdDopVertical != CDeviceDataDop::UNDEFINED_VALUE )
         __poTrackPoint->setDopPositional( sqrt( fdDopHorizontal*fdDopHorizontal + fdDopVertical*fdDopVertical ) );
       QVCTRuntime::useTrackOverlay()->forceRedraw();
+      __bUpdateChart = true;
 
       // ... update track recording time
       fdTrackRecordTimeLast = __fdSystemTime;
@@ -300,6 +330,7 @@ void CVesselPoint::onDeviceDataFix()
   // Redraw
   QVCTRuntime::useVesselOverlay()->forceRedraw();
   // NOTE: Vessel detail view and chart overlays are automatically refreshed by CMainWindow::slotTimerRefreshContent()
+  if( __bUpdateChart ) QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CVesselPoint::parseQVCT( const QDomElement& _rqDomElement )

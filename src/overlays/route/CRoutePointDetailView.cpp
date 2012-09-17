@@ -321,6 +321,7 @@ void CRoutePointDetailView::slotPositionCenter()
   if( !poOverlayObject ) return;
   CRoutePoint* __poRoutePoint = (CRoutePoint*)poOverlayObject;
   QVCTRuntime::useChartTable()->setGeoPosition( *__poRoutePoint );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CRoutePointDetailView::slotMove( bool _bEnable )

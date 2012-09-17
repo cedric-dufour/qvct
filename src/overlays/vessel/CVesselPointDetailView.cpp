@@ -482,6 +482,7 @@ void CVesselPointDetailView::slotToggleVisible()
     __poVesselPoint->setCheckState( CVesselOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );
   }
   __poVesselPoint->useOverlay()->forceRedraw();
+  QVCTRuntime::usePointerOverlay()->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
 }
 
@@ -490,6 +491,7 @@ void CVesselPointDetailView::slotPositionCenter()
   if( !poOverlayObject ) return;
   CVesselPoint* __poVesselPoint = (CVesselPoint*)poOverlayObject;
   QVCTRuntime::useChartTable()->setGeoPosition( *__poVesselPoint );
+  QVCTRuntime::useChartTable()->updateChart();
 }
 
 void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
@@ -502,6 +504,8 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
     QVCTRuntime::useChartTable()->setVesselPointSynchronize( __poVesselPoint );
     QVCTRuntime::useVesselPositionDockView()->setVesselPoint( __poVesselPoint );
     QVCTRuntime::useVesselCourseDockView()->setVesselPoint( __poVesselPoint );
+    QVCTRuntime::usePointerOverlay()->forceRedraw();
+    QVCTRuntime::useChartTable()->updateChart();
   }
   else if( QVCTRuntime::useChartTable()->getVesselPointSynchronize() == __poVesselPoint )
   {
@@ -509,6 +513,8 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
     QVCTRuntime::useChartTable()->resetVesselPointSynchronize();
     QVCTRuntime::useVesselPositionDockView()->resetVesselPoint();
     QVCTRuntime::useVesselCourseDockView()->resetVesselPoint();
+    QVCTRuntime::usePointerOverlay()->forceRedraw();
+    QVCTRuntime::useChartTable()->updateChart();
   }
 }
 
