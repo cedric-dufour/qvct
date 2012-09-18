@@ -1,3 +1,9 @@
+qvct (1.0.20120918RC4) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for changelog)
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Tue, 18 Sep 2012 14:38:49 +0200
+
 qvct (1.0.20120917RC3) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for changelog)
