@@ -21,8 +21,10 @@
 
 // QT
 #include <QColor>
+#include <QDomDocument> // QtXml module
 #include <QObject>
 #include <QString>
+#include <QXmlStreamWriter>
 
 // QVCT
 #include "units/CUnitBearing.hpp"
@@ -435,9 +437,13 @@ protected:
 
 public:
   /// Store all parameters to the given file
-  void save( const QString& _rqsFilename );
+  void save( const QString& _rqsFilename ) const;
   /// Restore all parameters from the given file
   void load( const QString& _rqsFilename );
+  /// Stores parameters to the given QVCT destination (file)
+  void dumpQVCT( QXmlStreamWriter& _rqXmlStreamWriter, bool _bProjectDump = false ) const;
+  /// Retrieves parameters from the given QVCT source (file)
+  void parseQVCT( const QDomElement& _rqDomElement );
 
 };
 

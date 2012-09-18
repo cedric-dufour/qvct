@@ -353,7 +353,7 @@ void CSettings::validate()
   if( iRateRedraw < 1 ) iRateRedraw = 1; if( iRateRedraw > 300 ) iRateRedraw = 300;
 }
 
-void CSettings::save( const QString& _rqsFilename )
+void CSettings::save( const QString& _rqsFilename ) const
 {
   //qDebug( "DEBUG[%s]: %s", Q_FUNC_INFO, _rqsFilename.toUtf8().constData() );
 
@@ -372,188 +372,203 @@ void CSettings::save( const QString& _rqsFilename )
     return;
   }
 
-  // XML [start]
+  // XML
   QXmlStreamWriter __qXmlStreamWriter( &__qFile );
   __qXmlStreamWriter.setAutoFormatting( true );
   __qXmlStreamWriter.writeStartDocument();
   __qXmlStreamWriter.writeStartElement( "QVCT" );
-  __qXmlStreamWriter.writeStartElement( "Settings" );
-
-  // Paths [start]
-  __qXmlStreamWriter.writeStartElement( "Paths" );
-  // ... working directory
-  __qXmlStreamWriter.writeStartElement( "Working" );
-  __qXmlStreamWriter.writeAttribute( "path", qsPathWorkingDirectory );
-  __qXmlStreamWriter.writeEndElement(); // Working
-  // ... symbols directory
-  __qXmlStreamWriter.writeStartElement( "Symbols" );
-  __qXmlStreamWriter.writeAttribute( "path", qsPathSymbolsDirectory );
-  __qXmlStreamWriter.writeEndElement(); // Symbols
-  // Paths [end]
-  __qXmlStreamWriter.writeEndElement(); // Paths
-
-  // Units [start]
-  __qXmlStreamWriter.writeStartElement( "Units" );
-  // ... date unit
-  __qXmlStreamWriter.writeStartElement( "Date" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitDate::toCode( eUnitDate ) );
-  __qXmlStreamWriter.writeEndElement(); // Date
-  // ... time unit/precision
-  __qXmlStreamWriter.writeStartElement( "Time" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitTime::toCode( eUnitTime ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionTime ) );
-  __qXmlStreamWriter.writeEndElement(); // Time
-  // ... time difference unit/precision
-  __qXmlStreamWriter.writeStartElement( "TimeDelta" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitTimeDelta::toCode( eUnitTimeDelta ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionTimeDelta ) );
-  __qXmlStreamWriter.writeEndElement(); // TimeDelta
-  // ... timezone unit
-  __qXmlStreamWriter.writeStartElement( "TimeZone" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitTimeZone::toCode( eUnitTimeZone ) );
-  __qXmlStreamWriter.writeEndElement(); // TimeZone
-  // ... position unit/precision
-  __qXmlStreamWriter.writeStartElement( "Position" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitPosition::toCode( eUnitPosition ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionPosition ) );
-  __qXmlStreamWriter.writeEndElement(); // Position
-  // ... elevation unit/precision
-  __qXmlStreamWriter.writeStartElement( "Elevation" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitElevation::toCode( eUnitElevation ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionElevation ) );
-  __qXmlStreamWriter.writeEndElement(); // Elevation
-  // ... bearing unit/precision
-  __qXmlStreamWriter.writeStartElement( "Bearing" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitBearing::toCode( eUnitBearing ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionBearing ) );
-  __qXmlStreamWriter.writeEndElement(); // Bearing
-  // ... distance unit/precision
-  __qXmlStreamWriter.writeStartElement( "Distance" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitDistance::toCode( eUnitDistance ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionDistance ) );
-  __qXmlStreamWriter.writeEndElement(); // Distance
-  // ... speed unit/precision
-  __qXmlStreamWriter.writeStartElement( "Speed" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitSpeed::toCode( eUnitSpeed ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionSpeed ) );
-  __qXmlStreamWriter.writeEndElement(); // Speed
-  // ... vertical speed unit/precision
-  __qXmlStreamWriter.writeStartElement( "SpeedVertical" );
-  __qXmlStreamWriter.writeAttribute( "unit", CUnitSpeedVertical::toCode( eUnitSpeedVertical ) );
-  __qXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionSpeedVertical ) );
-  __qXmlStreamWriter.writeEndElement(); // SpeedVertical
-  // Units [end]
-  __qXmlStreamWriter.writeEndElement(); // Units
-
-  // Validity [start]
-  __qXmlStreamWriter.writeStartElement( "Validity" );
-  // ... position validity parameters
-  __qXmlStreamWriter.writeStartElement( "Position" );
-  __qXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValuePosition ) );
-  __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorPosition ) );
-  __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgePosition ) );
-  __qXmlStreamWriter.writeEndElement(); // Position
-  // ... elevation validity parameters
-  __qXmlStreamWriter.writeStartElement( "Elevation" );
-  __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorElevation ) );
-  __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeElevation ) );
-  __qXmlStreamWriter.writeEndElement(); // Elevation
-  // ... time validity parameters
-  __qXmlStreamWriter.writeStartElement( "Time" );
-  __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorTime ) );
-  __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeTime ) );
-  __qXmlStreamWriter.writeEndElement(); // Time
-  // ... bearing validity parameters
-  __qXmlStreamWriter.writeStartElement( "Bearing" );
-  __qXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueBearing ) );
-  __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorBearing ) );
-  __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeBearing ) );
-  __qXmlStreamWriter.writeEndElement(); // Bearing
-  // ... horizontal speed validity parameters
-  __qXmlStreamWriter.writeStartElement( "Speed" );
-  __qXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueSpeed ) );
-  __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorSpeed ) );
-  __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeSpeed ) );
-  __qXmlStreamWriter.writeEndElement(); // Speed
-  // ... vertical speed validity parameters
-  __qXmlStreamWriter.writeStartElement( "SpeedVertical" );
-  __qXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueSpeedVertical ) );
-  __qXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorSpeedVertical ) );
-  __qXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeSpeedVertical ) );
-  __qXmlStreamWriter.writeEndElement(); // SpeedVertical
-  // Validity [end]
-  __qXmlStreamWriter.writeEndElement(); // Validity
-
-  // Colors [start]
-  __qXmlStreamWriter.writeStartElement( "Colors" );
-  // ... chart
-  __qXmlStreamWriter.writeStartElement( "Pointer" );
-  __qXmlStreamWriter.writeAttribute( "red", QString::number( qColorPointer.red() ) );
-  __qXmlStreamWriter.writeAttribute( "green", QString::number( qColorPointer.green() ) );
-  __qXmlStreamWriter.writeAttribute( "blue", QString::number( qColorPointer.blue() ) );
-  __qXmlStreamWriter.writeEndElement(); // Pointer
-  // ... landmark
-  __qXmlStreamWriter.writeStartElement( "Landmark" );
-  __qXmlStreamWriter.writeAttribute( "red", QString::number( qColorLandmark.red() ) );
-  __qXmlStreamWriter.writeAttribute( "green", QString::number( qColorLandmark.green() ) );
-  __qXmlStreamWriter.writeAttribute( "blue", QString::number( qColorLandmark.blue() ) );
-  __qXmlStreamWriter.writeEndElement(); // Landmark
-  // ... route
-  __qXmlStreamWriter.writeStartElement( "Route" );
-  __qXmlStreamWriter.writeAttribute( "red", QString::number( qColorRoute.red() ) );
-  __qXmlStreamWriter.writeAttribute( "green", QString::number( qColorRoute.green() ) );
-  __qXmlStreamWriter.writeAttribute( "blue", QString::number( qColorRoute.blue() ) );
-  __qXmlStreamWriter.writeEndElement(); // Route
-  // ... track
-  __qXmlStreamWriter.writeStartElement( "Track" );
-  __qXmlStreamWriter.writeAttribute( "red", QString::number( qColorTrack.red() ) );
-  __qXmlStreamWriter.writeAttribute( "green", QString::number( qColorTrack.green() ) );
-  __qXmlStreamWriter.writeAttribute( "blue", QString::number( qColorTrack.blue() ) );
-  __qXmlStreamWriter.writeEndElement(); // Track
-  // ... vessel
-  __qXmlStreamWriter.writeStartElement( "Vessel" );
-  __qXmlStreamWriter.writeAttribute( "red", QString::number( qColorVessel.red() ) );
-  __qXmlStreamWriter.writeAttribute( "green", QString::number( qColorVessel.green() ) );
-  __qXmlStreamWriter.writeAttribute( "blue", QString::number( qColorVessel.blue() ) );
-  __qXmlStreamWriter.writeEndElement(); // Vessel
-  // Colors [end]
-  __qXmlStreamWriter.writeEndElement(); // Colors
-
-  // Options [start]
-  __qXmlStreamWriter.writeStartElement( "Options" );
-  // ... main window
-  __qXmlStreamWriter.writeStartElement( "MainWindow" );
-  __qXmlStreamWriter.writeAttribute( "geometry", qsMainWindowGeometry );
-  __qXmlStreamWriter.writeAttribute( "state", qsMainWindowState );
-  __qXmlStreamWriter.writeEndElement(); // MainWindow
-  // ... screen
-  __qXmlStreamWriter.writeStartElement( "Screen" );
-  __qXmlStreamWriter.writeAttribute( "dpi", QString::number( iScreenDpi ) );
-  __qXmlStreamWriter.writeAttribute( "gestures", QString::number( (int)bScreenGestures ) );
-  __qXmlStreamWriter.writeEndElement(); // Screen
-  // ... rates
-  __qXmlStreamWriter.writeStartElement( "Rates" );
-  __qXmlStreamWriter.writeAttribute( "refresh", QString::number( iRateRefresh ) );
-  __qXmlStreamWriter.writeAttribute( "redraw", QString::number( iRateRedraw ) );
-  __qXmlStreamWriter.writeEndElement(); // Rates
-  // ... symbols
-  __qXmlStreamWriter.writeStartElement( "Symbols" );
-  __qXmlStreamWriter.writeAttribute( "visible", QString::number( (int)bVisibleSymbols ) );
-  __qXmlStreamWriter.writeEndElement(); // Symbols
-  // ... printing
-  __qXmlStreamWriter.writeStartElement( "Print" );
-  __qXmlStreamWriter.writeAttribute( "high_res", QString::number( (int)bPrintHighRes ) );
-  __qXmlStreamWriter.writeEndElement(); // Print
-  // Options [end]
-  __qXmlStreamWriter.writeEndElement(); // Options
-
-  // XML [end]
-  __qXmlStreamWriter.writeEndElement(); // Settings
+  dumpQVCT( __qXmlStreamWriter, false );
   __qXmlStreamWriter.writeEndElement(); // QVCT
   __qXmlStreamWriter.writeEndDocument();
 
   // File [close]
   __qFile.close();
+}
+
+void CSettings::dumpQVCT( QXmlStreamWriter& _rqXmlStreamWriter, bool _bProjectDump ) const
+{
+  // XML [start]
+  _rqXmlStreamWriter.writeStartElement( "Settings" );
+
+  // Paths [start]
+  if( !_bProjectDump )
+  {
+    _rqXmlStreamWriter.writeStartElement( "Paths" );
+    // ... working directory
+    _rqXmlStreamWriter.writeStartElement( "Working" );
+    _rqXmlStreamWriter.writeAttribute( "path", qsPathWorkingDirectory );
+    _rqXmlStreamWriter.writeEndElement(); // Working
+    // ... symbols directory
+    _rqXmlStreamWriter.writeStartElement( "Symbols" );
+    _rqXmlStreamWriter.writeAttribute( "path", qsPathSymbolsDirectory );
+    _rqXmlStreamWriter.writeEndElement(); // Symbols
+    // Paths [end]
+    _rqXmlStreamWriter.writeEndElement(); // Paths
+  }
+
+  // Units [start]
+  _rqXmlStreamWriter.writeStartElement( "Units" );
+  // ... date unit
+  _rqXmlStreamWriter.writeStartElement( "Date" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitDate::toCode( eUnitDate ) );
+  _rqXmlStreamWriter.writeEndElement(); // Date
+  // ... time unit/precision
+  _rqXmlStreamWriter.writeStartElement( "Time" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitTime::toCode( eUnitTime ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionTime ) );
+  _rqXmlStreamWriter.writeEndElement(); // Time
+  // ... time difference unit/precision
+  _rqXmlStreamWriter.writeStartElement( "TimeDelta" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitTimeDelta::toCode( eUnitTimeDelta ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionTimeDelta ) );
+  _rqXmlStreamWriter.writeEndElement(); // TimeDelta
+  // ... timezone unit
+  _rqXmlStreamWriter.writeStartElement( "TimeZone" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitTimeZone::toCode( eUnitTimeZone ) );
+  _rqXmlStreamWriter.writeEndElement(); // TimeZone
+  // ... position unit/precision
+  _rqXmlStreamWriter.writeStartElement( "Position" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitPosition::toCode( eUnitPosition ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionPosition ) );
+  _rqXmlStreamWriter.writeEndElement(); // Position
+  // ... elevation unit/precision
+  _rqXmlStreamWriter.writeStartElement( "Elevation" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitElevation::toCode( eUnitElevation ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionElevation ) );
+  _rqXmlStreamWriter.writeEndElement(); // Elevation
+  // ... bearing unit/precision
+  _rqXmlStreamWriter.writeStartElement( "Bearing" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitBearing::toCode( eUnitBearing ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionBearing ) );
+  _rqXmlStreamWriter.writeEndElement(); // Bearing
+  // ... distance unit/precision
+  _rqXmlStreamWriter.writeStartElement( "Distance" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitDistance::toCode( eUnitDistance ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionDistance ) );
+  _rqXmlStreamWriter.writeEndElement(); // Distance
+  // ... speed unit/precision
+  _rqXmlStreamWriter.writeStartElement( "Speed" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitSpeed::toCode( eUnitSpeed ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionSpeed ) );
+  _rqXmlStreamWriter.writeEndElement(); // Speed
+  // ... vertical speed unit/precision
+  _rqXmlStreamWriter.writeStartElement( "SpeedVertical" );
+  _rqXmlStreamWriter.writeAttribute( "unit", CUnitSpeedVertical::toCode( eUnitSpeedVertical ) );
+  _rqXmlStreamWriter.writeAttribute( "precision", QString::number( iPrecisionSpeedVertical ) );
+  _rqXmlStreamWriter.writeEndElement(); // SpeedVertical
+  // Units [end]
+  _rqXmlStreamWriter.writeEndElement(); // Units
+
+  // Validity [start]
+  _rqXmlStreamWriter.writeStartElement( "Validity" );
+  // ... position validity parameters
+  _rqXmlStreamWriter.writeStartElement( "Position" );
+  _rqXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValuePosition ) );
+  _rqXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorPosition ) );
+  _rqXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgePosition ) );
+  _rqXmlStreamWriter.writeEndElement(); // Position
+  // ... elevation validity parameters
+  _rqXmlStreamWriter.writeStartElement( "Elevation" );
+  _rqXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorElevation ) );
+  _rqXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeElevation ) );
+  _rqXmlStreamWriter.writeEndElement(); // Elevation
+  // ... time validity parameters
+  _rqXmlStreamWriter.writeStartElement( "Time" );
+  _rqXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorTime ) );
+  _rqXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeTime ) );
+  _rqXmlStreamWriter.writeEndElement(); // Time
+  // ... bearing validity parameters
+  _rqXmlStreamWriter.writeStartElement( "Bearing" );
+  _rqXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueBearing ) );
+  _rqXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorBearing ) );
+  _rqXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeBearing ) );
+  _rqXmlStreamWriter.writeEndElement(); // Bearing
+  // ... horizontal speed validity parameters
+  _rqXmlStreamWriter.writeStartElement( "Speed" );
+  _rqXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueSpeed ) );
+  _rqXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorSpeed ) );
+  _rqXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeSpeed ) );
+  _rqXmlStreamWriter.writeEndElement(); // Speed
+  // ... vertical speed validity parameters
+  _rqXmlStreamWriter.writeStartElement( "SpeedVertical" );
+  _rqXmlStreamWriter.writeAttribute( "min_value", QString::number( fdMinValueSpeedVertical ) );
+  _rqXmlStreamWriter.writeAttribute( "max_error", QString::number( fdMaxErrorSpeedVertical ) );
+  _rqXmlStreamWriter.writeAttribute( "max_age", QString::number( fdMaxAgeSpeedVertical ) );
+  _rqXmlStreamWriter.writeEndElement(); // SpeedVertical
+  // Validity [end]
+  _rqXmlStreamWriter.writeEndElement(); // Validity
+
+  // Colors [start]
+  if( !_bProjectDump )
+  {
+    _rqXmlStreamWriter.writeStartElement( "Colors" );
+    // ... chart
+    _rqXmlStreamWriter.writeStartElement( "Pointer" );
+    _rqXmlStreamWriter.writeAttribute( "red", QString::number( qColorPointer.red() ) );
+    _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorPointer.green() ) );
+    _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorPointer.blue() ) );
+    _rqXmlStreamWriter.writeEndElement(); // Pointer
+    // ... landmark
+    _rqXmlStreamWriter.writeStartElement( "Landmark" );
+    _rqXmlStreamWriter.writeAttribute( "red", QString::number( qColorLandmark.red() ) );
+    _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorLandmark.green() ) );
+    _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorLandmark.blue() ) );
+    _rqXmlStreamWriter.writeEndElement(); // Landmark
+    // ... route
+    _rqXmlStreamWriter.writeStartElement( "Route" );
+    _rqXmlStreamWriter.writeAttribute( "red", QString::number( qColorRoute.red() ) );
+    _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorRoute.green() ) );
+    _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorRoute.blue() ) );
+    _rqXmlStreamWriter.writeEndElement(); // Route
+    // ... track
+    _rqXmlStreamWriter.writeStartElement( "Track" );
+    _rqXmlStreamWriter.writeAttribute( "red", QString::number( qColorTrack.red() ) );
+    _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorTrack.green() ) );
+    _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorTrack.blue() ) );
+    _rqXmlStreamWriter.writeEndElement(); // Track
+    // ... vessel
+    _rqXmlStreamWriter.writeStartElement( "Vessel" );
+    _rqXmlStreamWriter.writeAttribute( "red", QString::number( qColorVessel.red() ) );
+    _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorVessel.green() ) );
+    _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorVessel.blue() ) );
+    _rqXmlStreamWriter.writeEndElement(); // Vessel
+    // Colors [end]
+    _rqXmlStreamWriter.writeEndElement(); // Colors
+  }
+
+  // Options [start]
+  if( !_bProjectDump )
+  {
+    _rqXmlStreamWriter.writeStartElement( "Options" );
+    // ... main window
+    _rqXmlStreamWriter.writeStartElement( "MainWindow" );
+    _rqXmlStreamWriter.writeAttribute( "geometry", qsMainWindowGeometry );
+    _rqXmlStreamWriter.writeAttribute( "state", qsMainWindowState );
+    _rqXmlStreamWriter.writeEndElement(); // MainWindow
+    // ... screen
+    _rqXmlStreamWriter.writeStartElement( "Screen" );
+    _rqXmlStreamWriter.writeAttribute( "dpi", QString::number( iScreenDpi ) );
+    _rqXmlStreamWriter.writeAttribute( "gestures", QString::number( (int)bScreenGestures ) );
+    _rqXmlStreamWriter.writeEndElement(); // Screen
+    // ... rates
+    _rqXmlStreamWriter.writeStartElement( "Rates" );
+    _rqXmlStreamWriter.writeAttribute( "refresh", QString::number( iRateRefresh ) );
+    _rqXmlStreamWriter.writeAttribute( "redraw", QString::number( iRateRedraw ) );
+    _rqXmlStreamWriter.writeEndElement(); // Rates
+    // ... symbols
+    _rqXmlStreamWriter.writeStartElement( "Symbols" );
+    _rqXmlStreamWriter.writeAttribute( "visible", QString::number( (int)bVisibleSymbols ) );
+    _rqXmlStreamWriter.writeEndElement(); // Symbols
+    // ... printing
+    _rqXmlStreamWriter.writeStartElement( "Print" );
+    _rqXmlStreamWriter.writeAttribute( "high_res", QString::number( (int)bPrintHighRes ) );
+    _rqXmlStreamWriter.writeEndElement(); // Print
+    // Options [end]
+    _rqXmlStreamWriter.writeEndElement(); // Options
+  }
+
+  // XML [end]
+  _rqXmlStreamWriter.writeEndElement(); // Settings
 }
 
 void CSettings::load( const QString& _rqsFilename )
@@ -584,14 +599,22 @@ void CSettings::load( const QString& _rqsFilename )
     qCritical( "ERROR[%s]: Invalid XML document type (%s); expected: 'QVCT'", Q_FUNC_INFO, qPrintable( __qFile.fileName() ) );
     return;
   }
-  QDomElement __qDomElementSettings = __qDomElement.firstChildElement( "Settings" );
-  if( __qDomElementSettings.isNull() )
+  if( __qDomElement.firstChildElement( "Settings" ).isNull() )
   {
     qCritical( "ERROR[%s]: Invalid XML content (%s); expected: 'Settings'", Q_FUNC_INFO, qPrintable( __qFile.fileName() ) );
     return;
   }
+  parseQVCT( __qDomElement );
+}
 
-  // Paths
+void CSettings::parseQVCT( const QDomElement& _rqDomElement )
+{
+  // XML
+  QDomElement __qDomElementSettings = _rqDomElement.firstChildElement( "Settings" );
+  if( __qDomElementSettings.isNull() ) return;
+  QDomElement __qDomElement;
+
+  // ... paths
   {
     QDomElement __qDomElementContext = __qDomElementSettings.firstChildElement( "Paths" );
     if( !__qDomElementContext.isNull() )
@@ -612,7 +635,7 @@ void CSettings::load( const QString& _rqsFilename )
     }
   }
 
-  // Units
+  // ... units
   {
     QDomElement __qDomElementContext = __qDomElementSettings.firstChildElement( "Units" );
     if( !__qDomElementContext.isNull() )
@@ -688,7 +711,7 @@ void CSettings::load( const QString& _rqsFilename )
     }
   }
 
-  // Validity
+  // ... validity
   {
     QDomElement __qDomElementContext = __qDomElementSettings.firstChildElement( "Validity" );
     if( !__qDomElementContext.isNull() )
@@ -742,7 +765,7 @@ void CSettings::load( const QString& _rqsFilename )
     }
   }
 
-  // Colors
+  // ... colors
   {
     QDomElement __qDomElementContext = __qDomElementSettings.firstChildElement( "Colors" );
     if( !__qDomElementContext.isNull() )
@@ -796,7 +819,7 @@ void CSettings::load( const QString& _rqsFilename )
     }
   }
 
-  // Options
+  // ... options
   {
     QDomElement __qDomElementContext = __qDomElementSettings.firstChildElement( "Options" );
     if( !__qDomElementContext.isNull() )

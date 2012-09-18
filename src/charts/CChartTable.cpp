@@ -854,6 +854,8 @@ void CChartTable::load( const QString& _rqsFilename )
       __qsError = QString( "Invalid XML document type (%1); expected: 'QVCT'" ).arg( __qFile.fileName() );
       break;
     }
+    // ... settings
+    QVCTRuntime::useSettings()->parseQVCT( __qDomElement );
     // ... chart table
     if( parseQVCT( __qDomElement ) )
     {
@@ -911,6 +913,8 @@ void CChartTable::save( const QString& _rqsFilename ) const
 
   // Data
   __qXmlStreamWriter.writeStartElement( "QVCT" );
+  // ... settings
+  QVCTRuntime::useSettings()->dumpQVCT( __qXmlStreamWriter, true );
   // ... chart table
   dumpQVCT( __qXmlStreamWriter );
   // ... overlays

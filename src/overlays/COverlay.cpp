@@ -54,7 +54,7 @@ COverlay::COverlay( const QString& _rqsName )
   qPenMarker.setCapStyle( Qt::RoundCap );
   qPenLine.setColor( QColor( 0, 0, 0, 192 ) );
   qPenLine.setStyle( Qt::SolidLine );
-  qPenLine.setWidth( 6 );
+  qPenLine.setWidth( 5 );
   qPenLine.setCapStyle( Qt::RoundCap );
   qPenVector.setColor( QColor( 0, 0, 0, 192 ) );
   qPenVector.setStyle( Qt::SolidLine );
