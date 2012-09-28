@@ -8,6 +8,12 @@ The following coding and naming conventions shall be used in order to:
  - allow function actions to be easily recognized
 
 
+Language
+--------
+
+All names, comments and general content shall be written in English.
+
+
 Indenting
 ---------
 
@@ -16,7 +22,7 @@ Indenting shall be performed using 2-characaters white spaces.
 All source files shall include the following Emacs/VI magic line:
 // INDENTING (emacs/vi): -*- mode:c++; tab-width:2; c-basic-offset:2; intent-tabs-mode:nil; -*- ex: set tabstop=2 expandtab:
 
-Lines should not be longer than 80 characters, unless this breaks the logical
+Lines may be longer than 80 characters, especially to avoid breaking the logical
 "integrity" of the statement.
 
 
@@ -109,7 +115,7 @@ template ('SAMPLE.hpp' and 'SAMPLE.cpp').
 All fields shall be private (unless exceptions are justified).
 
 Calls to parent (inherited) fields and methods shall be explicitely prefixed
-by 'this' the parent name ('CParent::...'), especially so for fields and methods
+by the parent name ('CParent::...'), especially so for fields and methods
 that are inherited from classes external of the current application/API.
 
 
@@ -128,3 +134,4 @@ Units
 
 Internal variables shall be based on SI units and these units always specified
 in the documentation of parameters and return values.
+
