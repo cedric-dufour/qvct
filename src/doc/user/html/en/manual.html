@@ -112,17 +112,17 @@
 
 <TR>
 <TD><IMG SRC="../images/icons/target.png" ALT="target.png"/></TD>
-<TD><B>Target</B>: Designate the target destination by <B>clicking</B> on a point (or object) on the chart.</TD>
+<TD><B>Target</B>: Designate the target destination by <B>clicking</B> on a point (or object) on the chart or in the <DFN>Overlay List</DFN>.</TD>
 </TR>
 
 <TR>
 <TD><IMG SRC="../images/icons/measure_single.png" ALT="measure_single.png"/></TD>
-<TD><B>Single Measurement</B>: Perform a single measurement by <B>clicking</B> on two points (or objects) on the charts.</TD>
+<TD><B>Single Measurement</B>: Perform a single measurement by <B>clicking</B> on two points (or objects) on the chart or in the <DFN>Overlay List</DFN>.</TD>
 </TR>
 
 <TR>
 <TD><IMG SRC="../images/icons/measure.png" ALT="measure.png"/></TD>
-<TD><B>Ongoing Measurement</B>: Keep performing measurements, either several single measurements one after another (if <DFN>Single Measurement</DFN> is on) or by creating a path along the points (objects) clicked on the map (if <DFN>Single Measurement</DFN> is off).</TD>
+<TD><B>Ongoing Measurement</B>: Keep performing measurements, either several single measurements one after another (if <DFN>Single Measurement</DFN> is on) or by creating a path (if <DFN>Single Measurement</DFN> is off) along the points (objects) clicked on the chart or in the <DFN>Overlay List</DFN>.</TD>
 </TR>
 
 </TABLE>
@@ -233,7 +233,7 @@
 
 <TR>
 <TD><IMG SRC="../images/icons/save.png" ALT="save.png"/></TD>
-<TD><B>Save (Objects Containers only)</B>: Save the object's content (children objects) to disk, using either teh GPX or QVCT (XML) format.</TD>
+<TD><B>Save (Objects Containers only)</B>: Save the object's content (children objects) to disk, using either the GPX or QVCT (XML) format.</TD>
 </TR>
 
 <TR>
@@ -273,7 +273,7 @@
 
 <H2><A ID="settings"/>Changing the Application Settings</H2>
 <DIV CLASS="H2">
-<P>By selecting teh <CODE>Settings...</CODE> entry the <CODE>File</CODE> menu, you can modify the application settings in a way that fits your requirements.</P>
+<P>By selecting the <CODE>Settings...</CODE> entry the <CODE>File</CODE> menu, you can modify the application settings in a way that fits your requirements.</P>
 
 <H3>Units</H3>
 <DIV CLASS="H3">
@@ -388,7 +388,7 @@ Lower Right (20035062.358,-19992434.469)
 Center      (   -2445.985,    2440.780)
 [...]
 </PRE>
-<P></I>Since the <CITE>MOBAC</CITE> original image files do not contain such information, we have used the final georeferenced <CITE>GeoTIFF</CITE> file for the sake of the example.</I></P>
+<P><I>Since the <CITE>MOBAC</CITE> original image files do not contain such information, we have used the final georeferenced <CITE>GeoTIFF</CITE> file for the sake of the example.</I></P>
 </DIV><!-- DIV CLASS="H4" -->
 
 <H4>Using the World File</H4>
@@ -517,7 +517,7 @@ $ proj -lu  # Units ('+units=...')
 <H4>Switzerland ICAO VFR Chart Example</H4>
 <DIV CLASS="H4">
 <P>Based on the data already at hand, we could erroneously jump to conclusions and choose the <CITE>EPSG</CITE> ID 21781 as the solution to our problem. While this would be fine for Switzerland topographic maps (which use a <I>Swiss Oblique Mercator</I> projection; <CODE>+proj=somerc</CODE> in <CITE>PROJ.4</CITE> stanza), it is not correct for the ICAO VFR chart, which uses a <B>Lambert Conform Conical</B> projection (<CODE>+proj=lcc</CODE> in <CITE>PROJ.4</CITE> stanza).</P>
-<P>Unfortunately, there is no matching <CITE>EPSG</CITE> ID that matches this particular projection along with the <B>CH-1903</B> datum.</P>
+<P>Unfortunately, there is no <CITE>EPSG</CITE> ID that matches this particular projection along with the <B>CH-1903</B> datum.</P>
 <P>Besides, since QVCT uses the <VAR>WGS-84</VAR> reference system internally, we MUST either have a chart that uses the <VAR>WGS-84</VAR> datum or one that has an <CITE>EPSG</CITE> entry which provides the <CODE>+towgs84=...</CODE> <CITE>PROJ.4</CITE> stanza to perform the tranformation from one datum to the other.</P>
 <P>Thus, the only way we can use the Switzerland ICAO VFR chart is by pretending it actually uses the <VAR>WGS-84</VAR> datum and adjusting the reference point coordinates correspondingly:</P>
 <PRE>
@@ -570,7 +570,6 @@ $ gdal_translate \
 
 <H4>OpenStreetMap (MOBAC) Chart Example</H4>
 <DIV CLASS="H4">
-<P>Using the <B>coordinates of the upper-left and lower-right corners</B> and the <B>EPSG ID</B> of the chart, you just need:</P>
 <PRE>
 $ gdalinfo -nomd -nogcp -noct openstreetmap-world.geo.tif
 Driver: GTiff/GeoTIFF
