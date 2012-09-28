@@ -30,6 +30,7 @@
 
 COverlayBaseTree::COverlayBaseTree( QWidget* _pqparent, const QString& _rqsName )
   : QTreeWidget( _pqparent ), COverlay( _rqsName )
+  , bCurrentItemJustChanged( false )
 {
   // Tree widget
   QTreeWidget::setRootIsDecorated( false );
@@ -54,11 +55,13 @@ COverlayBaseTree::COverlayBaseTree( QWidget* _pqparent, const QString& _rqsName 
 void COverlayBaseTree::slotCurrentItemChanged( QTreeWidgetItem* _pqTreeWidgetItem, QTreeWidgetItem* _pqTreeWidgetItemPrevious )
 {
   showDetail( _pqTreeWidgetItem );
+  bCurrentItemJustChanged = true;
 }
 
 void COverlayBaseTree::slotItemClicked( QTreeWidgetItem* _pqTreeWidgetItem, int _iColumn )
 {
-  showDetail( _pqTreeWidgetItem );
+  if( !bCurrentItemJustChanged ) showDetail( _pqTreeWidgetItem );
+  bCurrentItemJustChanged = false;
 }
 
 void COverlayBaseTree::slotItemDoubleClicked( QTreeWidgetItem* _pqTreeWidgetItem, int _iColumn )

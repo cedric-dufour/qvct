@@ -39,6 +39,16 @@ class COverlayBaseTree: public QTreeWidget, public COverlay
   Q_OBJECT
 
   //------------------------------------------------------------------------------
+  // FIELDS
+  //------------------------------------------------------------------------------
+
+private:
+  /// Flag to track when the focused item just changed
+  /** @see slotCurrentItemChanged() */
+  bool bCurrentItemJustChanged;
+
+
+  //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR
   //------------------------------------------------------------------------------
 

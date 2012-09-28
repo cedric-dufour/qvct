@@ -152,7 +152,13 @@ void CVesselOverlay::showDetail( const QTreeWidgetItem* _pqTreeWidgetItem ) cons
   case COverlayObject::ITEM:
     {
       CVesselPoint* __poVesselPoint = (CVesselPoint*)_pqTreeWidgetItem;
-      __poVesselPoint->showDetail();
+      CChartTable* __poChartTable = QVCTRuntime::useChartTable();
+      if( __poVesselPoint->CDataPosition::operator!=( CDataPosition::UNDEFINED )
+          && ( __poChartTable->setPointerTarget( *__poVesselPoint )
+               || __poChartTable->extendPointerPath( *__poVesselPoint ) ) )
+        __poChartTable->showGeoPosition( *__poVesselPoint );
+      else
+        __poVesselPoint->showDetail();
     }
     break;
 

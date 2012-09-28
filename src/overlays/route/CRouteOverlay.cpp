@@ -151,7 +151,13 @@ void CRouteOverlay::showDetail( const QTreeWidgetItem* _pqTreeWidgetItem ) const
   case COverlayObject::ITEM:
     {
       CRoutePoint* __poRoutePoint = (CRoutePoint*)_pqTreeWidgetItem;
-      __poRoutePoint->showDetail();
+      CChartTable* __poChartTable = QVCTRuntime::useChartTable();
+      if( __poRoutePoint->CDataPosition::operator!=( CDataPosition::UNDEFINED )
+          && ( __poChartTable->setPointerTarget( *__poRoutePoint )
+               || __poChartTable->extendPointerPath( *__poRoutePoint ) ) )
+        __poChartTable->showGeoPosition( *__poRoutePoint );
+      else
+        __poRoutePoint->showDetail();
     }
     break;
 

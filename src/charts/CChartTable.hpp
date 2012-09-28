@@ -190,6 +190,11 @@ private:
 public:
   /// Sets the reference chart (geographical) position
   void setGeoPosition( const CDataPosition& _roGeoPosition, bool _bSkipCurrent = false );
+  /// Shows the given (geographical) position on chart
+  /** NOTE: if the position is not visible, it becomes the new reference chart (geographical) position,
+   *  otherwise, the latter is left unchanged.
+   *  @see setGeoPosition() */
+  void showGeoPosition( const CDataPosition& _roGeoPosition );
   /// Discretely move the reference chart (geographical) position
   void stepScrPosition( bool _bHorizontal, bool _bIncrease, bool _bBigStep = true );
   /// Moves the reference chart (geographical) position according to the given screen offset
@@ -218,10 +223,18 @@ private:
 public:
   /// Enables/disables pointer target
   void enablePointerTarget( bool _bEnable );
+  /// Sets the pointer target's position; returns true if is was actually set, false otherwise
+  /** NOTE: The pointer target's position will be set only if: 1. is was previously enabled; 2. it has not yet been set.
+   *  @see enablePointerTarget() */
+  bool setPointerTarget( const CDataPosition& _roGeoPosition );
   /// Enables/disables ongoing measurements (pointer path)
   void enablePointerPath( bool _bEnable );
   /// Enables/disables single measurement (pointer path)
   void enablePointerPathSingle( bool _bEnable );
+  /// Extends the pointer path; returns true if is was actually extended, false otherwise
+  /** NOTE: The pointer path will be extended only if is was previously enabled.
+   *  @see enablePointerPath(), enablePointerSingle() */
+  bool extendPointerPath( const CDataPosition& _roGeoPosition );
   /// Sets the overlay point to be moved (and lock all other actions while it is ongoing)
   void setOverlayPointMove( COverlayPoint* _poOverlayPoint );
   /// Sets the vessel point used to synchronize the chart reference (geographical) position

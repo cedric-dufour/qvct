@@ -400,7 +400,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
         // Match mouse position with overlays' item
         CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
         CPointerPoint* __poPointerPoint = __poPointerOverlay->usePointerPoint();
-        bool __bPointerTargetUndefined = bPointerTarget ? __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator==( CDataPosition::UNDEFINED ) : false;
+        bool __bPointerTargetPending = bPointerTarget ? __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator==( CDataPosition::UNDEFINED ) : false;
         CDataPosition __oGeoPosition;
         do
         {
@@ -415,7 +415,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
             if( __poVesselPoint )
             {
               __oGeoPosition = *__poVesselPoint;
-              if( bPointerPath || bPointerPathSingle ) break;
+              if( __bPointerTargetPending || bPointerPath || bPointerPathSingle ) break;
               __poVesselOverlay->setCurrentItem( __poVesselPoint );
               __poVesselPoint->showDetail();
               break;
@@ -427,7 +427,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
             if( __poTrackPoint )
             {
               __oGeoPosition = *__poTrackPoint;
-              if( bPointerPath || bPointerPathSingle ) break;
+              if( __bPointerTargetPending || bPointerPath || bPointerPathSingle ) break;
               __poTrackOverlay->setCurrentItem( __poTrackPoint );
               __poTrackPoint->showDetail();
               break;
@@ -439,7 +439,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
             if( __poRoutePoint )
             {
               __oGeoPosition = *__poRoutePoint;
-              if( bPointerPath || bPointerPathSingle ) break;
+              if( __bPointerTargetPending || bPointerPath || bPointerPathSingle ) break;
               __poRouteOverlay->setCurrentItem( __poRoutePoint );
               __poRoutePoint->showDetail();
               break;
@@ -451,7 +451,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
             if( __poLandmarkPoint )
             {
               __oGeoPosition = *__poLandmarkPoint;
-              if( bPointerPath || bPointerPathSingle ) break;
+              if( __bPointerTargetPending || bPointerPath || bPointerPathSingle ) break;
               __poLandmarkOverlay->setCurrentItem( __poLandmarkPoint );
               __poLandmarkPoint->showDetail();
               break;
@@ -462,8 +462,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
           // ... pointer
           __oGeoPosition = __poChart->toGeoPosition( __qPointFMouse );
           __oGeoPosition.resetElevation();
-            if( poOverlayPointMove
-                || ( bPointerTarget && __bPointerTargetUndefined ) ) break;
+            if( poOverlayPointMove || __bPointerTargetPending ) break;
           __poPointerPoint->setPosition( __oGeoPosition );
           __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint() );
           __poPointerOverlay->forceRedraw();
@@ -483,36 +482,10 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
         }
 
         // Set pointer target
-        if( bPointerTarget && __bPointerTargetUndefined )
-        {
-          __poPointerOverlay->setPosition( __oGeoPosition, true );
-          __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint( true ) );
-          __poPointerOverlay->forceRedraw();
-          __poChart->update();
-          break;
-        }
+        if( setPointerTarget( __oGeoPosition ) ) break;
 
         // Extend pointer path
-        do
-        {
-          if( bPointerPath || bPointerPathSingle )
-          {
-            if( bPointerPathSingle && __poPointerOverlay->getPathSegments() )
-            {
-              if( !bPointerPath )
-              {
-                QVCTRuntime::useChartControl()->enableMeasureSingle( false );
-                break;
-              }
-              __poPointerOverlay->clearPath();
-            }
-            __poPointerOverlay->setPath( __oGeoPosition );
-            __poPointerPoint->showDetail();
-            __poPointerOverlay->forceRedraw();
-            __poChart->update();
-          }
-        }
-        while( false );
+        if( extendPointerPath( __oGeoPosition ) ) break;
 
       }
     }
@@ -608,9 +581,16 @@ void CChartTable::setGeoPosition( const CDataPosition& _roGeoPosition, bool _bSk
     if( __iWidgetIndex == __iWidgetCurrentIndex && !_bSkipCurrent )
     {
       __poChart->setGeoPosition( _roGeoPosition );
-      // __poChart->update();
     }
   }
+}
+
+void CChartTable::showGeoPosition( const CDataPosition& _roGeoPosition )
+{
+  if( bIgnoreUpdate || QTabWidget::currentIndex() < 0 ) return;
+  CChart* __poChart = (CChart*)QTabWidget::currentWidget();
+  if( !__poChart->getDrawArea().contains( __poChart->toDrawPosition( _roGeoPosition ).toPoint() ) )
+    __poChart->setGeoPosition( _roGeoPosition );
 }
 
 void CChartTable::stepScrPosition( bool _bHorizontal, bool _bIncrease, bool _bBigStep )
@@ -746,6 +726,21 @@ void CChartTable::enablePointerTarget( bool _bEnable )
   bIgnoreUpdate = false;
 }
 
+bool CChartTable::setPointerTarget( const CDataPosition& _roGeoPosition )
+{
+  if( bIgnoreUpdate || QTabWidget::currentIndex() < 0 ) return false;
+  CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
+  if( bPointerTarget && __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator==( CDataPosition::UNDEFINED ) )
+  {
+    __poPointerOverlay->setPosition( _roGeoPosition, true );
+    __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint( true ) );
+    __poPointerOverlay->forceRedraw();
+    ((CChart*)QTabWidget::currentWidget())->update();
+    return true;
+  }
+  return false;
+}
+
 void CChartTable::enablePointerPath( bool _bEnable )
 {
   if( bIgnoreUpdate || QTabWidget::currentIndex() < 0 ) return;
@@ -777,6 +772,30 @@ void CChartTable::enablePointerPathSingle( bool _bEnable )
     QVCTRuntime::usePointerPointDetailView()->refreshContent();
   }
   bIgnoreUpdate = false;
+}
+
+bool CChartTable::extendPointerPath( const CDataPosition& _roGeoPosition )
+{
+  if( bIgnoreUpdate || QTabWidget::currentIndex() < 0 ) return false;
+  CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
+  if( bPointerPath || bPointerPathSingle )
+  {
+    if( bPointerPathSingle && __poPointerOverlay->getPathSegments() )
+    {
+      if( !bPointerPath )
+      {
+        QVCTRuntime::useChartControl()->enableMeasureSingle( false );
+        return false;
+      }
+      __poPointerOverlay->clearPath();
+    }
+    __poPointerOverlay->setPath( _roGeoPosition );
+    __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint( false ) );
+    __poPointerOverlay->forceRedraw();
+    ((CChart*)QTabWidget::currentWidget())->update();
+    return true;
+  }
+  return false;
 }
 
 void CChartTable::setOverlayPointMove( COverlayPoint* _poOverlayPoint )

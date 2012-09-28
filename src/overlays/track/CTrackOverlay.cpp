@@ -157,7 +157,13 @@ void CTrackOverlay::showDetail( const QTreeWidgetItem* _pqTreeWidgetItem ) const
   case COverlayObject::ITEM:
     {
       CTrackPoint* __poTrackPoint = (CTrackPoint*)_pqTreeWidgetItem;
-      __poTrackPoint->showDetail();
+      CChartTable* __poChartTable = QVCTRuntime::useChartTable();
+      if( __poTrackPoint->CDataPosition::operator!=( CDataPosition::UNDEFINED )
+          && ( __poChartTable->setPointerTarget( *__poTrackPoint )
+               || __poChartTable->extendPointerPath( *__poTrackPoint ) ) )
+        __poChartTable->showGeoPosition( *__poTrackPoint );
+      else
+        __poTrackPoint->showDetail();
     }
     break;
 

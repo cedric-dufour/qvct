@@ -144,7 +144,13 @@ void CLandmarkOverlay::showDetail( const QTreeWidgetItem* _pqTreeWidgetItem ) co
   case COverlayObject::ITEM:
     {
       CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)_pqTreeWidgetItem;
-      __poLandmarkPoint->showDetail();
+      CChartTable* __poChartTable = QVCTRuntime::useChartTable();
+      if( __poLandmarkPoint->CDataPosition::operator!=( CDataPosition::UNDEFINED )
+          && ( __poChartTable->setPointerTarget( *__poLandmarkPoint )
+               || __poChartTable->extendPointerPath( *__poLandmarkPoint ) ) )
+        __poChartTable->showGeoPosition( *__poLandmarkPoint );
+      else
+        __poLandmarkPoint->showDetail();
     }
     break;
 
