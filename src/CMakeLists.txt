@@ -108,6 +108,7 @@ set( MY_CPPS
   overlays/vessel/CVesselPointDetailView.cpp
   overlays/vessel/CVesselPointEditView.cpp
   overlays/vessel/CVesselPositionDockView.cpp
+  overlays/vessel/CVesselTargetDockView.cpp
   overlays/vessel/device/CVesselContainerDevice.cpp
   overlays/vessel/device/CVesselContainerDeviceCreateView.cpp
   overlays/vessel/device/CVesselContainerDeviceDetailView.cpp
@@ -173,6 +174,7 @@ set( MY_MOCS
   overlays/vessel/CVesselOverlayListView.hpp
   overlays/vessel/CVesselPointDetailView.hpp
   overlays/vessel/CVesselPositionDockView.hpp
+  overlays/vessel/CVesselTargetDockView.hpp
   overlays/vessel/device/CVesselContainerDevice.hpp
   overlays/vessel/device/CVesselContainerDeviceCreateView.hpp
   overlays/vessel/device/CVesselContainerDeviceDetailView.hpp

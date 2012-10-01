@@ -94,6 +94,10 @@ void CMainWindow::constructLayout()
   CVesselCourseDockView* __poVesselCourseDockView = new CVesselCourseDockView( this );
   QVCTRuntime::registerVesselCourseDockView( __poVesselCourseDockView );
   QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselCourseDockView );
+  // ... vessel target
+  CVesselTargetDockView* __poVesselTargetDockView = new CVesselTargetDockView( this );
+  QVCTRuntime::registerVesselTargetDockView( __poVesselTargetDockView );
+  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselTargetDockView );
   // ... time
   CTimeView* __poTimeView = new CTimeView( this );
   QVCTRuntime::registerTimeView( __poTimeView );
@@ -258,6 +262,7 @@ void CMainWindow::slotTimerRefresh()
   QVCTRuntime::useTimeView()->refreshContent();
   QVCTRuntime::useVesselPositionDockView()->refreshContent();
   QVCTRuntime::useVesselCourseDockView()->refreshContent();
+  QVCTRuntime::useVesselTargetDockView()->refreshContent();
   QVCTRuntime::useTrackContainerDetailView()->refreshContent();
   QVCTRuntime::useTrackSubContainerDetailView()->refreshContent();
   QVCTRuntime::useVesselPointDetailView()->refreshContent();
