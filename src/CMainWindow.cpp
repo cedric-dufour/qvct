@@ -166,6 +166,9 @@ void CMainWindow::constructMenus()
   QAction* __pqActionShowVesselCourseDockView = new QAction( tr("Show Vessel &Course" ), this );
   QMainWindow::connect( __pqActionShowVesselCourseDockView, SIGNAL( triggered() ), this, SLOT( slotShowVesselCourseDockView() ) );
   __pqMenuWindow->addAction( __pqActionShowVesselCourseDockView );
+  QAction* __pqActionShowVesselTargetDockView = new QAction( tr("Show T&arget Course" ), this );
+  QMainWindow::connect( __pqActionShowVesselTargetDockView, SIGNAL( triggered() ), this, SLOT( slotShowVesselTargetDockView() ) );
+  __pqMenuWindow->addAction( __pqActionShowVesselTargetDockView );
   QAction* __pqActionShowTimeView = new QAction( tr("Show System &Time" ), this );
   QMainWindow::connect( __pqActionShowTimeView, SIGNAL( triggered() ), this, SLOT( slotShowTimeView() ) );
   __pqMenuWindow->addAction( __pqActionShowTimeView );
@@ -247,6 +250,11 @@ void CMainWindow::slotShowVesselPositionDockView()
 void CMainWindow::slotShowVesselCourseDockView()
 {
   QVCTRuntime::useVesselCourseDockView()->show();
+}
+
+void CMainWindow::slotShowVesselTargetDockView()
+{
+  QVCTRuntime::useVesselTargetDockView()->show();
 }
 
 void CMainWindow::slotToggleFullscreen()

@@ -76,10 +76,12 @@ private slots:
   void slotShowOverlayDetailView();
   /// Slot to display the application's system time (dock widget)
   void slotShowTimeView();
-  /// Slot to display the application's overlay position (dock widget)
+  /// Slot to display the application's vessel position view (dock widget)
   void slotShowVesselPositionDockView();
-  /// Slot to display the application's overlay course (dock widget)
+  /// Slot to display the application's vessel course view (dock widget)
   void slotShowVesselCourseDockView();
+  /// Slot to display the application's vessel target view (dock widget)
+  void slotShowVesselTargetDockView();
   /// Slot to toggle full-screen
   void slotToggleFullscreen();
   /// Slot to periodically refresh the user interface
