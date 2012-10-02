@@ -1,6 +1,85 @@
-qvct (1.0.snapshot) UNRELEASED; urgency=low
+qvct (1.0.20121002RC5) UNRELEASED; urgency=low
 
-  * DEVELOPMENT SNAPSHOT (see https://github.com/cedric-dufour/qvct for changelog)
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - FIX: Added (missing) menu entry to show the vessel's target view (dock widget)
+  - MOD: Update documentation screenshots to match latest features addition
+         (target pointer and dock view)
+  - NEW: Added target course dock view (widget)
+  - NEW: Development snapshot GIT branch
+  - FIX: User documentation and F.A.Q. corrections (and addendum)
+  - FIX: Small corrections to the CODING conventions
+  - NEW: Allow pointer target to be set and pointer path to be extended by
+         clicking on ('Overlay List') tree items
 
- -- Cedric Dufour <cedric.dufour@ced-network.net>  Fri, 28 Sep 2012 10:56:13 +0200
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Tue, 02 Oct 2012 15:53:46 +0200
+
+qvct (1.0.20120918RC4) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - NEW: Save format/units and navigation data validity settings as part of
+         projects' QVCT (XML) files
+  - NEW: Multi-selected track points are now drawn on charts
+  - FIX: Routing lines were drawn using the wrong pen
+  - FIX: Last bearing adjusted erroneously when recording track
+  - MOD: Set default validity settings to more generic values
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Tue, 18 Sep 2012 14:38:49 +0200
+
+qvct (1.0.20120917RC3) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - NEW: Added FAQ entry about supported file formats
+  - FIX: Do not include target point when copying pointer path to landmarks or
+         route
+  - NEW: Added target point designation (and routing line from current
+         position-synchronizing vessel)
+  - MOD: Consolidated chart redraw (update) calls, so that chart redraw (update)
+         is triggered on the UI (user interface/interaction) edge rather than in
+         "setters" methods.
+  - NEW: Added "Target" point in pointer overlay
+  - MOD: Improved visibility handling and text placement of overlays objects
+  - FIX: Prevent potential null-pointer usage when synchronizing vessel point
+         position
+  - NEW: Pinch-zoom (multitouch) gesture for chanching chart scale
+         WARNING: Due to bugs in the evdev/Qt stack, this leads to unresponsive
+         interface on evdev-backed multitouch devices (touchscreens)!
+         This feature in thus disabled by default in the application settings.
+  - MOD: Use (NEW) internal 'microtime' function wherever it's sensible
+  - ADD: Retrieve microsecond-precision system time in a sensible way
+  - ADD: Allow devices to have their error messages appear in the main window's
+         unified dialog
+  - ADD: Unified warning and error messages (dialogs)
+  - FIX: Do not keep out-of-date fix data when device does not feed any data
+         (e.g. when no more GPS coverage)
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Mon, 17 Sep 2012 16:00:39 +0200
+
+qvct (1.0.20120913RC2) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - FIX: Incomplete copyright (missing copyright notice)
+  - FIX: Debian packaging (dependencies and metadata)
+  - ADD: New FAQ entry about georeferencing and GDAL
+  - FIX: Wrong 'initialization order' compiler warning
+  - ADD: Charts position, scale and locks status now saved/loaded from project
+         file
+  - FIX: Vessel course is now correctly saved to file
+  - ADD: Invalids all validity values when vessel is loaded from file
+  - FIX: Prevent bearing (delta) minimum validity value greater than 180
+  - ADD: Improved track recording precision by using minimum bearing delta to
+         trigger new point recording
+  - ADD: Bearing (delta) minimum validity value
+  - MOD: Vessel speed ticks use same color as marker's (rather than vector)
+  - FIX: Do not set garbage value for undefined position/course attribute when
+         parsing QVCT files
+  - ADD: Allow vessel data validity to be edited
+  - FIX: Do not return invalid status for undefined validity values
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Thu, 13 Sep 2012 16:55:47 +0200
+
+qvct (1.0.20120912RC1) UNRELEASED; urgency=low
+
+  * INITIAL RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Wed, 12 Sep 2012 15:28:20 +0200
 
