@@ -16,28 +16,25 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CVESSELPOSITIONDOCKVIEW_HPP
-#define QVCT_CVESSELPOSITIONDOCKVIEW_HPP
+#ifndef QVCT_CVESSELWIDGET_HPP
+#define QVCT_CVESSELWIDGET_HPP
 
 // QT
-#include <QBoxLayout>
 #include <QDockWidget>
-#include <QLabel>
+#include <QString>
 #include <QWidget>
 
 // QVCT
-class COverlayObject;
-class COverlayText;
 class CVesselPoint;
 
 
-/// [UI] Vessel position view (dock widget)
+/// [UI] Generic vessel (dock) widget
 /**
- *  This class provides the user-interface (QDockWidget) that allows to display
- *  a vessel point's live position data.
+ *  This class defines the base user-interface required to display vessels
+ *  (dock) widgets.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CVesselPositionDockView: public QDockWidget
+class CVesselWidget: public QDockWidget
 {
   Q_OBJECT
 
@@ -46,43 +43,22 @@ class CVesselPositionDockView: public QDockWidget
   // FIELDS
   //------------------------------------------------------------------------------
 
-private:
+protected:
   /// [UI:Widget] Container widget
   QWidget* pqWidget;
-  /// [UI:Layout] Layout
-  QBoxLayout* pqBoxLayout;
 
-  /// Overlay point being displayed
+  /// Overlay course being displayed
   /** @see setVesselPoint(), resetVesselPoint() */
   CVesselPoint* poVesselPoint;
-
-  /// [UI:Label] Longitude
-  COverlayText* poTextLongitude;
-  /// [UI:Label] Latitude
-  COverlayText* poTextLatitude;
-  /// [UI:Label] Elevation
-  COverlayText* poTextElevation;
 
 
   //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR
   //------------------------------------------------------------------------------
 
-public:
-  CVesselPositionDockView( QWidget* _pqParent );
-  virtual ~CVesselPositionDockView() {};
-
-private:
-  /// Constructs the layout of the user-interface
-  void constructLayout();
-
-
-  //------------------------------------------------------------------------------
-  // METHODS: QWidget (override)
-  //------------------------------------------------------------------------------
-
-protected slots:
-  virtual void resizeEvent( QResizeEvent* _pqResizeEvent );
+protected:
+  CVesselWidget( const QString& _qsTitle, QWidget* _pqParent );
+  virtual ~CVesselWidget() {};
 
 
   //------------------------------------------------------------------------------
@@ -94,24 +70,20 @@ private slots:
   /// Slot to handle object destruction
   void slotDestroyed( QObject* _pqObject );
 
-private slots:
-  /// Slot to handle dock area change
-  void slotLocationChanged( Qt::DockWidgetArea _qDockWidgetArea );
-  /// Slot to handle floating change
-  void slotTopLevelChanged( bool _bTopLevel );
-
   // SETTERS
 public:
-  /// Sets the overlay point to be displayed (and refreshes the underlying widget)
+  /// Sets the vessel used to synchronize the instruments display
   void setVesselPoint( CVesselPoint* _poVesselPoint );
-  /// Resets (clears) the overlay point being displayed (and clears the underlying widget)
+  /// Resets (clears) the vessel used to synchronize the instruments display
   void resetVesselPoint();
 
   // OTHER
 public:
   /// Refreshes the content of the underlying widget
-  void refreshContent();
+  virtual void refreshContent() = 0;
+  /// Resets (clears) the content of the underlying widget
+  virtual void resetContent() = 0;
 
 };
 
-#endif // QVCT_CVESSELPOSITIONDOCKVIEW_HPP
+#endif // QVCT_CVESSELWIDGET_HPP

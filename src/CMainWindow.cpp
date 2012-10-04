@@ -87,17 +87,17 @@ void CMainWindow::constructLayout()
 
   // Add other docks
   // ... vessel position
-  CVesselPositionDockView* __poVesselPositionDockView = new CVesselPositionDockView( this );
-  QVCTRuntime::registerVesselPositionDockView( __poVesselPositionDockView );
-  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselPositionDockView );
+  CVesselPosition* __poVesselPosition = new CVesselPosition( this );
+  QVCTRuntime::registerVesselPosition( __poVesselPosition );
+  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselPosition );
   // ... vessel course
-  CVesselCourseDockView* __poVesselCourseDockView = new CVesselCourseDockView( this );
-  QVCTRuntime::registerVesselCourseDockView( __poVesselCourseDockView );
-  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselCourseDockView );
+  CVesselCourse* __poVesselCourse = new CVesselCourse( this );
+  QVCTRuntime::registerVesselCourse( __poVesselCourse );
+  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselCourse );
   // ... vessel target
-  CVesselTargetDockView* __poVesselTargetDockView = new CVesselTargetDockView( this );
-  QVCTRuntime::registerVesselTargetDockView( __poVesselTargetDockView );
-  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselTargetDockView );
+  CVesselTarget* __poVesselTarget = new CVesselTarget( this );
+  QVCTRuntime::registerVesselTarget( __poVesselTarget );
+  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselTarget );
   // ... time
   CTimeView* __poTimeView = new CTimeView( this );
   QVCTRuntime::registerTimeView( __poTimeView );
@@ -160,15 +160,15 @@ void CMainWindow::constructMenus()
   QAction* __pqActionShowOverlayDetailView = new QAction( tr("Show Overlay &Detail" ), this );
   QMainWindow::connect( __pqActionShowOverlayDetailView, SIGNAL( triggered() ), this, SLOT( slotShowOverlayDetailView() ) );
   __pqMenuWindow->addAction( __pqActionShowOverlayDetailView );
-  QAction* __pqActionShowVesselPositionDockView = new QAction( tr("Show Vessel &Position" ), this );
-  QMainWindow::connect( __pqActionShowVesselPositionDockView, SIGNAL( triggered() ), this, SLOT( slotShowVesselPositionDockView() ) );
-  __pqMenuWindow->addAction( __pqActionShowVesselPositionDockView );
-  QAction* __pqActionShowVesselCourseDockView = new QAction( tr("Show Vessel &Course" ), this );
-  QMainWindow::connect( __pqActionShowVesselCourseDockView, SIGNAL( triggered() ), this, SLOT( slotShowVesselCourseDockView() ) );
-  __pqMenuWindow->addAction( __pqActionShowVesselCourseDockView );
-  QAction* __pqActionShowVesselTargetDockView = new QAction( tr("Show T&arget Course" ), this );
-  QMainWindow::connect( __pqActionShowVesselTargetDockView, SIGNAL( triggered() ), this, SLOT( slotShowVesselTargetDockView() ) );
-  __pqMenuWindow->addAction( __pqActionShowVesselTargetDockView );
+  QAction* __pqActionShowVesselPosition = new QAction( tr("Show Vessel &Position" ), this );
+  QMainWindow::connect( __pqActionShowVesselPosition, SIGNAL( triggered() ), this, SLOT( slotShowVesselPosition() ) );
+  __pqMenuWindow->addAction( __pqActionShowVesselPosition );
+  QAction* __pqActionShowVesselCourse = new QAction( tr("Show Vessel &Course" ), this );
+  QMainWindow::connect( __pqActionShowVesselCourse, SIGNAL( triggered() ), this, SLOT( slotShowVesselCourse() ) );
+  __pqMenuWindow->addAction( __pqActionShowVesselCourse );
+  QAction* __pqActionShowVesselTarget = new QAction( tr("Show T&arget Course" ), this );
+  QMainWindow::connect( __pqActionShowVesselTarget, SIGNAL( triggered() ), this, SLOT( slotShowVesselTarget() ) );
+  __pqMenuWindow->addAction( __pqActionShowVesselTarget );
   QAction* __pqActionShowTimeView = new QAction( tr("Show System &Time" ), this );
   QMainWindow::connect( __pqActionShowTimeView, SIGNAL( triggered() ), this, SLOT( slotShowTimeView() ) );
   __pqMenuWindow->addAction( __pqActionShowTimeView );
@@ -242,19 +242,19 @@ void CMainWindow::slotShowTimeView()
   QVCTRuntime::useTimeView()->show();
 }
 
-void CMainWindow::slotShowVesselPositionDockView()
+void CMainWindow::slotShowVesselPosition()
 {
-  QVCTRuntime::useVesselPositionDockView()->show();
+  QVCTRuntime::useVesselPosition()->show();
 }
 
-void CMainWindow::slotShowVesselCourseDockView()
+void CMainWindow::slotShowVesselCourse()
 {
-  QVCTRuntime::useVesselCourseDockView()->show();
+  QVCTRuntime::useVesselCourse()->show();
 }
 
-void CMainWindow::slotShowVesselTargetDockView()
+void CMainWindow::slotShowVesselTarget()
 {
-  QVCTRuntime::useVesselTargetDockView()->show();
+  QVCTRuntime::useVesselTarget()->show();
 }
 
 void CMainWindow::slotToggleFullscreen()
@@ -268,12 +268,12 @@ void CMainWindow::slotTimerRefresh()
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
   __pqMutexDataChange->lock();
   QVCTRuntime::useTimeView()->refreshContent();
-  QVCTRuntime::useVesselPositionDockView()->refreshContent();
-  QVCTRuntime::useVesselCourseDockView()->refreshContent();
-  QVCTRuntime::useVesselTargetDockView()->refreshContent();
   QVCTRuntime::useTrackContainerDetailView()->refreshContent();
   QVCTRuntime::useTrackSubContainerDetailView()->refreshContent();
   QVCTRuntime::useVesselPointDetailView()->refreshContent();
+  QVCTRuntime::useVesselPosition()->refreshContent();
+  QVCTRuntime::useVesselCourse()->refreshContent();
+  QVCTRuntime::useVesselTarget()->refreshContent();
   double __fdSystemTime = microtime();
   if( __fdSystemTime - fdTimeLastRedraw >= (double)QVCTRuntime::useSettings()->getRateRedraw() )
   {

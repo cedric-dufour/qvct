@@ -502,9 +502,9 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
   {
     pqPushButtonCenterLock->setIcon( QIcon( ":icons/32x32/center_lock.png" ) );
     QVCTRuntime::useChartTable()->setVesselPointSynchronize( __poVesselPoint );
-    QVCTRuntime::useVesselPositionDockView()->setVesselPoint( __poVesselPoint );
-    QVCTRuntime::useVesselCourseDockView()->setVesselPoint( __poVesselPoint );
-    QVCTRuntime::useVesselTargetDockView()->setVesselPoint( __poVesselPoint );
+    QVCTRuntime::useVesselPosition()->setVesselPoint( __poVesselPoint );
+    QVCTRuntime::useVesselCourse()->setVesselPoint( __poVesselPoint );
+    QVCTRuntime::useVesselTarget()->setVesselPoint( __poVesselPoint );
     QVCTRuntime::usePointerOverlay()->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
   }
@@ -512,9 +512,9 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
   {
     pqPushButtonCenterLock->setIcon( QIcon( ":icons/32x32/center_unlock.png" ) );
     QVCTRuntime::useChartTable()->resetVesselPointSynchronize();
-    QVCTRuntime::useVesselPositionDockView()->resetVesselPoint();
-    QVCTRuntime::useVesselCourseDockView()->resetVesselPoint();
-    QVCTRuntime::useVesselTargetDockView()->resetVesselPoint();
+    QVCTRuntime::useVesselPosition()->resetVesselPoint();
+    QVCTRuntime::useVesselCourse()->resetVesselPoint();
+    QVCTRuntime::useVesselTarget()->resetVesselPoint();
     QVCTRuntime::usePointerOverlay()->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
   }

@@ -16,28 +16,30 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CVESSELTARGETDOCKVIEW_HPP
-#define QVCT_CVESSELTARGETDOCKVIEW_HPP
+#ifndef QVCT_CVESSELWIDGETADAPTIVE_HPP
+#define QVCT_CVESSELWIDGETADAPTIVE_HPP
 
 // QT
 #include <QBoxLayout>
 #include <QDockWidget>
-#include <QLabel>
+#include <QFont>
+#include <QString>
 #include <QWidget>
 
 // QVCT
-class COverlayObject;
-class COverlayText;
-class CVesselPoint;
+#include "overlays/vessel/widget/CVesselWidget.hpp"
 
 
-/// [UI] Vessel target view (dock widget)
+/// [UI] Adaptive generic vessel (dock) widget
 /**
- *  This class provides the user-interface (QDockWidget) that allows to display
- *  a vessel point's live target data (bearing, distance, ETE).
+ *  This class defines the base user-interface required to display adaptive
+ *  vessels (dock) widgets.
+ *  Adaptive widgets will automatically change their layout between vertical
+ *  and horizontal depending on where they are docked, as well as adapt their
+ *  font size according to their size.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CVesselTargetDockView: public QDockWidget
+class CVesselWidgetAdaptive: public CVesselWidget
 {
   Q_OBJECT
 
@@ -46,39 +48,18 @@ class CVesselTargetDockView: public QDockWidget
   // FIELDS
   //------------------------------------------------------------------------------
 
-private:
-  /// [UI:Widget] Container widget
-  QWidget* pqWidget;
+protected:
   /// [UI:Layout] Layout
   QBoxLayout* pqBoxLayout;
-
-  /// Overlay point being displayed
-  /** @see setVesselPoint(), resetVesselPoint() */
-  CVesselPoint* poVesselPoint;
-  /// Flag to track whether content data are currently displayed
-  bool bContentDisplayed;
-
-  /// [UI:Label] Bearing
-  COverlayText* poTextBearing;
-  /// [UI:Label] Distance
-  COverlayText* poTextDistance;
-  /// [UI:Label] Estimated Time En-Route (ETE)
-  COverlayText* poTextEte;
-  /// [UI:Label] Estimated Time of Arrival (ETA)
-  COverlayText* poTextEta;
 
 
   //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR
   //------------------------------------------------------------------------------
 
-public:
-  CVesselTargetDockView( QWidget* _pqParent );
-  virtual ~CVesselTargetDockView() {};
-
-private:
-  /// Constructs the layout of the user-interface
-  void constructLayout();
+protected:
+  CVesselWidgetAdaptive( const QString& _qsTitle, QWidget* _pqParent );
+  virtual ~CVesselWidgetAdaptive() {};
 
 
   //------------------------------------------------------------------------------
@@ -95,27 +76,16 @@ protected slots:
 
   // SLOTS
 private slots:
-  /// Slot to handle object destruction
-  void slotDestroyed( QObject* _pqObject );
-
-private slots:
   /// Slot to handle dock area change
   void slotLocationChanged( Qt::DockWidgetArea _qDockWidgetArea );
   /// Slot to handle floating change
   void slotTopLevelChanged( bool _bTopLevel );
 
-  // SETTERS
-public:
-  /// Sets the overlay point to be displayed (and refreshes the underlying widget)
-  void setVesselPoint( CVesselPoint* _poVesselPoint );
-  /// Resets (clears) the overlay point being displayed (and clears the underlying widget)
-  void resetVesselPoint();
-
   // OTHER
 public:
-  /// Refreshes the content of the underlying widget
-  void refreshContent();
+  /// Sets the font for the content of the underlying widget
+  virtual void setFont( QFont _qFont ) = 0;
 
 };
 
-#endif // QVCT_CVESSELTARGETDOCKVIEW_HPP
+#endif // QVCT_CVESSELWIDGETADAPTIVE_HPP

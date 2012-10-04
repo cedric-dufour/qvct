@@ -101,14 +101,11 @@ set( MY_CPPS
   overlays/vessel/CVesselContainer.cpp
   overlays/vessel/CVesselContainerDetailView.cpp
   overlays/vessel/CVesselContainerEditView.cpp
-  overlays/vessel/CVesselCourseDockView.cpp
   overlays/vessel/CVesselOverlay.cpp
   overlays/vessel/CVesselOverlayListView.cpp
   overlays/vessel/CVesselPoint.cpp
   overlays/vessel/CVesselPointDetailView.cpp
   overlays/vessel/CVesselPointEditView.cpp
-  overlays/vessel/CVesselPositionDockView.cpp
-  overlays/vessel/CVesselTargetDockView.cpp
   overlays/vessel/device/CVesselContainerDevice.cpp
   overlays/vessel/device/CVesselContainerDeviceCreateView.cpp
   overlays/vessel/device/CVesselContainerDeviceDetailView.cpp
@@ -116,6 +113,11 @@ set( MY_CPPS
   overlays/vessel/device/CVesselPointDeviceCreateView.cpp
   overlays/vessel/device/CVesselPointDeviceDetailView.cpp
   overlays/vessel/device/CVesselPointDeviceEditView.cpp
+  overlays/vessel/widget/CVesselWidget.cpp
+  overlays/vessel/widget/CVesselWidgetAdaptive.cpp
+  overlays/vessel/widget/CVesselCourse.cpp
+  overlays/vessel/widget/CVesselPosition.cpp
+  overlays/vessel/widget/CVesselTarget.cpp
   settings/CSettings.cpp
   settings/CSettingsEditView.cpp
   settings/CSettingsMiscEditView.cpp
@@ -170,11 +172,8 @@ set( MY_MOCS
   overlays/track/CTrackPointDetailView.hpp
   overlays/track/CTrackSubContainerDetailView.hpp
   overlays/vessel/CVesselContainerDetailView.hpp
-  overlays/vessel/CVesselCourseDockView.hpp
   overlays/vessel/CVesselOverlayListView.hpp
   overlays/vessel/CVesselPointDetailView.hpp
-  overlays/vessel/CVesselPositionDockView.hpp
-  overlays/vessel/CVesselTargetDockView.hpp
   overlays/vessel/device/CVesselContainerDevice.hpp
   overlays/vessel/device/CVesselContainerDeviceCreateView.hpp
   overlays/vessel/device/CVesselContainerDeviceDetailView.hpp
@@ -182,6 +181,8 @@ set( MY_MOCS
   overlays/vessel/device/CVesselPointDeviceCreateView.hpp
   overlays/vessel/device/CVesselPointDeviceDetailView.hpp
   overlays/vessel/device/CVesselPointDeviceEditView.hpp
+  overlays/vessel/widget/CVesselWidget.hpp
+  overlays/vessel/widget/CVesselWidgetAdaptive.hpp
   settings/CSettings.hpp
   settings/CSettingsEditView.hpp
   settings/CSettingsMiscEditView.hpp

@@ -16,30 +16,26 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CVESSELCOURSEDOCKVIEW_HPP
-#define QVCT_CVESSELCOURSEDOCKVIEW_HPP
+#ifndef QVCT_CVESSELPOSITION_HPP
+#define QVCT_CVESSELPOSITION_HPP
 
 // QT
-#include <QBoxLayout>
 #include <QDockWidget>
-#include <QLabel>
 #include <QWidget>
 
 // QVCT
-class COverlayObject;
+#include "overlays/vessel/widget/CVesselWidgetAdaptive.hpp"
 class COverlayText;
-class CVesselPoint;
 
 
-/// [UI] Vessel course view (dock widget)
+/// [UI] Vessel position view (dock widget)
 /**
  *  This class provides the user-interface (QDockWidget) that allows to display
- *  a vessel point's live course data.
+ *  a vessel point's live position data.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CVesselCourseDockView: public QDockWidget
+class CVesselPosition: public CVesselWidgetAdaptive
 {
-  Q_OBJECT
 
 
   //------------------------------------------------------------------------------
@@ -47,21 +43,12 @@ class CVesselCourseDockView: public QDockWidget
   //------------------------------------------------------------------------------
 
 private:
-  /// [UI:Widget] Container widget
-  QWidget* pqWidget;
-  /// [UI:Layout] Layout
-  QBoxLayout* pqBoxLayout;
-
-  /// Overlay course being displayed
-  /** @see setVesselPoint(), resetVesselPoint() */
-  CVesselPoint* poVesselPoint;
-
-  /// [UI:Label] Bearing
-  COverlayText* poTextBearing;
-  /// [UI:Label] Speed (horizontal)
-  COverlayText* poTextSpeed;
-  /// [UI:Label] Speed (vertical)
-  COverlayText* poTextSpeedVertical;
+  /// [UI:Label] Longitude
+  COverlayText* poTextLongitude;
+  /// [UI:Label] Latitude
+  COverlayText* poTextLatitude;
+  /// [UI:Label] Elevation
+  COverlayText* poTextElevation;
 
 
   //------------------------------------------------------------------------------
@@ -69,8 +56,8 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselCourseDockView( QWidget* _pqParent );
-  virtual ~CVesselCourseDockView() {};
+  CVesselPosition( QWidget* _pqParent );
+  virtual ~CVesselPosition() {};
 
 private:
   /// Constructs the layout of the user-interface
@@ -78,40 +65,21 @@ private:
 
 
   //------------------------------------------------------------------------------
-  // METHODS: QWidget (override)
+  // METHODS: CVesselWidget (implement/override)
   //------------------------------------------------------------------------------
 
-protected slots:
-  virtual void resizeEvent( QResizeEvent* _pqResizeEvent );
-
-
-  //------------------------------------------------------------------------------
-  // METHODS
-  //------------------------------------------------------------------------------
-
-  // SLOTS
-private slots:
-  /// Slot to handle object destruction
-  void slotDestroyed( QObject* _pqObject );
-
-private slots:
-  /// Slot to handle dock area change
-  void slotLocationChanged( Qt::DockWidgetArea _qDockWidgetArea );
-  /// Slot to handle floating change
-  void slotTopLevelChanged( bool _bTopLevel );
-
-  // SETTERS
 public:
-  /// Sets the overlay course to be displayed (and refreshes the underlying widget)
-  void setVesselPoint( CVesselPoint* _poVesselPoint );
-  /// Resets (clears) the overlay course being displayed (and clears the underlying widget)
-  void resetVesselPoint();
+  virtual void refreshContent();
+  virtual void resetContent();
 
-  // OTHER
+
+  //------------------------------------------------------------------------------
+  // METHODS: CVesselWidgetAdaptive (implement/override)
+  //------------------------------------------------------------------------------
+
 public:
-  /// Refreshes the content of the underlying widget
-  void refreshContent();
+  virtual void setFont( QFont _qFont );
 
 };
 
-#endif // QVCT_CVESSELCOURSEDOCKVIEW_HPP
+#endif // QVCT_CVESSELPOSITION_HPP
