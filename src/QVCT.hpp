@@ -41,6 +41,11 @@ public:
   enum EStatus { OK = 0, WARNING = 1, ERROR = 2, CRITICAL = 3, UNDEFINED = 9 };
   enum EFileOperation { OPEN, SAVE };
 
+public:
+  static const double PI=3.1415926535897932384626433832795029;
+  static const double DEG2RAD=0.0174532925199432957692369076848861271;
+  static const double RAD2DEG=57.2957795130823208767981548141051703;
+
 };
 
 #endif // QVCT_QVCT_HPP

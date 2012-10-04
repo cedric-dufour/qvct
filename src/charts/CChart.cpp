@@ -135,7 +135,7 @@ double CChart::getZoomArea( const CDataPosition& _roGeoPosition1, const CDataPos
   if( __fdLatitude1 * __fdLatitude2 < 0 ) __fdLatitudeMaxCos = 0;
   else if( fabs( __fdLatitude1 ) < fabs( __fdLatitude2 ) ) __fdLatitudeMaxCos = __fdLatitude1;
   else __fdLatitudeMaxCos = __fdLatitude2;
-  double __fdZoomWidth = qRectFDrawArea.width() / ( fabs( ( __fdLongitude2 - __fdLongitude1 ) * cos( __fdLatitudeMaxCos * 0.01745329252 ) ) * 111120.0 / __fdResolution );
+  double __fdZoomWidth = qRectFDrawArea.width() / ( fabs( ( __fdLongitude2 - __fdLongitude1 ) * cos( __fdLatitudeMaxCos * QVCT::DEG2RAD ) ) * 111120.0 / __fdResolution );
   double __fdZoomHeight = qRectFDrawArea.height() / ( fabs( __fdLatitude2 - __fdLatitude1 ) * 111120.0 / __fdResolution );
   return( __fdZoomWidth < __fdZoomHeight ? __fdZoomWidth : __fdZoomHeight );
 }

@@ -104,7 +104,7 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
   _pqPainter->drawPoint( __qPointF );
   double __fdGroundBearing = CDataCourseGA::GroundCourse.getBearing();
   if( __fdGroundBearing == CDataCourse::UNDEFINED_BEARING ) __fdGroundBearing = 0;
-  else __fdGroundBearing *= 0.01745329; // degree -> radian
+  else __fdGroundBearing *= QVCT::DEG2RAD;
   __fdRadius = 16.0 * __fdZoom;
   QPointF __qPointFTip = __qPointF + __fdRadius * QPointF( sin( __fdGroundBearing ), -cos( __fdGroundBearing ) );
   _pqPainter->drawLine( __qPointFTip, __qPointF + __fdRadius * QPointF( sin( __fdGroundBearing+2.5 ), -cos( __fdGroundBearing+2.5 ) ) );
@@ -143,7 +143,7 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
   {
     // ... bearing line
     QString __qsGroundBearing = CUnitBearing::toString( __fdGroundBearing );
-    __fdGroundBearing *= 0.01745329; // degree -> radian
+    __fdGroundBearing *= QVCT::DEG2RAD;
     QPointF __qPointFBearing = QPointF( sin( __fdGroundBearing ), -cos( __fdGroundBearing ) );
     QPointF __qPointFGround = __qPointF + __fdLength * __qPointFBearing;
     bool __bInvalid = false;
@@ -200,7 +200,7 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
   double __fdApparentBearing = CDataCourseGA::ApparentCourse.getBearing();
   if( __fdApparentBearing != CDataCourse::UNDEFINED_BEARING )
   {
-    __fdApparentBearing *= 0.01745329; // degree -> radian
+    __fdApparentBearing *= QVCT::DEG2RAD;
     QPointF __qPointFApparent = __qPointF + __fdLength * QPointF( sin( __fdApparentBearing ), -cos( __fdApparentBearing ) );
     if( _poDataCourseValidityGA && !_poDataCourseValidityGA->ApparentCourseValidity.isValidBearing() ) __qPen.setStyle( Qt::DotLine );
     __qPen.setWidth( 2.0 * __fdZoom );

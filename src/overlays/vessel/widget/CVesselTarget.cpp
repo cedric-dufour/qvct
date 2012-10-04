@@ -107,7 +107,7 @@ void CVesselTarget::refreshContent()
       if( __fdBearingCourse == CDataCourse::UNDEFINED_BEARING ) break;
       double __fdSpeed = poVesselPoint->GroundCourse.getSpeed();
       if( __fdSpeed == __fdSpeed == CDataCourse::UNDEFINED_SPEED ) break;
-      double __fdSpeedCosine = __fdSpeed * cos( ( __fdBearingCourse - __fdBearingTarget ) * 0.01745329 );
+      double __fdSpeedCosine = __fdSpeed * cos( ( __fdBearingCourse - __fdBearingTarget ) * QVCT::DEG2RAD );
       if( __fdSpeedCosine <= 0 ) break; // we can't get any ETE/ETA if we're moving away from the target (or not moving at all)
       double __fdDuration = __fdDistance / __fdSpeedCosine;
       if( __fdDuration > 86400 ) break; // if the ETE is more than 24 hours, let's assume it's not worth displaying it
