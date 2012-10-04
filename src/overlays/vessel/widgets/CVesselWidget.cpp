@@ -23,7 +23,7 @@
 
 // QVCT
 #include "overlays/vessel/CVesselPoint.hpp"
-#include "overlays/vessel/widget/CVesselWidget.hpp"
+#include "overlays/vessel/widgets/CVesselWidget.hpp"
 
 
 //------------------------------------------------------------------------------

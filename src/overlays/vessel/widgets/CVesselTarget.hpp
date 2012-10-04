@@ -16,25 +16,25 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CVESSELPOSITION_HPP
-#define QVCT_CVESSELPOSITION_HPP
+#ifndef QVCT_CVESSELTARGET_HPP
+#define QVCT_CVESSELTARGET_HPP
 
 // QT
 #include <QDockWidget>
 #include <QWidget>
 
 // QVCT
-#include "overlays/vessel/widget/CVesselWidgetAdaptive.hpp"
+#include "overlays/vessel/widgets/CVesselWidgetAdaptive.hpp"
 class COverlayText;
 
 
-/// [UI] Vessel position view (dock widget)
+/// [UI] Vessel target view (dock widget)
 /**
  *  This class provides the user-interface (QDockWidget) that allows to display
- *  a vessel point's live position data.
+ *  a vessel point's live target data (bearing, distance, ETE).
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CVesselPosition: public CVesselWidgetAdaptive
+class CVesselTarget: public CVesselWidgetAdaptive
 {
 
 
@@ -43,12 +43,17 @@ class CVesselPosition: public CVesselWidgetAdaptive
   //------------------------------------------------------------------------------
 
 private:
-  /// [UI:Label] Longitude
-  COverlayText* poTextLongitude;
-  /// [UI:Label] Latitude
-  COverlayText* poTextLatitude;
-  /// [UI:Label] Elevation
-  COverlayText* poTextElevation;
+  /// Flag to track whether content data are currently displayed
+  bool bContentDisplayed;
+
+  /// [UI:Label] Bearing
+  COverlayText* poTextBearing;
+  /// [UI:Label] Distance
+  COverlayText* poTextDistance;
+  /// [UI:Label] Estimated Time En-Route (ETE)
+  COverlayText* poTextEte;
+  /// [UI:Label] Estimated Time of Arrival (ETA)
+  COverlayText* poTextEta;
 
 
   //------------------------------------------------------------------------------
@@ -56,8 +61,8 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselPosition( QWidget* _pqParent );
-  virtual ~CVesselPosition() {};
+  CVesselTarget( QWidget* _pqParent );
+  virtual ~CVesselTarget() {};
 
 private:
   /// Constructs the layout of the user-interface
@@ -82,4 +87,4 @@ public:
 
 };
 
-#endif // QVCT_CVESSELPOSITION_HPP
+#endif // QVCT_CVESSELTARGET_HPP

@@ -24,7 +24,7 @@
 #include <QWidget>
 
 // QVCT
-#include "overlays/vessel/widget/CVesselWidgetAdaptive.hpp"
+#include "overlays/vessel/widgets/CVesselWidgetAdaptive.hpp"
 
 
 //------------------------------------------------------------------------------

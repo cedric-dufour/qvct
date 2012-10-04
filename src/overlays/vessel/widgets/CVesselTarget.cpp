@@ -29,7 +29,7 @@
 #include "overlays/COverlayText.hpp"
 #include "overlays/pointer/CPointerPoint.hpp"
 #include "overlays/vessel/CVesselPoint.hpp"
-#include "overlays/vessel/widget/CVesselTarget.hpp"
+#include "overlays/vessel/widgets/CVesselTarget.hpp"
 
 
 //------------------------------------------------------------------------------

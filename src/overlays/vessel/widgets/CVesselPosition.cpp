@@ -24,7 +24,7 @@
 #include "QVCTRuntime.hpp"
 #include "overlays/COverlayText.hpp"
 #include "overlays/vessel/CVesselPoint.hpp"
-#include "overlays/vessel/widget/CVesselPosition.hpp"
+#include "overlays/vessel/widgets/CVesselPosition.hpp"
 
 
 //------------------------------------------------------------------------------

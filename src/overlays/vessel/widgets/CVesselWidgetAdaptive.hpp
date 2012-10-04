@@ -27,7 +27,7 @@
 #include <QWidget>
 
 // QVCT
-#include "overlays/vessel/widget/CVesselWidget.hpp"
+#include "overlays/vessel/widgets/CVesselWidget.hpp"
 
 
 /// [UI] Adaptive generic vessel (dock) widget

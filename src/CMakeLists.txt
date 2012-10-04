@@ -113,11 +113,11 @@ set( MY_CPPS
   overlays/vessel/device/CVesselPointDeviceCreateView.cpp
   overlays/vessel/device/CVesselPointDeviceDetailView.cpp
   overlays/vessel/device/CVesselPointDeviceEditView.cpp
-  overlays/vessel/widget/CVesselWidget.cpp
-  overlays/vessel/widget/CVesselWidgetAdaptive.cpp
-  overlays/vessel/widget/CVesselCourse.cpp
-  overlays/vessel/widget/CVesselPosition.cpp
-  overlays/vessel/widget/CVesselTarget.cpp
+  overlays/vessel/widgets/CVesselWidget.cpp
+  overlays/vessel/widgets/CVesselWidgetAdaptive.cpp
+  overlays/vessel/widgets/CVesselCourse.cpp
+  overlays/vessel/widgets/CVesselPosition.cpp
+  overlays/vessel/widgets/CVesselTarget.cpp
   settings/CSettings.cpp
   settings/CSettingsEditView.cpp
   settings/CSettingsMiscEditView.cpp
@@ -181,8 +181,8 @@ set( MY_MOCS
   overlays/vessel/device/CVesselPointDeviceCreateView.hpp
   overlays/vessel/device/CVesselPointDeviceDetailView.hpp
   overlays/vessel/device/CVesselPointDeviceEditView.hpp
-  overlays/vessel/widget/CVesselWidget.hpp
-  overlays/vessel/widget/CVesselWidgetAdaptive.hpp
+  overlays/vessel/widgets/CVesselWidget.hpp
+  overlays/vessel/widgets/CVesselWidgetAdaptive.hpp
   settings/CSettings.hpp
   settings/CSettingsEditView.hpp
   settings/CSettingsMiscEditView.hpp
