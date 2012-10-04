@@ -2,7 +2,12 @@
 <RCC version="1.0">
   <qresource prefix="/">
     <file>icons/16x16/qvct.png</file>
+    <file>icons/16x16/device.png</file>
+    <file>icons/16x16/landmark.png</file>
+    <file>icons/16x16/route.png</file>
     <file>icons/16x16/select.png</file>
+    <file>icons/16x16/track.png</file>
+    <file>icons/16x16/vessel.png</file>
     <file>icons/16x16/visible.png</file>
   </qresource>
 </RCC>
