@@ -62,6 +62,19 @@ CUnitDistance::EUnit CUnitDistance::fromCode( const QString& _rqString )
   return oUnitDistanceSymbols.qMapSymbols.key( _rqString, UNDEFINED );
 }
 
+double CUnitDistance::toValue( double _fdValue, CUnitDistance::EUnit _eUnit )
+{
+  switch( _eUnit )
+  {
+  case M: return _fdValue;
+  case KM: return _fdValue / 1000.0;
+  case FT: return _fdValue / 0.3048;
+  case MI: return _fdValue / 1609.344;
+  case NM: return _fdValue / 1852.0;
+  default: return 0;
+  }
+}
+
 QString CUnitDistance::toString( double _fdValue, CUnitDistance::EUnit _eUnit, int _iPrecision )
 {
   switch( _eUnit )

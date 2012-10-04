@@ -24,9 +24,6 @@
 #include <QRegExp>
 #include <QString>
 
-// GPS
-#include <gps.h>
-
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "units/CUnitPosition.hpp"
@@ -103,7 +100,7 @@ QString CUnitPosition::toString( double _fdValue, EType _eType, CUnitPosition::E
     break;
 
   case RAD:
-    __qString = QString::number( fabs( _fdValue ) * GPS_PI / 180.0, 'f', _iPrecision )+QString::fromUtf8("°r");
+    __qString = QString::number( fabs( _fdValue ) * QVCT::PI / 180.0, 'f', _iPrecision )+QString::fromUtf8("°r");
     break;
 
   case GRAD:
@@ -171,7 +168,7 @@ double CUnitPosition::fromString( const QString& _rqString, bool* _pbOK )
   {
     __fdValue = __qRegExpDEG.cap(1).toDouble( &__bOK );
     if( !__bOK ) return 0.0;
-    __fdValue = __fdValue * 180.0 / GPS_PI;
+    __fdValue = __fdValue * 180.0 / QVCT::PI;
     __qsDirection = __qRegExpDEG.cap(4).toUpper();
   }
   else return 0.0;

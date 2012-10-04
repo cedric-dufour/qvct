@@ -68,11 +68,18 @@ CUnitTime::EUnit CUnitTime::fromCode( const QString& _rqString )
   return oUnitTimeCodes.qMapCodes.key( _rqString, UNDEFINED );
 }
 
+double CUnitTime::toValue( double _fdValue, CUnitTimeZone::EUnit _eUnitTimeZone )
+{
+  QDateTime __qDateTime = QDateTime::fromTime_t( _fdValue );
+  __qDateTime.addMSecs( 1000.0*fmod( _fdValue, 1.0 ) + 0.5 );
+  QTime __qTime = _eUnitTimeZone == CUnitTimeZone::UTC ? __qDateTime.toUTC().time() : __qDateTime.toLocalTime().time();
+  return 3600.0*__qTime.hour() + 60.0*__qTime.minute() + __qTime.second() + __qTime.msec()/1000.0;
+}
+
 QString CUnitTime::toString( double _fdValue, CUnitTimeZone::EUnit _eUnitTimeZone, CUnitTime::EUnit _eUnit, int _iPrecision )
 {
   QDateTime __qDateTime = QDateTime::fromTime_t( _fdValue );
-  double __fdDummy;
-  __qDateTime.addMSecs( 1000.0*modf( _fdValue, &__fdDummy ) + 0.5 );
+  __qDateTime.addMSecs( 1000.0*fmod( _fdValue, 1.0 ) + 0.5 );
   QTime __qTime = _eUnitTimeZone == CUnitTimeZone::UTC ? __qDateTime.toUTC().time() : __qDateTime.toLocalTime().time();
   switch( _eUnit )
   {

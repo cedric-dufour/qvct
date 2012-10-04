@@ -65,6 +65,8 @@ public:
   static QString toCode( EUnit _eUnit );
   /// Returns the format/unit ID corresponding to the given machine-friendly code
   static EUnit fromCode( const QString& _rqsCode );
+  /// Returns the converted value, using the specified format/unit
+  static double toValue( double _fdValue, EUnit _eUnit );
   /// Returns the formatted represention of the given value, using the specified format/unit and decimal precision
   static QString toString( double _fdValue, EUnit _eUnit, int _iPrecision = 0 );
   /// Returns the formatted represention of the given value, using the application settings

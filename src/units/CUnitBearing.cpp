@@ -21,9 +21,6 @@
 #include <QRegExp>
 #include <QString>
 
-// GPS
-#include <gps.h>
-
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "units/CUnitBearing.hpp"
@@ -66,12 +63,23 @@ CUnitBearing::EUnit CUnitBearing::fromCode( const QString& _rqString )
   return oUnitBearingCodes.qMapCodes.key( _rqString, UNDEFINED );
 }
 
+double CUnitBearing::toValue( double _fdValue, CUnitBearing::EUnit _eUnit )
+{
+  switch( _eUnit )
+  {
+  case DEG: return _fdValue;
+  case RAD: return _fdValue * QVCT::PI / 180.0;
+  case GRAD: return _fdValue / 0.9;
+  default: return 0;
+  }
+}
+
 QString CUnitBearing::toString( double _fdValue, CUnitBearing::EUnit _eUnit, int _iPrecision )
 {
   switch( _eUnit )
   {
   case DEG: return QString::number( _fdValue, 'f', _iPrecision )+oUnitBearingSymbols.qMapSymbols.value( _eUnit );
-  case RAD: return QString::number( _fdValue * GPS_PI / 180.0, 'f', _iPrecision )+oUnitBearingSymbols.qMapSymbols.value( _eUnit );
+  case RAD: return QString::number( _fdValue * QVCT::PI / 180.0, 'f', _iPrecision )+oUnitBearingSymbols.qMapSymbols.value( _eUnit );
   case GRAD: return QString::number( _fdValue / 0.9, 'f', _iPrecision )+oUnitBearingSymbols.qMapSymbols.value( _eUnit );
   default: return "?";
   }
@@ -96,7 +104,7 @@ double CUnitBearing::fromString( const QString& _rqString, EUnit _eUnit, bool* _
   switch( __qsUnit.isEmpty() ? _eUnit : oUnitBearingSymbols.qMapSymbols.key( __qsUnit, UNDEFINED ) )
   {
   case DEG: break;
-  case RAD: __fdValue = __fdValue * 180.0 / GPS_PI; break;
+  case RAD: __fdValue = __fdValue * 180.0 / QVCT::PI; break;
   case GRAD: __fdValue = __fdValue * 0.9; break;
   default: return 0.0;
   }
