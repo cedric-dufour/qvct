@@ -61,6 +61,7 @@ CVesselContainerDetailView* QVCTRuntime::poVesselContainerDetailView = 0;
 CVesselPointDetailView* QVCTRuntime::poVesselPointDetailView = 0;
 CVesselContainerDeviceDetailView* QVCTRuntime::poVesselContainerDeviceDetailView = 0;
 CVesselPointDeviceDetailView* QVCTRuntime::poVesselPointDeviceDetailView = 0;
+CVesselCockpit* QVCTRuntime::poVesselCockpit = 0;
 CVesselCourse* QVCTRuntime::poVesselCourse = 0;
 CVesselPosition* QVCTRuntime::poVesselPosition = 0;
 CVesselTarget* QVCTRuntime::poVesselTarget = 0;

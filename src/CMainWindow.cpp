@@ -86,22 +86,26 @@ void CMainWindow::constructLayout()
   __poOverlayDetailView->resize( __poOverlayDetailView->width(), 100 );
 
   // Add other docks
-  // ... vessel position
-  CVesselPosition* __poVesselPosition = new CVesselPosition( this );
-  QVCTRuntime::registerVesselPosition( __poVesselPosition );
-  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselPosition );
-  // ... vessel course
-  CVesselCourse* __poVesselCourse = new CVesselCourse( this );
-  QVCTRuntime::registerVesselCourse( __poVesselCourse );
-  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselCourse );
-  // ... vessel target
-  CVesselTarget* __poVesselTarget = new CVesselTarget( this );
-  QVCTRuntime::registerVesselTarget( __poVesselTarget );
-  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselTarget );
   // ... time
   CTimeView* __poTimeView = new CTimeView( this );
   QVCTRuntime::registerTimeView( __poTimeView );
-  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poTimeView );
+  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poTimeView );
+  // ... vessel target
+  CVesselTarget* __poVesselTarget = new CVesselTarget( this );
+  QVCTRuntime::registerVesselTarget( __poVesselTarget );
+  QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselTarget );
+  // ... vessel position
+  CVesselPosition* __poVesselPosition = new CVesselPosition( this );
+  QVCTRuntime::registerVesselPosition( __poVesselPosition );
+  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselPosition );
+  // ... vessel course
+  CVesselCourse* __poVesselCourse = new CVesselCourse( this );
+  QVCTRuntime::registerVesselCourse( __poVesselCourse );
+  QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselCourse );
+  // ... vessel cockpit
+  CVesselCockpitGeneralAviation* __poVesselCockpitGeneralAviation = new CVesselCockpitGeneralAviation( this );
+  QVCTRuntime::registerVesselCockpit( __poVesselCockpitGeneralAviation );
+  // QMainWindow::addDockWidget( Qt::NoDockWidgetArea, __poVesselCockpitGeneralAviation );
 
   // Set the layout
   __pqWidget->setLayout( __pqHBoxLayout );
@@ -160,18 +164,21 @@ void CMainWindow::constructMenus()
   QAction* __pqActionShowOverlayDetailView = new QAction( tr("Show Overlay &Detail" ), this );
   QMainWindow::connect( __pqActionShowOverlayDetailView, SIGNAL( triggered() ), this, SLOT( slotShowOverlayDetailView() ) );
   __pqMenuWindow->addAction( __pqActionShowOverlayDetailView );
+  QAction* __pqActionShowTimeView = new QAction( tr("Show System &Time" ), this );
+  QMainWindow::connect( __pqActionShowTimeView, SIGNAL( triggered() ), this, SLOT( slotShowTimeView() ) );
+  __pqMenuWindow->addAction( __pqActionShowTimeView );
+  QAction* __pqActionShowVesselTarget = new QAction( tr("Show Vessel T&arget" ), this );
+  QMainWindow::connect( __pqActionShowVesselTarget, SIGNAL( triggered() ), this, SLOT( slotShowVesselTarget() ) );
+  __pqMenuWindow->addAction( __pqActionShowVesselTarget );
   QAction* __pqActionShowVesselPosition = new QAction( tr("Show Vessel &Position" ), this );
   QMainWindow::connect( __pqActionShowVesselPosition, SIGNAL( triggered() ), this, SLOT( slotShowVesselPosition() ) );
   __pqMenuWindow->addAction( __pqActionShowVesselPosition );
   QAction* __pqActionShowVesselCourse = new QAction( tr("Show Vessel &Course" ), this );
   QMainWindow::connect( __pqActionShowVesselCourse, SIGNAL( triggered() ), this, SLOT( slotShowVesselCourse() ) );
   __pqMenuWindow->addAction( __pqActionShowVesselCourse );
-  QAction* __pqActionShowVesselTarget = new QAction( tr("Show T&arget Course" ), this );
-  QMainWindow::connect( __pqActionShowVesselTarget, SIGNAL( triggered() ), this, SLOT( slotShowVesselTarget() ) );
-  __pqMenuWindow->addAction( __pqActionShowVesselTarget );
-  QAction* __pqActionShowTimeView = new QAction( tr("Show System &Time" ), this );
-  QMainWindow::connect( __pqActionShowTimeView, SIGNAL( triggered() ), this, SLOT( slotShowTimeView() ) );
-  __pqMenuWindow->addAction( __pqActionShowTimeView );
+  QAction* __pqActionShowVesselCockpit = new QAction( tr("Show Vessel Coc&kpit" ), this );
+  QMainWindow::connect( __pqActionShowVesselCockpit, SIGNAL( triggered() ), this, SLOT( slotShowVesselCockpit() ) );
+  __pqMenuWindow->addAction( __pqActionShowVesselCockpit );
   __pqMenuWindow->addSeparator();
   QAction* __pqActionToggleFullscreen = new QAction( tr("Toggle &Fullscreen" ), this );
   QMainWindow::connect( __pqActionToggleFullscreen, SIGNAL( triggered() ), this, SLOT( slotToggleFullscreen() ) );
@@ -242,6 +249,11 @@ void CMainWindow::slotShowTimeView()
   QVCTRuntime::useTimeView()->show();
 }
 
+void CMainWindow::slotShowVesselTarget()
+{
+  QVCTRuntime::useVesselTarget()->show();
+}
+
 void CMainWindow::slotShowVesselPosition()
 {
   QVCTRuntime::useVesselPosition()->show();
@@ -252,9 +264,9 @@ void CMainWindow::slotShowVesselCourse()
   QVCTRuntime::useVesselCourse()->show();
 }
 
-void CMainWindow::slotShowVesselTarget()
+void CMainWindow::slotShowVesselCockpit()
 {
-  QVCTRuntime::useVesselTarget()->show();
+  QVCTRuntime::useVesselCockpit()->show();
 }
 
 void CMainWindow::slotToggleFullscreen()
@@ -274,6 +286,7 @@ void CMainWindow::slotTimerRefresh()
   QVCTRuntime::useVesselPosition()->refreshContent();
   QVCTRuntime::useVesselCourse()->refreshContent();
   QVCTRuntime::useVesselTarget()->refreshContent();
+  QVCTRuntime::useVesselCockpit()->refreshContent();
   double __fdSystemTime = microtime();
   if( __fdSystemTime - fdTimeLastRedraw >= (double)QVCTRuntime::useSettings()->getRateRedraw() )
   {

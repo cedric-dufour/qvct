@@ -505,6 +505,7 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
     QVCTRuntime::useVesselPosition()->setVesselPoint( __poVesselPoint );
     QVCTRuntime::useVesselCourse()->setVesselPoint( __poVesselPoint );
     QVCTRuntime::useVesselTarget()->setVesselPoint( __poVesselPoint );
+    QVCTRuntime::useVesselCockpit()->setVesselPoint( __poVesselPoint );
     QVCTRuntime::usePointerOverlay()->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
   }
@@ -515,6 +516,7 @@ void CVesselPointDetailView::slotPositionCenterLock( bool _bLock )
     QVCTRuntime::useVesselPosition()->resetVesselPoint();
     QVCTRuntime::useVesselCourse()->resetVesselPoint();
     QVCTRuntime::useVesselTarget()->resetVesselPoint();
+    QVCTRuntime::useVesselCockpit()->resetVesselPoint();
     QVCTRuntime::usePointerOverlay()->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
   }

@@ -113,11 +113,19 @@ set( MY_CPPS
   overlays/vessel/device/CVesselPointDeviceCreateView.cpp
   overlays/vessel/device/CVesselPointDeviceDetailView.cpp
   overlays/vessel/device/CVesselPointDeviceEditView.cpp
-  overlays/vessel/widgets/CVesselWidget.cpp
-  overlays/vessel/widgets/CVesselWidgetAdaptive.cpp
+  overlays/vessel/widgets/CVesselCockpit.cpp
+  overlays/vessel/widgets/CVesselCockpitGeneralAviation.cpp
   overlays/vessel/widgets/CVesselCourse.cpp
   overlays/vessel/widgets/CVesselPosition.cpp
   overlays/vessel/widgets/CVesselTarget.cpp
+  overlays/vessel/widgets/CVesselWidget.cpp
+  overlays/vessel/widgets/instruments/CInstrument.cpp
+  overlays/vessel/widgets/instruments/CInstrumentGAAltimeter.cpp
+  overlays/vessel/widgets/instruments/CInstrumentGAArtificialHorizon.cpp
+  overlays/vessel/widgets/instruments/CInstrumentGAChronograph.cpp
+  overlays/vessel/widgets/instruments/CInstrumentGAHorizontalSituation.cpp
+  overlays/vessel/widgets/instruments/CInstrumentGASpeed.cpp
+  overlays/vessel/widgets/instruments/CInstrumentGASpeedVertical.cpp
   settings/CSettings.cpp
   settings/CSettingsEditView.cpp
   settings/CSettingsMiscEditView.cpp
@@ -181,8 +189,9 @@ set( MY_MOCS
   overlays/vessel/device/CVesselPointDeviceCreateView.hpp
   overlays/vessel/device/CVesselPointDeviceDetailView.hpp
   overlays/vessel/device/CVesselPointDeviceEditView.hpp
+  overlays/vessel/widgets/CVesselCockpit.hpp
   overlays/vessel/widgets/CVesselWidget.hpp
-  overlays/vessel/widgets/CVesselWidgetAdaptive.hpp
+  overlays/vessel/widgets/instruments/CInstrument.hpp
   settings/CSettings.hpp
   settings/CSettingsEditView.hpp
   settings/CSettingsMiscEditView.hpp

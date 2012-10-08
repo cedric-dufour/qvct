@@ -36,7 +36,6 @@
 #include "CTimeView.hpp"
 #include "charts/CChartTable.hpp"
 #include "charts/CChartControl.hpp"
-#include "cockpit/CCockpitGeneralAviation.hpp"
 #include "devices/CDeviceDetailView.hpp"
 #include "overlays/device/CDeviceOverlay.hpp"
 #include "overlays/device/CDeviceOverlayListView.hpp"
@@ -63,9 +62,11 @@
 #include "overlays/vessel/CVesselPointDetailView.hpp"
 #include "overlays/vessel/device/CVesselContainerDeviceDetailView.hpp"
 #include "overlays/vessel/device/CVesselPointDeviceDetailView.hpp"
-#include "overlays/vessel/widget/CVesselCourse.hpp"
-#include "overlays/vessel/widget/CVesselPosition.hpp"
-#include "overlays/vessel/widget/CVesselTarget.hpp"
+#include "overlays/vessel/widgets/CVesselCockpit.hpp"
+#include "overlays/vessel/widgets/CVesselCockpitGeneralAviation.hpp"
+#include "overlays/vessel/widgets/CVesselCourse.hpp"
+#include "overlays/vessel/widgets/CVesselPosition.hpp"
+#include "overlays/vessel/widgets/CVesselTarget.hpp"
 #include "settings/CSettings.hpp"
 
 
@@ -112,6 +113,7 @@ private:
   static CVesselPointDetailView* poVesselPointDetailView;
   static CVesselContainerDeviceDetailView* poVesselContainerDeviceDetailView;
   static CVesselPointDeviceDetailView* poVesselPointDeviceDetailView;
+  static CVesselCockpit* poVesselCockpit;
   static CVesselCourse* poVesselCourse;
   static CVesselPosition* poVesselPosition;
   static CVesselTarget* poVesselTarget;
@@ -148,6 +150,7 @@ public:
   static void registerVesselPointDetailView( CVesselPointDetailView* _poVesselPointDetailView ) { poVesselPointDetailView = _poVesselPointDetailView; };
   static void registerVesselContainerDeviceDetailView( CVesselContainerDeviceDetailView* _poVesselContainerDeviceDetailView ) { poVesselContainerDeviceDetailView = _poVesselContainerDeviceDetailView; };
   static void registerVesselPointDeviceDetailView( CVesselPointDeviceDetailView* _poVesselPointDeviceDetailView ) { poVesselPointDeviceDetailView = _poVesselPointDeviceDetailView; };
+  static void registerVesselCockpit( CVesselCockpit* _poVesselCockpit ) { poVesselCockpit = _poVesselCockpit; };
   static void registerVesselCourse( CVesselCourse* _poVesselCourse ) { poVesselCourse = _poVesselCourse; };
   static void registerVesselPosition( CVesselPosition* _poVesselPosition ) { poVesselPosition = _poVesselPosition; };
   static void registerVesselTarget( CVesselTarget* _poVesselTarget ) { poVesselTarget = _poVesselTarget; };
@@ -188,6 +191,7 @@ public:
   static CVesselPointDetailView* useVesselPointDetailView() { return poVesselPointDetailView; };
   static CVesselContainerDeviceDetailView* useVesselContainerDeviceDetailView() { return poVesselContainerDeviceDetailView; };
   static CVesselPointDeviceDetailView* useVesselPointDeviceDetailView() { return poVesselPointDeviceDetailView; };
+  static CVesselCockpit* useVesselCockpit() { return poVesselCockpit; };
   static CVesselCourse* useVesselCourse() { return poVesselCourse; };
   static CVesselPosition* useVesselPosition() { return poVesselPosition; };
   static CVesselTarget* useVesselTarget() { return poVesselTarget; };
