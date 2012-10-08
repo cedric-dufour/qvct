@@ -78,6 +78,7 @@ CSettings::CSettings()
   , bScreenGestures( false )
   , iRateRefresh( 1000 )
   , iRateRedraw( 5 )
+  , iChartOpacity( 100 )
   , bVisibleSymbols( true )
   , bPrintHighRes( false )
 {
@@ -256,6 +257,11 @@ void CSettings::slotRateRedraw( int _iRateRedraw )
   iRateRedraw = _iRateRedraw;
 }
 
+void CSettings::slotChartOpacity( int _iChartOpacity )
+{
+  iChartOpacity = _iChartOpacity;
+}
+
 void CSettings::slotVisibleSymbols( int _iVisibleSymbols )
 {
   bVisibleSymbols = _iVisibleSymbols == Qt::Checked;
@@ -351,6 +357,7 @@ void CSettings::validate()
   if( iScreenDpi < 1 ) iScreenDpi = 1; if( iScreenDpi > 1200 ) iScreenDpi = 1200;
   if( iRateRefresh < 100 ) iRateRefresh = 100; if( iRateRefresh > 5000 ) iRateRefresh = 5000;
   if( iRateRedraw < 1 ) iRateRedraw = 1; if( iRateRedraw > 300 ) iRateRedraw = 300;
+  if( iChartOpacity < 0 ) iChartOpacity = 0; if( iChartOpacity > 100 ) iChartOpacity = 100;
 }
 
 void CSettings::save( const QString& _rqsFilename ) const
@@ -555,6 +562,10 @@ void CSettings::dumpQVCT( QXmlStreamWriter& _rqXmlStreamWriter, bool _bProjectDu
     _rqXmlStreamWriter.writeAttribute( "refresh", QString::number( iRateRefresh ) );
     _rqXmlStreamWriter.writeAttribute( "redraw", QString::number( iRateRedraw ) );
     _rqXmlStreamWriter.writeEndElement(); // Rates
+    // ... charts
+    _rqXmlStreamWriter.writeStartElement( "Charts" );
+    _rqXmlStreamWriter.writeAttribute( "opacity", QString::number( iChartOpacity ) );
+    _rqXmlStreamWriter.writeEndElement(); // Charts
     // ... symbols
     _rqXmlStreamWriter.writeStartElement( "Symbols" );
     _rqXmlStreamWriter.writeAttribute( "visible", QString::number( (int)bVisibleSymbols ) );
@@ -844,6 +855,12 @@ void CSettings::parseQVCT( const QDomElement& _rqDomElement )
       {
         iRateRefresh = __qDomElement.attribute( "refresh", "1000" ).toInt();
         iRateRedraw = __qDomElement.attribute( "redraw", "5" ).toInt();
+      }
+      // ... charts
+      __qDomElement = __qDomElementContext.firstChildElement( "Charts" );
+      if( !__qDomElement.isNull() )
+      {
+        iChartOpacity = __qDomElement.attribute( "opacity", "100" ).toInt();
       }
       // ... symbols
       __qDomElement = __qDomElementContext.firstChildElement( "Symbols" );

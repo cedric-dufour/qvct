@@ -190,6 +190,9 @@ private:
   /// [Misc] Content redraw rate, in seconds
   /** @see slotRateRedraw(), getRateRedraw() */
   int iRateRedraw;
+  /// [Misc] Chart opacity [0,100]
+  /** @see slotChartOpacity(), getChartOpacity() */
+  int iChartOpacity;
   /// [Misc] Symbols visibility (on chart)
   /** @see slotVisibleSymbols(), isVisibleSymbols() */
   bool bVisibleSymbols;
@@ -301,6 +304,8 @@ private slots:
   void slotRateRefresh( int _iRateRefresh );
   /// [Misc] Slot to modify the content redraw rate
   void slotRateRedraw( int _iRateRedraw );
+  /// [Misc] Slot to modify the chart opacity
+  void slotChartOpacity( int _iChartOpacity );
   /// [Misc] Slot to modify the symbols visibility (on chart)
   void slotVisibleSymbols( int _iVisibleSymbols );
   /// [Misc] Slot to modify the high-resolution printing status
@@ -423,6 +428,8 @@ public:
   int getRateRefresh() { return iRateRefresh; };
   /// [Misc] Returns the content redraw rate, in seconds
   int getRateRedraw() { return iRateRedraw; };
+  /// [Misc] Returns the chart opacity [0,100]
+  int getChartOpacity() { return iChartOpacity; };
   /// [Misc] Returns the symbols visibility (on chart)
   bool isVisibleSymbols() { return bVisibleSymbols; };
   /// [Misc] Returns the high-resolution printing status

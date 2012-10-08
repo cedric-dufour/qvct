@@ -385,7 +385,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
 
     // Reset pixmap buffer
     if( qPixmapBuffer.size() != __qSizePixmapWished ) qPixmapBuffer = QPixmap( __qSizePixmapWished );
-    qPixmapBuffer.fill( Qt::lightGray );
+    qPixmapBuffer.fill( Qt::black );
     qPointFDatPositionWished = _rqPointFDatPosition;
     fdZoomWished = _fdZoom;
     //qDebug( "DEBUG[%s] qPointFDatPositionWished: %f, %f", Q_FUNC_INFO, qPointFDatPositionWished.x(), qPointFDatPositionWished.y() );

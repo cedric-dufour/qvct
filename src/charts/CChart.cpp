@@ -23,6 +23,7 @@
 #include <QDomElement> // QtXml module
 #include <QKeyEvent>
 #include <QPainter>
+#include <QPalette>
 #include <QPixmap>
 #include <QRectF>
 #include <QWidget>
@@ -45,7 +46,11 @@ CChart::CChart( QWidget* _pqParent, const QString& _rqsFileName )
 {
   poChartGDAL = new CChartGDAL( _rqsFileName );
   if( poChartGDAL->getStatus() != QVCT::OK ) return;
-  setCursor( QCursor( QPixmap( ":cursors/crosshair.png" ), 15, 15 ) );
+  QPalette __qPalette( QWidget::palette() );
+  __qPalette.setColor( QPalette::Background, Qt::black );
+  QWidget::setPalette( __qPalette );
+  QWidget::setAutoFillBackground(true);
+  QWidget::setCursor( QCursor( QPixmap( ":cursors/crosshair.png" ), 15, 15 ) );
   qPointFDatPosition = QRectF( poChartGDAL->getDatGeometry() ).center();
   bPositionLock = true;
   fdZoom = 1.0;
@@ -177,7 +182,9 @@ void CChart::draw()
   __qPainter.begin( this );
   __qPainter.setRenderHints( QPainter::SmoothPixmapTransform | QPainter::Antialiasing | QPainter::TextAntialiasing );
   // ... chart
+  __qPainter.setOpacity( (double)QVCTRuntime::useSettings()->getChartOpacity()/100.0 );
   poChartGDAL->draw( &__qPainter, qPointFDatPosition, fdZoom );
+  __qPainter.setOpacity( 1.0 );
   // ... overlays
   QVCTRuntime::useLandmarkOverlay()->draw( this, &__qPainter );
   QVCTRuntime::useRouteOverlay()->draw( this, &__qPainter );
