@@ -400,7 +400,7 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
         // Match mouse position with overlays' item
         CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
         CPointerPoint* __poPointerPoint = __poPointerOverlay->usePointerPoint();
-        bool __bPointerTargetPending = bPointerTarget ? __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator==( CDataPosition::UNDEFINED ) : false;
+        bool __bPointerTargetPending = bPointerTarget ? __poPointerOverlay->usePointerTarget()->CDataPosition::operator==( CDataPosition::UNDEFINED ) : false;
         CDataPosition __oGeoPosition;
         do
         {
@@ -730,10 +730,10 @@ bool CChartTable::setPointerTarget( const CDataPosition& _roGeoPosition )
 {
   if( bIgnoreUpdate || QTabWidget::currentIndex() < 0 ) return false;
   CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
-  if( bPointerTarget && __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator==( CDataPosition::UNDEFINED ) )
+  if( bPointerTarget && __poPointerOverlay->usePointerTarget()->CDataPosition::operator==( CDataPosition::UNDEFINED ) )
   {
     __poPointerOverlay->setPosition( _roGeoPosition, true );
-    __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint( true ) );
+    __poPointerOverlay->showDetail( __poPointerOverlay->usePointerTarget() );
     __poPointerOverlay->forceRedraw();
     ((CChart*)QTabWidget::currentWidget())->update();
     return true;
@@ -790,7 +790,7 @@ bool CChartTable::extendPointerPath( const CDataPosition& _roGeoPosition )
       __poPointerOverlay->clearPath();
     }
     __poPointerOverlay->setPath( _roGeoPosition );
-    __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint( false ) );
+    __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint() );
     __poPointerOverlay->forceRedraw();
     ((CChart*)QTabWidget::currentWidget())->update();
     return true;

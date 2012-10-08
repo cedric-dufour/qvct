@@ -24,7 +24,7 @@
 #include <QWidget>
 
 // QVCT
-#include "overlays/vessel/widgets/CVesselWidgetAdaptive.hpp"
+#include "overlays/vessel/widgets/CVesselWidget.hpp"
 class COverlayText;
 
 
@@ -34,7 +34,7 @@ class COverlayText;
  *  a vessel point's live position data.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CVesselPosition: public CVesselWidgetAdaptive
+class CVesselPosition: public CVesselWidget
 {
 
 
@@ -69,16 +69,9 @@ private:
   //------------------------------------------------------------------------------
 
 public:
+  virtual void setFont( QFont _qFont );
   virtual void refreshContent();
   virtual void resetContent();
-
-
-  //------------------------------------------------------------------------------
-  // METHODS: CVesselWidgetAdaptive (implement/override)
-  //------------------------------------------------------------------------------
-
-public:
-  virtual void setFont( QFont _qFont );
 
 };
 

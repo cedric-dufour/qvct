@@ -32,7 +32,7 @@
 //------------------------------------------------------------------------------
 
 CVesselPosition::CVesselPosition( QWidget* _pqParent )
-  : CVesselWidgetAdaptive( tr("Vessel Position"), _pqParent )
+  : CVesselWidget( tr("Vessel Position"), _pqParent )
 {
   QDockWidget::setObjectName( "VesselPosition" ); // required to save main window's state
   QDockWidget::setAllowedAreas( Qt::AllDockWidgetAreas );
@@ -67,6 +67,13 @@ void CVesselPosition::constructLayout()
 // METHODS: CVesselWidget (implement/override)
 //------------------------------------------------------------------------------
 
+void CVesselPosition::setFont( QFont _qFont )
+{
+  poTextLongitude->setFont( _qFont );
+  poTextLatitude->setFont( _qFont );
+  poTextElevation->setFont( _qFont );
+}
+
 void CVesselPosition::refreshContent()
 {
   if( !poVesselPoint || !QWidget::isVisible() ) return;
@@ -96,16 +103,4 @@ void CVesselPosition::resetContent()
   poTextLongitude->resetText();
   poTextLatitude->resetText();
   poTextElevation->resetText();
-}
-
-
-//------------------------------------------------------------------------------
-// METHODS: CVesselWidgetAdaptive (implement/override)
-//------------------------------------------------------------------------------
-
-void CVesselPosition::setFont( QFont _qFont )
-{
-  poTextLongitude->setFont( _qFont );
-  poTextLatitude->setFont( _qFont );
-  poTextElevation->setFont( _qFont );
 }

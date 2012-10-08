@@ -74,8 +74,10 @@ public:
 
   // USERS
 public:
-  /// Returns the pointer point corresponding to the mouse pointer or target
-  CPointerPoint* usePointerPoint( bool _bTarget = false );
+  /// Returns the pointer point corresponding to the mouse pointer
+  CPointerPoint* usePointerPoint();
+  /// Returns the pointer point corresponding to the target
+  CPointerPoint* usePointerTarget();
 
   // OTHER
 public:

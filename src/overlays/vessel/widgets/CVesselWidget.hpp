@@ -20,7 +20,9 @@
 #define QVCT_CVESSELWIDGET_HPP
 
 // QT
+#include <QBoxLayout>
 #include <QDockWidget>
+#include <QFont>
 #include <QString>
 #include <QWidget>
 
@@ -32,6 +34,9 @@ class CVesselPoint;
 /**
  *  This class defines the base user-interface required to display vessels
  *  (dock) widgets.
+ *  These widgets will automatically change their layout between vertical
+ *  and horizontal depending on where they are docked, as well as adapt their
+ *  font size according to their size.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
 class CVesselWidget: public QDockWidget
@@ -46,6 +51,8 @@ class CVesselWidget: public QDockWidget
 protected:
   /// [UI:Widget] Container widget
   QWidget* pqWidget;
+  /// [UI:Layout] Layout
+  QBoxLayout* pqBoxLayout;
 
   /// Overlay course being displayed
   /** @see setVesselPoint(), resetVesselPoint() */
@@ -62,6 +69,14 @@ protected:
 
 
   //------------------------------------------------------------------------------
+  // METHODS: QWidget (override)
+  //------------------------------------------------------------------------------
+
+protected slots:
+  virtual void resizeEvent( QResizeEvent* _pqResizeEvent );
+
+
+  //------------------------------------------------------------------------------
   // METHODS
   //------------------------------------------------------------------------------
 
@@ -69,6 +84,12 @@ protected:
 private slots:
   /// Slot to handle object destruction
   void slotDestroyed( QObject* _pqObject );
+
+private slots:
+  /// Slot to handle dock area change
+  void slotLocationChanged( Qt::DockWidgetArea _qDockWidgetArea );
+  /// Slot to handle floating change
+  void slotTopLevelChanged( bool _bTopLevel );
 
   // SETTERS
 public:
@@ -79,6 +100,8 @@ public:
 
   // OTHER
 public:
+  /// Sets the font for the content of the underlying widget
+  virtual void setFont( QFont _qFont ) = 0;
   /// Refreshes the content of the underlying widget
   virtual void refreshContent() = 0;
   /// Resets (clears) the content of the underlying widget

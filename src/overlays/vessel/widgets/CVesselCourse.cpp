@@ -32,7 +32,7 @@
 //------------------------------------------------------------------------------
 
 CVesselCourse::CVesselCourse( QWidget* _pqParent )
-  : CVesselWidgetAdaptive( tr("Vessel Course"), _pqParent )
+  : CVesselWidget( tr("Vessel Course"), _pqParent )
 {
   QDockWidget::setObjectName( "VesselCourse" ); // required to save main window's state
   QDockWidget::setAllowedAreas( Qt::AllDockWidgetAreas );
@@ -66,6 +66,13 @@ void CVesselCourse::constructLayout()
 //------------------------------------------------------------------------------
 // METHODS: CVesselWidget (implement/override)
 //------------------------------------------------------------------------------
+
+void CVesselCourse::setFont( QFont _qFont )
+{
+  poTextBearing->setFont( _qFont );
+  poTextSpeed->setFont( _qFont );
+  poTextSpeedVertical->setFont( _qFont );
+}
 
 void CVesselCourse::refreshContent()
 {
@@ -138,16 +145,4 @@ void CVesselCourse::resetContent()
   poTextBearing->resetText();
   poTextSpeed->resetText();
   poTextSpeedVertical->resetText();
-}
-
-
-//------------------------------------------------------------------------------
-// METHODS: CVesselWidgetAdaptive (implement/override)
-//------------------------------------------------------------------------------
-
-void CVesselCourse::setFont( QFont _qFont )
-{
-  poTextBearing->setFont( _qFont );
-  poTextSpeed->setFont( _qFont );
-  poTextSpeedVertical->setFont( _qFont );
 }

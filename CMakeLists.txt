@@ -28,7 +28,7 @@ set( PROGNAME qvct )
 include( DefineCompilerFlags )
 include( DefineInstallationPaths )
 add_definitions(
-  -DCONFDIR_STRING="/.config/qvct"
+  -DCONFDIR_STRING="/.config/qvct" -Wall
 )
 
 # Sub-directories

@@ -37,7 +37,7 @@
 //------------------------------------------------------------------------------
 
 CVesselTarget::CVesselTarget( QWidget* _pqParent )
-  : CVesselWidgetAdaptive( tr("Target Course"), _pqParent )
+  : CVesselWidget( tr("Target Course"), _pqParent )
   , bContentDisplayed( false )
 {
   QDockWidget::setObjectName( "VesselTarget" ); // required to save main window's state
@@ -78,10 +78,18 @@ void CVesselTarget::constructLayout()
 // METHODS: CVesselWidget (implement/override)
 //------------------------------------------------------------------------------
 
+void CVesselTarget::setFont( QFont _qFont )
+{
+  poTextBearing->setFont( _qFont );
+  poTextDistance->setFont( _qFont );
+  poTextEte->setFont( _qFont );
+  poTextEta->setFont( _qFont );
+}
+
 void CVesselTarget::refreshContent()
 {
   if( !poVesselPoint || !QWidget::isVisible() ) return;
-  CPointerPoint* __poPointerPoint = QVCTRuntime::usePointerOverlay()->usePointerPoint( true );
+  CPointerPoint* __poPointerPoint = QVCTRuntime::usePointerOverlay()->usePointerTarget();
   if( __poPointerPoint->CDataPosition::operator==( CDataPosition::UNDEFINED ) )
   {
     if( bContentDisplayed ) resetContent();
@@ -106,7 +114,7 @@ void CVesselTarget::refreshContent()
       double __fdBearingCourse = poVesselPoint->GroundCourse.getBearing();
       if( __fdBearingCourse == CDataCourse::UNDEFINED_BEARING ) break;
       double __fdSpeed = poVesselPoint->GroundCourse.getSpeed();
-      if( __fdSpeed == __fdSpeed == CDataCourse::UNDEFINED_SPEED ) break;
+      if( __fdSpeed == CDataCourse::UNDEFINED_SPEED ) break;
       double __fdSpeedCosine = __fdSpeed * cos( ( __fdBearingCourse - __fdBearingTarget ) * QVCT::DEG2RAD );
       if( __fdSpeedCosine <= 0 ) break; // we can't get any ETE/ETA if we're moving away from the target (or not moving at all)
       double __fdDuration = __fdDistance / __fdSpeedCosine;
@@ -135,17 +143,4 @@ void CVesselTarget::resetContent()
   poTextDistance->resetText();
   poTextEte->resetText();
   poTextEta->resetText();
-}
-
-
-//------------------------------------------------------------------------------
-// METHODS: CVesselWidgetAdaptive (implement/override)
-//------------------------------------------------------------------------------
-
-void CVesselTarget::setFont( QFont _qFont )
-{
-  poTextBearing->setFont( _qFont );
-  poTextDistance->setFont( _qFont );
-  poTextEte->setFont( _qFont );
-  poTextEta->setFont( _qFont );
 }
