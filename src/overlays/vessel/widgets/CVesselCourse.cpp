@@ -17,25 +17,22 @@
  */
 
 // QT
-#include <QBoxLayout>
 #include <QDockWidget>
-#include <QLabel>
 #include <QWidget>
 
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "overlays/COverlayText.hpp"
 #include "overlays/vessel/CVesselPoint.hpp"
-#include "overlays/vessel/CVesselCourseDockView.hpp"
+#include "overlays/vessel/widgets/CVesselCourse.hpp"
 
 
 //------------------------------------------------------------------------------
 // CONSTRUCTORS / DESTRUCTOR
 //------------------------------------------------------------------------------
 
-CVesselCourseDockView::CVesselCourseDockView( QWidget* _pqParent )
-  : QDockWidget( tr("Vessel Course"), _pqParent )
-  , poVesselPoint( 0 )
+CVesselCourse::CVesselCourse( QWidget* _pqParent )
+  : CVesselWidget( tr("Vessel Course"), _pqParent )
 {
   QDockWidget::setObjectName( "VesselCourse" ); // required to save main window's state
   QDockWidget::setAllowedAreas( Qt::AllDockWidgetAreas );
@@ -44,14 +41,8 @@ CVesselCourseDockView::CVesselCourseDockView( QWidget* _pqParent )
   QObject::connect( this, SIGNAL(topLevelChanged(bool)), this, SLOT( slotTopLevelChanged(bool) ) );
 }
 
-void CVesselCourseDockView::constructLayout()
+void CVesselCourse::constructLayout()
 {
-  // Create holder widget and layout
-  pqWidget = new QWidget( this );
-  pqWidget->setStyleSheet( ".QWidget { BACKGROUND-COLOR: rgba(0,0,0,255); } .QLabel { COLOR: rgba(255,255,255,255); }" );
-  pqBoxLayout = new QBoxLayout( QBoxLayout::TopToBottom, pqWidget );
-  pqBoxLayout->setContentsMargins( 5, 5, 5, 5 );
-
   // Add data
   // ... course
   poTextBearing = new COverlayText( this );
@@ -69,90 +60,21 @@ void CVesselCourseDockView::constructLayout()
   poTextSpeedVertical->setAlignment( Qt::AlignCenter );
   poTextSpeedVertical->resetText();
   pqBoxLayout->addWidget( poTextSpeedVertical );
-
-  // Finalize
-  QDockWidget::setWidget( pqWidget );
 }
 
 
 //------------------------------------------------------------------------------
-// METHODS: QWidget (override)
+// METHODS: CVesselWidget (implement/override)
 //------------------------------------------------------------------------------
 
-void CVesselCourseDockView::resizeEvent( QResizeEvent* _pqResizeEvent )
+void CVesselCourse::setFont( QFont _qFont )
 {
-  int __iWidth = pqWidget->width();
-  int __iHeight = pqWidget->height();
-  int __iFontSize;
-  if( pqBoxLayout->direction() == QBoxLayout::LeftToRight ) __iFontSize = std::min( 0.6*__iHeight, 0.05*__iWidth );
-  else __iFontSize = std::min( 0.225*__iHeight, 0.15*__iWidth );
-  if( __iFontSize < 20 ) __iFontSize = 20;
-  QFont __qFontData;
-  __qFontData.setPixelSize( __iFontSize );
-  __qFontData.setBold( true );
-  poTextBearing->setFont( __qFontData );
-  poTextSpeed->setFont( __qFontData );
-  poTextSpeedVertical->setFont( __qFontData );
-  QDockWidget::resizeEvent( _pqResizeEvent );
+  poTextBearing->setFont( _qFont );
+  poTextSpeed->setFont( _qFont );
+  poTextSpeedVertical->setFont( _qFont );
 }
 
-
-//------------------------------------------------------------------------------
-// METHODS
-//------------------------------------------------------------------------------
-
-//
-// SLOTS
-//
-
-void CVesselCourseDockView::slotDestroyed( QObject* _pqObject )
-{
-  if( !_pqObject || (QObject*)poVesselPoint != _pqObject ) return;
-  resetVesselPoint();
-}
-
-void CVesselCourseDockView::slotLocationChanged( Qt::DockWidgetArea _qDockWidgetArea )
-{
-  if( _qDockWidgetArea == Qt::TopDockWidgetArea || _qDockWidgetArea == Qt::BottomDockWidgetArea )
-    pqBoxLayout->setDirection( QBoxLayout::LeftToRight );
-  else
-    pqBoxLayout->setDirection( QBoxLayout::TopToBottom );
-}
-
-void CVesselCourseDockView::slotTopLevelChanged( bool _bTopLevel )
-{
-  if( _bTopLevel )
-  {
-    pqBoxLayout->setDirection( QBoxLayout::TopToBottom );
-    // pqWidget->setMaximumHeight( 150 );
-  }
-}
-
-//
-// SETTERS
-//
-
-void CVesselCourseDockView::setVesselPoint( CVesselPoint* _poVesselPoint )
-{
-  if( poVesselPoint == _poVesselPoint ) return;
-  poVesselPoint = _poVesselPoint;
-  QObject::connect( poVesselPoint, SIGNAL( destroyed(QObject*) ), this, SLOT( slotDestroyed(QObject*) ) );
-}
-
-void CVesselCourseDockView::resetVesselPoint()
-{
-  if( poVesselPoint ) QObject::disconnect( (QObject*)poVesselPoint, 0, this, 0 );
-  poVesselPoint = 0;
-  poTextBearing->resetText();
-  poTextSpeed->resetText();
-  poTextSpeedVertical->resetText();
-}
-
-//
-// OTHER
-//
-
-void CVesselCourseDockView::refreshContent()
+void CVesselCourse::refreshContent()
 {
   if( !poVesselPoint || !QWidget::isVisible() ) return;
   if( poVesselPoint->GroundCourse.operator!=( CDataCourse::UNDEFINED )
@@ -215,9 +137,12 @@ void CVesselCourseDockView::refreshContent()
 
   }
   else
-  {
-    poTextBearing->resetText();
-    poTextSpeed->resetText();
-    poTextSpeedVertical->resetText();
-  }
+    resetContent();
+}
+
+void CVesselCourse::resetContent()
+{
+  poTextBearing->resetText();
+  poTextSpeed->resetText();
+  poTextSpeedVertical->resetText();
 }

@@ -62,6 +62,16 @@ CUnitElevation::EUnit CUnitElevation::fromCode( const QString& _rqString )
   return oUnitElevationSymbols.qMapSymbols.key( _rqString, UNDEFINED );
 }
 
+double CUnitElevation::toValue( double _fdValue, CUnitElevation::EUnit _eUnit )
+{
+  switch( _eUnit )
+  {
+  case M: return _fdValue;
+  case FT: return _fdValue / 0.3048;
+  default: return 0;
+  }
+}
+
 QString CUnitElevation::toString( double _fdValue, CUnitElevation::EUnit _eUnit, int _iPrecision )
 {
   switch( _eUnit )

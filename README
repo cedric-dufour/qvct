@@ -29,6 +29,8 @@ It features:
     * GPS daemon (GPSD) - AIS mode
  - loading and saving entire navigation/planning projects, stored in QVCT (XML)
    format
+ - displaying vessel instruments in an activity-specific cockpit, including:
+    * general aviation "basic six"
  - printing charts and overlays (landmarks, routes, etc.) in standard (screen)
    or high (1200 DPI) resolution
  - touchscreen-friendly user interface (you really don't need a mouse or key-

@@ -135,9 +135,14 @@ int CPointerOverlay::getPathSegments() const
 // USERS
 //
 
-CPointerPoint* CPointerOverlay::usePointerPoint( bool _bTarget )
+CPointerPoint* CPointerOverlay::usePointerPoint()
 {
-  return (CPointerPoint*)QTreeWidgetItem::child( _bTarget ? 1 : 0 );
+  return (CPointerPoint*)QTreeWidgetItem::child( 0 );
+}
+
+CPointerPoint* CPointerOverlay::usePointerTarget()
+{
+  return (CPointerPoint*)QTreeWidgetItem::child( 1 );
 }
 
 //

@@ -254,7 +254,7 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
         {
           __fdErrorBearing =
             atan( ( ( __fdErrorHorizontal + __poVesselPoint->getErrorPosition() ) / 10.0 + fabs( __fdErrorHorizontal - __poVesselPoint->getErrorPosition() ) ) / __fdDistance )
-            * 57.29577951; // radian->degree
+            * QVCT::RAD2DEG;
         }
       }
       __poVesselPoint->GroundCourse.setBearing( __fdGroundBearing );

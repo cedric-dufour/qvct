@@ -81,7 +81,7 @@ QString CUnitTimeDelta::toString( double _fdValue, CUnitTimeDelta::EUnit _eUnit,
       modf( __fdMin / 60.0, &__fdHour );
       __fdMin -= __fdHour * 60.0;
       QString __qsSec = QString::number( __fdSec, 'f', _iPrecision ).prepend( "0" ).right( 2+( _iPrecision>0 ? _iPrecision+1 : 0 ) ); // WARNING: rounding-up may occur!
-      if( __qsSec[0] == '1' ) { __fdMin += 1; __qsSec[0] = '0'; } // fix rounding-up
+      if( __qsSec[0] == '6' ) { __fdMin += 1; __qsSec[0] = '0'; } // fix rounding-up
       QString __qsMin = QString::number( __fdMin, 'f', 0 ).prepend( "0" ).right( 2 );
       if( __qsMin[0] == '6' ) { __fdHour += 1; __qsMin[0] = '0'; } // fix rounding-up
       return QString::number( _fdValue < 0 ? -__fdHour : __fdHour, 'f', 0 )+":"+__qsMin+":"+__qsSec;

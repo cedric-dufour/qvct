@@ -63,6 +63,18 @@ CUnitSpeed::EUnit CUnitSpeed::fromCode( const QString& _rqString )
   return oUnitSpeedCodes.qMapCodes.key( _rqString, UNDEFINED );
 }
 
+double CUnitSpeed::toValue( double _fdValue, CUnitSpeed::EUnit _eUnit )
+{
+  switch( _eUnit )
+  {
+  case M_S: return _fdValue;
+  case KM_H: return _fdValue * 3.6;
+  case MI_H: return _fdValue * 2.23693629205;
+  case KT: return _fdValue * 1.94384449244;
+  default: return 0;
+  }
+}
+
 QString CUnitSpeed::toString( double _fdValue, CUnitSpeed::EUnit _eUnit, int _iPrecision )
 {
   switch( _eUnit )

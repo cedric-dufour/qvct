@@ -20,10 +20,8 @@
 #include <cmath>
 
 // QT
-#include <QBoxLayout>
 #include <QDateTime>
 #include <QDockWidget>
-#include <QLabel>
 #include <QWidget>
 
 // QVCT
@@ -31,16 +29,15 @@
 #include "overlays/COverlayText.hpp"
 #include "overlays/pointer/CPointerPoint.hpp"
 #include "overlays/vessel/CVesselPoint.hpp"
-#include "overlays/vessel/CVesselTargetDockView.hpp"
+#include "overlays/vessel/widgets/CVesselTarget.hpp"
 
 
 //------------------------------------------------------------------------------
 // CONSTRUCTORS / DESTRUCTOR
 //------------------------------------------------------------------------------
 
-CVesselTargetDockView::CVesselTargetDockView( QWidget* _pqParent )
-  : QDockWidget( tr("Target Course"), _pqParent )
-  , poVesselPoint( 0 )
+CVesselTarget::CVesselTarget( QWidget* _pqParent )
+  : CVesselWidget( tr("Target Course"), _pqParent )
   , bContentDisplayed( false )
 {
   QDockWidget::setObjectName( "VesselTarget" ); // required to save main window's state
@@ -50,14 +47,8 @@ CVesselTargetDockView::CVesselTargetDockView( QWidget* _pqParent )
   QObject::connect( this, SIGNAL(topLevelChanged(bool)), this, SLOT( slotTopLevelChanged(bool) ) );
 }
 
-void CVesselTargetDockView::constructLayout()
+void CVesselTarget::constructLayout()
 {
-  // Create holder widget and layout
-  pqWidget = new QWidget( this );
-  pqWidget->setStyleSheet( ".QWidget { BACKGROUND-COLOR: rgba(0,0,0,255); } .QLabel { COLOR: rgba(255,255,255,255); }" );
-  pqBoxLayout = new QBoxLayout( QBoxLayout::TopToBottom, pqWidget );
-  pqBoxLayout->setContentsMargins( 5, 5, 5, 5 );
-
   // Add data
   // ... target
   poTextBearing = new COverlayText( this );
@@ -80,102 +71,28 @@ void CVesselTargetDockView::constructLayout()
   poTextEta->setAlignment( Qt::AlignCenter );
   poTextEta->resetText();
   pqBoxLayout->addWidget( poTextEta );
-
-  // Finalize
-  QDockWidget::setWidget( pqWidget );
 }
 
 
 //------------------------------------------------------------------------------
-// METHODS: QWidget (override)
+// METHODS: CVesselWidget (implement/override)
 //------------------------------------------------------------------------------
 
-void CVesselTargetDockView::resizeEvent( QResizeEvent* _pqResizeEvent )
+void CVesselTarget::setFont( QFont _qFont )
 {
-  int __iWidth = pqWidget->width();
-  int __iHeight = pqWidget->height();
-  int __iFontSize;
-  if( pqBoxLayout->direction() == QBoxLayout::LeftToRight ) __iFontSize = std::min( 0.6*__iHeight, 0.05*__iWidth );
-  else __iFontSize = std::min( 0.225*__iHeight, 0.15*__iWidth );
-  if( __iFontSize < 20 ) __iFontSize = 20;
-  QFont __qFontData;
-  __qFontData.setPixelSize( __iFontSize );
-  __qFontData.setBold( true );
-  poTextBearing->setFont( __qFontData );
-  poTextDistance->setFont( __qFontData );
-  poTextEte->setFont( __qFontData );
-  poTextEta->setFont( __qFontData );
-  QDockWidget::resizeEvent( _pqResizeEvent );
+  poTextBearing->setFont( _qFont );
+  poTextDistance->setFont( _qFont );
+  poTextEte->setFont( _qFont );
+  poTextEta->setFont( _qFont );
 }
 
-
-//------------------------------------------------------------------------------
-// METHODS
-//------------------------------------------------------------------------------
-
-//
-// SLOTS
-//
-
-void CVesselTargetDockView::slotDestroyed( QObject* _pqObject )
-{
-  if( !_pqObject || (QObject*)poVesselPoint != _pqObject ) return;
-  resetVesselPoint();
-}
-
-void CVesselTargetDockView::slotLocationChanged( Qt::DockWidgetArea _qDockWidgetArea )
-{
-  if( _qDockWidgetArea == Qt::TopDockWidgetArea || _qDockWidgetArea == Qt::BottomDockWidgetArea )
-    pqBoxLayout->setDirection( QBoxLayout::LeftToRight );
-  else
-    pqBoxLayout->setDirection( QBoxLayout::TopToBottom );
-}
-
-void CVesselTargetDockView::slotTopLevelChanged( bool _bTopLevel )
-{
-  if( _bTopLevel ) pqBoxLayout->setDirection( QBoxLayout::TopToBottom );
-}
-
-//
-// SETTERS
-//
-
-void CVesselTargetDockView::setVesselPoint( CVesselPoint* _poVesselPoint )
-{
-  if( poVesselPoint == _poVesselPoint ) return;
-  poVesselPoint = _poVesselPoint;
-  QObject::connect( poVesselPoint, SIGNAL( destroyed(QObject*) ), this, SLOT( slotDestroyed(QObject*) ) );
-}
-
-void CVesselTargetDockView::resetVesselPoint()
-{
-  if( poVesselPoint ) QObject::disconnect( (QObject*)poVesselPoint, 0, this, 0 );
-  poVesselPoint = 0;
-  bContentDisplayed = false;
-  poTextBearing->resetText();
-  poTextDistance->resetText();
-  poTextEte->resetText();
-  poTextEta->resetText();
-}
-
-//
-// OTHER
-//
-
-void CVesselTargetDockView::refreshContent()
+void CVesselTarget::refreshContent()
 {
   if( !poVesselPoint || !QWidget::isVisible() ) return;
-  CPointerPoint* __poPointerPoint = QVCTRuntime::usePointerOverlay()->usePointerPoint( true );
+  CPointerPoint* __poPointerPoint = QVCTRuntime::usePointerOverlay()->usePointerTarget();
   if( __poPointerPoint->CDataPosition::operator==( CDataPosition::UNDEFINED ) )
   {
-    if( bContentDisplayed )
-    {
-      bContentDisplayed = false;
-      poTextBearing->resetText();
-      poTextDistance->resetText();
-      poTextEte->resetText();
-      poTextEta->resetText();
-    }
+    if( bContentDisplayed ) resetContent();
     return;
   }
 
@@ -197,8 +114,8 @@ void CVesselTargetDockView::refreshContent()
       double __fdBearingCourse = poVesselPoint->GroundCourse.getBearing();
       if( __fdBearingCourse == CDataCourse::UNDEFINED_BEARING ) break;
       double __fdSpeed = poVesselPoint->GroundCourse.getSpeed();
-      if( __fdSpeed == __fdSpeed == CDataCourse::UNDEFINED_SPEED ) break;
-      double __fdSpeedCosine = __fdSpeed * cos( ( __fdBearingCourse - __fdBearingTarget ) * 0.01745329 );
+      if( __fdSpeed == CDataCourse::UNDEFINED_SPEED ) break;
+      double __fdSpeedCosine = __fdSpeed * cos( ( __fdBearingCourse - __fdBearingTarget ) * QVCT::DEG2RAD );
       if( __fdSpeedCosine <= 0 ) break; // we can't get any ETE/ETA if we're moving away from the target (or not moving at all)
       double __fdDuration = __fdDistance / __fdSpeedCosine;
       if( __fdDuration > 86400 ) break; // if the ETE is more than 24 hours, let's assume it's not worth displaying it
@@ -216,11 +133,14 @@ void CVesselTargetDockView::refreshContent()
     }
   }
   else
-  {
-    bContentDisplayed = false;
-    poTextBearing->resetText();
-    poTextDistance->resetText();
-    poTextEte->resetText();
-    poTextEta->resetText();
-  }
+    resetContent();
+}
+
+void CVesselTarget::resetContent()
+{
+  bContentDisplayed = false;
+  poTextBearing->resetText();
+  poTextDistance->resetText();
+  poTextEte->resetText();
+  poTextEta->resetText();
 }

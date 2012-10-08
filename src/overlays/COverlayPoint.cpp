@@ -375,7 +375,7 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
   _pqPainter->drawLine( __qPointFFrom, __qPointFTo );
   // ... course data
   double __fdBearingTo = CDataPosition::bearingRL( *this, *_poOverlayPoint );
-  double __fdDeltaLimit = ( 100.0 + 100.0*fabs( pow( sin( __fdBearingTo*0.01745329 ), 3 ) ) ) * __fdZoom;
+  double __fdDeltaLimit = ( 100.0 + 100.0*fabs( pow( sin( __fdBearingTo*QVCT::DEG2RAD ), 3 ) ) ) * __fdZoom;
   if( ( !bVisibleRouting && !_poOverlayPoint->bVisibleRouting )
       || __qPointFDelta.x()*__qPointFDelta.x() + __qPointFDelta.y()*__qPointFDelta.y() < __fdDeltaLimit*__fdDeltaLimit
       || __fdZoom < 0.5 ) return;
@@ -388,8 +388,8 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
     if( __fdBearingFrom > 360.0 ) __fdBearingFrom -= 360.0;
     QString __qsBearingTo = CUnitBearing::toString( __fdBearingTo );
     QString __qsBearingFrom = CUnitBearing::toString( __fdBearingFrom );
-    __fdBearingFrom *= 0.01745329; // degree -> radian
-    __fdBearingTo *= 0.01745329; // degree -> radian
+    __fdBearingFrom *= QVCT::DEG2RAD;
+    __fdBearingTo *= QVCT::DEG2RAD;
     double __fdBearingOffset = ( 35.0 + 25.0*fabs( pow( sin( __fdBearingTo ), 3 ) ) ) * __fdZoom;
     if( bVisibleRouting ) drawText( _poChart, _pqPainter, __qsBearingTo+QString::fromUtf8("·")+__qsBearingFrom, __qPointFFrom+QPointF( __fdBearingOffset*sin( __fdBearingTo ), -__fdBearingOffset*cos( __fdBearingTo ) ) );
     if( _poOverlayPoint->bVisibleRouting ) drawText( _poChart, _pqPainter, __qsBearingFrom+QString::fromUtf8("·")+__qsBearingTo, __qPointFTo+QPointF( __fdBearingOffset*sin( __fdBearingFrom ), -__fdBearingOffset*cos( __fdBearingFrom ) ) );

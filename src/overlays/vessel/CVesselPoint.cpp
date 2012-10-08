@@ -185,7 +185,7 @@ void CVesselPoint::toggleVisible()
   COverlayVisibility::toggleVisible( __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED
                                      && __fdGroundSpeed >= QVCTRuntime::useSettings()->getMinValueSpeed(),
                                      QVCTRuntime::useChartTable()->getVesselPointSynchronize() == this
-                                     && QVCTRuntime::usePointerOverlay()->usePointerPoint( true )->CDataPosition::operator!=( CDataPosition::UNDEFINED ) );
+                                     && QVCTRuntime::usePointerOverlay()->usePointerTarget()->CDataPosition::operator!=( CDataPosition::UNDEFINED ) );
 }
 
 
@@ -267,7 +267,7 @@ void CVesselPoint::onDeviceDataFix()
   {
     QVCTRuntime::useChartTable()->synchronizeVesselPoint();
     CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
-    if( __poPointerOverlay->usePointerPoint( true )->CDataPosition::operator!=( CDataPosition::UNDEFINED ) )
+    if( __poPointerOverlay->usePointerTarget()->CDataPosition::operator!=( CDataPosition::UNDEFINED ) )
     {
        __poPointerOverlay->forceRedraw();
        __bUpdateChart = true;

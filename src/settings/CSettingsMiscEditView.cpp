@@ -94,6 +94,15 @@ void CSettingsMiscEditView::constructLayout()
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( "<I>"+tr("WARNING: setting too low affects performances!")+"</I>" ), __iRow, 1 );
 
+  // ... chart opacity
+  __iRow++;
+  __pqGridLayout->addWidget( new QLabel( tr("Chart Opacity")+":" ), __iRow, 0 );
+  QSpinBox* __pqSpinBoxChartOpacity = new QSpinBox( this );
+  __pqSpinBoxChartOpacity->setRange( 0, 100 );
+  __pqSpinBoxChartOpacity->setValue( __poSettings->getChartOpacity() );
+  __pqGridLayout->addWidget( __pqSpinBoxChartOpacity, __iRow, 1 );
+  connect( __pqSpinBoxChartOpacity, SIGNAL( valueChanged(int) ), __poSettings, SLOT( slotChartOpacity(int) ) );
+
   // ... symbols visibility
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Symbols Visibility")+":" ), __iRow, 0 );

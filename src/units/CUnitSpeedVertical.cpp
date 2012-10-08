@@ -63,6 +63,16 @@ CUnitSpeedVertical::EUnit CUnitSpeedVertical::fromCode( const QString& _rqString
   return oUnitSpeedVerticalCodes.qMapCodes.key( _rqString, UNDEFINED );
 }
 
+double CUnitSpeedVertical::toValue( double _fdValue, CUnitSpeedVertical::EUnit _eUnit )
+{
+  switch( _eUnit )
+  {
+  case M_S: return _fdValue;
+  case FT_MIN: return _fdValue * 196.8503937;
+  default: return 0;
+  }
+}
+
 QString CUnitSpeedVertical::toString( double _fdValue, CUnitSpeedVertical::EUnit _eUnit, int _iPrecision )
 {
   switch( _eUnit )
