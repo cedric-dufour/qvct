@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Cedric Dufour <cedric.dufour@ced-network.net>
 Build-Depends: cdbs, cmake (>= 2.8), debhelper (>= 5), doxygen, imagemagick, libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libgps-dev
 Standards-Version: 3.8.4
-Homepage: http://www.ced-network.net/qvct
+Homepage: http://cedric.dufour.name/software/qvct
 
 Package: qvct
 Section: misc
