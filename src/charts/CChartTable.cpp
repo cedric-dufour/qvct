@@ -172,8 +172,9 @@ void CChartTable::slotLoadChart()
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
   __pqMutexDataChange->lock();
-  loadChart( __qsFilename );
+  CChart* __poChart = loadChart( __qsFilename );
   __pqMutexDataChange->unlock();
+  if( !__poChart ) QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
 }
 
 void CChartTable::slotPrintChart()
@@ -969,8 +970,13 @@ int CChartTable::parseQVCT( const QDomElement& _rqDomElement )
        !__qDomElementChart.isNull();
        __qDomElementChart = __qDomElementChart.nextSiblingElement( "Chart" ) )
   {
-    CChart* __poChart = loadChart( __qDomElementChart.attribute( "file" ) );
-    if( !__poChart ) continue;
+    QString __qsFilename = __qDomElementChart.attribute( "file" );
+    CChart* __poChart = loadChart( __qsFilename );
+    if( !__poChart )
+    {
+      QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+      continue;
+    }
     __poChart->parseQVCT( __qDomElementChart );
     __iCount++;
   }
@@ -1003,7 +1009,6 @@ CChart* CChartTable::loadChart( const QString& _rqsFilename )
   if( __poChart->getStatus() != QVCT::OK )
   {
     delete __poChart;
-    QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, _rqsFilename );
     return 0;
   }
 
