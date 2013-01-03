@@ -194,8 +194,9 @@ void CChartGDAL::open( const QString& _rqsFileName )
     }
     else if( __bHasGDALBandY && __bHasGDALBandCb && __bHasGDALBandCr )
     {
+      // NOTE: we should never get here since GDAL converts YCbCr color space to RGB intrinsecally
       eColorEncoding = YUV;
-      qCritical( "ERROR[%s]: YCbCr color interpretation not yet implemented (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
+      qCritical( "ERROR[%s]: YCbCr color interpretation not implemented (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
       return;
     }
     else
@@ -297,25 +298,8 @@ void CChartGDAL::open( const QString& _rqsFileName )
     break;
 
   case YUV: // switch( eColorEncoding )
-    // TRICK: Let's use GDALDataset::RasterIO as if we were dealing with RGB values; libswscale shall then be applied to perform the YUV->RGB conversion
-    {
-      QRgb __qRgbPixel = qRgba( GCI_YCbCr_YBand, GCI_YCbCr_CbBand, GCI_YCbCr_CrBand, GCI_AlphaBand );
-      for( int __iGDALBandIndex = 1; __iGDALBandIndex <= __iGDALBandCount; __iGDALBandIndex++ )
-      {
-        GDALColorInterp __eGDALColorInterp = poGDALDataset->GetRasterBand( __iGDALBandIndex )->GetColorInterpretation();
-        switch( __eGDALColorInterp )
-        {
-        case GCI_YCbCr_YBand:
-        case GCI_YCbCr_CbBand:
-        case GCI_YCbCr_CrBand:
-          for( int __iGDALBandOffset = 0; __iGDALBandOffset < 4 ; __iGDALBandOffset++ )
-            if( __eGDALColorInterp == *(((quint8 *)&__qRgbPixel)+__iGDALBandOffset) )
-              piGDALBandMap[ __iGDALBandOffset ] = __iGDALBandIndex;
-          break;
-        default:; // other bands are not used
-        }
-      }
-    }
+    // NOTE: we should never get here since GDAL converts YCbCr color space to RGB intrinsecally
+    qCritical( "ERROR[%s]: YCbCr color interpretation not implemented (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
     break;
 
   default:; // other color types do not require a color table or band mapping
