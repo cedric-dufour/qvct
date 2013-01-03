@@ -10,7 +10,7 @@ Package: qvct
 Section: misc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: qvct-charts, qvct-doc-user
+Recommends: qvct-doc-user
 Suggests: gdal-bin, imagemagick, proj-bin
 Description: Qt Virtual Chart Table (QVCT)
  The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
@@ -44,14 +44,6 @@ Description: Qt Virtual Chart Table (QVCT)
     or high (1200 DPI) resolution
   - touchscreen-friendly user interface (you really don't need a mouse or key-
     board while navigating)
-
-Package: qvct-charts
-Section: misc
-Architecture: all
-Recommends: qvct
-Description: Qt Virtual Chart Table (QVCT) - Charts
- Contents:
-  - World (source: OpenStreetMap; see attached COPYRIGHT)
 
 Package: qvct-doc-user
 Section: misc

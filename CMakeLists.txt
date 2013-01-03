@@ -34,14 +34,6 @@ add_definitions(
 # Sub-directories
 add_subdirectory( src )
 
-# Maps
-install(
-  DIRECTORY
-    ${CMAKE_SOURCE_DIR}/charts
-  DESTINATION
-    ${DATA_INSTALL_PREFIX}/qvct
-)
-
 # Uninstall
 configure_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
