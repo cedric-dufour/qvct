@@ -161,6 +161,8 @@ void CChartTable::slotSave()
 {
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Project"), tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
+  QFileInfo __qFileInfo( __qsFilename );
+  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename ) ) return;
   save( __qsFilename );
 }

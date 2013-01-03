@@ -17,6 +17,7 @@
  */
 
 // QT
+#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -282,6 +283,8 @@ void CRouteContainerDetailView::slotSave()
   if( !poOverlayObject ) return;
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Route"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
+  QFileInfo __qFileInfo( __qsFilename );
+  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
   QStringList __qsListExtensions; __qsListExtensions << "qvct" << "gpx";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
   QVCTRuntime::useRouteOverlay()->save( __qsFilename, (CRouteContainer*)poOverlayObject );

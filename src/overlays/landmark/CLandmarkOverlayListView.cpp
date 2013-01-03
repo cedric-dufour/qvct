@@ -17,6 +17,7 @@
  */
 
 // QT
+#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
@@ -142,6 +143,8 @@ void CLandmarkOverlayListView::slotSave()
 {
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Landmarks"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
+  QFileInfo __qFileInfo( __qsFilename );
+  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
   QStringList __qsListExtensions; __qsListExtensions << "qvct" << "gpx";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
   QVCTRuntime::useLandmarkOverlay()->save( __qsFilename, 0 ); // no container = save selection

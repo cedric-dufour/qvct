@@ -17,6 +17,7 @@
  */
 
 // QT
+#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
@@ -142,6 +143,8 @@ void CVesselOverlayListView::slotSave()
 {
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Vessel"), tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
+  QFileInfo __qFileInfo( __qsFilename );
+  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
   QStringList __qsListExtensions; __qsListExtensions << "qvct";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
   QVCTRuntime::useVesselOverlay()->save( __qsFilename, 0 ); // no container = save selection

@@ -17,6 +17,7 @@
  */
 
 // QT
+#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
