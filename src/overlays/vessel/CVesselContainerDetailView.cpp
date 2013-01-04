@@ -300,6 +300,7 @@ void CVesselContainerDetailView::slotEdit()
 {
   if( !poOverlayObject ) return;
   ((CVesselContainer*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CVesselContainerDetailView::slotDelete()
@@ -307,16 +308,17 @@ void CVesselContainerDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CVesselOverlay* __poVesselOverlay = (CVesselOverlay*)poOverlayObject->useOverlay();
   CVesselContainer* __poVesselContainer = (CVesselContainer*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poVesselOverlay->removeChild( __poVesselContainer );
+  __pqMutexDataChange->unlock();
   delete __poVesselContainer;
   QTreeWidgetItem* __pqTreeWidgetItem = __poVesselOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poVesselOverlay->showDetail( __pqTreeWidgetItem );
   __poVesselOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CVesselContainerDetailView::slotSetDevice()
@@ -331,11 +333,12 @@ void CVesselContainerDetailView::slotSetDevice()
     QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
     __pqMutexDataChange->lock();
     ((CVesselContainer*)poOverlayObject)->setDevice( __poVesselContainerDevice );
+    __pqMutexDataChange->unlock();
     QVCTRuntime::useVesselOverlay()->setCurrentItem( __poVesselContainerDevice );
     __poVesselContainerDevice->showDetail();
     QVCTRuntime::useVesselOverlay()->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
-    __pqMutexDataChange->unlock();
+    QVCTRuntime::useChartTable()->setProjectModified();
   }
   delete __poVesselContainerDeviceCreateView;
 }
@@ -348,4 +351,5 @@ void CVesselContainerDetailView::slotAddPoint()
   if( !__poVesselPoint ) return;
   QVCTRuntime::useVesselOverlay()->setCurrentItem( __poVesselPoint );
   __poVesselPoint->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }

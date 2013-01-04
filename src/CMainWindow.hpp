@@ -66,6 +66,8 @@ private:
 
   // SLOTS
 private slots:
+  /// Slot to exit this application
+  void slotExit();
   /// Slot to display this application's "About" details
   void slotAbout();
   /// Slot to display the application's settings edit dialog

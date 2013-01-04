@@ -115,29 +115,29 @@ void CTrackOverlayListView::slotLoad()
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Track"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CTrackOverlay* __poTrackOverlay = QVCTRuntime::useTrackOverlay();
   CTrackContainer* __poTrackContainer = __poTrackOverlay->load( __qsFilename );
   if( !__poTrackContainer ) return;
   __poTrackOverlay->setCurrentItem( __poTrackContainer );
   __poTrackOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CTrackOverlayListView::slotDelete()
 {
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected point(s)") ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CTrackOverlay* __poTrackOverlay = QVCTRuntime::useTrackOverlay();
-  if( __poTrackOverlay->deleteSelection() )
+  __pqMutexDataChange->lock();
+  bool __bModified = __poTrackOverlay->deleteSelection();
+  __pqMutexDataChange->unlock();
+  if( __bModified )
   {
     __poTrackOverlay->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
+    QVCTRuntime::useChartTable()->setProjectModified();
   };
-  __pqMutexDataChange->unlock();
 }
 
 void CTrackOverlayListView::slotUp()
@@ -150,6 +150,7 @@ void CTrackOverlayListView::slotUp()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CTrackOverlay::NAME, Qt::AscendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::CONTAINER:
@@ -166,6 +167,7 @@ void CTrackOverlayListView::slotUp()
         __poTrackOverlay->forceRedraw();
         QVCTRuntime::useChartTable()->updateChart();
       }
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 
@@ -184,6 +186,7 @@ void CTrackOverlayListView::slotDown()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CTrackOverlay::NAME, Qt::DescendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::CONTAINER:
@@ -200,6 +203,7 @@ void CTrackOverlayListView::slotDown()
         __poTrackOverlay->forceRedraw();
         QVCTRuntime::useChartTable()->updateChart();
       }
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 

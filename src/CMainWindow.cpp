@@ -156,7 +156,7 @@ void CMainWindow::constructMenus()
   __pqMenuFile->addSeparator();
   QAction* __pqActionExit = new QAction( tr("E&xit"), this);
   __pqActionExit->setShortcuts( QKeySequence::Quit );
-  QMainWindow::connect( __pqActionExit, SIGNAL( triggered() ), this, SLOT( close() ) );
+  QMainWindow::connect( __pqActionExit, SIGNAL( triggered() ), this, SLOT( slotExit() ) );
   __pqMenuFile->addAction( __pqActionExit );
   menuBar()->addMenu( __pqMenuFile );
 
@@ -206,6 +206,12 @@ void CMainWindow::constructMenus()
 //
 // SLOTS
 //
+
+void CMainWindow::slotExit()
+{
+  if( QVCTRuntime::useChartTable()->isProjectModified() && !deleteConfirm( tr("Unsaved project data") ) ) return;
+  close();
+}
 
 void CMainWindow::slotAbout()
 {

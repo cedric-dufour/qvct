@@ -321,17 +321,18 @@ void CTrackPointDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CTrackOverlay* __poTrackOverlay = QVCTRuntime::useTrackOverlay();
   CTrackContainer* __poTrackContainer = (CTrackContainer*)((QTreeWidgetItem*)poOverlayObject)->parent();
   CTrackPoint* __poTrackPoint = (CTrackPoint*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poTrackContainer->removeChild( __poTrackPoint );
+  __pqMutexDataChange->unlock();
   delete __poTrackPoint;
   QTreeWidgetItem* __pqTreeWidgetItem = __poTrackOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poTrackOverlay->showDetail( __pqTreeWidgetItem );
   __poTrackOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CTrackPointDetailView::slotAddLandmark()
@@ -351,6 +352,7 @@ void CTrackPointDetailView::slotAddLandmark()
   __poPointerOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
   __poLandmarkPoint->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CTrackPointDetailView::slotAddRoute()
@@ -370,4 +372,5 @@ void CTrackPointDetailView::slotAddRoute()
   __poPointerOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
   __poRoutePoint->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }

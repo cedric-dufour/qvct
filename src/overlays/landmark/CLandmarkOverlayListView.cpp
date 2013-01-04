@@ -118,15 +118,13 @@ void CLandmarkOverlayListView::slotLoad()
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Landmarks"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
   CLandmarkContainer* __poLandmarkContainer = __poLandmarkOverlay->load( __qsFilename );
   if( !__poLandmarkContainer ) return;
   __poLandmarkOverlay->setCurrentItem( __poLandmarkContainer );
   __poLandmarkOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkOverlayListView::slotAdd()
@@ -137,6 +135,7 @@ void CLandmarkOverlayListView::slotAdd()
   if( !__poLandmarkContainer ) return;
   __poLandmarkOverlay->setCurrentItem( __poLandmarkContainer );
   __poLandmarkContainer->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkOverlayListView::slotSave()
@@ -154,14 +153,16 @@ void CLandmarkOverlayListView::slotDelete()
 {
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected landmark(s)") ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
-  if( __poLandmarkOverlay->deleteSelection() )
+  __pqMutexDataChange->lock();
+  bool __bModified = __poLandmarkOverlay->deleteSelection();
+  __pqMutexDataChange->unlock();
+  if( __bModified )
   {
     __poLandmarkOverlay->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
+    QVCTRuntime::useChartTable()->setProjectModified();
   };
-  __pqMutexDataChange->unlock();
 }
 
 void CLandmarkOverlayListView::slotUp()
@@ -175,6 +176,7 @@ void CLandmarkOverlayListView::slotUp()
   case COverlayObject::OVERLAY:
   case COverlayObject::CONTAINER:
     __pqTreeWidgetItem_current->sortChildren( CLandmarkOverlay::NAME, Qt::AscendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::ITEM:
@@ -186,6 +188,7 @@ void CLandmarkOverlayListView::slotUp()
       __pqTreeWidgetItem_parent->removeChild( __pqTreeWidgetItem_current );
       __pqTreeWidgetItem_parent->insertChild( __iIndex-1, __pqTreeWidgetItem_current );
       __poLandmarkOverlay->setCurrentItem( __pqTreeWidgetItem_current );
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 
@@ -205,6 +208,7 @@ void CLandmarkOverlayListView::slotDown()
   case COverlayObject::OVERLAY:
   case COverlayObject::CONTAINER:
     __pqTreeWidgetItem_current->sortChildren( CLandmarkOverlay::NAME, Qt::DescendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::ITEM:
@@ -216,6 +220,7 @@ void CLandmarkOverlayListView::slotDown()
       __pqTreeWidgetItem_parent->removeChild( __pqTreeWidgetItem_current );
       __pqTreeWidgetItem_parent->insertChild( __iIndex+1, __pqTreeWidgetItem_current );
       __poLandmarkOverlay->setCurrentItem( __pqTreeWidgetItem_current );
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 

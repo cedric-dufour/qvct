@@ -147,10 +147,6 @@ private slots:
   void slotEdit();
   /// [UI:Slot] Slot to delete (this item/point)
   void slotDelete();
-  // /// [UI:Slot] Slot to add new landmark
-  // void slotAddLandmark();
-  // /// [UI:Slot] Slot to add new (route) waypoint
-  // void slotAddRoute();
   /// [UI:Slot] Slot to switch track recording status
   void slotTrackRecord( bool _bTrackRecord );
   /// [UI:Slot] Slot to add new device

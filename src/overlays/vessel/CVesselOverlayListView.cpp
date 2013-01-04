@@ -118,15 +118,13 @@ void CVesselOverlayListView::slotLoad()
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Vessel"), tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
   CVesselContainer* __poVesselContainer = __poVesselOverlay->load( __qsFilename );
   if( !__poVesselContainer ) return;
   __poVesselOverlay->setCurrentItem( __poVesselContainer );
   __poVesselOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CVesselOverlayListView::slotAdd()
@@ -137,6 +135,7 @@ void CVesselOverlayListView::slotAdd()
   if( !__poVesselContainer ) return;
   __poVesselOverlay->setCurrentItem( __poVesselContainer );
   __poVesselContainer->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CVesselOverlayListView::slotSave()
@@ -154,14 +153,16 @@ void CVesselOverlayListView::slotDelete()
 {
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected vessel(s)") ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
-  if( __poVesselOverlay->deleteSelection() )
+  __pqMutexDataChange->lock();
+  bool __bModified = __poVesselOverlay->deleteSelection();
+  __pqMutexDataChange->unlock();
+  if( __bModified )
   {
     __poVesselOverlay->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
+    QVCTRuntime::useChartTable()->setProjectModified();
   };
-  __pqMutexDataChange->unlock();
 }
 
 void CVesselOverlayListView::slotUp()
@@ -174,6 +175,7 @@ void CVesselOverlayListView::slotUp()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::AscendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::CONTAINER:
@@ -181,10 +183,10 @@ void CVesselOverlayListView::slotUp()
     {
       QTreeWidgetItem* __pqTreeWidgetItem_parent = __pqTreeWidgetItem_current->parent();
       if( !__pqTreeWidgetItem_parent ) return;
-      int __iIndex = __pqTreeWidgetItem_parent->indexOfChild( __pqTreeWidgetItem_current );
-      bool bDynamic = __pqTreeWidgetItem_current->type() == COverlayObject::ITEM
+      bool __bDynamic = __pqTreeWidgetItem_current->type() == COverlayObject::ITEM
         ? ((CVesselContainer*)__pqTreeWidgetItem_parent)->isDynamic() : false;
-      if( __iIndex <= bDynamic ? 1 : 0 ) return;
+      int __iIndex = __pqTreeWidgetItem_parent->indexOfChild( __pqTreeWidgetItem_current );
+      if( __iIndex <= __bDynamic ? 1 : 0 ) return;
       __pqTreeWidgetItem_parent->removeChild( __pqTreeWidgetItem_current );
       __pqTreeWidgetItem_parent->insertChild( __iIndex-1, __pqTreeWidgetItem_current );
       __poVesselOverlay->setCurrentItem( __pqTreeWidgetItem_current );
@@ -193,6 +195,7 @@ void CVesselOverlayListView::slotUp()
         __poVesselOverlay->forceRedraw();
         QVCTRuntime::useChartTable()->updateChart();
       }
+      if( !__bDynamic ) QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 
@@ -211,6 +214,7 @@ void CVesselOverlayListView::slotDown()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::DescendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::CONTAINER:
@@ -218,6 +222,8 @@ void CVesselOverlayListView::slotDown()
     {
       QTreeWidgetItem* __pqTreeWidgetItem_parent = __pqTreeWidgetItem_current->parent();
       if( !__pqTreeWidgetItem_parent ) return;
+      bool __bDynamic = __pqTreeWidgetItem_current->type() == COverlayObject::ITEM
+        ? ((CVesselContainer*)__pqTreeWidgetItem_parent)->isDynamic() : false;
       int __iIndex = __pqTreeWidgetItem_parent->indexOfChild( __pqTreeWidgetItem_current );
       if( __iIndex >= __pqTreeWidgetItem_parent->childCount()-1 ) return;
       __pqTreeWidgetItem_parent->removeChild( __pqTreeWidgetItem_current );
@@ -228,6 +234,7 @@ void CVesselOverlayListView::slotDown()
         __poVesselOverlay->forceRedraw();
         QVCTRuntime::useChartTable()->updateChart();
       }
+      if( !__bDynamic ) QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 

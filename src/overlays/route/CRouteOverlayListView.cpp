@@ -122,15 +122,13 @@ void CRouteOverlayListView::slotLoad()
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Route"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
   CRouteContainer* __poRouteContainer = __poRouteOverlay->load( __qsFilename );
   if( !__poRouteContainer ) return;
   __poRouteOverlay->setCurrentItem( __poRouteContainer );
   __poRouteOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CRouteOverlayListView::slotAdd()
@@ -141,29 +139,23 @@ void CRouteOverlayListView::slotAdd()
   if( !__poRouteContainer ) return;
   __poRouteOverlay->setCurrentItem( __poRouteContainer );
   __poRouteContainer->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
-
-// void CRouteOverlayListView::slotSave()
-// {
-//   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Route"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
-//   if( __qsFilename.isEmpty() ) return;
-//   QStringList __qsListExtensions; __qsListExtensions << "qvct" << "gpx";
-//   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
-//   QVCTRuntime::useRouteOverlay()->save( __qsFilename, 0 ); // no container = save selection
-// }
 
 void CRouteOverlayListView::slotDelete()
 {
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected waypoint(s)") ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
-  if( __poRouteOverlay->deleteSelection() )
+  __pqMutexDataChange->lock();
+  bool __bModified = __poRouteOverlay->deleteSelection();
+  __pqMutexDataChange->unlock();
+  if( __bModified )
   {
     __poRouteOverlay->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
+    QVCTRuntime::useChartTable()->setProjectModified();
   };
-  __pqMutexDataChange->unlock();
 }
 
 void CRouteOverlayListView::slotUp()
@@ -176,6 +168,7 @@ void CRouteOverlayListView::slotUp()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CRouteOverlay::NAME, Qt::AscendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::CONTAINER:
@@ -193,6 +186,7 @@ void CRouteOverlayListView::slotUp()
         __poRouteOverlay->forceRedraw();
         QVCTRuntime::useChartTable()->updateChart();
       }
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 
@@ -211,6 +205,7 @@ void CRouteOverlayListView::slotDown()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CRouteOverlay::NAME, Qt::DescendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::CONTAINER:
@@ -228,6 +223,7 @@ void CRouteOverlayListView::slotDown()
         __poRouteOverlay->forceRedraw();
         QVCTRuntime::useChartTable()->updateChart();
       }
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 

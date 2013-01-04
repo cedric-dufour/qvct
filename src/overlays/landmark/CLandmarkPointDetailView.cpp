@@ -333,12 +333,14 @@ void CLandmarkPointDetailView::slotMove( bool _bEnable )
   pqPushButtonAddRoute->setEnabled( !_bEnable );
   QVCTRuntime::useOverlayListView()->setEnabled( !_bEnable );
   QVCTRuntime::useChartTable()->setOverlayPointMove( _bEnable ? (CLandmarkPoint*)poOverlayObject : 0 );
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkPointDetailView::slotEdit()
 {
   if( !poOverlayObject ) return;
   ((CLandmarkPoint*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkPointDetailView::slotDelete()
@@ -346,17 +348,18 @@ void CLandmarkPointDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
   CLandmarkContainer* __poLandmarkContainer = (CLandmarkContainer*)((QTreeWidgetItem*)poOverlayObject)->parent();
   CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poLandmarkContainer->removeChild( __poLandmarkPoint );
+  __pqMutexDataChange->unlock();
   delete __poLandmarkPoint;
   QTreeWidgetItem* __pqTreeWidgetItem = __poLandmarkOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poLandmarkOverlay->showDetail( __pqTreeWidgetItem );
   __poLandmarkOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkPointDetailView::slotAddRoute()
@@ -382,4 +385,5 @@ void CLandmarkPointDetailView::slotAddRoute()
   __poPointerOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
   __poRoutePoint->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }

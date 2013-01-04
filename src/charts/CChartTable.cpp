@@ -56,6 +56,7 @@
 
 CChartTable::CChartTable( QWidget* _pqParent )
   : QTabWidget( _pqParent )
+  , bProjectModified( false )
   , oGeoPositionReference()
   , fdScaleReference( -1.0 )
   , iDpi( 96 )
@@ -146,6 +147,7 @@ bool CChartTable::eventFilter( QObject* _pqObject, QEvent* _pqEvent )
 
 void CChartTable::slotLoad()
 {
+  if( bProjectModified && !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Unsaved project data") ) ) return;
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Project"), tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
@@ -155,6 +157,7 @@ void CChartTable::slotLoad()
   __pqMutexDataChange->unlock();
   load( __qsFilename );
   updateChart();
+  bProjectModified = false;
 }
 
 void CChartTable::slotSave()
@@ -165,6 +168,7 @@ void CChartTable::slotSave()
   if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename ) ) return;
   save( __qsFilename );
+  bProjectModified = false;
 }
 
 void CChartTable::slotLoadChart()
@@ -176,7 +180,12 @@ void CChartTable::slotLoadChart()
   __pqMutexDataChange->lock();
   CChart* __poChart = loadChart( __qsFilename );
   __pqMutexDataChange->unlock();
-  if( !__poChart ) QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+  if( !__poChart )
+  {
+    QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+    return;
+  }
+  bProjectModified = true;
 }
 
 void CChartTable::slotPrintChart()
@@ -225,7 +234,12 @@ void CChartTable::slotAddElevation()
   __pqMutexDataChange->lock();
   addElevation( __qsFilename );
   __pqMutexDataChange->unlock();
-  if( !hasElevation() ) QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+  if( !hasElevation() )
+  {
+    QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+    return;
+  }
+  bProjectModified = true;
 }
 
 void CChartTable::slotChangeTab( int _iTabIndex )
@@ -251,6 +265,7 @@ void CChartTable::slotCloseTab()
 {
   int __iTabIndex = QTabWidget::currentIndex();
   if( __iTabIndex >= 0 ) removeTab( __iTabIndex );
+  bProjectModified = true;
 }
 
 void CChartTable::slotCloseTab( int _iTabIndex )
@@ -266,6 +281,7 @@ void CChartTable::slotCloseTab( int _iTabIndex )
     fdScaleReference = -1.0;
   }
   __pqMutexDataChange->unlock();
+  bProjectModified = true;
 }
 
 void CChartTable::slotScaleActual()

@@ -217,15 +217,16 @@ void CTrackSubContainerDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CTrackOverlay* __poTrackOverlay = (CTrackOverlay*)poOverlayObject->useOverlay();
   CTrackContainer* __poTrackContainer = (CTrackContainer*)poOverlayObject->QTreeWidgetItem::parent();
   CTrackSubContainer* __poTrackSubContainer = (CTrackSubContainer*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poTrackContainer->removeChild( __poTrackSubContainer );
+  __pqMutexDataChange->unlock();
   delete __poTrackSubContainer;
   QTreeWidgetItem* __pqTreeWidgetItem = __poTrackOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poTrackOverlay->showDetail( __pqTreeWidgetItem );
   __poTrackOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }

@@ -61,6 +61,9 @@ class CChartTable: public QTabWidget
   //------------------------------------------------------------------------------
 
 private:
+  /// Flag to track project changes (and trigger user confirmation before discarding unsaved data)
+  bool bProjectModified;
+
   /// Reference chart (geographical) position (shared by all "locked" maps)
   /** @see setGeoPosition(), stepScrPosition(), dragScrPosition(), setPositionHome(), getGeoPosition() */
   CDataPosition oGeoPositionReference;
@@ -192,6 +195,8 @@ private:
 
   // SETTERS
 public:
+  /// Sets the status of the project to modified (data have changed and need saving)
+  void setProjectModified() { bProjectModified = true; };
   /// Sets the reference chart (geographical) position
   void setGeoPosition( const CDataPosition& _roGeoPosition, bool _bSkipCurrent = false );
   /// Shows the given (geographical) position on chart
@@ -248,6 +253,8 @@ public:
 
   // GETTERS
 public:
+  /// Returns whether the project has been modified (data have changed since last saved)
+  bool isProjectModified() const { return bProjectModified; };
   /// Returns the reference chart (geographical) position
   CDataPosition getGeoPosition() const { return oGeoPositionReference; };
   /// Returns the reference scale factor

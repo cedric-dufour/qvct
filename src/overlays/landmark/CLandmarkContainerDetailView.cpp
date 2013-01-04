@@ -239,6 +239,7 @@ void CLandmarkContainerDetailView::slotEdit()
 {
   if( !poOverlayObject ) return;
   ((CLandmarkContainer*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkContainerDetailView::slotDelete()
@@ -246,16 +247,17 @@ void CLandmarkContainerDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CLandmarkOverlay* __poLandmarkOverlay = (CLandmarkOverlay*)poOverlayObject->useOverlay();
   CLandmarkContainer* __poLandmarkContainer = (CLandmarkContainer*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poLandmarkOverlay->removeChild( __poLandmarkContainer );
+  __pqMutexDataChange->unlock();
   delete __poLandmarkContainer;
   QTreeWidgetItem* __pqTreeWidgetItem = __poLandmarkOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poLandmarkOverlay->showDetail( __pqTreeWidgetItem );
   __poLandmarkOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CLandmarkContainerDetailView::slotAddPoint()
@@ -266,4 +268,5 @@ void CLandmarkContainerDetailView::slotAddPoint()
   if( !__poLandmarkPoint ) return;
   QVCTRuntime::useLandmarkOverlay()->setCurrentItem( __poLandmarkPoint );
   __poLandmarkPoint->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }

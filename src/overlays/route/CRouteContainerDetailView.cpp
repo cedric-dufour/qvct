@@ -294,6 +294,7 @@ void CRouteContainerDetailView::slotEdit()
 {
   if( !poOverlayObject ) return;
   ((CRouteContainer*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CRouteContainerDetailView::slotDelete()
@@ -301,16 +302,17 @@ void CRouteContainerDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CRouteOverlay* __poRouteOverlay = (CRouteOverlay*)poOverlayObject->useOverlay();
   CRouteContainer* __poRouteContainer = (CRouteContainer*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poRouteOverlay->removeChild( __poRouteContainer );
+  __pqMutexDataChange->unlock();
   delete __poRouteContainer;
   QTreeWidgetItem* __pqTreeWidgetItem = __poRouteOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poRouteOverlay->showDetail( __pqTreeWidgetItem );
   __poRouteOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CRouteContainerDetailView::slotAddPoint()
@@ -321,4 +323,5 @@ void CRouteContainerDetailView::slotAddPoint()
   if( !__poRoutePoint ) return;
   QVCTRuntime::useRouteOverlay()->setCurrentItem( __poRoutePoint );
   __poRoutePoint->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }

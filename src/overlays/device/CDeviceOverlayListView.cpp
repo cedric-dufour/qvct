@@ -119,13 +119,11 @@ void CDeviceOverlayListView::slotLoad()
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Device"), tr("QVCT Files")+" (*.qvct)" );
   if( __qsFilename.isEmpty() ) return;
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
   CDevice* __poDevice = __poDeviceOverlay->load( __qsFilename );
   if( !__poDevice ) return;
   __poDeviceOverlay->setCurrentItem( __poDevice );
-  __pqMutexDataChange->lock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CDeviceOverlayListView::slotAdd()
@@ -139,6 +137,7 @@ void CDeviceOverlayListView::slotAdd()
     __poDeviceOverlay->addChild( __poDevice );
     __poDeviceOverlay->setCurrentItem( __poDevice );
     __poDevice->showEdit();
+    QVCTRuntime::useChartTable()->setProjectModified();
   }
   delete __poDeviceCreateView;
 }
@@ -158,10 +157,11 @@ void CDeviceOverlayListView::slotDelete()
 {
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected device(s)") ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
+  __pqMutexDataChange->lock();
   __poDeviceOverlay->deleteSelection();
   __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CDeviceOverlayListView::slotUp()
@@ -174,6 +174,7 @@ void CDeviceOverlayListView::slotUp()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CDeviceOverlay::NAME, Qt::AscendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::ITEM:
@@ -185,6 +186,7 @@ void CDeviceOverlayListView::slotUp()
       __pqTreeWidgetItem_parent->removeChild( __pqTreeWidgetItem_current );
       __pqTreeWidgetItem_parent->insertChild( __iIndex-1, __pqTreeWidgetItem_current );
       __poDeviceOverlay->setCurrentItem( __pqTreeWidgetItem_current );
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 
@@ -203,6 +205,7 @@ void CDeviceOverlayListView::slotDown()
 
   case COverlayObject::OVERLAY:
     __pqTreeWidgetItem_current->sortChildren( CDeviceOverlay::NAME, Qt::DescendingOrder );
+    QVCTRuntime::useChartTable()->setProjectModified();
     break;
 
   case COverlayObject::ITEM:
@@ -214,6 +217,7 @@ void CDeviceOverlayListView::slotDown()
       __pqTreeWidgetItem_parent->removeChild( __pqTreeWidgetItem_current );
       __pqTreeWidgetItem_parent->insertChild( __iIndex+1, __pqTreeWidgetItem_current );
       __poDeviceOverlay->setCurrentItem( __pqTreeWidgetItem_current );
+      QVCTRuntime::useChartTable()->setProjectModified();
     }
     break;
 

@@ -331,7 +331,11 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
   }
 
   // ... [end]
-  if( __bVesselSynchronized ) __poVesselPoint->onDeviceDataFix();
+  if( __bVesselSynchronized )
+  {
+    __poVesselPoint->onDeviceDataFix();
+    QVCTRuntime::useChartTable()->setProjectModified();
+  }
   emit signalRefreshContent();
 }
 

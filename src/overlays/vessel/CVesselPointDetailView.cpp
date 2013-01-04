@@ -526,6 +526,7 @@ void CVesselPointDetailView::slotEdit()
 {
   if( !poOverlayObject ) return;
   ((CVesselPoint*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CVesselPointDetailView::slotDelete()
@@ -533,56 +534,19 @@ void CVesselPointDetailView::slotDelete()
   if( !poOverlayObject ) return;
   if( !QVCTRuntime::useMainWindow()->deleteConfirm( poOverlayObject->getName() ) ) return;
   QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  __pqMutexDataChange->lock();
   CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
   CVesselContainer* __poVesselContainer = (CVesselContainer*)((QTreeWidgetItem*)poOverlayObject)->parent();
   CVesselPoint* __poVesselPoint = (CVesselPoint*)poOverlayObject;
+  __pqMutexDataChange->lock();
   __poVesselContainer->removeChild( __poVesselPoint );
+  __pqMutexDataChange->unlock();
   delete __poVesselPoint;
   QTreeWidgetItem* __pqTreeWidgetItem = __poVesselOverlay->currentItem();
   if( __pqTreeWidgetItem ) __poVesselOverlay->showDetail( __pqTreeWidgetItem );
   __poVesselOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  __pqMutexDataChange->unlock();
+  QVCTRuntime::useChartTable()->setProjectModified();
 }
-
-// void CVesselPointDetailView::slotAddLandmark()
-// {
-//   if( !poOverlayObject ) return;
-//   CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
-//   CLandmarkContainer* __poLandmarkContainer = __poLandmarkOverlay->pickContainer();
-//   if( !__poLandmarkContainer ) return;
-//   QString __qsName = __poLandmarkContainer->newChildName( poOverlayObject->getName() );
-//   CLandmarkPoint* __poLandmarkPoint = __poLandmarkContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject );
-//   if( !__poLandmarkPoint ) return;
-//   __poLandmarkOverlay->setCurrentItem( __poLandmarkPoint );
-//   __poLandmarkOverlay->forceRedraw();
-//   CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
-//   CPointerPoint* __poPointerPoint = __poPointerOverlay->usePointerPoint();
-//   __poPointerPoint->resetPosition();
-//   __poPointerOverlay->forceRedraw();
-//   QVCTRuntime::useChartTable()->updateChart();
-//   __poLandmarkPoint->showEdit();
-// }
-
-// void CVesselPointDetailView::slotAddRoute()
-// {
-//   if( !poOverlayObject ) return;
-//   CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
-//   CRouteContainer* __poRouteContainer = __poRouteOverlay->pickContainer();
-//   if( !__poRouteContainer ) return;
-//   QString __qsName = __poRouteContainer->newChildName( poOverlayObject->getName() );
-//   CRoutePoint* __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject );
-//   if( !__poRoutePoint ) return;
-//   __poRouteOverlay->setCurrentItem( __poRoutePoint );
-//   __poRouteOverlay->forceRedraw();
-//   CPointerOverlay* __poPointerOverlay = QVCTRuntime::usePointerOverlay();
-//   CPointerPoint* __poPointerPoint = __poPointerOverlay->usePointerPoint();
-//   __poPointerPoint->resetPosition();
-//   __poPointerOverlay->forceRedraw();
-//   QVCTRuntime::useChartTable()->updateChart();
-//   __poRoutePoint->showEdit();
-// }
 
 void CVesselPointDetailView::slotTrackRecord( bool _bTrackRecord )
 {
@@ -608,6 +572,7 @@ void CVesselPointDetailView::slotAddDevice()
     __poVesselPointDevice->showEdit();
     __poVesselPointDevice->connectDevice();
     __poVesselPointDevice->showDetail();
+    QVCTRuntime::useChartTable()->setProjectModified();
   }
   delete __poVesselPointDeviceCreateView;
 }
