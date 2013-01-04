@@ -114,7 +114,7 @@ public:
   /// Sets the zoom lock status
   void lockZoom( bool _bLock ) { bZoomLock = _bLock; };
   /// Sets the elevation model show status
-  void showElevation( bool _bShow ) { bShowElevation = _bShow && poChartGDALElevation; };
+  void showElevation( bool _bShow );
 
   // GETTERS
 public:

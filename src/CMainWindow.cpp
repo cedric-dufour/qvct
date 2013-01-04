@@ -333,7 +333,7 @@ void CMainWindow::errorMessage( const QString& _rqsMessage )
 
 bool CMainWindow::deleteConfirm( const QString& _rqsName )
 {
-  return( QMessageBox::question( 0, "[QVCT] "+tr("Please Confirm")+"...", tr("The following item is about to be deleted")+QString(":\n  %1\n").arg( _rqsName )+tr("Do you want to proceed?"), QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok );
+  return( QMessageBox::question( 0, "[QVCT] "+tr("Please Confirm")+"...", tr("The following data are about to be deleted")+QString(":\n  %1\n").arg( _rqsName )+tr("Do you want to proceed?"), QMessageBox::Cancel|QMessageBox::Ok, QMessageBox::Cancel ) == QMessageBox::Ok );
 }
 
 QString CMainWindow::fileDialog( QVCT::EFileOperation _eFileOperation, const QString& _rqsTitle, const QString& _rqsFilter )

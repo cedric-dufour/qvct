@@ -107,6 +107,20 @@ void CChart::setGeoPosition( const CDataPosition& _roGeoPosition )
   qPointFDatPosition = poChartGDALRaster->toDatPosition( _roGeoPosition );
 }
 
+void CChart::showElevation( bool _bShow )
+{
+  if( !poChartGDALElevation ) return;
+  if( bShowElevation != _bShow )
+  {
+    QVCTRuntime::usePointerOverlay()->forceRedraw();
+    QVCTRuntime::useLandmarkOverlay()->forceRedraw();
+    QVCTRuntime::useRouteOverlay()->forceRedraw();
+    QVCTRuntime::useTrackOverlay()->forceRedraw();
+    QVCTRuntime::useVesselOverlay()->forceRedraw();
+  }
+  bShowElevation = _bShow;
+}
+
 //
 // GETTERS
 //
@@ -177,6 +191,7 @@ CDataPosition CChart::toGeoPosition( const QPointF& _rqPointFDrawPosition ) cons
 
 QPointF CChart::toDrawPosition( const CDataPosition& _roGeoPosition ) const
 {
+  if( bShowElevation ) return( ( poChartGDALElevation->toDatPosition( _roGeoPosition ) - poChartGDALElevation->getDatPosition() ) * poChartGDALElevation->getZoom() + qRectFDrawArea.center() );
   return( ( poChartGDALRaster->toDatPosition( _roGeoPosition ) - poChartGDALRaster->getDatPosition() ) * poChartGDALRaster->getZoom() + qRectFDrawArea.center() );
 }
 

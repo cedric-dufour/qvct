@@ -57,10 +57,11 @@ CChartGDALElevation::CChartGDALElevation( const QString& _rqsFileName )
   }
 
   // Update palette for elevation rendering
-  for( int i=0; i<=127; i++ ) qColorTable[i] = qRgba( 0, 48.375+0.375*i, 96.75+0.75*i, 255 ); // -9'921.875m to 0.0m; blue (water)
-  for( int i=128; i<=152; i++ ) qColorTable[i] = qRgba( 4*i-480, 128, 0, 255 ); // 78.125m to 1'953.125m; green (greenery)
-  for( int i=153; i<=183; i++ ) qColorTable[i] = qRgba( 4*i-480, 4*i-480, 8*i-1216, 255 ); // 2'031.25m to 4'375.0m; fade to white (snow)
-  for( int i=184; i<=255; i++ ) qColorTable[i] = qRgba( 439-i, 255, 255, 255 ); // 4'453.125m to 10'000m; fade to cyan (ice)
+  qColorTable[0] = qRgba( 0, 0, 0, 0 ); // no value
+  for( int i=1; i<=127; i++ ) qColorTable[i] = qRgba( 0, 48+0.375*i, 96+0.75*i, 255 ); // -9'921.875m to -78.125m; blue (water)
+  for( int i=128; i<=152; i++ ) qColorTable[i] = qRgba( 4*i-480, 128, 0, 255 ); // 0.0m to 1'875.0m; green (greenery)
+  for( int i=153; i<=183; i++ ) qColorTable[i] = qRgba( 4*i-480, 4*i-480, 8*i-1216, 255 ); // 1'953.125m to 4'296.875m; fade to white (snow)
+  for( int i=184; i<=255; i++ ) qColorTable[i] = qRgba( 439-i, 255, 255, 255 ); // 4'375.0m to 9'921.875m; fade to cyan (ice)
 }
 
 CChartGDALElevation::~CChartGDALElevation()
@@ -290,7 +291,7 @@ double CChartGDALElevation::getElevation( const CDataPosition& _roGeoPosition ) 
 
 uchar CChartGDALElevation::rasterValue( double _fdValue ) const
 {
-  _fdValue = ( _fdValue / 78.125 ) + 127.0;
+  _fdValue = ( _fdValue / 78.125 ) + 128.0;
   if( _fdValue > 255.0 ) _fdValue = 255.0;
   else if( _fdValue < 0.0 ) _fdValue = 0.0;
   return (uchar)(_fdValue+0.5);

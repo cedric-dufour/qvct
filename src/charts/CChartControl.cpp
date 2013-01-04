@@ -274,6 +274,20 @@ void CChartControl::enableMeasure( bool _bEnable )
   pqPushButtonMeasure->setChecked( _bEnable );
 }
 
+void CChartControl::setElevation( bool _bHasElevation, bool _bShowElevation )
+{
+  if( !pqPushButtonElevation->isEnabled() ) return;
+  if( _bHasElevation )
+  {
+    pqPushButtonElevation->setChecked( _bShowElevation );
+    pqPushButtonElevation->setIcon( QIcon( _bShowElevation ? ":icons/32x32/elevation_visible.png" : ":icons/32x32/elevation_hidden.png" ) );
+  }
+  else
+  {
+    pqPushButtonElevation->setChecked( false );
+    pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_add.png" ) );
+  }
+}
 
 //
 // OTHER
@@ -294,12 +308,8 @@ void CChartControl::enableControls( bool _bEnable )
     pqPushButtonPositionLock->setChecked( false );
     pqPushButtonScaleLock->setChecked( false );
     pqPushButtonElevation->setChecked( false );
-    if( !QVCTRuntime::useChartTable()->hasElevation() ) pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_add.png" ) );
+    pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_add.png" ) );
     pqSliderScale->setValue( 0 );
-  }
-  else
-  {
-    if( QVCTRuntime::useChartTable()->hasElevation() ) pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_hidden.png" ) );
   }
   if( !_bEnable || bPointerEnable )
   {
@@ -318,3 +328,4 @@ void CChartControl::enablePointer( bool _bEnable )
   pqPushButtonMeasureSingle->setEnabled( bPointerEnable );
   pqPushButtonMeasure->setEnabled( bPointerEnable );
 }
+

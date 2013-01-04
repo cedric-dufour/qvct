@@ -256,6 +256,7 @@ void CChartTable::slotChangeTab( int _iTabIndex )
     __poChartControl->lockPosition( __poChart->isPositionLocked() );
     __poChartControl->lockScale( __poChart->isZoomLocked() );
     __poChartControl->setScale( toScale( __poChart->getZoom(), __poChart ) );
+    __poChartControl->setElevation( __poChart->hasElevation(), __poChart->isElevationShowed() );
     __poChartControl->enableControls( true );
     bIgnoreUpdate = false;
   }

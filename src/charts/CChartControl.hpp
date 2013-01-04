@@ -124,6 +124,8 @@ private:
   void enableMeasureSingle( bool _bEnable );
   /// Enables/disables ongoing measurements
   void enableMeasure( bool _bEnable );
+  /// Sets elevation status
+  void setElevation( bool _bHasElevation, bool _bShowElevation );
 
   // OTHER
 public:
