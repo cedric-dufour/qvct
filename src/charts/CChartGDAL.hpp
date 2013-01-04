@@ -35,17 +35,14 @@
 class CDataPosition;
 
 
-/// GDAL-based (dataset) chart
+/// Generic GDAL-based dataset
 /**
- *  This class wraps a GDAL dataset to be used as a chart in QVCT and along QT
- *  drawing resources (QPainter, QImage, etc.).
+ *  This class defines the generic resources to wrap a GDAL dataset and use it
+ *  as a chart along Qt drawing resources (QPainter, QImage, etc.).
  *
  *  The GDAL dataset internal projection data are used to convert pixel to
  *  geographical coordinates and vice-versa (using QVCT internal Longitude/Latitude
  *  WGS84 reference).
- *
- *  All color encodings are supported, EXCEPT non-palette CMYK and (for the time
- *  being) YCbCr.
  *
  *  In order to improve I/O performances, rendering (rasterization) is performed
  *  only when necessary (the rendering buffer being cached between calls to the
@@ -61,14 +58,15 @@ class CChartGDAL
 
 public:
   /// Underlying GDAL dataset color encoding IDs
-  enum EColorEncoding { GRAY, PALETTE_GRAY, PALETTE_RGB, PALETTE_CMYK, PALETTE_HSL, ARGB, RGB, YUV };
+  enum EColorEncoding { GRAY, GRAY_U16, GRAY_S16, GRAY_U32, GRAY_S32, GRAY_F32, GRAY_F64,
+                        PALETTE_GRAY, PALETTE_RGB, PALETTE_CMYK, PALETTE_HSL, ARGB, RGB, YUV };
 
 
   //------------------------------------------------------------------------------
   // FIELDS
   //------------------------------------------------------------------------------
 
-private:
+protected:
   //
   // THIS
   //
@@ -115,11 +113,11 @@ private:
   // CONSTRUCTORS / DESTRUCTOR
   //------------------------------------------------------------------------------
 
-public:
-  CChartGDAL( const QString& _rqsFileName );
+protected:
+  CChartGDAL();
   virtual ~CChartGDAL();
 
-private:
+protected:
   /// Opens the underlying GDAL dataset
   void open( const QString& _rqsFileName );
 
@@ -153,6 +151,22 @@ public:
   double getResolution( const QPointF& _rqPointFDatPosition ) const;
   /// Draws chart, centered on given chart (GDAL dataset) point [px] and zoomed according to given factor
   void draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition, double _fdZoom );
+  /// Moves the chart, centered on given chart (GDAL dataset) point [px] and zoomed according to given factor
+  void move( const QPointF& _rqPointFDatPosition, double _fdZoom );
+
+protected:
+  /// Rasterizes UInt16 buffer
+  virtual void rasterBuffer( QImage* _pqImage, const QVector<quint16>& _rqVector ) const;
+  /// Rasterizes Int16 buffer
+  virtual void rasterBuffer( QImage* _pqImage, const QVector<qint16>& _rqVector ) const;
+  /// Rasterizes UInt32 buffer
+  virtual void rasterBuffer( QImage* _pqImage, const QVector<quint32>& _rqVector ) const;
+  /// Rasterizes Int32 buffer
+  virtual void rasterBuffer( QImage* _pqImage, const QVector<qint32>& _rqVector ) const;
+  /// Rasterizes Float32 buffer
+  virtual void rasterBuffer( QImage* _pqImage, const QVector<float>& _rqVector ) const;
+  /// Rasterizes Float64 buffer
+  virtual void rasterBuffer( QImage* _pqImage, const QVector<double>& _rqVector ) const;
 
 };
 

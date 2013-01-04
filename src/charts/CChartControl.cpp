@@ -137,6 +137,14 @@ void CChartControl::constructLayout()
   __pqFrameSeparator3->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator3 );
 
+  pqPushButtonElevation = new QPushButton( QIcon( ":icons/32x32/elevation_add.png" ), "", this );
+  pqPushButtonElevation->setToolTip( tr("Add, view or hide elevation data") );
+  pqPushButtonElevation->installEventFilter( __poChartTable );
+  pqPushButtonElevation->setMaximumSize( 36, 34 );
+  pqPushButtonElevation->setCheckable( true );
+  __pqVBoxLayout->addWidget( pqPushButtonElevation );
+  QWidget::connect( pqPushButtonElevation, SIGNAL( toggled(bool) ), this, SLOT( slotElevation(bool) ) );
+
   QPushButton* __pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/chart_load.png" ), "", this );
   __pqPushButtonLoad->setToolTip( tr("Load chart from disk") );
   __pqPushButtonLoad->installEventFilter( __poChartTable );
@@ -186,6 +194,40 @@ void CChartControl::slotScaleIn()
 void CChartControl::slotScaleOut()
 {
   stepScale( false, true );
+}
+
+void CChartControl::slotElevation( bool _bAddOrShow )
+{
+  // Retrieve the chart table
+  CChartTable* __poChartTable = QVCTRuntime::useChartTable();
+
+  // Manage elevation data
+  if( _bAddOrShow )
+  {
+    if( !__poChartTable->hasElevation() ) __poChartTable->slotAddElevation();
+    if( __poChartTable->hasElevation() )
+    {
+      __poChartTable->showElevation( true );
+      pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_visible.png" ) );
+    }
+    else
+    {
+      pqPushButtonElevation->setChecked( false );
+    }
+  }
+  else
+  {
+    if( __poChartTable->hasElevation() )
+    {
+      __poChartTable->showElevation( false );
+      pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_hidden.png" ) );
+    }
+  }
+}
+
+void CChartControl::slotElevationAdd()
+{
+  pqPushButtonElevation->setChecked( true );
 }
 
 
@@ -246,11 +288,18 @@ void CChartControl::enableControls( bool _bEnable )
   pqSliderScale->setEnabled( _bEnable );
   pqPushButtonScaleOut->setEnabled( _bEnable );
   pqPushButtonScaleFit->setEnabled( _bEnable );
+  pqPushButtonElevation->setEnabled( _bEnable );
   if( !_bEnable )
   {
     pqPushButtonPositionLock->setChecked( false );
     pqPushButtonScaleLock->setChecked( false );
+    pqPushButtonElevation->setChecked( false );
+    if( !QVCTRuntime::useChartTable()->hasElevation() ) pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_add.png" ) );
     pqSliderScale->setValue( 0 );
+  }
+  else
+  {
+    if( QVCTRuntime::useChartTable()->hasElevation() ) pqPushButtonElevation->setIcon( QIcon( ":icons/32x32/elevation_hidden.png" ) );
   }
   if( !_bEnable || bPointerEnable )
   {

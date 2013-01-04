@@ -54,8 +54,9 @@ public:
 
 public:
   /// Returns the minimal geographical positions box containing the points in the given overlay/container.
-  /** @param [in/out] _poDataPositionLower The lower coordinates of valid points [in] and bounding box [out]
-   *  @param [in/out] _poDataPositionUpper The upper coordinates of valid points [in] and bounding box [out]
+  /** @param [in] _pqTreeWidgetItem Overlay/container to search for points
+   *  @param [in,out] _poDataPositionLower The lower coordinates of valid points [in] and bounding box [out]
+   *  @param [in,out] _poDataPositionUpper The upper coordinates of valid points [in] and bounding box [out]
    *  @param [in] _iIndexMin Minimal index of valid points (within overlay/container)
    *  @param [in] _iIndexMax Maximal index of valid points (within overlay/container)
    *  @return The quantity of valid points in the box */

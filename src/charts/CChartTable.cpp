@@ -215,6 +215,19 @@ void CChartTable::slotPrintChart()
   __pqMutexDataChange->unlock();
 }
 
+void CChartTable::slotAddElevation()
+{
+  if( QTabWidget::currentIndex() < 0 ) return;
+  QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Add Elevation Data"), tr("GeoTIFF Files")+" (*.tif *.tiff)" );
+  if( __qsFilename.isEmpty() ) return;
+  if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::OPEN, __qsFilename ) ) return;
+  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
+  __pqMutexDataChange->lock();
+  addElevation( __qsFilename );
+  __pqMutexDataChange->unlock();
+  if( !hasElevation() ) QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+}
+
 void CChartTable::slotChangeTab( int _iTabIndex )
 {
   CChartControl* __poChartControl = QVCTRuntime::useChartControl();
@@ -464,7 +477,6 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
 
           // ... pointer
           __oGeoPosition = __poChart->toGeoPosition( __qPointFMouse );
-          __oGeoPosition.resetElevation();
             if( poOverlayPointMove || __bPointerTargetPending ) break;
           __poPointerPoint->setPosition( __oGeoPosition );
           __poPointerOverlay->showDetail( __poPointerOverlay->usePointerPoint() );
@@ -972,7 +984,7 @@ int CChartTable::parseQVCT( const QDomElement& _rqDomElement )
        !__qDomElementChart.isNull();
        __qDomElementChart = __qDomElementChart.nextSiblingElement( "Chart" ) )
   {
-    QString __qsFilename = __qDomElementChart.attribute( "file" );
+    QString __qsFilename = __qDomElementChart.hasAttribute( "file" ) ? __qDomElementChart.attribute( "file" ) : __qDomElementChart.attribute( "raster" );
     CChart* __poChart = loadChart( __qsFilename );
     if( !__poChart )
     {
@@ -1038,6 +1050,28 @@ void CChartTable::updateChart()
 {
   if( QTabWidget::currentIndex() < 0 ) return;
   ((CChart*)QTabWidget::currentWidget())->update();
+}
+
+bool CChartTable::addElevation( const QString& _rqsFilename )
+{
+  if( QTabWidget::currentIndex() < 0 ) return false;
+  CChart* __poChart = (CChart*)QTabWidget::currentWidget();
+  if( __poChart->hasElevation() ) return true;
+  __poChart->addElevation( _rqsFilename );
+  return __poChart->hasElevation();
+}
+
+bool CChartTable::hasElevation()
+{
+  if( QTabWidget::currentIndex() < 0 ) return false;
+  return ((CChart*)QTabWidget::currentWidget())->hasElevation();
+}
+
+void CChartTable::showElevation( bool _bShow )
+{
+  if( QTabWidget::currentIndex() < 0 ) return;
+  ((CChart*)QTabWidget::currentWidget())->showElevation( _bShow );
+  updateChart();
 }
 
 double CChartTable::toZoom( double _fdScale, const CChart* _poChart )

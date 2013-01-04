@@ -16,22 +16,34 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CROUTECONTAINERPICKVIEW_HPP
-#define QVCT_CROUTECONTAINERPICKVIEW_HPP
+#ifndef QVCT_CCHARTGDALRASTER_HPP
+#define QVCT_CCHARTGDALRASTER_HPP
+
+// QT
+#include <QColor>
+#include <QPainter>
+#include <QPixmap>
+#include <QRect>
+#include <QString>
+#include <QVector>
+
+// GDAL
+#include <gdal_priv.h>
 
 // QVCT
-#include "overlays/COverlayObjectPickView.hpp"
-class CRouteContainer;
-class CRouteOverlay;
+#include "QVCT.hpp"
+#include "charts/CChartGDAL.hpp"
+class CDataPosition;
 
 
-/// [UI] Route container's pick (select) view
+/// GDAL-based (raster) chart
 /**
- *  This class implements the user-interface that allows to pick a route
- *  container among the available ones.
+ *  This class wraps a GDAL dataset to be rasterized as a chart in QVCT.
+ *
+ *  All color encodings are supported, EXCEPT non-palette CMYK.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CRouteContainerPickView: public COverlayObjectPickView
+class CChartGDALRaster: public CChartGDAL
 {
 
   //------------------------------------------------------------------------------
@@ -39,15 +51,9 @@ class CRouteContainerPickView: public COverlayObjectPickView
   //------------------------------------------------------------------------------
 
 public:
-  /** @param[in] _poRouteOverlay Base overlay
-   *  @param[out] _ppoOverlayObject Picked (selected) container */
-  CRouteContainerPickView( const CRouteOverlay* _poRouteOverlay, COverlayObject** _ppoOverlayObject );
-  virtual ~CRouteContainerPickView() {};
-
-private:
-  /// Constructs the layout of the user-interface
-  void constructLayout();
+  CChartGDALRaster( const QString& _rqsFileName );
+  virtual ~CChartGDALRaster();
 
 };
 
-#endif // QVCT_CROUTECONTAINERPICKVIEW_HPP
+#endif // QVCT_CCHARTGDALRASTER_HPP

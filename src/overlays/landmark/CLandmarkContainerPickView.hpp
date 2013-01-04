@@ -40,7 +40,7 @@ class CLandmarkContainerPickView: public COverlayObjectPickView
 
 public:
   /** @param[in] _poLandmarkOverlay Base overlay
-   *  @param[out] _ppoLandmarkContainer Picked (selected) container */
+   *  @param[out] _ppoOverlayObject Picked (selected) container */
   CLandmarkContainerPickView( const CLandmarkOverlay* _poLandmarkOverlay, COverlayObject** _ppoOverlayObject );
   virtual ~CLandmarkContainerPickView() {};
 

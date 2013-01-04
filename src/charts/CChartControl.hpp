@@ -64,6 +64,8 @@ private:
   QPushButton* pqPushButtonMeasureSingle;
   /// [UI:Button] Ongoing measurements
   QPushButton* pqPushButtonMeasure;
+  /// [UI:Button] Elevation model
+  QPushButton* pqPushButtonElevation;
   /// [UI:Button] Scale slider
   QSlider* pqSliderScale;
 
@@ -101,6 +103,10 @@ private slots:
   void slotScaleIn();
   /// [UI:Slot] Slot to trigger scale out (zoom in)
   void slotScaleOut();
+  /// [UI:Slot] Slot to manage elevation model (add, view, hide)
+  void slotElevation( bool _bAddOrShow );
+  /// [UI:Slot] Slot to add elevation model
+  void slotElevationAdd();
 
   // SETTERS
 private:

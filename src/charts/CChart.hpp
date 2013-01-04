@@ -29,6 +29,8 @@
 // QVCT
 #include "QVCT.hpp"
 class CChartGDAL;
+class CChartGDALRaster;
+class CChartGDALElevation;
 class CDataPosition;
 
 
@@ -48,8 +50,10 @@ class CChart: public QWidget
 
 private:
   /// GDAL chart (dataset)
-  /** @see open() */
-  CChartGDAL* poChartGDAL;
+  CChartGDALRaster* poChartGDALRaster;
+  /// GDAL data elevation model (dataset)
+  /** @see addElevation(), hasElevation() */
+  CChartGDALElevation* poChartGDALElevation;
   /// Viewport draw area
   /** @see setDrawArea(), resetDrawArea(), getDrawArea() */
   QRectF qRectFDrawArea;
@@ -65,6 +69,9 @@ private:
   /// Zoom lock status
   /** @see lockZoom(), isZoomLocked() */
   bool bZoomLock;
+  /// Elevation model show status
+  /** @see showElevation(), isElevationShowed() */
+  bool bShowElevation;
 
 
   //------------------------------------------------------------------------------
@@ -74,6 +81,10 @@ private:
 public:
   CChart( QWidget* _pqParent, const QString& _rqsFileName );
   virtual ~CChart();
+
+public:
+  /// Add elevation model data to chart
+  void addElevation( const QString& _rqsFileName );
 
 
   //------------------------------------------------------------------------------
@@ -102,6 +113,8 @@ public:
   void setZoom( double _fdZoom ) { fdZoom = _fdZoom; };
   /// Sets the zoom lock status
   void lockZoom( bool _bLock ) { bZoomLock = _bLock; };
+  /// Sets the elevation model show status
+  void showElevation( bool _bShow ) { bShowElevation = _bShow && poChartGDALElevation; };
 
   // GETTERS
 public:
@@ -132,6 +145,10 @@ public:
   double getZoomArea( const CDataPosition& _roGeoPosition1, const CDataPosition& _roGeoPosition2 ) const;
   /// Returns the zoom lock status
   bool isZoomLocked() const { return bZoomLock; };
+  /// Returns whether this chart has been associated elevation model data
+  bool hasElevation() const { return poChartGDALElevation; };
+  /// Returns the elevation model show status
+  bool isElevationShowed() const { return bShowElevation; };
   /// Returns the resolution of the chart at its current position, in meters per pixel [m/px]
   double getResolution() const;
 

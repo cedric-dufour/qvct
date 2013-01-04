@@ -17,6 +17,11 @@ device_add.png,FATCOW,cog.png+add.png
 device_connect.png,FATCOW,cog.png+connect.png
 device_disconnect.png,FATCOW,cog.png+disconnect.png
 edit.png,FATCOW,application_form_edit.png
+elevation.png,FATCOW,areachart.png
+elevation_add.png,FATCOW,areachart.png+add.png
+elevation_hidden.png,FATCOW,areachart.png+eye_close.png
+elevation_visible.png,FATCOW,areachart.png+eye.png
+hidden.png,FATCOW,eye_close.png
 landmark.png,FATCOW,asterisk_orange.png
 landmark_add.png,FATCOW,asterisk_orange.png+add.png
 landmark_point.png,FATCOW,asterisk_orange.png+flag_1.png

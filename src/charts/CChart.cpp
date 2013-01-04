@@ -33,7 +33,8 @@
 #include "QVCT.hpp"
 #include "QVCTRuntime.hpp"
 #include "charts/CChart.hpp"
-#include "charts/CChartGDAL.hpp"
+#include "charts/CChartGDALRaster.hpp"
+#include "charts/CChartGDALElevation.hpp"
 
 
 //------------------------------------------------------------------------------
@@ -42,16 +43,18 @@
 
 CChart::CChart( QWidget* _pqParent, const QString& _rqsFileName )
   : QWidget( _pqParent )
-  , poChartGDAL( 0 )
+  , poChartGDALRaster( 0 )
+  , poChartGDALElevation( 0 )
+  , bShowElevation( false )
 {
-  poChartGDAL = new CChartGDAL( _rqsFileName );
-  if( poChartGDAL->getStatus() != QVCT::OK ) return;
+  poChartGDALRaster = new CChartGDALRaster( _rqsFileName );
+  if( poChartGDALRaster->getStatus() != QVCT::OK ) return;
   QPalette __qPalette( QWidget::palette() );
   __qPalette.setColor( QPalette::Background, Qt::black );
   QWidget::setPalette( __qPalette );
   QWidget::setAutoFillBackground(true);
   QWidget::setCursor( QCursor( QPixmap( ":cursors/crosshair.png" ), 15, 15 ) );
-  qPointFDatPosition = QRectF( poChartGDAL->getDatGeometry() ).center();
+  qPointFDatPosition = QRectF( poChartGDALRaster->getDatGeometry() ).center();
   bPositionLock = true;
   fdZoom = 1.0;
   bZoomLock = true;
@@ -59,7 +62,18 @@ CChart::CChart( QWidget* _pqParent, const QString& _rqsFileName )
 
 CChart::~CChart()
 {
-  if( poChartGDAL ) delete poChartGDAL;
+  if( poChartGDALElevation ) delete poChartGDALElevation;
+  if( poChartGDALRaster ) delete poChartGDALRaster;
+}
+
+void CChart::addElevation( const QString& _rqsFileName )
+{
+  poChartGDALElevation = new CChartGDALElevation( _rqsFileName );
+  if( poChartGDALElevation->getStatus() != QVCT::OK )
+  {
+    delete poChartGDALElevation;
+    poChartGDALElevation = 0;
+  }
 }
 
 
@@ -90,7 +104,7 @@ void CChart::resetDrawArea()
 
 void CChart::setGeoPosition( const CDataPosition& _roGeoPosition )
 {
-  qPointFDatPosition = poChartGDAL->toDatPosition( _roGeoPosition );
+  qPointFDatPosition = poChartGDALRaster->toDatPosition( _roGeoPosition );
 }
 
 //
@@ -99,22 +113,22 @@ void CChart::setGeoPosition( const CDataPosition& _roGeoPosition )
 
 QVCT::EStatus CChart::getStatus() const
 {
-  return poChartGDAL->getStatus();
+  return poChartGDALRaster->getStatus();
 }
 
 QString CChart::getFileName() const
 {
-  return poChartGDAL->getFileName();
+  return poChartGDALRaster->getFileName();
 }
 
 CDataPosition CChart::getGeoPositionCenter() const
 {
-  return poChartGDAL->toGeoPosition( poChartGDAL->getDatGeometry().center() );
+  return poChartGDALRaster->toGeoPosition( poChartGDALRaster->getDatGeometry().center() );
 }
 
 CDataPosition CChart::getGeoPosition() const
 {
-  return poChartGDAL->toGeoPosition( qPointFDatPosition );
+  return poChartGDALRaster->toGeoPosition( qPointFDatPosition );
 }
 
 QPointF CChart::getDrawPositionCenter() const
@@ -124,7 +138,7 @@ QPointF CChart::getDrawPositionCenter() const
 
 double CChart::getZoomFit() const
 {
-  QRect __qRectDatGeometry = poChartGDAL->getDatGeometry();
+  QRect __qRectDatGeometry = poChartGDALRaster->getDatGeometry();
   double __fdZoomWidth = qRectFDrawArea.width() / (double)__qRectDatGeometry.width();
   double __fdZoomHeight = qRectFDrawArea.height() / (double)__qRectDatGeometry.height();
   return( __fdZoomWidth < __fdZoomHeight ? __fdZoomWidth : __fdZoomHeight );
@@ -135,7 +149,7 @@ double CChart::getZoomArea( const CDataPosition& _roGeoPosition1, const CDataPos
   double __fdLongitude1 = _roGeoPosition1.getLongitude(), __fdLongitude2 = _roGeoPosition2.getLongitude();
   double __fdLatitude1 = _roGeoPosition1.getLatitude(), __fdLatitude2 = _roGeoPosition2.getLatitude();
   CDataPosition __oGeoPosition( ( __fdLongitude1 + __fdLongitude2 ) / 2.0, ( __fdLatitude1 + __fdLatitude1 ) / 2.0 );
-  double __fdResolution = poChartGDAL->getResolution( poChartGDAL->toDatPosition( __oGeoPosition ) );
+  double __fdResolution = poChartGDALRaster->getResolution( poChartGDALRaster->toDatPosition( __oGeoPosition ) );
   double __fdLatitudeMaxCos;
   if( __fdLatitude1 * __fdLatitude2 < 0 ) __fdLatitudeMaxCos = 0;
   else if( fabs( __fdLatitude1 ) < fabs( __fdLatitude2 ) ) __fdLatitudeMaxCos = __fdLatitude1;
@@ -147,7 +161,7 @@ double CChart::getZoomArea( const CDataPosition& _roGeoPosition1, const CDataPos
 
 double CChart::getResolution() const
 {
-  return poChartGDAL->getResolution( qPointFDatPosition );
+  return poChartGDALRaster->getResolution( qPointFDatPosition );
 }
 
 //
@@ -156,17 +170,19 @@ double CChart::getResolution() const
 
 CDataPosition CChart::toGeoPosition( const QPointF& _rqPointFDrawPosition ) const
 {
-  return( poChartGDAL->toGeoPosition( poChartGDAL->getDatPosition() + ( _rqPointFDrawPosition - qRectFDrawArea.center() ) / poChartGDAL->getZoom() ) );
+  CDataPosition __oGeoPosition = poChartGDALRaster->toGeoPosition( poChartGDALRaster->getDatPosition() + ( _rqPointFDrawPosition - qRectFDrawArea.center() ) / poChartGDALRaster->getZoom() );
+  if( poChartGDALElevation ) __oGeoPosition.setElevation( poChartGDALElevation->getElevation( __oGeoPosition ) );
+  return __oGeoPosition;
 }
 
 QPointF CChart::toDrawPosition( const CDataPosition& _roGeoPosition ) const
 {
-  return( ( poChartGDAL->toDatPosition( _roGeoPosition ) - poChartGDAL->getDatPosition() ) * poChartGDAL->getZoom() + qRectFDrawArea.center() );
+  return( ( poChartGDALRaster->toDatPosition( _roGeoPosition ) - poChartGDALRaster->getDatPosition() ) * poChartGDALRaster->getZoom() + qRectFDrawArea.center() );
 }
 
 void CChart::move( const QPointF& _rqPointFDrawPositionOffset )
 {
-  qPointFDatPosition += _rqPointFDrawPositionOffset / poChartGDAL->getZoom();
+  qPointFDatPosition += _rqPointFDrawPositionOffset / poChartGDALRaster->getZoom();
 }
 
 void CChart::draw()
@@ -181,9 +197,21 @@ void CChart::draw()
   QPainter __qPainter;
   __qPainter.begin( this );
   __qPainter.setRenderHints( QPainter::SmoothPixmapTransform | QPainter::Antialiasing | QPainter::TextAntialiasing );
-  // ... chart
+  // ... chart / elevation model
   __qPainter.setOpacity( (double)QVCTRuntime::useSettings()->getChartOpacity()/100.0 );
-  poChartGDAL->draw( &__qPainter, qPointFDatPosition, fdZoom );
+  if( bShowElevation )
+  {
+    QPointF __qPointFDatPosition = poChartGDALElevation->toDatPosition( poChartGDALRaster->toGeoPosition( qPointFDatPosition ) );
+    poChartGDALRaster->move( qPointFDatPosition, fdZoom ); // keep the actual chart position/zoom in sync.
+    poChartGDALElevation->draw( &__qPainter,
+                                __qPointFDatPosition,
+                                fdZoom * poChartGDALElevation->getResolution( __qPointFDatPosition ) / poChartGDALRaster->getResolution( qPointFDatPosition ) );
+  }
+  else
+  {
+    if( poChartGDALElevation ) poChartGDALElevation->move( qPointFDatPosition, fdZoom ); // clear any cached rendering
+    poChartGDALRaster->draw( &__qPainter, qPointFDatPosition, fdZoom );
+  }
   __qPainter.setOpacity( 1.0 );
   // ... overlays
   QVCTRuntime::useLandmarkOverlay()->draw( this, &__qPainter );
@@ -213,8 +241,20 @@ void CChart::print( QPrinter* _pqPrinter )
   QPainter __qPainter;
   __qPainter.begin( _pqPrinter );
   __qPainter.setRenderHints( QPainter::SmoothPixmapTransform | QPainter::Antialiasing | QPainter::TextAntialiasing );
-  // ... chart
-  poChartGDAL->draw( &__qPainter, qPointFDatPosition, fdZoom );
+  // ... chart / elevation model
+  if( bShowElevation )
+  {
+    QPointF __qPointFDatPosition = poChartGDALElevation->toDatPosition( poChartGDALRaster->toGeoPosition( qPointFDatPosition ) );
+    poChartGDALRaster->move( qPointFDatPosition, fdZoom ); // keep the actual chart position/zoom in sync.
+    poChartGDALElevation->draw( &__qPainter,
+                                __qPointFDatPosition,
+                                fdZoom * poChartGDALElevation->getResolution( __qPointFDatPosition ) / poChartGDALRaster->getResolution( qPointFDatPosition ) );
+  }
+  else
+  {
+    if( poChartGDALElevation ) poChartGDALElevation->move( qPointFDatPosition, fdZoom ); // clear any cached rendering
+    poChartGDALRaster->draw( &__qPainter, qPointFDatPosition, fdZoom );
+  }
   // ... overlays
   QVCTRuntime::useLandmarkOverlay()->draw( this, &__qPainter );
   QVCTRuntime::useRouteOverlay()->draw( this, &__qPainter );
@@ -233,22 +273,32 @@ void CChart::parseQVCT( const QDomElement& _rqDomElement )
     bPositionLock = false;
     CDataPosition __oGeoPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
                                   _rqDomElement.attribute( "latitude" ).toDouble() );
-    qPointFDatPosition = poChartGDAL->toDatPosition( __oGeoPosition );
+    qPointFDatPosition = poChartGDALRaster->toDatPosition( __oGeoPosition );
   }
   if( _rqDomElement.hasAttribute( "zoom" ) )
   {
     bZoomLock = false;
     fdZoom = _rqDomElement.attribute( "zoom" ).toDouble();
   }
+  if( _rqDomElement.hasAttribute( "dem" ) )
+  {
+    QString __qsFilename = _rqDomElement.attribute( "dem" );
+    addElevation( __qsFilename );
+    if( !hasElevation() )
+    {
+      QVCTRuntime::useMainWindow()->fileError( QVCT::OPEN, __qsFilename );
+    }
+  }
 }
 
 void CChart::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
 {
   _rqXmlStreamWriter.writeStartElement( "Chart" );
-  _rqXmlStreamWriter.writeAttribute( "file", poChartGDAL->getFileName() );
+  _rqXmlStreamWriter.writeAttribute( "raster", poChartGDALRaster->getFileName() );
+  if( poChartGDALElevation ) _rqXmlStreamWriter.writeAttribute( "dem", poChartGDALElevation->getFileName() );
   if( !bPositionLock )
   {
-    CDataPosition __oDataPosition = poChartGDAL->toGeoPosition( qPointFDatPosition );
+    CDataPosition __oDataPosition = poChartGDALRaster->toGeoPosition( qPointFDatPosition );
     _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( __oDataPosition.getLongitude() ) );
     _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( __oDataPosition.getLatitude() ) );
   }

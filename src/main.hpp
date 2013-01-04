@@ -34,10 +34,12 @@
  *   - navigating along discrete waypoints routes
  *   - relying on GPS only as a secondary navigation mean
  *   - using offline charts (rather than Internet-dependent online resources)
- *  
+ *
  *  It features:
  *   - loading offline geo-referenced charts, stored in any format/projection
  *     supported by the Geospatial Data Abstraction Library (GDAL)
+ *   - associating a digital elevation model (DEM) to any chart, stored in any
+ *     format/projection supported by the Geospatial Data Abstraction Library (GDAL)
  *   - creating, loading, saving and managing landmarks, routes and tracks, stored
  *     in GPX or QVCT (XML) format
  *   - creating, loading, saving and managing (multiple) vessels, stored in QVCT

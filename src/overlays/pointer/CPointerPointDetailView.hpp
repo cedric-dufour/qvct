@@ -48,6 +48,8 @@ private:
   COverlayText* poTextLongitude;
   /// [UI:Label] Latitude
   COverlayText* poTextLatitude;
+  /// [UI:Label] Elevation
+  COverlayText* poTextElevation;
   /// [UI:Label] Path segments count
   COverlayText* poTextPathSegments;
   /// [UI:Label] Path (rhumb-line) length

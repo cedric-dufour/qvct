@@ -44,14 +44,12 @@
 // CONSTRUCTORS / DESTRUCTOR
 //------------------------------------------------------------------------------
 
-CChartGDAL::CChartGDAL( const QString& _rqsFileName )
+CChartGDAL::CChartGDAL()
   : eStatus( QVCT::UNDEFINED )
   , poGDALDataset( NULL )
   , pGDALProjectionTransformer( NULL )
   , piGDALBandMap( NULL )
-{
-  open( _rqsFileName );
-}
+{}
 
 CChartGDAL::~CChartGDAL()
 {
@@ -138,7 +136,19 @@ void CChartGDAL::open( const QString& _rqsFileName )
     {
 
     case GCI_GrayIndex: // switch( __poGDALRasterBand->GetColorInterpretation() )
-      eColorEncoding = GRAY;
+      switch( __poGDALRasterBand->GetRasterDataType() )
+      {
+      case GDT_Byte: eColorEncoding = GRAY; break;
+      case GDT_UInt16: eColorEncoding = GRAY_U16; break;
+      case GDT_Int16: eColorEncoding = GRAY_S16; break;
+      case GDT_UInt32: eColorEncoding = GRAY_U32; break;
+      case GDT_Int32: eColorEncoding = GRAY_S32; break;
+      case GDT_Float32: eColorEncoding = GRAY_F32; break;
+      case GDT_Float64: eColorEncoding = GRAY_F64; break;
+      default:
+        qCritical( "ERROR[%s]: Unsupported data type (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
+        return;
+      }
       break;
 
     case GCI_PaletteIndex: // switch( __poGDALRasterBand->GetColorInterpretation() )
@@ -216,6 +226,12 @@ void CChartGDAL::open( const QString& _rqsFileName )
   {
 
   case GRAY: // switch( eColorEncoding )
+  case GRAY_U16:
+  case GRAY_S16:
+  case GRAY_U32:
+  case GRAY_S32:
+  case GRAY_F32:
+  case GRAY_F64:
     for( int __iColorComponent = 0; __iColorComponent < 256; __iColorComponent++ )
     {
       qColorTable.append( qRgba( __iColorComponent, __iColorComponent, __iColorComponent, 255 ) );
@@ -226,6 +242,11 @@ void CChartGDAL::open( const QString& _rqsFileName )
     for( int __iPaletteIndex = 0; __iPaletteIndex < __poGDALColorTable->GetColorEntryCount(); __iPaletteIndex++ )
     {
         __poGDALColorEntry = __poGDALColorTable->GetColorEntry( __iPaletteIndex );
+        if( !__poGDALColorEntry )
+        {
+          qCritical( "ERROR[%s]: Failed to retrieve color table entry (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
+          return;
+        }
         qColorTable.append( qRgb( __poGDALColorEntry->c1, __poGDALColorEntry->c1, __poGDALColorEntry->c1 ) );
     }
     break;
@@ -234,6 +255,11 @@ void CChartGDAL::open( const QString& _rqsFileName )
     for( int __iPaletteIndex = 0; __iPaletteIndex < __poGDALColorTable->GetColorEntryCount(); __iPaletteIndex++ )
     {
         __poGDALColorEntry = __poGDALColorTable->GetColorEntry( __iPaletteIndex );
+        if( !__poGDALColorEntry )
+        {
+          qCritical( "ERROR[%s]: Failed to retrieve color table entry (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
+          return;
+        }
         qColorTable.append( qRgba( __poGDALColorEntry->c1, __poGDALColorEntry->c2, __poGDALColorEntry->c3, __poGDALColorEntry->c4 ) );
     }
     break;
@@ -242,6 +268,11 @@ void CChartGDAL::open( const QString& _rqsFileName )
     for( int __iPaletteIndex = 0; __iPaletteIndex < __poGDALColorTable->GetColorEntryCount(); __iPaletteIndex++ )
     {
         __poGDALColorEntry = __poGDALColorTable->GetColorEntry( __iPaletteIndex );
+        if( !__poGDALColorEntry )
+        {
+          qCritical( "ERROR[%s]: Failed to retrieve color table entry (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
+          return;
+        }
         qColorTable.append( QColor::fromCmyk( __poGDALColorEntry->c1, __poGDALColorEntry->c2, __poGDALColorEntry->c3, __poGDALColorEntry->c4 ).rgb() );
     }
     break;
@@ -250,6 +281,11 @@ void CChartGDAL::open( const QString& _rqsFileName )
     for( int __iPaletteIndex = 0; __iPaletteIndex < __poGDALColorTable->GetColorEntryCount(); __iPaletteIndex++ )
     {
         __poGDALColorEntry = __poGDALColorTable->GetColorEntry( __iPaletteIndex );
+        if( !__poGDALColorEntry )
+        {
+          qCritical( "ERROR[%s]: Failed to retrieve color table entry (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
+          return;
+        }
         qColorTable.append( QColor::fromHsl( __poGDALColorEntry->c1, __poGDALColorEntry->c3, __poGDALColorEntry->c2 ).rgb() ); // WARNING: GDAL uses HLS colortable; QT uses HSL (S and L are swapped)
     }
     break;
@@ -326,7 +362,7 @@ CDataPosition CChartGDAL::toGeoPosition( const QPointF& _rqPointFDatPosition ) c
   int __iSuccess = TRUE;
   GDALGenImgProjTransform( pGDALProjectionTransformer, false, 1, &__fdX, &__fdY, &__fdZ, &__iSuccess );
   if( __iSuccess != TRUE ) return __oGeoPosition;
-  __oGeoPosition.setPosition( __fdX, __fdY, __fdZ );
+  __oGeoPosition.setPosition( __fdX, __fdY, CDataPosition::UNDEFINED_ELEVATION );
   return __oGeoPosition;
 }
 
@@ -410,6 +446,156 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
       switch( eColorEncoding )
       {
 
+      case GRAY_U16: // switch( eColorEncoding )
+        {
+          QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
+          __qImage.setColorTable( qColorTable );
+          // Rasterize to through data-type buffer
+          QVector<quint16> __qVector( __qImage.width()*__qImage.height() );
+          GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
+          CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
+                                                         __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
+                                                         __qRectGDALActual.width(), __qRectGDALActual.height(),
+                                                         __qVector.data(),
+                                                         __qSizePixmapActual.width(), __qSizePixmapActual.height(),
+                                                         GDT_UInt16,
+                                                         sizeof(quint16), sizeof(quint16)*__qImage.width() );
+          if( tCPLErr != CE_None )
+          {
+            qCritical( "ERROR[%s]: Failed to rasterize typed dataset", Q_FUNC_INFO );
+            return;
+          }
+          rasterBuffer( &__qImage, __qVector );
+          // Draw image
+          __qPainter.drawImage( __qPointPixmapActual, __qImage );
+        }
+        break;
+
+      case GRAY_S16: // switch( eColorEncoding )
+        {
+          QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
+          __qImage.setColorTable( qColorTable );
+          // Rasterize to through data-type buffer
+          QVector<qint16> __qVector( __qImage.width()*__qImage.height() );
+          GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
+          CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
+                                                         __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
+                                                         __qRectGDALActual.width(), __qRectGDALActual.height(),
+                                                         __qVector.data(),
+                                                         __qSizePixmapActual.width(), __qSizePixmapActual.height(),
+                                                         GDT_Int16,
+                                                         sizeof(qint16), sizeof(qint16)*__qImage.width() );
+          if( tCPLErr != CE_None )
+          {
+            qCritical( "ERROR[%s]: Failed to rasterize typed dataset", Q_FUNC_INFO );
+            return;
+          }
+          rasterBuffer( &__qImage, __qVector );
+          // Draw image
+          __qPainter.drawImage( __qPointPixmapActual, __qImage );
+        }
+        break;
+
+      case GRAY_U32: // switch( eColorEncoding )
+        {
+          QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
+          __qImage.setColorTable( qColorTable );
+          // Rasterize to through data-type buffer
+          QVector<quint32> __qVector( __qImage.width()*__qImage.height() );
+          GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
+          CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
+                                                         __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
+                                                         __qRectGDALActual.width(), __qRectGDALActual.height(),
+                                                         __qVector.data(),
+                                                         __qSizePixmapActual.width(), __qSizePixmapActual.height(),
+                                                         GDT_UInt32,
+                                                         sizeof(quint32), sizeof(quint32)*__qImage.width() );
+          if( tCPLErr != CE_None )
+          {
+            qCritical( "ERROR[%s]: Failed to rasterize typed dataset", Q_FUNC_INFO );
+            return;
+          }
+          rasterBuffer( &__qImage, __qVector );
+          // Draw image
+          __qPainter.drawImage( __qPointPixmapActual, __qImage );
+        }
+        break;
+
+      case GRAY_S32: // switch( eColorEncoding )
+        {
+          QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
+          __qImage.setColorTable( qColorTable );
+          // Rasterize to through data-type buffer
+          QVector<qint32> __qVector( __qImage.width()*__qImage.height() );
+          GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
+          CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
+                                                         __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
+                                                         __qRectGDALActual.width(), __qRectGDALActual.height(),
+                                                         __qVector.data(),
+                                                         __qSizePixmapActual.width(), __qSizePixmapActual.height(),
+                                                         GDT_Int32,
+                                                         sizeof(qint32), sizeof(qint32)*__qImage.width() );
+          if( tCPLErr != CE_None )
+          {
+            qCritical( "ERROR[%s]: Failed to rasterize typed dataset", Q_FUNC_INFO );
+            return;
+          }
+          rasterBuffer( &__qImage, __qVector );
+          // Draw image
+          __qPainter.drawImage( __qPointPixmapActual, __qImage );
+        }
+        break;
+
+      case GRAY_F32: // switch( eColorEncoding )
+        {
+          QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
+          __qImage.setColorTable( qColorTable );
+          // Rasterize to through data-type buffer
+          QVector<float> __qVector( __qImage.width()*__qImage.height() );
+          GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
+          CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
+                                                         __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
+                                                         __qRectGDALActual.width(), __qRectGDALActual.height(),
+                                                         __qVector.data(),
+                                                         __qSizePixmapActual.width(), __qSizePixmapActual.height(),
+                                                         GDT_Float32,
+                                                         sizeof(float), sizeof(float)*__qImage.width() );
+          if( tCPLErr != CE_None )
+          {
+            qCritical( "ERROR[%s]: Failed to rasterize typed dataset", Q_FUNC_INFO );
+            return;
+          }
+          rasterBuffer( &__qImage, __qVector );
+          // Draw image
+          __qPainter.drawImage( __qPointPixmapActual, __qImage );
+        }
+        break;
+
+      case GRAY_F64: // switch( eColorEncoding )
+        {
+          QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
+          __qImage.setColorTable( qColorTable );
+          // Rasterize to through data-type buffer
+          QVector<double> __qVector( __qImage.width()*__qImage.height() );
+          GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
+          CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
+                                                         __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
+                                                         __qRectGDALActual.width(), __qRectGDALActual.height(),
+                                                         __qVector.data(),
+                                                         __qSizePixmapActual.width(), __qSizePixmapActual.height(),
+                                                         GDT_Float64,
+                                                         sizeof(double), sizeof(double)*__qImage.width() );
+          if( tCPLErr != CE_None )
+          {
+            qCritical( "ERROR[%s]: Failed to rasterize typed dataset", Q_FUNC_INFO );
+            return;
+          }
+          rasterBuffer( &__qImage, __qVector );
+          // Draw image
+          __qPainter.drawImage( __qPointPixmapActual, __qImage );
+        }
+        break;
+
       case GRAY: // switch( eColorEncoding )
       case PALETTE_GRAY:
       case PALETTE_RGB:
@@ -418,6 +604,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
         {
           QImage __qImage( __qSizeImageActual, QImage::Format_Indexed8 );
           __qImage.setColorTable( qColorTable );
+          // Rasterize directly to QImage bitmap
           GDALRasterBand* __poGDALRasterBand = poGDALDataset->GetRasterBand( 1 );
           CPLErr tCPLErr = __poGDALRasterBand->RasterIO( GF_Read,
                                                          __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
@@ -431,6 +618,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
             qCritical( "ERROR[%s]: Failed to rasterize palette dataset", Q_FUNC_INFO );
             return;
           }
+          // Draw image
           __qPainter.drawImage( __qPointPixmapActual, __qImage );
         }
         break;
@@ -438,6 +626,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
       case ARGB: // switch( eColorEncoding )
         {
           QImage __qImage( __qSizeImageActual, QImage::Format_ARGB32 );
+          // Rasterize directly to QImage bitmap
           CPLErr tCPLErr = poGDALDataset->RasterIO( GF_Read,
                                                     __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
                                                     __qRectGDALActual.width(), __qRectGDALActual.height(),
@@ -450,6 +639,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
             qCritical( "ERROR[%s]: Failed to rasterize ARGB dataset", Q_FUNC_INFO );
             return;
           }
+          // Draw image
           __qPainter.drawImage( __qPointPixmapActual, __qImage );
         }
         break;
@@ -457,6 +647,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
       case RGB: // switch( eColorEncoding )
         {
           QImage __qImage( __qSizeImageActual, QImage::Format_RGB32 );
+          // Rasterize directly to QImage bitmap
           CPLErr tCPLErr = poGDALDataset->RasterIO( GF_Read,
                                                     __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
                                                     __qRectGDALActual.width(), __qRectGDALActual.height(),
@@ -469,28 +660,15 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
             qCritical( "ERROR[%s]: Failed to rasterize ARGB dataset", Q_FUNC_INFO );
             return;
           }
+          // Draw image
           __qPainter.drawImage( __qPointPixmapActual, __qImage );
         }
         break;
 
       case YUV: // switch( eColorEncoding )
-        {
-          QImage __qImage( __qSizeImageActual, QImage::Format_RGB32 );
-          CPLErr tCPLErr = poGDALDataset->RasterIO( GF_Read,
-                                                    __qRectGDALActual.topLeft().x(), __qRectGDALActual.topLeft().y(),
-                                                    __qRectGDALActual.width(), __qRectGDALActual.height(),
-                                                    __qImage.bits()+( piGDALBandMap[0]<0 ? 1 : 0 ),
-                                                    __qSizePixmapActual.width(), __qSizePixmapActual.height(),
-                                                    GDT_Byte,
-                                                    3, piGDALBandMap, 4, 4*__qImage.width(), 1 );
-          if( tCPLErr != CE_None )
-          {
-            qCritical( "ERROR[%s]: Failed to rasterize ARGB dataset", Q_FUNC_INFO );
-            return;
-          }
-          // TODO: apply libswscale(YUV->RGB) to __qImage.bits()
-          __qPainter.drawImage( __qPointPixmapActual, __qImage );
-        }
+        // NOTE: we should never get here since GDAL converts YCbCr color space to RGB intrinsecally
+        qCritical( "ERROR[%s]: YCbCr color interpretation not implemented", Q_FUNC_INFO );
+        return;
         break;
 
       } // switch( eColorEncoding )
@@ -501,4 +679,65 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
 
   _pqPainter->drawPixmap( 0, 0, qPixmapBuffer );
 
+}
+
+void CChartGDAL::move( const QPointF& _rqPointFDatPosition, double _fdZoom )
+{
+  qPixmapBuffer = QPixmap(); // re-rendering shall be required
+  qPointFDatPositionActual = _rqPointFDatPosition;
+  fdZoomActual = _fdZoom;
+}
+
+void CChartGDAL::rasterBuffer( QImage* _pqImage, const QVector<quint16>& _rqVector ) const
+{
+  uchar* __pqImageBit = _pqImage->bits();
+  const quint16* __pqVectorBit = _rqVector.data();
+  for( int x=_pqImage->width()-1; x>=0; x-- )
+    for( int y=_pqImage->height()-1; y>=0; y-- )
+      *__pqImageBit++ = *__pqVectorBit++ >> 8;
+}
+
+void CChartGDAL::rasterBuffer( QImage* _pqImage, const QVector<qint16>& _rqVector ) const
+{
+  uchar* __pqImageBit = _pqImage->bits();
+  const qint16* __pqVectorBit = _rqVector.data();
+  for( int x=_pqImage->width()-1; x>=0; x-- )
+    for( int y=_pqImage->height()-1; y>=0; y-- )
+      *__pqImageBit++ = ( *__pqVectorBit++ >> 8 ) + 127;
+}
+
+void CChartGDAL::rasterBuffer( QImage* _pqImage, const QVector<quint32>& _rqVector ) const
+{
+  uchar* __pqImageBit = _pqImage->bits();
+  const quint32* __pqVectorBit = _rqVector.data();
+  for( int x=_pqImage->width()-1; x>=0; x-- )
+    for( int y=_pqImage->height()-1; y>=0; y-- )
+      *__pqImageBit++ = *__pqVectorBit++ >> 24;
+}
+
+void CChartGDAL::rasterBuffer( QImage* _pqImage, const QVector<qint32>& _rqVector ) const
+{
+  uchar* __pqImageBit = _pqImage->bits();
+  const qint32* __pqVectorBit = _rqVector.data();
+  for( int x=_pqImage->width()-1; x>=0; x-- )
+    for( int y=_pqImage->height()-1; y>=0; y-- )
+      *__pqImageBit++ = ( *__pqVectorBit++ >> 24 ) + 127;
+}
+
+void CChartGDAL::rasterBuffer( QImage* _pqImage, const QVector<float>& _rqVector ) const
+{
+  uchar* __pqImageBit = _pqImage->bits();
+  const float* __pqVectorBit = _rqVector.data();
+  for( int x=_pqImage->width()-1; x>=0; x-- )
+    for( int y=_pqImage->height()-1; y>=0; y-- )
+      *__pqImageBit++ = *__pqVectorBit++;
+}
+
+void CChartGDAL::rasterBuffer( QImage* _pqImage, const QVector<double>& _rqVector ) const
+{
+  uchar* __pqImageBit = _pqImage->bits();
+  const double* __pqVectorBit = _rqVector.data();
+  for( int x=_pqImage->width()-1; x>=0; x-- )
+    for( int y=_pqImage->height()-1; y>=0; y-- )
+      *__pqImageBit++ = *__pqVectorBit++;
 }

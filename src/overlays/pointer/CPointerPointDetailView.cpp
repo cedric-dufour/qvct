@@ -120,7 +120,14 @@ void CPointerPointDetailView::constructLayout()
   poTextLatitude->setIndent( 10 );
   poTextLatitude->setAlignment( Qt::AlignHCenter );
   poTextLatitude->resetText();
-  __pqVBoxLayoutPosition->addWidget( poTextLatitude, 1 );
+  __pqVBoxLayoutPosition->addWidget( poTextLatitude );
+  poTextElevation = new COverlayText( this );
+  poTextElevation->setToolTip( tr("Elevation") );
+  poTextElevation->setFont( __qFontData );
+  poTextElevation->setIndent( 10 );
+  poTextElevation->setAlignment( Qt::AlignHCenter );
+  poTextElevation->resetText();
+  __pqVBoxLayoutPosition->addWidget( poTextElevation, 1 );
   __poWidgetPosition->setLayout( __pqVBoxLayoutPosition );
   __poTabWidget->addTab( __poWidgetPosition, tr("Position") );
 
@@ -188,6 +195,12 @@ void CPointerPointDetailView::refreshContent()
   poTextLongitude->setText( CUnitPosition::toString( __poPointerPoint->getLongitude(), CUnitPosition::LONGITUDE ) );
   poTextLatitude->setText( CUnitPosition::toString( __poPointerPoint->getLatitude(), CUnitPosition::LATITUDE ) );
 
+  // ... elevation
+  if( __poPointerPoint->getElevation() != CDataPosition::UNDEFINED_ELEVATION )
+    poTextElevation->setText( CUnitElevation::toString( __poPointerPoint->getElevation() ) );
+  else
+    poTextElevation->resetText();
+
   // ... path
   if( __poPointerOverlay->hasPath() )
   {
@@ -210,6 +223,7 @@ void CPointerPointDetailView::resetContent()
 {
   poTextLongitude->resetText();
   poTextLatitude->resetText();
+  poTextElevation->resetText();
   poTextPathSegments->resetText();
   poTextPathLengthRL->resetText();
   poTextPathLengthGC->resetText();

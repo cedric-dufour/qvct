@@ -27,6 +27,8 @@ set( MY_CPPS
   CTimeView.cpp
   charts/CChart.cpp
   charts/CChartGDAL.cpp
+  charts/CChartGDALRaster.cpp
+  charts/CChartGDALElevation.cpp
   charts/CChartControl.cpp
   charts/CChartTable.cpp
   data/CDataCourse.cpp

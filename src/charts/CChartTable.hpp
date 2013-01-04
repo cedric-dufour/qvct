@@ -34,6 +34,7 @@
 #include "overlays/COverlayPoint.hpp"
 #include "overlays/vessel/CVesselPoint.hpp"
 class CChart;
+class CChartControl;
 
 
 /// [UI] Virtual "chart table" (view)
@@ -53,6 +54,7 @@ class CChart;
 class CChartTable: public QTabWidget
 {
   Q_OBJECT
+  friend class CChartControl;
 
   //------------------------------------------------------------------------------
   // FIELDS
@@ -149,6 +151,8 @@ private slots:
   void slotLoadChart();
   /// [UI:Slot] Slot to print the currently displayed chart
   void slotPrintChart();
+  /// [UI:Slot] Slot to add elevation data to the currently displayed chart
+  void slotAddElevation();
   /// [UI:Slot] Slot to handle active tab change
   /** @see QTabWidget::currentChanged() */
   void slotChangeTab( int _iTabIndex );
@@ -280,6 +284,12 @@ public:
   /// Update the (current) chart content (on screen)
   /** NOTE: This results in the scheduling of a QWidget::paintEvent() by Qt. No guarantees can thus be given about when the actual CChart::draw() will occur. */
   void updateChart();
+  /// Add elevation data to the currently displayed chart (if any)
+  bool addElevation( const QString& _rqsFilename );
+  /// Returns whether the currently selected chart has been associated elevation data (if any)
+  bool hasElevation();
+  /// Display elevation data (instead of raster data) of the currently selected chart (if any)
+  void showElevation( bool _bShow );
 
 private:
   /// Converts the given scale factor to zoom factor (for the current position and - by default - the currently displayed chart)

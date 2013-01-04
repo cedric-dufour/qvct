@@ -128,6 +128,9 @@ void CMainWindow::constructMenus()
   QAction* __pqActionLoadChart = new QAction( tr("L&oad Chart..." ), this );
   QMainWindow::connect( __pqActionLoadChart, SIGNAL( triggered() ), QVCTRuntime::useChartTable(), SLOT( slotLoadChart() ) );
   __pqMenuFile->addAction( __pqActionLoadChart );
+  QAction* __pqActionAddElevation = new QAction( tr("Add &Elevation..." ), this );
+  QMainWindow::connect( __pqActionAddElevation, SIGNAL( triggered() ), QVCTRuntime::useChartControl(), SLOT( slotElevationAdd() ) );
+  __pqMenuFile->addAction( __pqActionAddElevation );
   QAction* __pqActionLoadLandmarks = new QAction( tr("Load &Landmarks..." ), this );
   QMainWindow::connect( __pqActionLoadLandmarks, SIGNAL( triggered() ), QVCTRuntime::useLandmarkOverlayListView(), SLOT( slotLoad() ) );
   __pqMenuFile->addAction( __pqActionLoadLandmarks );
