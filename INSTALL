@@ -28,3 +28,14 @@ and installed using the ad-hoc commands:
   debuild -us -uc -b && ls -al ../qvct*.deb
   dpkg -i ../qvct*.deb
 
+
+Pre-built Binaries
+------------------
+
+Pre-built binary packages for Ubuntu are available from the author's Launchpad
+Personal Package Archive (PPA):
+
+  https://launchpad.net/~cedric.dufour/+archive/ppa/
+
+Please follow the PPA instructions to carry out the installation.
+
