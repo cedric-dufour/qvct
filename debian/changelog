@@ -1,3 +1,24 @@
+qvct (1.0.20130107) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - FIX: Geo items are now located properly on elevation model (when its
+         projection is different from the associated chart)
+  - FIX: Elevation status is now properly synchronized when switching
+         charts (tabs)
+  - FIX: Elevation model color table is adjusted for better rendering
+         (including no-value data)
+  - NEW: Added project modification status tracking (to prevent unsaved data
+         loss on exit or when loading a new project)
+  - MOD: Consolidated data change mutex code
+  - NEW: Added digital elevation model (DEM) support
+  - NEW: Defaults filename to QVCT format/extension when provided filename
+         misses extension
+  - FIX: Application no longer freezes when loading invalid chart
+  - MOD: Removed unnecessary (and unfinished) YCbCr color space handling
+  - MOD: Removed sample OpenStreetMap world chart (to reduce GIT/tarball
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Mon, 07 Jan 2013 11:53:09 +0100
+
 qvct (1.0.20121214) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
