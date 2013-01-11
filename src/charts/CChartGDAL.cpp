@@ -67,8 +67,7 @@ void CChartGDAL::open( const QString& _rqsFileName )
 
   // Open chart as GDAL dataset
   GDALAllRegister();
-  const char* __pcFileName = _rqsFileName.toLocal8Bit().constData();
-  poGDALDataset = (GDALDataset*)GDALOpen( __pcFileName, GA_ReadOnly );
+  poGDALDataset = (GDALDataset*)GDALOpen( _rqsFileName.toLocal8Bit().constData(), GA_ReadOnly );
   if( !poGDALDataset )
   {
     qCritical( "ERROR[%s]: Failed to open dataset (%s)", Q_FUNC_INFO, qPrintable( _rqsFileName ) );
