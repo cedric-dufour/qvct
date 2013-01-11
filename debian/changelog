@@ -1,3 +1,14 @@
+qvct (1.0.20130111) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - FIX: Erroneous filename handling, causing GDAL to fail opening file (with
+         error message containing artefacts at the end of the filename)
+  - NEW: Publish/document Ubuntu/Launchpad PPA binary packaged download
+         source/URL
+  - FIX: Updated ROADMAP according to latest release
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Fri, 11 Jan 2013 18:30:21 +0100
+
 qvct (1.0.20130107) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
