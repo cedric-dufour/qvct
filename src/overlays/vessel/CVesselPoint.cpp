@@ -413,7 +413,11 @@ void CVesselPoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
     _rqXmlStreamWriter.writeAttribute( "elevation", QString::number( CDataPosition::getElevation() ) );
   // ... time
   if( CDataTime::getTime() != CDataTime::UNDEFINED_TIME )
+#if QT_VERSION < 0x040800
     _rqXmlStreamWriter.writeAttribute( "time", QDateTime::fromTime_t( CDataTime::getTime() ).toUTC().toString( Qt::ISODate )+"Z" );
+#else
+    _rqXmlStreamWriter.writeAttribute( "time", QDateTime::fromTime_t( CDataTime::getTime() ).toUTC().toString( Qt::ISODate ) );
+#endif
   // ... type
   if( !qsType.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "type", qsType );
   // ... symbol

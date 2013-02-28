@@ -178,7 +178,11 @@ void CTrackPoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
     _rqXmlStreamWriter.writeAttribute( "elevation", QString::number( CDataPosition::getElevation() ) );
   // ... time
   if( CDataTime::getTime() != CDataTime::UNDEFINED_TIME )
+#if QT_VERSION < 0x040800
     _rqXmlStreamWriter.writeAttribute( "time", QDateTime::fromTime_t( CDataTime::getTime() ).toUTC().toString( Qt::ISODate )+"Z" );
+#else
+    _rqXmlStreamWriter.writeAttribute( "time", QDateTime::fromTime_t( CDataTime::getTime() ).toUTC().toString( Qt::ISODate ) );
+#endif
   // ... fix type
   if( !qsFixType.isEmpty() )
     _rqXmlStreamWriter.writeAttribute( "fixtype", qsFixType );
@@ -218,7 +222,11 @@ void CTrackPoint::dumpGPX( QXmlStreamWriter & _rqXmlStreamWriter ) const
   if( CDataTime::getTime() != CDataTime::UNDEFINED_TIME )
   {
     _rqXmlStreamWriter.writeStartElement( "time" );
+#if QT_VERSION < 0x040800
     _rqXmlStreamWriter.writeCharacters( QDateTime::fromTime_t( CDataTime::getTime() ).toUTC().toString( Qt::ISODate )+"Z" );
+#else
+    _rqXmlStreamWriter.writeCharacters( QDateTime::fromTime_t( CDataTime::getTime() ).toUTC().toString( Qt::ISODate ) );
+#endif
     _rqXmlStreamWriter.writeEndElement(); // time
   }
   // ... fix type
