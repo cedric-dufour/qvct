@@ -1,3 +1,10 @@
+qvct (1.0.20130228) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog) 
+  - FIX: Fix trailing "ZZ" in UTC timestamps dumped to file (Qt>=4.8)
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Thu, 28 Feb 2013 21:05:54 +0100
+
 qvct (1.0.20130111) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
