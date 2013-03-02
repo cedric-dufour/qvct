@@ -24,6 +24,7 @@
 #include <QPainter>
 
 // QVCT
+#include "QVCTRuntime.hpp"
 #include "data/CDataCourseValidity.hpp"
 #include "data/CDataPositionValidity.hpp"
 #include "charts/CChart.hpp"
@@ -89,6 +90,8 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
   if( __fdZoom < 0.2 ) __fdZoom = 0.2;
+  else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
+  __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
 
   // Draw
@@ -130,6 +133,8 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
   if( __fdZoom < 0.75 ) __fdZoom = 0.75;
+  else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
+  __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
 
   // Draw
