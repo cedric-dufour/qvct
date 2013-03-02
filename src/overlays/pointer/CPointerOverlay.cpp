@@ -155,7 +155,7 @@ void CPointerOverlay::importSettings()
   __qColor.setAlpha( 128 );
   qBrushMarker.setColor( __qColor );
   __qColor.setAlpha( 192 );
-  qPenText.setColor( __qColor );
+  qPenText.setColor( QColor::fromHsv( __qColor.hue(), __qColor.saturation(), std::min( 128, __qColor.value() ), 192 ) );
   qPenMarker.setColor( __qColor );
   qPenLine.setColor( __qColor );
 }

@@ -70,10 +70,10 @@ CSettings::CSettings()
   , fdMaxAgeSpeed( 5.0 )
   , fdMaxAgeSpeedVertical( 5.0 )
   , qColorPointer( 64, 64, 64 )
-  , qColorLandmark( 0, 64, 0 )
-  , qColorRoute( 0, 0, 128 )
-  , qColorTrack( 128, 0, 128 )
-  , qColorVessel( 128, 0, 0 )
+  , qColorLandmark( 0, 192, 0 )
+  , qColorRoute( 0, 0, 255 )
+  , qColorTrack( 255, 0, 255 )
+  , qColorVessel( 255, 0, 0 )
   , iScreenDpi( 96 )
   , bScreenGestures( false )
   , iRateRefresh( 1000 )
@@ -796,7 +796,7 @@ void CSettings::parseQVCT( const QDomElement& _rqDomElement )
       if( !__qDomElement.isNull() )
       {
         __iRed = __qDomElement.attribute( "red", "0" ).toInt();
-        __iGreen = __qDomElement.attribute( "green", "64" ).toInt();
+        __iGreen = __qDomElement.attribute( "green", "255" ).toInt();
         __iBlue = __qDomElement.attribute( "blue", "0" ).toInt();
         qColorLandmark.setRgb( __iRed, __iGreen, __iBlue );
       }
@@ -806,23 +806,23 @@ void CSettings::parseQVCT( const QDomElement& _rqDomElement )
       {
         __iRed = __qDomElement.attribute( "red", "0" ).toInt();
         __iGreen = __qDomElement.attribute( "green", "0" ).toInt();
-        __iBlue = __qDomElement.attribute( "blue", "128" ).toInt();
+        __iBlue = __qDomElement.attribute( "blue", "255" ).toInt();
         qColorRoute.setRgb( __iRed, __iGreen, __iBlue );
       }
       // ... track
       __qDomElement = __qDomElementContext.firstChildElement( "Track" );
       if( !__qDomElement.isNull() )
       {
-        __iRed = __qDomElement.attribute( "red", "128" ).toInt();
+        __iRed = __qDomElement.attribute( "red", "255" ).toInt();
         __iGreen = __qDomElement.attribute( "green", "0" ).toInt();
-        __iBlue = __qDomElement.attribute( "blue", "128" ).toInt();
+        __iBlue = __qDomElement.attribute( "blue", "255" ).toInt();
         qColorTrack.setRgb( __iRed, __iGreen, __iBlue );
       }
       // ... vessel
       __qDomElement = __qDomElementContext.firstChildElement( "Vessel" );
       if( !__qDomElement.isNull() )
       {
-        __iRed = __qDomElement.attribute( "red", "128" ).toInt();
+        __iRed = __qDomElement.attribute( "red", "255" ).toInt();
         __iGreen = __qDomElement.attribute( "green", "0" ).toInt();
         __iBlue = __qDomElement.attribute( "blue", "0" ).toInt();
         qColorVessel.setRgb( __iRed, __iGreen, __iBlue );
