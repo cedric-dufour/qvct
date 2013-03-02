@@ -1,3 +1,12 @@
+qvct (1.0.20130302) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog) 
+  - FIX: Use screen DPI to adapt overlay objects zoom factor
+  - FIX: Limit overlay objects zoom factor to maximum 2.0
+  - FIX: Improved overlays color for better contrast/visbility
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Sat, 02 Mar 2013 19:28:00 +0100
+
 qvct (1.0.20130228) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog) 
