@@ -87,8 +87,8 @@ public:
   QVCT::EStatus setOperatingMode( CDevice::EOperatingMode _eOperatingMode );
 
 public:
-  virtual CDeviceDriver::EDriver getDriver() const { return CDeviceDriver::GPSD_GPS; };
-  virtual int getCapabilities() const { return CDevice::FIX & CDevice::SKYVIEW; };
+  virtual CDeviceDriver::EDriver getDriver() const { return CDeviceDriver::GPSD_AIS; };
+  virtual int getCapabilities() const { return CDevice::FIX; };
 
 public:
   virtual void showDetail();

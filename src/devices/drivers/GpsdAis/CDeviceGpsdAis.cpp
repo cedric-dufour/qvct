@@ -184,12 +184,10 @@ void CDeviceGpsdAis::slotProcessData( int )
     QString __qsSource = QString::number( psGpsData->ais.mmsi );
     //qDebug( "DEBUG[%s]: GPS data are available from source %s", Q_FUNC_INFO, qPrintable( __qsSource ) );
 
-    // Check AIS data type
+    // Parse AIS data
+    // NOTE: we handle only message types: 1, 2, 3, 5, 18, 19, 24
     CDeviceDataFix __oDeviceDataFix( __qsSource );
     __oDeviceDataFix.setSourceType( CDeviceDataSource::AIS );
-
-    // Data
-    // NOTE: we handle only message types: 1, 2, 3, 5, 18, 19, 24
     bool __bDataAvailable = false;
     int __iSecond = AIS_SEC_NOT_AVAILABLE, __iLongitude = AIS_LON_NOT_AVAILABLE, __iLatitude = AIS_LAT_NOT_AVAILABLE;
     int __iCourse = AIS_COURSE_NOT_AVAILABLE, __iSpeed = AIS_SPEED_NOT_AVAILABLE;
