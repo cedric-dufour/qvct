@@ -250,13 +250,9 @@ int CTrackSubContainer::parseQVCT( const QDomElement& _rqDomElement )
     __iCount++;
     QString __qsName;
     QString __qsName_aux = __qDomElement.attribute( "time" );
-    if( !__qsName_aux.isEmpty() ) __qsName = COverlayObject::newChildName( CUnitTime::toString( QDateTime::fromString( __qsName_aux, Qt::ISODate ).toTime_t() ) );
-    if( __qsName.isEmpty() )
-    {
-      __qsName_aux = __qDomElement.attribute( "name" );
-      if( !__qsName_aux.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName_aux );
-    }
-    if( __qsName.isEmpty() ) __qsName = COverlayObject::newChildName( tr("Point"), 3, true );
+    if( !__qsName_aux.isEmpty() ) __qsName = CUnitTime::toString( QDateTime::fromString( __qsName_aux, Qt::ISODate ).toTime_t() );
+    if( __qsName.isEmpty() ) __qsName = __qDomElement.firstChildElement( "name" ).text();
+    if( __qsName.isEmpty() ) __qsName = COverlayObject::newChildName( tr("Point"), 3, __iCount );
     CTrackPoint* __poTrackPoint = new CTrackPoint( __qsName );
     __poTrackPoint->parseQVCT( __qDomElement );
     addChild( __poTrackPoint );
@@ -275,13 +271,9 @@ int CTrackSubContainer::parseGPX( const QDomElement& _rqDomElement )
     __iCount++;
     QString __qsName;
     QString __qsName_aux = __qDomElement.firstChildElement( "time" ).text();
-    if( !__qsName_aux.isEmpty() ) __qsName = COverlayObject::newChildName( CUnitTime::toString( QDateTime::fromString( __qsName_aux, Qt::ISODate ).toTime_t() ) );
-    if( __qsName.isEmpty() )
-    {
-      __qsName_aux = __qDomElement.firstChildElement( "name" ).text();
-      if( !__qsName_aux.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName_aux );
-    }
-    if( __qsName.isEmpty() ) __qsName = COverlayObject::newChildName( tr("Point"), 3, true );
+    if( !__qsName_aux.isEmpty() ) __qsName = CUnitTime::toString( QDateTime::fromString( __qsName_aux, Qt::ISODate ).toTime_t() );
+    if( __qsName.isEmpty() ) __qsName = __qDomElement.firstChildElement( "name" ).text();
+    if( __qsName.isEmpty() ) __qsName = COverlayObject::newChildName( tr("Point"), 3, __iCount );
     CTrackPoint* __poTrackPoint = new CTrackPoint( __qsName );
     __poTrackPoint->parseGPX( __qDomElement );
     addChild( __poTrackPoint );

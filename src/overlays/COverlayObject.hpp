@@ -109,12 +109,17 @@ public:
   virtual void showEdit() = 0;
 
 public:
-  /// Returns a valid name for a new sibling of this object
+  /// Returns a valid (non-duplicate) name for a new sibling of this object
   /** This method checks and returns a valid name for a new sibling of this
    *  object, such as no duplicate is created. If the given name matches an
    *  existing sibling, it is automatically suffixed with a number, prefixed
    *  with the given quantity of "0" (e.g. "Object(01)") */
-  QString newChildName( const QString& _rqsName, int __iZeroPrefix = 0, bool __bForceSuffix = false ) const;
+  QString newChildName( const QString& _rqsName, int _iZeroPrefix = 0, bool _bForceSuffix = false ) const;
+  /// Returns a suffixed (potentially duplicate) name for a new sibling of this object
+  /** This method DOET NOT check if another sibling exists with the same name
+   *  and suffix. It merely adds the given suffix to the given name, prefixed
+   *  with the given quantity of "0" (e.g. "Object(01)") */
+  QString newChildName( const QString& _rqsName, int _iZeroPrefix, int _iSuffix ) const;
 
 };
 

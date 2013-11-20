@@ -162,8 +162,7 @@ int CLandmarkContainer::parseQVCT( const QDomElement& _rqDomElement )
   {
     __iCount++;
     QString __qsName = __qDomElement.attribute( "name" );
-    if( !__qsName.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName );
-    else __qsName = COverlayObject::newChildName( tr("Landmark"), 1, true );
+    if( __qsName.isEmpty() ) __qsName = COverlayObject::newChildName( tr("Landmark"), 1, __iCount );
     CLandmarkPoint* __poLandmarkPoint = new CLandmarkPoint( __qsName );
     __poLandmarkPoint->parseQVCT( __qDomElement );
     addChild( __poLandmarkPoint );
@@ -181,8 +180,7 @@ int CLandmarkContainer::parseGPX( const QDomElement& _rqDomElement )
   {
     __iCount++;
     QString __qsName = __qDomElement.firstChildElement( "name" ).text();
-    if( !__qsName.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName );
-    else __qsName = COverlayObject::newChildName( tr("Landmark"), 1, true );
+    if( __qsName.isEmpty() ) __qsName = COverlayObject::newChildName( tr("Landmark"), 1, __iCount );
     CLandmarkPoint* __poLandmarkPoint = new CLandmarkPoint( __qsName );
     __poLandmarkPoint->parseGPX( __qDomElement );
     addChild( __poLandmarkPoint );

@@ -235,8 +235,7 @@ int CRouteContainer::parseQVCT( const QDomElement& _rqDomElement )
   {
     __iCount++;
     QString __qsName = __qDomElement.attribute( "name" );
-    if( !__qsName.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName );
-    else __qsName = COverlayObject::newChildName( tr("Waypoint"), 1, true );
+    if( __qsName.isEmpty() ) COverlayObject::newChildName( tr("Waypoint"), 1, __iCount );
     CRoutePoint* __poRoutePoint = new CRoutePoint( __qsName );
     __poRoutePoint->parseQVCT( __qDomElement );
     addChild( __poRoutePoint );
@@ -258,8 +257,7 @@ int CRouteContainer::parseGPX( const QDomElement& _rqDomElement )
   {
     __iCount++;
     QString __qsName = __qDomElement.firstChildElement( "name" ).text();
-    if( !__qsName.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName );
-    else __qsName = COverlayObject::newChildName( tr("Waypoint"), 1, true );
+    if( __qsName.isEmpty() ) COverlayObject::newChildName( tr("Waypoint"), 1, __iCount );
     CRoutePoint* __poRoutePoint = new CRoutePoint( __qsName );
     __poRoutePoint->parseGPX( __qDomElement );
     addChild( __poRoutePoint );

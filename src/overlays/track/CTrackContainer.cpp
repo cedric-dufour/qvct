@@ -233,12 +233,13 @@ int CTrackContainer::parseQVCT( const QDomElement& _rqDomElement )
   qsUrl = _rqDomElement.attribute( "url" );
   qsDescription = _rqDomElement.firstChildElement( "Description" ).text();
   qsComment = _rqDomElement.firstChildElement( "Comment" ).text();
-  int __iCount = 0;
+  int __iCount = 0, __iCountSegment = 0;
   for( QDomElement __qDomElement = _rqDomElement.firstChildElement( "Segment" );
        !__qDomElement.isNull();
        __qDomElement = __qDomElement.nextSiblingElement( "Segment" ) )
   {
-    CTrackSubContainer* __poTrackSubContainer = new CTrackSubContainer( COverlayObject::newChildName( tr("Segment"), 1, true ) );
+    __iCountSegment++;
+    CTrackSubContainer* __poTrackSubContainer = new CTrackSubContainer( COverlayObject::newChildName( tr("Segment"), 1, __iCountSegment ) );
     __iCount += __poTrackSubContainer->parseQVCT( __qDomElement );
     addChild( __poTrackSubContainer );
   }
@@ -252,12 +253,13 @@ int CTrackContainer::parseGPX( const QDomElement& _rqDomElement )
   qsDescription = _rqDomElement.firstChildElement( "desc" ).text();
   qsComment = _rqDomElement.firstChildElement( "cmt" ).text();
   qsUrl = _rqDomElement.firstChildElement( "link" ).attribute( "href" );
-  int __iCount = 0;
+  int __iCount = 0, __iCountSegment = 0;
   for( QDomElement __qDomElement = _rqDomElement.firstChildElement( "trkseg" );
        !__qDomElement.isNull();
        __qDomElement = __qDomElement.nextSiblingElement( "trkseg" ) )
   {
-    CTrackSubContainer* __poTrackSubContainer = new CTrackSubContainer( COverlayObject::newChildName( tr("Segment"), 1, true ) );
+    __iCountSegment++;
+    CTrackSubContainer* __poTrackSubContainer = new CTrackSubContainer( COverlayObject::newChildName( tr("Segment"), 1, __iCountSegment ) );
     __iCount += __poTrackSubContainer->parseGPX( __qDomElement );
     addChild( __poTrackSubContainer );
   }

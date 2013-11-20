@@ -52,7 +52,7 @@ void COverlayObject::unserialize( QDataStream& _rqDataStream )
   _rqDataStream >> qsName;
 }
 
-QString COverlayObject::newChildName( const QString& _rqsName, int __iZeroPrefix, bool __bForceSuffix ) const
+QString COverlayObject::newChildName( const QString& _rqsName, int _iZeroPrefix, bool _bForceSuffix ) const
 {
   QString __qsName;
   int __iSuffix = 0;
@@ -60,7 +60,7 @@ QString COverlayObject::newChildName( const QString& _rqsName, int __iZeroPrefix
   do
   {
     __qsName = _rqsName;
-    if( __bForceSuffix || __iSuffix ) __qsName += "("+QString::number( __iSuffix+1 ).prepend( QString( __iZeroPrefix, '0' ) ).right( __iZeroPrefix+1 )+")";
+    if( _bForceSuffix || __iSuffix ) __qsName += "("+QString::number( __iSuffix+1 ).prepend( QString( _iZeroPrefix, '0' ) ).right( _iZeroPrefix+1 )+")";
     __bValid = true;
     for( int __i = QTreeWidgetItem::childCount()-1; __i >= 0; __i-- )
     {
@@ -74,4 +74,9 @@ QString COverlayObject::newChildName( const QString& _rqsName, int __iZeroPrefix
   }
   while( !__bValid );
   return __qsName;
+}
+
+QString COverlayObject::newChildName( const QString& _rqsName, int _iZeroPrefix, int _iSuffix ) const
+{
+  return _rqsName + "("+QString::number( _iSuffix ).prepend( QString( _iZeroPrefix, '0' ) ).right( _iZeroPrefix+1 )+")";
 }

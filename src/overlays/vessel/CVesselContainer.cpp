@@ -273,8 +273,7 @@ int CVesselContainer::parseQVCT( const QDomElement& _rqDomElement )
   {
     __iCount++;
     QString __qsName = __qDomElement.attribute( "name" );
-    if( !__qsName.isEmpty() ) __qsName = COverlayObject::newChildName( __qsName );
-    else __qsName = COverlayObject::newChildName( tr("Vessel"), 1, true );
+    if( __qsName.isEmpty() ) COverlayObject::newChildName( tr("Vessel"), 1, __iCount );
     CVesselPoint* __poVesselPoint = new CVesselPoint( __qsName );
     __poVesselPoint->parseQVCT( __qDomElement );
     addChild( __poVesselPoint );
