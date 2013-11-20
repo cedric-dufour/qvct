@@ -3,7 +3,7 @@
 
 # External resources
 # ... Qt4
-find_package( Qt4 REQUIRED )
+find_package( Qt4 COMPONENTS QtCore QtGui QtNetwork QtXml REQUIRED )
 include( ${QT_USE_FILE} )
 add_definitions( ${QT_DEFINITIONS} )
 # ... GDAL
@@ -13,7 +13,6 @@ find_package( GPSD REQUIRED )
 
 # Include files
 include_directories(
-  ${QT_QTXML_INCLUDE_DIR}
   ${GDAL_INCLUDE_DIRS}
   ${GPSD_INCLUDE_DIRS}
   .
@@ -50,6 +49,8 @@ set( MY_CPPS
   devices/drivers/GpsdGps/CDeviceGpsdGpsEditView.cpp
   devices/drivers/GpsdAis/CDeviceGpsdAis.cpp
   devices/drivers/GpsdAis/CDeviceGpsdAisEditView.cpp
+  devices/drivers/TcpSbs1/CDeviceTcpSbs1.cpp
+  devices/drivers/TcpSbs1/CDeviceTcpSbs1EditView.cpp
   # devices/drivers/Sample/CDeviceSample.cpp # SAMPLE_DRIVER
   # devices/drivers/Sample/CDeviceSampleEditView.cpp # SAMPLE_DRIVER
   overlays/COverlay.cpp
@@ -159,6 +160,8 @@ set( MY_MOCS
   devices/drivers/GpsdGps/CDeviceGpsdGpsEditView.hpp
   devices/drivers/GpsdAis/CDeviceGpsdAis.hpp
   devices/drivers/GpsdAis/CDeviceGpsdAisEditView.hpp
+  devices/drivers/TcpSbs1/CDeviceTcpSbs1.hpp
+  devices/drivers/TcpSbs1/CDeviceTcpSbs1EditView.hpp
   # devices/drivers/Sample/CDeviceSample.hpp # SAMPLE_DRIVER
   # devices/drivers/Sample/CDeviceSampleEditView.hpp # SAMPLE_DRIVER
   overlays/COverlayBase.hpp
@@ -234,7 +237,6 @@ add_executable( ${PROGNAME}
 # Libraries
 target_link_libraries( ${PROGNAME}
   ${QT_LIBRARIES}
-  ${QT_QTXML_LIBRARIES}
   ${GDAL_LIBRARIES}
   ${GPSD_LIBRARIES}
 )

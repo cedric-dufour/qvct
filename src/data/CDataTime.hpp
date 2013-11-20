@@ -25,7 +25,7 @@ class QDataStream;
 
 /// Time data
 /**
- *  This class encapsulates time data, using  Universal Time Coordinates (UTC)
+ *  This class encapsulates time data, using Universal Time Coordinates (UTC)
  *  and milliseconds precision.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
