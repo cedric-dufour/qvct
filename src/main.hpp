@@ -48,6 +48,7 @@
  *   - defining and using multiple navigation devices, including:
  *      * GPS daemon (GPSD) - GPS mode
  *      * GPS daemon (GPSD) - AIS mode
+ *      * SBS-1 (ADS-B) base station
  *   - loading and saving entire navigation/planning projects, stored in QVCT (XML)
  *     format
  *   - displaying vessel instruments in an activity-specific cockpit, including:

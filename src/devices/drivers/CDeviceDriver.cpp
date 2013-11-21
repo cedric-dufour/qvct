@@ -24,6 +24,7 @@
 #include "devices/drivers/CDeviceDriver.hpp"
 #include "devices/drivers/GpsdAis/CDeviceGpsdAis.hpp"
 #include "devices/drivers/GpsdGps/CDeviceGpsdGps.hpp"
+#include "devices/drivers/TcpSbs1/CDeviceTcpSbs1.hpp"
 // #include "devices/drivers/Sample/CDeviceSample.hpp" // SAMPLE_DRIVER
 
 
@@ -74,6 +75,9 @@ CDevice* CDeviceDriver::createDevice( const QString& _rqsDeviceName, CDeviceDriv
 
   case GPSD_AIS:
     return new CDeviceGpsdAis( _rqsDeviceName );
+
+  case TCP_SBS1:
+    return new CDeviceTcpSbs1( _rqsDeviceName );
 
   // case SAMPLE:                                  // SAMPLE_DRIVER
   //   return new CDeviceSample( _rqsDeviceName ); // SAMPLE_DRIVER

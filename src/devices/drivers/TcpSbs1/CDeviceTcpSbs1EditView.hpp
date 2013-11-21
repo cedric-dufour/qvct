@@ -16,65 +16,65 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CDEVICEDATASOURCE_HPP
-#define QVCT_CDEVICEDATASOURCE_HPP
+#ifndef QVCT_CDEVICETCPSBS1EDITVIEW_HPP
+#define QVCT_CDEVICETCPSBS1EDITVIEW_HPP
+
+// QT
+#include <QCheckBox>
+#include <QComboBox>
+#include <QLineEdit>
+#include <QWidget>
+
+// QVCT
+#include "overlays/COverlayObjectEditView.hpp"
+class CDeviceTcpSbs1;
 
 
-/// Data source details [name,type]
+/// [UI] Route container's edit view
 /**
- *  This class gathers all details of a generic navigational data source.
+ *  This class implements the user-interface that allows to edit route
+ *  containers.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CDeviceDataSource
+class CDeviceTcpSbs1EditView: public COverlayObjectEditView
 {
-
-  //------------------------------------------------------------------------------
-  // CONSTANTS / STATIC
-  //------------------------------------------------------------------------------
-
-public:
-  /// Data source type
-  enum EType { UNDEFINED, GPS, AIS, SBS };
-
+  Q_OBJECT
 
   //------------------------------------------------------------------------------
   // FIELDS
   //------------------------------------------------------------------------------
 
 private:
-  /// Source name
-  /** @see getName() */
-  QString qsName;
-  /// Source type
-  /** @see setType(), getType() */
-  EType eType;
+  /// [UI:LineEdit] Host
+  QLineEdit* pqLineEditHost;
+  /// [UI:LineEdit] Port
+  QLineEdit* pqLineEditPort;
+  /// [UI:ComboBox] Time zone
+  QComboBox* pqComboBoxTimeZone;
+  /// [UI:CheckBox] Ground traffic
+  QCheckBox* pqCheckBoxGroundTraffic;
 
 
   //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR
   //------------------------------------------------------------------------------
 
-protected:
-  CDeviceDataSource( const QString& _rqsName );
-  virtual ~CDeviceDataSource() {};
+public:
+  CDeviceTcpSbs1EditView( CDeviceTcpSbs1* _poDeviceTcpSbs1 );
+  virtual ~CDeviceTcpSbs1EditView() {};
+
+private:
+  /// Constructs the layout of the user-interface
+  void constructLayout();
 
 
   //------------------------------------------------------------------------------
-  // METHODS
+  // METHODS: QDialog (override)
   //------------------------------------------------------------------------------
 
-  // SETTERS
-public:
-  /// Sets the source type
-  void setSourceType( EType _eType ) { eType = _eType; };
-
-  // GETTERS
-public:
-  /// Returns the source name
-  QString getSourceName() const { return qsName; };
-  /// Returns the source type
-  EType getSourceType() const { return eType; };
+public slots:
+  virtual void accept();
 
 };
 
-#endif // QVCT_CDEVICEDATASOURCE_HPP
+#endif // QVCT_CDEVICETCPSBS1EDITVIEW_HPP

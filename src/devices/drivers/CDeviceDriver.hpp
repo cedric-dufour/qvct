@@ -47,6 +47,7 @@ public:
   enum EDriver {
     GPSD_GPS,  ///< GPSD daemon (GPS mode)
     GPSD_AIS,  ///< GPSD daemon (AIS mode)
+    TCP_SBS1,  ///< TCP socket, SBS-1 protocol
     // SAMPLE, ///< SAMPLE_DRIVER
     UNDEFINED  ///< Undefined driver
   };
@@ -89,6 +90,7 @@ private:
   {
     qMapNames.insert( CDeviceDriver::GPSD_GPS, "GPSD (GPS)" );
     qMapNames.insert( CDeviceDriver::GPSD_AIS, "GPSD (AIS)" );
+    qMapNames.insert( CDeviceDriver::TCP_SBS1, "SBS-1" );
     // qMapNames.insert( CDeviceDriver::SAMPLE, "Sample Driver" ); // SAMPLE_DRIVER
   };
   QMap<CDeviceDriver::EDriver,QString> qMapNames;
@@ -108,6 +110,7 @@ private:
   {
     qMapCodes.insert( CDeviceDriver::GPSD_GPS, "gpsd_gps" );
     qMapCodes.insert( CDeviceDriver::GPSD_AIS, "gpsd_ais" );
+    qMapCodes.insert( CDeviceDriver::TCP_SBS1, "tcp_sbs1" );
     // qMapCodes.insert( CDeviceDriver::SAMPLE, "sample" ); // SAMPLE_DRIVER
   };
   QMap<CDeviceDriver::EDriver,QString> qMapCodes;

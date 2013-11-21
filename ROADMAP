@@ -7,6 +7,9 @@ Roadmap
  * [TODO]
  - analyze tracks
 
+ * [2013.11.21, Cedric Dufour]
+ - new navigation device driver: SBS-1 (ADS-B) base station
+
  * [2013.01.07, Cedric Dufour]
  - digital elevation models (DEM) support
 

@@ -31,6 +31,7 @@
 <UL>
 <LI><A HREF="#device_supported">What navigation devices are supported by QVCT?</A></LI>
 <LI><A HREF="#device_create">Can I create my own device?</A></LI>
+<LI><A HREF="#device_adsb">Is there any ADS-B (SBS-1) hardware for Linux?</A></LI>
 </UL>
 <P><B>Usage Questions</B></P>
 <UL>
@@ -118,7 +119,8 @@ which I use daily on an <CITE>Intel Core i5 2467M</CITE> tablet.</P>
 
 <H3><A ID="device_supported"/>What navigation devices are supported by QVCT?</H3>
 <DIV CLASS="H3">
-<P>Currently, any device that is supported by the <A HREF="http://gpsd.berlios.de/" TARGET="_blank"><CITE>GPS daemon (GPSD)</CITE></A>, used either as a GPS (single vessel localization) or AIS receiver (dynamic flotilla).</P>
+<P>To start with, any device that is supported by the <A HREF="http://gpsd.berlios.de/" TARGET="_blank"><CITE>GPS daemon (GPSD)</CITE></A>, used either as a GPS (single vessel localization) or AIS receiver (dynamic flotilla).</P>
+<P>Also, any device that sends <A HREF="http://www.kinetic-avionics.com/" TARGET="_blank"><CITE>Kinetic Avionics's SBS-1</CITE></A> data over the wire may used used as ADS-B receiver (dynamic flotilla).</P>
 </DIV><!-- DIV CLASS="H3" -->
 
 <H3><A ID="device_create"/>Can I create my own device?</H3>
@@ -126,6 +128,13 @@ which I use daily on an <CITE>Intel Core i5 2467M</CITE> tablet.</P>
 <P>Yes, provided you have some knowledge of C/C++. The source code of QVCT includes a <CODE>SAMPLE_DRIVER</CODE> example that should allow you to create your own
 device in a matter of minutes (if the device's protocol is simple enough). To give you a clue of the task at hand, each GPS daemon driver (GPS or AIS mode) is less than 400 lines of code.<BR/>
 Please refer to QVCT's Developer Documentation for further information.</P>
+</DIV><!-- DIV CLASS="H3" -->
+
+<H3><A ID="device_adsb"/>Is there any ADS-B (SBS-1) hardware for Linux?</H3>
+<DIV CLASS="H3">
+<P>Yes! There are several options available. I personally recommend you look into a <A HREF="http://www.rtl-sdr.com/adsb-aircraft-radar-with-rtl-sdr/" TARGET="_blank"><CITE>Software Defined Radio (SDR) Receiver</CITE></A>
+(such as for example the <CITE>Nooelec R820T</CITE> dongle) along <A HREF="https://github.com/steve-m/librtlsdr/" TARGET="_blank"><CITE>Steve Markgraf's SDR-RTL Library</CITE></A> and 
+<A HREF="https://github.com/antirez/dump1090/" TARGET="_blank"><CITE>Salvatore Sanfilippo's Mode-S (ADS-B) Decoder</CITE></A>.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
 </DIV><!-- DIV CLASS="H2" -->
