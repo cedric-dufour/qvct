@@ -1,3 +1,24 @@
+qvct (1.0.20131121) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog) 
+  - FIX: Perform dynamic flotilla cleanup more elegantly (previous method
+         was calling the cleanup code way too often)
+  - NEW: SBS-1 (ADS-B) base station (device) support
+  - FIX: Device status (start/pause/stop) would sometimes be reported
+         erroneously.
+  - NEW: Dynamic flotilla are now automatically clean-up after
+         user-specified "time-to-live" timeout is reached.
+  - FIX: Do not use position to compute course for devices that provide
+         course data (but not necessarily in the same time as position
+         data)
+  - FIX: Return the correct driver and capabilities for GPSD_AIS devices.
+  - FIX: Do not look for potentially duplicate name(s) when importing
+         items from file (as it leads to 100% CPU and slow import for
+         large files, like GPX tracks).
+  - FIX: Allow 'cmake' to look for and include Qt dependencies more elegantly
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Thu, 21 Nov 2013 16:06:00 +0100
+
 qvct (1.0.20130302) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog) 
