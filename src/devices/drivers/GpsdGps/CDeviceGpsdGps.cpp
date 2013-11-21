@@ -48,9 +48,7 @@ CDeviceGpsdGps::CDeviceGpsdGps( const QString& _rqsName )
   , psGpsData( 0 )
   , pqSocketNotifier( 0 )
   , bPaused( false )
-{
-  eOperatingMode = CDevice::STOP;
-}
+{}
 
 CDeviceGpsdGps::~CDeviceGpsdGps()
 {
@@ -82,7 +80,6 @@ QVCT::EStatus CDeviceGpsdGps::setOperatingMode( CDevice::EOperatingMode _eOperat
 
   default:; // WHAT THE F*** !?!
   }
-  eOperatingMode = status();
   if( __eStatus != QVCT::OK )
   {
     qCritical( "ERROR[%s]: Failed to switch operating mode; host=%s, port=%d", Q_FUNC_INFO, qPrintable( qsHost ), iPort );

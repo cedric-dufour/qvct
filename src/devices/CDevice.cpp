@@ -31,9 +31,11 @@
 
 CDevice::CDevice( const QString& _rqsName )
   : COverlayItem( COverlayObject::ITEM, _rqsName )
+  , eOperatingMode( CDevice::STOP )
 {
   QTreeWidgetItem::setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable );
   QTreeWidgetItem::setText( CDeviceOverlay::NAME, qsName );
   QTreeWidgetItem::setCheckState( CDeviceOverlay::SELECT, Qt::Unchecked );
   QObject::connect( this, SIGNAL( signalError(const QString&) ), QVCTRuntime::useMainWindow(), SLOT( slotError(const QString&) ) );
+  QObject::connect( this, SIGNAL( signalOperatingMode(CDevice::EOperatingMode) ), this, SLOT( slotOperatingMode(CDevice::EOperatingMode) ) );
 }

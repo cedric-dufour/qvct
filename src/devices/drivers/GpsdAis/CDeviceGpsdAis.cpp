@@ -48,9 +48,7 @@ CDeviceGpsdAis::CDeviceGpsdAis( const QString& _rqsName )
   , psGpsData( 0 )
   , pqSocketNotifier( 0 )
   , bPaused( false )
-{
-  eOperatingMode = CDevice::STOP;
-}
+{}
 
 CDeviceGpsdAis::~CDeviceGpsdAis()
 {
@@ -82,7 +80,6 @@ QVCT::EStatus CDeviceGpsdAis::setOperatingMode( CDevice::EOperatingMode _eOperat
 
   default:; // WHAT THE F*** !?!
   }
-  eOperatingMode = status();
   if( __eStatus != QVCT::OK )
   {
     qCritical( "ERROR[%s]: Failed to switch operating mode; host=%s, port=%d", Q_FUNC_INFO, qPrintable( qsHost ), iPort );
@@ -188,6 +185,7 @@ void CDeviceGpsdAis::slotProcessData( int )
     // NOTE: we handle only message types: 1, 2, 3, 5, 18, 19, 24
     CDeviceDataFix __oDeviceDataFix( __qsSource );
     __oDeviceDataFix.setSourceType( CDeviceDataSource::AIS );
+    __oDeviceDataFix.setCourseFromPosition( false );
     bool __bDataAvailable = false;
     int __iSecond = AIS_SEC_NOT_AVAILABLE, __iLongitude = AIS_LON_NOT_AVAILABLE, __iLatitude = AIS_LAT_NOT_AVAILABLE;
     int __iCourse = AIS_COURSE_NOT_AVAILABLE, __iSpeed = AIS_SPEED_NOT_AVAILABLE;
@@ -251,6 +249,7 @@ void CDeviceGpsdAis::slotProcessData( int )
     if( __iLongitude != AIS_LON_NOT_AVAILABLE && __iLatitude != AIS_LAT_NOT_AVAILABLE )
     {
       __oDeviceDataFix.setPosition( (double)__iLongitude / 600000.0, (double)__iLatitude / 600000.0 );
+      __oDeviceDataFix.setType( CDeviceDataFix::FIX_2D );
       __bDataAvailable = true;
     }
 

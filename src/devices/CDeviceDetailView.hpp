@@ -26,7 +26,7 @@
 
 // QVCT
 #include "overlays/COverlayObjectDetailView.hpp"
-class CDevice;
+#include "devices/CDevice.hpp"
 class COverlayText;
 
 
@@ -98,6 +98,8 @@ private:
 
   // SLOTS
 private slots:
+  /// [Slot] Slot to handle operating mode changes
+  void slotOperatingMode( CDevice::EOperatingMode _eOperatingMode );
   /// [Slot] Slot to handle activity signal emitted by device
   void slotActivity();
   /// [UI:Slot] Slot to edit the device configuration

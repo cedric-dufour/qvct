@@ -62,7 +62,7 @@ public:
   // FIELDS
   //------------------------------------------------------------------------------
 
-protected:
+private:
   /// Device's operating mode
   /** @see setOperatingMode(), getOperatingMode() */
   EOperatingMode eOperatingMode;
@@ -98,10 +98,15 @@ private:
   // METHODS
   //------------------------------------------------------------------------------
 
+  // SLOTS
+private slots:
+  /// [Slot] Slot to handle operating mode changes
+  void slotOperatingMode( CDevice::EOperatingMode _eOperatingMode ) { eOperatingMode = _eOperatingMode; } ;
+
   // SIGNALS
 signals:
   /// Signal emitted by the device when its operating mode changed
-  void signalOperatingMode( EOperatingMode _eOperatingMode );
+  void signalOperatingMode( CDevice::EOperatingMode _eOperatingMode );
   /// Signal emitted by the device when activity occures
   void signalActivity();
   /// Signal emitted by the device when an updated fix is available

@@ -184,6 +184,7 @@ void CDeviceDetailView::enableContent()
     pqPushButtonStop->setEnabled( true );
     pqPushButtonPause->setEnabled( true );
     pqPushButtonStart->setEnabled( true );
+    QObject::connect( (CDevice*)poOverlayObject, SIGNAL( signalOperatingMode(CDevice::EOperatingMode) ), this, SLOT( slotOperatingMode(CDevice::EOperatingMode) ) );
     QObject::connect( (CDevice*)poOverlayObject, SIGNAL( signalActivity() ), this, SLOT( slotActivity() ) );
     bIgnoreUpdate = false;
   }
@@ -209,9 +210,16 @@ void CDeviceDetailView::disableContent()
 // SLOTS
 //
 
+void CDeviceDetailView::slotOperatingMode( CDevice::EOperatingMode _eOperatingMode )
+{
+  pqPushButtonStop->setChecked( _eOperatingMode == CDevice::STOP );
+  pqPushButtonPause->setChecked( _eOperatingMode == CDevice::PAUSE );
+  pqPushButtonStart->setChecked( _eOperatingMode == CDevice::START );
+}
+
 void CDeviceDetailView::slotActivity()
 {
-  pqLabelActivity->setText( pqLabelActivity->text().isEmpty() ? "O" : "" );
+  pqLabelActivity->setText( pqLabelActivity->text() == "\\" ? "/" : "\\" );
 }
 
 void CDeviceDetailView::slotEdit()

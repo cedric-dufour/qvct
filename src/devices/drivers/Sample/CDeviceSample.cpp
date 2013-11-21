@@ -37,9 +37,7 @@ CDeviceSample::CDeviceSample( const QString& _rqsName )
   : CDevice( _rqsName )
   , qsHost( "127.0.0.1" )
   , iPort( 12345 )
-{
-  eOperatingMode = CDevice::STOP;
-}
+{}
 
 CDeviceSample::~CDeviceSample()
 {
@@ -75,8 +73,6 @@ QVCT::EStatus CDeviceSample::setOperatingMode( CDevice::EOperatingMode _eOperati
 
   default:;
   }
-  // TODO: check the device opearing mode
-  // eOperatingMode = status();
   if( __eStatus != QVCT::OK )
   {
     qCritical( "ERROR[%s]: Failed to switch operating mode; host=%s, port=%d", Q_FUNC_INFO, qPrintable( qsHost ), iPort );
