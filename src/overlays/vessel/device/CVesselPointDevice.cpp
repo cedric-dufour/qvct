@@ -141,6 +141,7 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
   if( bSynchronizeGroundSpeed )
   {
     if( __fdGroundSpeed == CDataCourse::UNDEFINED_SPEED
+        && CDeviceDataFix::isCourseFromPosition()
         && bSynchronizePosition && bSynchronizeTime
         && __fdLongitude != CDataPosition::UNDEFINED_LONGITUDE
         && __fdLatitude != CDataPosition::UNDEFINED_LATITUDE
@@ -183,6 +184,7 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
   if( bSynchronizeGroundSpeedVertical )
   {
     if( __fdGroundSpeedVertical == CDataCourse::UNDEFINED_SPEED
+        && CDeviceDataFix::isCourseFromPosition()
         && bSynchronizeElevation && bSynchronizeTime
         && __fdElevation != CDataPosition::UNDEFINED_ELEVATION
         && __poVesselPoint->getElevation() != CDataPosition::UNDEFINED_ELEVATION
@@ -224,6 +226,7 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
       && ( !bSynchronizeGroundSpeed || __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED ) )
   {
     if( __fdGroundBearing == CDataCourse::UNDEFINED_BEARING
+        && CDeviceDataFix::isCourseFromPosition()
         && bSynchronizePosition
         && __fdLongitude != CDataPosition::UNDEFINED_LONGITUDE
         && __fdLatitude != CDataPosition::UNDEFINED_LATITUDE

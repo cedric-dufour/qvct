@@ -91,6 +91,9 @@ private:
   /// Additional textual data string
   /** @see setText(), getText() */
   QString qsText;
+  /// Use position to compute course
+  /** @see setSetCourseFromPosition(), isCourseFromPosition() */
+  bool bCourseFromPosition;
 
 
   //------------------------------------------------------------------------------
@@ -127,6 +130,8 @@ public:
   { fdErrorSpeed = _fdErrorSpeed; fdErrorSpeedVertical = _fdErrorSpeedVertical; };
   /// Sets the additional textual data string
   void setText( const QString& _rqsText ) { qsText = _rqsText; };
+  /// Sets whether to use position to compute course
+  void setCourseFromPosition( bool _bCourseFromPosition ) { bCourseFromPosition = _bCourseFromPosition; };
 
   // GETTERS
 public:
@@ -152,6 +157,8 @@ public:
   double getErrorSpeedVertical() const { return fdErrorSpeedVertical; };
   /// Returns the additional textual data string
   QString getText() const { return qsText; };
+  /// Returns whether position is used to compute course
+  bool isCourseFromPosition() const { return bCourseFromPosition; };
 
 };
 

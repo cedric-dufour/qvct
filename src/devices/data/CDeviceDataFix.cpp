@@ -61,6 +61,7 @@ CDeviceDataFix::CDeviceDataFix( const QString& _rqsSourceName, int _eType, doubl
   , fdErrorSpeed( CDataValidity::UNDEFINED_VALUE )
   , fdErrorSpeedVertical( CDataValidity::UNDEFINED_VALUE )
   , qsText()
+  , bCourseFromPosition( true )
 {}
 
 
@@ -84,6 +85,7 @@ void CDeviceDataFix::setFix( const CDeviceDataFix& _roDeviceDataFix, bool _bCopy
   fdErrorSpeed = _roDeviceDataFix.fdErrorSpeed;
   fdErrorSpeedVertical = _roDeviceDataFix.fdErrorSpeedVertical;
   qsText = _roDeviceDataFix.qsText;
+  bCourseFromPosition = _roDeviceDataFix.bCourseFromPosition;
 }
 
 QString CDeviceDataFix::getTypeString() const
