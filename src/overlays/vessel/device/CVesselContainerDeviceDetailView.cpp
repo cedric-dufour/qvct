@@ -47,6 +47,12 @@ CVesselContainerDeviceDetailView::CVesselContainerDeviceDetailView( QWidget* _pq
 void CVesselContainerDeviceDetailView::constructLayout()
 {
   // Create the buttons
+  // ... edit
+  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
+  pqPushButtonEdit->setToolTip( tr("Edit this device") );
+  pqPushButtonEdit->setMaximumSize( 36, 34 );
+  pqPushButtonEdit->setEnabled( false );
+  QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... delete
   pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
   pqPushButtonDelete->setToolTip( tr("Delete this device") );
@@ -109,6 +115,7 @@ void CVesselContainerDeviceDetailView::constructLayout()
 
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonEdit, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonConnect, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
@@ -127,7 +134,7 @@ void CVesselContainerDeviceDetailView::refreshContent()
 {
   if( !poOverlayObject ) return;
   CVesselContainerDevice* __poVesselContainerDevice = (CVesselContainerDevice*)poOverlayObject;
-  poTextName->setText( __poVesselContainerDevice->getName() );
+  poTextName->setText( __poVesselContainerDevice->getName() + " (TTL:"+QString::number(__poVesselContainerDevice->getTTL())+")" );
 
   // ... buttons
   bIgnoreUpdate = true;
@@ -146,6 +153,7 @@ void CVesselContainerDeviceDetailView::enableContent()
 {
   if( poOverlayObject )
   {
+    pqPushButtonEdit->setEnabled( true );
     pqPushButtonDelete->setEnabled( true );
     pqPushButtonConnect->setEnabled( true );
     QObject::connect( (CVesselContainerDevice*)poOverlayObject, SIGNAL( signalRefreshContent() ), this, SLOT( slotRefreshContent() ) );
@@ -156,6 +164,7 @@ void CVesselContainerDeviceDetailView::enableContent()
 void CVesselContainerDeviceDetailView::disableContent()
 {
   if( poOverlayObject ) QObject::disconnect( (CVesselContainerDevice*)poOverlayObject, 0, this, 0 );
+  pqPushButtonEdit->setEnabled( false );
   pqPushButtonDelete->setEnabled( false );
   pqPushButtonConnect->setEnabled( false );
   bIgnoreUpdate = true;
@@ -173,6 +182,12 @@ void CVesselContainerDeviceDetailView::disableContent()
 void CVesselContainerDeviceDetailView::slotRefreshContent()
 {
   refreshContent();
+}
+
+void CVesselContainerDeviceDetailView::slotEdit()
+{
+  if( !poOverlayObject ) return;
+  ((CVesselContainerDevice*)poOverlayObject)->showEdit();
 }
 
 void CVesselContainerDeviceDetailView::slotDelete()

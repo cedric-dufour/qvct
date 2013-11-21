@@ -17,6 +17,7 @@
  */
 
 // QT
+#include <QDateTime>
 #include <QDomElement> // QtXml module
 #include <QFileInfo>
 #include <QFileDialog>
@@ -253,6 +254,26 @@ void CVesselContainer::addPointDynamic( const QString& _rqsName, const QString& 
   __poVesselPointDevice->connectDevice();
 }
 
+int CVesselContainer::cleanPointDynamic( int _iTTL )
+{
+  if( !bDynamic ) return 0;
+  double __fdCurrentTime = (double)QDateTime::currentDateTime().toTime_t();
+  int __iCount = 0;
+  for( int __i = QTreeWidgetItem::childCount()-1; __i >= 1; __i-- )
+  {
+    CVesselPoint* __poVesselPoint = (CVesselPoint*)QTreeWidgetItem::child( __i );
+    double __fdVesselTime = __poVesselPoint->getTime();
+    if( __fdVesselTime != CDataTime::UNDEFINED_TIME
+        && __fdCurrentTime - __fdVesselTime > (double)_iTTL )
+    {
+      __iCount++;
+      QTreeWidgetItem::removeChild( __poVesselPoint );
+      delete __poVesselPoint;
+    }
+  }
+  return __iCount;
+}
+
 int CVesselContainer::parseQVCT( const QDomElement& _rqDomElement )
 {
   qsType = _rqDomElement.attribute( "type" );
@@ -263,6 +284,7 @@ int CVesselContainer::parseQVCT( const QDomElement& _rqDomElement )
   if( !__qDomElement.isNull() )
   {
     CVesselContainerDevice* __poVesselContainerDevice = new CVesselContainerDevice( __qDomElement.attribute( "name" ) );
+    __poVesselContainerDevice->parseQVCT( __qDomElement );
     setDevice( __poVesselContainerDevice );
     return 0;
   }
@@ -315,6 +337,11 @@ void CVesselContainer::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter, bool bOn
       if( bOnlySelected && !__poVesselPoint->isMultiSelected() ) continue;
       __poVesselPoint->dumpQVCT( _rqXmlStreamWriter );
     }
+  }
+  else
+  {
+    CVesselContainerDevice* __poVesselContainerDevice = (CVesselContainerDevice*)QTreeWidgetItem::child( 0 );
+    __poVesselContainerDevice->dumpQVCT( _rqXmlStreamWriter );
   }
   // ... [end]
   _rqXmlStreamWriter.writeEndElement(); // Flotilla

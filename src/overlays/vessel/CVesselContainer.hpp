@@ -160,6 +160,8 @@ public:
   /// Add a new dynamic vessel (item/point) with the given name to this container
   /** NOTE: If a vessel with a matching name already exists, none is created */
   void addPointDynamic( const QString& _rqsName, const QString& _rqsDeviceName );
+  /// Deletes dynamic vessels (items/points) that have not been updated for the given "time-to-live" seconds
+  int cleanPointDynamic( int _iTTL );
 
 public:
   /// Retrieves this object's content from the given QVCT source (file)

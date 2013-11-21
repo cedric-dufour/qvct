@@ -31,6 +31,7 @@
 #include "devices/CDevice.hpp"
 #include "overlays/vessel/CVesselContainer.hpp"
 #include "overlays/vessel/device/CVesselContainerDevice.hpp"
+#include "overlays/vessel/device/CVesselContainerDeviceEditView.hpp"
 
 
 //------------------------------------------------------------------------------
@@ -40,6 +41,7 @@
 CVesselContainerDevice::CVesselContainerDevice( const QString& _rqsName )
   : COverlayItem( COverlayObject::SUBITEM1, _rqsName )
   , poDevice( 0 )
+  , iTTL( 60 )
 {
   QTreeWidgetItem::setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable );
   QTreeWidgetItem::setText( CVesselOverlay::NAME, getName() );
@@ -56,6 +58,13 @@ void CVesselContainerDevice::showDetail()
   QVCTRuntime::useVesselContainerDeviceDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::VESSEL_CONTAINER_DEVICE );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::VESSEL );
+}
+
+void CVesselContainerDevice::showEdit()
+{
+  CVesselContainerDeviceEditView* __poVesselContainerDeviceEditView = new CVesselContainerDeviceEditView( this );
+  if( __poVesselContainerDeviceEditView->exec() == QDialog::Accepted ) showDetail();
+  delete __poVesselContainerDeviceEditView;
 }
 
 
@@ -78,6 +87,7 @@ void CVesselContainerDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix
   if( _roDeviceDataFix.getSourceName().isEmpty() ) return;
   CVesselContainer* __poVesselContainer = (CVesselContainer*)QTreeWidgetItem::parent();
   __poVesselContainer->addPointDynamic( _roDeviceDataFix.getSourceName(), COverlayObject::getName() );
+  __poVesselContainer->cleanPointDynamic( iTTL );
 }
 
 //
@@ -116,6 +126,12 @@ void CVesselContainerDevice::disconnectDevice()
   poDevice = 0;
 }
 
+void CVesselContainerDevice::parseQVCT( const QDomElement& _rqDomElement )
+{
+  iTTL = _rqDomElement.attribute( "ttl", "60" ).toInt();
+  if( iTTL < 5 ) iTTL = 5;
+}
+
 void CVesselContainerDevice::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
 {
 
@@ -123,6 +139,8 @@ void CVesselContainerDevice::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) c
   _rqXmlStreamWriter.writeStartElement( "Device" );
   // ... name
   if( !getName().isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", getName() );
+  // ... (vessels) time-to-live
+  _rqXmlStreamWriter.writeAttribute( "ttl", QString::number( iTTL ) );
   // ... [end]
   _rqXmlStreamWriter.writeEndElement(); // Device
 }

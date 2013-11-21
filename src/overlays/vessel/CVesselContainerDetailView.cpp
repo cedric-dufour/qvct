@@ -335,7 +335,7 @@ void CVesselContainerDetailView::slotSetDevice()
     ((CVesselContainer*)poOverlayObject)->setDevice( __poVesselContainerDevice );
     __pqMutexDataChange->unlock();
     QVCTRuntime::useVesselOverlay()->setCurrentItem( __poVesselContainerDevice );
-    __poVesselContainerDevice->showDetail();
+    __poVesselContainerDevice->showEdit();
     QVCTRuntime::useVesselOverlay()->forceRedraw();
     QVCTRuntime::useChartTable()->updateChart();
     QVCTRuntime::useChartTable()->setProjectModified();

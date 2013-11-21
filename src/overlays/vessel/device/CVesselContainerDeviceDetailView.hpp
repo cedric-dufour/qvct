@@ -48,6 +48,10 @@ class CVesselContainerDeviceDetailView: public COverlayObjectDetailView
 private:
   /// [UI:Label] Name
   COverlayText* poTextName;
+  /// [UI:Label] (Vessels) Time-To-Live
+  COverlayText* poTextTTL;
+  /// [UI:Button] Edit
+  QPushButton* pqPushButtonEdit;
   /// [UI:Button] Delete
   QPushButton* pqPushButtonDelete;
   /// [UI:Button] Connect (device)
@@ -90,6 +94,8 @@ private:
 private slots:
   /// [UI:Slot] Slot to refresh the view content
   void slotRefreshContent();
+  /// [UI:Slot] Slot to display edit view
+  void slotEdit();
   /// [UI:Slot] Slot to delete (this container/container)
   void slotDelete();
   /// [UI:Slot] Slot to connect (to the actual device)

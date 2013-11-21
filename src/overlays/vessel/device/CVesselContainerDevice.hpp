@@ -52,6 +52,10 @@ private:
   /// Corresponding device's pointer
   CDevice* poDevice;
 
+  /// (Vessels) Time-to-live (seconds)
+  /** @see setTTL(), getTTL() */
+  int iTTL;
+
 
   //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR
@@ -76,7 +80,7 @@ public:
 public:
   virtual void draw( const CChart* _poChart, QPainter* _pqPainter ) {};
   virtual void showDetail();
-  virtual void showEdit() {};
+  virtual void showEdit();
 
 
   //------------------------------------------------------------------------------
@@ -97,10 +101,17 @@ private slots:
   /// Slot to handle fix data (sent by device)
   void slotDataFix( const CDeviceDataFix& _roDeviceDataFix );
 
+  // SETTERS
+public:
+  /// Sets the (vessels) time-to-live (seconds)
+  void setTTL( int _iTTL ) { iTTL = _iTTL; };
+
   // GETTERS
 public:
   /// Returns whether the actual device is connected
   bool isDeviceConnected() const;
+  /// Returns the (vessels) time-to-live
+  int getTTL() const { return iTTL; };
 
   // OTHER
 public:
@@ -110,6 +121,8 @@ public:
   void disconnectDevice();
 
 public:
+  /// Retrieves this object's content from the given QVCT source (file)
+  void parseQVCT( const QDomElement& _rqDomElement );
   /// Stores this object's content to the given QVCT destination (file)
   void dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const;
 

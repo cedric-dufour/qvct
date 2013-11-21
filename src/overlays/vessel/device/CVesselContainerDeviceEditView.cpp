@@ -19,59 +19,69 @@
 // QT
 #include <QDialogButtonBox>
 #include <QFormLayout>
-#include <QHBoxLayout>
 #include <QLabel>
-#include <QLineEdit>
 #include <QSpinBox>
 #include <QVBoxLayout>
 
 // QVCT
 #include "overlays/vessel/device/CVesselContainerDevice.hpp"
-#include "overlays/vessel/device/CVesselContainerDeviceCreateView.hpp"
+#include "overlays/vessel/device/CVesselContainerDeviceEditView.hpp"
 
 
 //------------------------------------------------------------------------------
 // CONSTRUCTORS / DESTRUCTOR
 //------------------------------------------------------------------------------
 
-CVesselContainerDeviceCreateView::CVesselContainerDeviceCreateView( CVesselContainerDevice** _ppoVesselContainerDevice )
-  : QDialog( 0 )
-  , ppoVesselContainerDevice( _ppoVesselContainerDevice )
+CVesselContainerDeviceEditView::CVesselContainerDeviceEditView( CVesselContainerDevice* _poVesselContainerDevice )
+  : COverlayObjectEditView( _poVesselContainerDevice )
 {
-  QDialog::setWindowTitle( tr("Create Device")+"..." );
-  *ppoVesselContainerDevice = 0;
   constructLayout();
 }
 
-void CVesselContainerDeviceCreateView::constructLayout()
+void CVesselContainerDeviceEditView::constructLayout()
 {
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
 
-  // Add form
-  QHBoxLayout* __pqHBoxLayout = new QHBoxLayout();
-  // ... icon
+  // Add header
+  QFont __qFontHeader;
+  __qFontHeader.setPixelSize( 16 );
+  __qFontHeader.setBold( true );
+  QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
   QLabel* __pqLabelIcon = new QLabel( this );
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/vessel_device.png" ) );
-  __pqHBoxLayout->addWidget( __pqLabelIcon, 0 );
-  // ... form
+  __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  __pqLabelEdit->setFont( __qFontHeader );
+  __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
+  // ... [end]
+  __pqVBoxLayout->addLayout( __pqHBoxLayoutHeader );
+
+  // Add data
+  CVesselContainerDevice* __poVesselContainerDevice = (CVesselContainerDevice*)poOverlayObject;
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
-  pqLineEditName = new QLineEdit( this );
-  pqLineEditName->setToolTip( tr("Device Name") );
-  __pqFormLayout->addRow( tr("Device")+":", pqLineEditName );
+  poTextName = new COverlayText( this );
+  poTextName->setToolTip( tr("Device Name") );
+  poTextName->setText( __poVesselContainerDevice->getName() );
+  __pqFormLayout->addRow( tr("Name")+":", poTextName );
+  // ... (vessels) time-to-live
+  pqSpinBoxTTL = new QSpinBox( this );
+  pqSpinBoxTTL->setRange( 5, 86400 );
+  pqSpinBoxTTL->setToolTip( tr("Vessels Time-To-Live (after no corresponding data are received) [seconds]") );
+  pqSpinBoxTTL->setValue( __poVesselContainerDevice->getTTL() );
+  __pqFormLayout->addRow( tr("TTL")+":", pqSpinBoxTTL );
   // ... [end]
-  __pqHBoxLayout->addLayout( __pqFormLayout, 1 );
-  __pqVBoxLayout->addLayout( __pqHBoxLayout );
+  __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );
 
   // Set the layout
-  QDialog::setLayout( __pqVBoxLayout );
+  COverlayObjectEditView::setLayout( __pqVBoxLayout );
 
 }
 
@@ -80,8 +90,13 @@ void CVesselContainerDeviceCreateView::constructLayout()
 // METHODS: QDialog (override)
 //------------------------------------------------------------------------------
 
-void CVesselContainerDeviceCreateView::accept()
+void CVesselContainerDeviceEditView::accept()
 {
-  *ppoVesselContainerDevice = new CVesselContainerDevice( pqLineEditName->text() );
+  CVesselContainerDevice* __poVesselContainerDevice = (CVesselContainerDevice*)poOverlayObject;
+
+  // Set data
+  __poVesselContainerDevice->setTTL( pqSpinBoxTTL->value() );
+
+  // Done
   QDialog::accept();
 }
