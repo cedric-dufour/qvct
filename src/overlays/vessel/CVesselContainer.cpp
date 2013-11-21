@@ -23,6 +23,7 @@
 #include <QFileDialog>
 #include <QPainter>
 #include <QPointF>
+#include <QTimer>
 #include <QTreeWidgetItem>
 
 // QVCT
@@ -49,6 +50,8 @@ CVesselContainer::CVesselContainer( const QString& _rqsName )
   QTreeWidgetItem::setFlags( Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsDropEnabled );
   QTreeWidgetItem::setText( CVesselOverlay::NAME, qsName );
   QTreeWidgetItem::setCheckState( CVesselOverlay::VISIBLE, Qt::Checked );
+  pqTimerDynamicCleanup = new QTimer( this );
+  QObject::connect( pqTimerDynamicCleanup, SIGNAL( timeout() ), this, SLOT( slotTimerDynamicCleanup() ) );
 }
 
 CVesselContainer::~CVesselContainer()
@@ -180,6 +183,22 @@ void CVesselContainer::toggleVisible()
 //------------------------------------------------------------------------------
 
 //
+// SLOTS
+//
+
+void CVesselContainer::slotTimerDynamicCleanup()
+{
+  //qDebug( "DEBUG[%s]: Begin", Q_FUNC_INFO );
+  if( !bDynamic ) return;
+  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
+  __pqMutexDataChange->lock();
+  CVesselContainerDevice* __poVesselContainerDevice = (CVesselContainerDevice*)QTreeWidgetItem::child( 0 );
+  cleanPointDynamic( __poVesselContainerDevice->getTTL() );
+  __pqMutexDataChange->unlock();
+  //qDebug( "DEBUG[%s]: End", Q_FUNC_INFO );
+}
+
+//
 // GETTERS
 //
 
@@ -208,10 +227,12 @@ void CVesselContainer::connectDevice()
   int __iCount = QTreeWidgetItem::childCount();
   for( int __i = bDynamic ? 1 : 0; __i < __iCount; __i++ )
     ((CVesselPoint*)QTreeWidgetItem::child( __i ))->connectDevice();
+  pqTimerDynamicCleanup->start( QVCTRuntime::useSettings()->getRateRefresh() );
 }
 
 void CVesselContainer::disconnectDevice()
 {
+  pqTimerDynamicCleanup->stop();
   int __iCount = QTreeWidgetItem::childCount();
   for( int __i = bDynamic ? 1 : 0; __i < __iCount; __i++ )
     ((CVesselPoint*)QTreeWidgetItem::child( __i ))->disconnectDevice();

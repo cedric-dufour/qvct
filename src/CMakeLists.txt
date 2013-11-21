@@ -185,6 +185,7 @@ set( MY_MOCS
   overlays/track/CTrackOverlayListView.hpp
   overlays/track/CTrackPointDetailView.hpp
   overlays/track/CTrackSubContainerDetailView.hpp
+  overlays/vessel/CVesselContainer.hpp
   overlays/vessel/CVesselContainerDetailView.hpp
   overlays/vessel/CVesselOverlayListView.hpp
   overlays/vessel/CVesselPointDetailView.hpp

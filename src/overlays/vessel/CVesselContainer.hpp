@@ -23,6 +23,7 @@
 #include <QDomElement> // QtXml module
 #include <QPainter>
 #include <QPointF>
+#include <QTimer>
 #include <QXmlStreamWriter>
 
 // QVCT
@@ -43,6 +44,7 @@ class CVesselPoint;
  */
 class CVesselContainer: public COverlayContainer, public COverlayVisibility
 {
+  Q_OBJECT
 
   //------------------------------------------------------------------------------
   // FIELDS
@@ -56,6 +58,9 @@ private:
    *  vessel's name corresponding to the device source's name.
    *  @see setDevice(), clearDevice() */
   bool bDynamic;
+  /// Dynamic flotilla clean-up timer
+  /**  @see slotTimerDynamicCleanup() */
+  QTimer *pqTimerDynamicCleanup;
 
   /// Vessel's type
   QString qsType;
@@ -115,6 +120,11 @@ public:
   //------------------------------------------------------------------------------
   // METHODS
   //------------------------------------------------------------------------------
+
+  // SLOTS
+private slots:
+  /// [Slot] Slot to handle activity signal emitted by device
+  void slotTimerDynamicCleanup();
 
   // SETTERS
 public:

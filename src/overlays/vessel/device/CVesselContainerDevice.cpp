@@ -87,7 +87,6 @@ void CVesselContainerDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix
   if( _roDeviceDataFix.getSourceName().isEmpty() ) return;
   CVesselContainer* __poVesselContainer = (CVesselContainer*)QTreeWidgetItem::parent();
   __poVesselContainer->addPointDynamic( _roDeviceDataFix.getSourceName(), COverlayObject::getName() );
-  __poVesselContainer->cleanPointDynamic( iTTL );
 }
 
 //
