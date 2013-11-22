@@ -227,7 +227,7 @@ void CVesselContainer::connectDevice()
   int __iCount = QTreeWidgetItem::childCount();
   for( int __i = bDynamic ? 1 : 0; __i < __iCount; __i++ )
     ((CVesselPoint*)QTreeWidgetItem::child( __i ))->connectDevice();
-  pqTimerDynamicCleanup->start( QVCTRuntime::useSettings()->getRateRefresh() );
+  pqTimerDynamicCleanup->start( std::max( QVCTRuntime::useSettings()->getRateRefresh(), 1000 ) );
 }
 
 void CVesselContainer::disconnectDevice()
