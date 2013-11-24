@@ -58,6 +58,9 @@
  *   - touchscreen-friendly user interface (you really don't need a mouse or key-
  *     board while navigating)
  *
+ *  It runs and is being developed on Linux (Ubuntu), though it can potentially also
+ *  be built on Mac OS X and Windows.
+ *
  *
  *  @section copyright Copyright
  *
