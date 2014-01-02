@@ -1,3 +1,11 @@
+qvct (1.0.20131122) UNRELEASED; urgency=low
+
+  - FIX: Forgot to update the README file for last release
+  - FIX: Don't cleanup dynamic flotilla more than once per second (which
+         is useless and CPU consuming)
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Fri, 22 Nov 2013 15:44:55 +0100
+
 qvct (1.0.20131121) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog) 
