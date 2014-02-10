@@ -119,7 +119,6 @@ void CVesselPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
   static const QSize __qSizeSymbol(32,32);
 
   // Draw
-  CMainWindow* __poMainWindow = QVCTRuntime::useMainWindow();
   if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return;
 
@@ -130,11 +129,7 @@ void CVesselPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
 
   // ... position marker
   COverlayCourse::drawMarker( _poChart, _pqPainter, this );
-  if( QVCTRuntime::useSettings()->isVisibleSymbols() && __poMainWindow->symbolExists( qsSymbol ) )
-  {
-    double __fdZoom = _poChart->getZoom();
-    if( __fdZoom > 0.5 ) _pqPainter->drawPixmap( _poChart->toDrawPosition( *this )+__qPointFSymbol*(__fdZoom/2.0), __poMainWindow->symbolPixmap( qsSymbol ).scaled( __qSizeSymbol*(__fdZoom/2.0), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
-  }
+  if( QVCTRuntime::useSettings()->isVisibleSymbols() ) COverlayPoint::drawSymbol( _poChart, _pqPainter, qsSymbol );
 
   // ... object tag
   double __fdGroundBearing = CDataCourseGA::GroundCourse.getBearing();

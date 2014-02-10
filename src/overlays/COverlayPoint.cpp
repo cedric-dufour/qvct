@@ -217,7 +217,7 @@ void COverlayPoint::drawMarker( const CChart* _poChart, QPainter* _pqPainter, co
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
-  if( __fdZoom < 0.2 ) __fdZoom = 0.2;
+  if( __fdZoom < 0.5 ) __fdZoom = 0.5;
   else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
   __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0 ;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
@@ -237,8 +237,29 @@ void COverlayPoint::drawMarker( const CChart* _poChart, QPainter* _pqPainter, co
   _pqPainter->drawLine( __qPointF + __qPointFCrosshairC1*__fdZoom, __qPointF + __qPointFCrosshairC2*__fdZoom );
   _pqPainter->drawLine( __qPointF + __qPointFCrosshairD1*__fdZoom, __qPointF + __qPointFCrosshairD2*__fdZoom );
   // ... multi-select
-  if( !isMultiSelected() || __fdZoom < 0.5 ) return;
+  if( !isMultiSelected() || __fdZoom <= 0.5 ) return;
   _pqPainter->drawPixmap( __qPointF, __qPixmapSelect.scaled( __qSizeSelect*(__fdZoom/2.0), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+}
+
+void COverlayPoint::drawSymbol( const CChart* _poChart, QPainter* _pqPainter, const QString& _rqsSymbol )
+{
+   // Constant drawing resources
+  static const QPointF __qPointFSymbol(-32,-32);
+  static const QSize __qSizeSymbol(32,32);
+
+  // Exit if we're not visible
+  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible ) return;
+  // ... or no matching symbol exists
+  CMainWindow* __poMainWindow = QVCTRuntime::useMainWindow();
+  if( !QVCTRuntime::useSettings()->isVisibleSymbols() || !__poMainWindow->symbolExists( _rqsSymbol ) ) return;
+
+  // Retrieve drawing parameters
+  double __fdZoom = _poChart->getZoom();
+  if( __fdZoom <= 0.5 ) return;
+  if( __fdZoom > 2.0 ) __fdZoom = 2.0;
+
+  // Draw
+  _pqPainter->drawPixmap( _poChart->toDrawPosition( *this )+__qPointFSymbol*(__fdZoom/2.0), __poMainWindow->symbolPixmap( _rqsSymbol ).scaled( __qSizeSymbol*(__fdZoom/2.0), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 }
 
 void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagPosition _eTagPosition,
@@ -249,7 +270,7 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
-  if( __fdZoom < 0.5 ) return;
+  if( __fdZoom <= 0.5 ) return;
   else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
   __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0 ;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
@@ -369,7 +390,8 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
-  if( __fdZoom > 2.0 ) __fdZoom = 2.0;
+  if( __fdZoom < 0.5 ) __fdZoom = 0.5;
+  else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
   __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0 ;
   QPointF __qPointFFrom = _poChart->toDrawPosition( *this );
   QPointF __qPointFTo = _poChart->toDrawPosition( *_poOverlayPoint );
@@ -378,7 +400,7 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
   // Draw
   COverlay* __poOverlay = useOverlay();
   QPen __qPen = __poOverlay->getPenLine();
-  __qPen.setWidth( __qPen.width() * ( __fdZoom < 1.0 ? 1.0 : __fdZoom ) );
+  __qPen.setWidth( __qPen.width() * __fdZoom );
   // ... line
   _pqPainter->setPen( __qPen );
   _pqPainter->drawLine( __qPointFFrom, __qPointFTo );
@@ -387,7 +409,7 @@ void COverlayPoint::drawLine( const CChart* _poChart, QPainter* _pqPainter, cons
   double __fdDeltaLimit = ( 100.0 + 100.0*fabs( pow( sin( __fdBearingTo*QVCT::DEG2RAD ), 3 ) ) ) * __fdZoom;
   if( ( !bVisibleRouting && !_poOverlayPoint->bVisibleRouting )
       || __qPointFDelta.x()*__qPointFDelta.x() + __qPointFDelta.y()*__qPointFDelta.y() < __fdDeltaLimit*__fdDeltaLimit
-      || __fdZoom < 0.5 ) return;
+      || __fdZoom <= 0.5 ) return;
   double __fdDistance = CDataPosition::distanceRL( *this, *_poOverlayPoint );
   QString __qsDistance = CUnitDistance::toString( __fdDistance );
   drawText( _poChart, _pqPainter, __qsDistance, 0.5 * __qPointFFrom + 0.5 * __qPointFTo );
@@ -412,7 +434,7 @@ bool COverlayPoint::matchScrPosition( const CChart* _poChart, const QPointF& _rq
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
-  if( __fdZoom < 0.2 ) __fdZoom = 0.2;
+  if( __fdZoom < 0.5 ) __fdZoom = 0.5;
   else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
   __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0;
   QPointF __qPointF = _poChart->toDrawPosition( *this );

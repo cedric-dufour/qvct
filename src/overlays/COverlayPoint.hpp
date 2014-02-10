@@ -96,6 +96,8 @@ public:
   virtual void drawLine( const CChart* _poChart, QPainter* _pqPainter, const COverlayPoint* _poOverlayPoint );
   /// Draws the point (marker)
   virtual void drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity = 0 );
+  /// Draws the symbol (user-defined)
+  virtual void drawSymbol( const CChart* _poChart, QPainter* _pqPainter, const QString& _rqsSymbol );
   /// Draws the tag (name)
   virtual void drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagPosition _eTagPosition = TAG_AUTO,
                         const CDataTimeValidity* _poDataTimeValidity = 0, const CDataPositionValidity* _poDataPositionValidity = 0 );

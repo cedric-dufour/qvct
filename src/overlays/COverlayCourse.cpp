@@ -89,7 +89,7 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
 
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
-  if( __fdZoom < 0.2 ) __fdZoom = 0.2;
+  if( __fdZoom < 0.5 ) __fdZoom = 0.5;
   else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
   __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
@@ -113,7 +113,7 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
   _pqPainter->drawLine( __qPointFTip, __qPointF + __fdRadius * QPointF( sin( __fdGroundBearing+2.5 ), -cos( __fdGroundBearing+2.5 ) ) );
   _pqPainter->drawLine( __qPointFTip, __qPointF + __fdRadius * QPointF( sin( __fdGroundBearing-2.5 ), -cos( __fdGroundBearing-2.5 ) ) );
   // ... multi-select
-  if( !isMultiSelected() || __fdZoom < 0.5 ) return;
+  if( !isMultiSelected() || __fdZoom <= 0.5 ) return;
   _pqPainter->drawPixmap( __qPointF, __qPixmapSelect.scaled( __qSizeSelect*(__fdZoom/2.0), Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
 }
 
@@ -132,7 +132,7 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
 
   // Retrieve drawing parameters
   double __fdZoom = _poChart->getZoom();
-  if( __fdZoom < 0.75 ) __fdZoom = 0.75;
+  if( __fdZoom < 0.5 ) __fdZoom = 0.5;
   else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
   __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0;
   QPointF __qPointF = _poChart->toDrawPosition( *this );
