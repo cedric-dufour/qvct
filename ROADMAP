@@ -37,7 +37,7 @@ Roadmap
    (stored in QVCT format)
 
  * [2012.07.27, Cedric Dufour]
- - load offline geo-referenced charts
+ - load offline geo-referenced maps
    (stored in any format/projection supported by GDAL)
    
  * [2012.07.19, Cedric Dufour]

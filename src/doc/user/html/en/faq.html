@@ -17,15 +17,15 @@
 <LI><A HREF="#general_howbig">How big a project is QVCT?</A></LI>
 <LI><A HREF="#general_whowhy">Who is behind QVCT (and why)?</A></LI>
 </UL>
-<P><B>Chart-related Questions</B></P>
+<P><B>Map-related Questions</B></P>
 <UL>
-<LI><A HREF="#chart_provided">Are charts provided along with QVCT?</A></LI>
-<LI><A HREF="#chart_type">What kind of charts can I use in QVCT?</A></LI>
-<LI><A HREF="#chart_create">Can I create my own charts?</A></LI>
-<LI><A HREF="#chart_online">Can I use online charts?</A></LI>
-<LI><A HREF="#chart_elevation">Can I use elevation data along with charts?</A></LI>
-<LI><A HREF="#chart_size">How big can charts be?</A></LI>
-<LI><A HREF="#chart_gdal">What is this georeferencing and GDAL all about?</A></LI>
+<LI><A HREF="#map_provided">Are maps provided along with QVCT?</A></LI>
+<LI><A HREF="#map_type">What kind of maps can I use in QVCT?</A></LI>
+<LI><A HREF="#map_create">Can I create my own maps?</A></LI>
+<LI><A HREF="#map_online">Can I use online maps?</A></LI>
+<LI><A HREF="#map_elevation">Can I use elevation data along with maps?</A></LI>
+<LI><A HREF="#map_size">How big can maps be?</A></LI>
+<LI><A HREF="#map_gdal">What is this georeferencing and GDAL all about?</A></LI>
 </UL>
 <P><B>Device-related Questions</B></P>
 <UL>
@@ -61,54 +61,54 @@ Patches to enable QVCT support of new platforms are of course welcome!</P>
 <H3><A ID="general_whowhy"/>Who is behind QVCT (and why)?</H3>
 <DIV CLASS="H3">
 <P>I - C&eacute;dric Dufour (System and Software Engineer) - am the sole developer of QVCT. As a <CITE>Linux</CITE> evangelist, I had become fed up of switching to <CITE>Windows</CITE> to perform the navigation planning required by my private pilot activity. Additionaly, I wanted to have a touchscreen-friendly and ergonomic navigation software to use on my (<CITE>Linux</CITE>) tablet while under way.</P>
-<P>Besides, using a PC to perform navigation tasks while in the same time holding the commands of an airplane or a ship raises several issues which I found weren't properly addressed in other existing (open source, <CITE>Linux</CITE>-compatible) software. Among those issues are: use your own (offline) charts (e.g. ICAO or marine charts), provide a clean and efficient user interface (suitable for a moving environment and a fast achievement of tasks), track multiple vessels, using multiple devices (GPS, compass, <I>IAS</I>/<I>loch</I>, pressure altimeter, etc.) for your own vessel (thus being able to distinguish between its true and apparent course), etc. QVCT answers those requirements (at least from my point of view).</P>
+<P>Besides, using a PC to perform navigation tasks while in the same time holding the commands of an airplane or a ship raises several issues which I found weren't properly addressed in other existing (open source, <CITE>Linux</CITE>-compatible) software. Among those issues are: use your own (offline) maps (e.g. ICAO or marine charts), provide a clean and efficient user interface (suitable for a moving environment and a fast achievement of tasks), track multiple vessels, using multiple devices (GPS, compass, <I>IAS</I>/<I>loch</I>, pressure altimeter, etc.) for your own vessel (thus being able to distinguish between its true and apparent course), etc. QVCT answers those requirements (at least from my point of view).</P>
 </DIV><!-- DIV CLASS="H3" -->
 
 </DIV><!-- DIV CLASS="H2" -->
 
-<H2>Chart-related Questions</H2>
+<H2>Map-related Questions</H2>
 <DIV CLASS="H2">
 
-<H3><A ID="chart_provided"/>Are charts provided along with QVCT?</H3>
+<H3><A ID="map_provided"/>Are maps provided along with QVCT?</H3>
 <DIV CLASS="H3">
-<P>No. You must create/use your own charts.</P>
+<P>No. You must create/use your own maps.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3><A ID="chart_type"/>What kind of charts can I use in QVCT?</H3>
+<H3><A ID="map_type"/>What kind of maps can I use in QVCT?</H3>
 <DIV CLASS="H3">
 <P>Theoretically, any image/file type supported by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A>. In practice, you will most likely want to use <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> files, which are the most common geo-referenced
 files.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3><A ID="chart_create"/>Can I create my own charts?</H3>
+<H3><A ID="map_create"/>Can I create my own maps?</H3>
 <DIV CLASS="H3">
 <P>Yes, absolutely! Any image can be converted into a geo-referenced file - preferrably in <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format - using the tools provided by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A>.<BR/>
 Please refer to QVCT's <A HREF="manual.html" TARGET="QVCT_MANUAL">User Manual</A> for detailed instructions.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3><A ID="chart_elevation"/>Can I use elevation data along with charts?</H3>
+<H3><A ID="map_elevation"/>Can I use elevation data along with maps?</H3>
 <DIV CLASS="H3">
-<P>Yes, absolutely! Digital elevation models (<DFN>DEM</DFN>) can be converted to a geo-referenced file the same way as charts. They can then be associated to any chart (and then even displayed) within QVCT.</P>
+<P>Yes, absolutely! Digital elevation models (<DFN>DEM</DFN>) can be converted to a geo-referenced file the same way as maps. They can then be associated to any map (and then even displayed) within QVCT.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3><A ID="chart_online"/>Can I use online charts?</H3>
+<H3><A ID="map_online"/>Can I use online maps?</H3>
 <DIV CLASS="H3">
 <P>No, not directly. One of the objective of QVCT is to be independent of any network connection. On the other hand, you can create offline versions of many
 online map services using the <A HREF="http://mobac.sourceforge.net/" TARGET="_blank"><CITE>Mobile Atlas Creator (MOBAC)</CITE></A>.<BR/>
 Please refer to QVCT's <A HREF="manual.html" TARGET="QVCT_MANUAL">User Manual</A> for detailed instructions.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3><A ID="chart_size"/>How big can charts be?</H3>
+<H3><A ID="map_size"/>How big can maps be?</H3>
 <DIV CLASS="H3">
-<P>On recent hardware, charts can be as big as 100-200MB, the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> being very good at working with large files (at least in <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).<BR/>
-I personally have charts of all Switzerland at 1:500000 (ICAO) and 1:200000 (topographic) which weight respectively 30MB and 120MB and
+<P>On recent hardware, maps can be as big as 100-200MB, the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> being very good at working with large files (at least in <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).<BR/>
+I personally have maps of all Switzerland at 1:500000 (ICAO) and 1:200000 (topographic) which weight respectively 30MB and 120MB and
 which I use daily on an <CITE>Intel Core i5 2467M</CITE> tablet.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3><A ID="chart_gdal"/>What is this georeferencing and GDAL all about?</H3>
+<H3><A ID="map_gdal"/>What is this georeferencing and GDAL all about?</H3>
 <DIV CLASS="H3">
-<P>In order to use an image file as a chart, one needs to know how to translate pixel positions into (accurate) geographical positions.</P>
-<P>In order to do so, the information about the reference and transformation systems that were use to create the chart - the so-called <I>datum</I> (<CITE>WGS-84</CITE>, <CITE>CH-1903</CITE>, etc.), <I>projection</I> (<CITE>Mercator</CITE>, <CITE>Lambert Conformal Conic</CITE>, etc.) and <I>ellipsoid</I> (<CITE>WGS-84</CITE>, <CITE>Bessel (1841)</CITE>, etc.) - must be available in the image file itself, using a format that allows such embedding (e.g. the <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).</P>
+<P>In order to use an image file as a map, one needs to know how to translate pixel positions into (accurate) geographical positions.</P>
+<P>In order to do so, the information about the reference and transformation systems that were use to create the map - the so-called <I>datum</I> (<CITE>WGS-84</CITE>, <CITE>CH-1903</CITE>, etc.), <I>projection</I> (<CITE>Mercator</CITE>, <CITE>Lambert Conformal Conic</CITE>, etc.) and <I>ellipsoid</I> (<CITE>WGS-84</CITE>, <CITE>Bessel (1841)</CITE>, etc.) - must be available in the image file itself, using a format that allows such embedding (e.g. the <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).</P>
 <P>The <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> is a set of utilities that allow to achieve this georeferencing/embedding, relying on the <A HREF="http://proj.osgeo.org/" TARGET="_blank"><CITE>PROJ.4</CITE></A> library to encode the georeferencing parameters and perform the transformations from one system to another.</P>
 </DIV><!-- DIV CLASS="H3" -->
 

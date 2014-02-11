@@ -17,7 +17,7 @@
 <LI><A HREF="#overlay_list">Using the Overlay List</A></LI>
 <LI><A HREF="#overlay_detail">Using the Overlay Detail</A></LI>
 <LI><A HREF="#settings">Changing the Application Settings</A></LI>
-<LI><A HREF="#chart_create">Create your own Charts</A></LI>
+<LI><A HREF="#map_create">Create your own Maps (Charts)</A></LI>
 </UL>
 
 <HR/>
@@ -297,34 +297,34 @@
 
 </DIV><!-- DIV CLASS="H2" -->
 
-<H2><A ID="chart_create"/>Create your own Charts</H2>
+<H2><A ID="map_create"/>Create your own Maps (Charts)</H2>
 <DIV CLASS="H2">
-<P>By design, QVCT requires charts to be stored on disk, using a geo-referenced image/file format supported by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> (preferrably the <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).</P>
+<P>By design, QVCT requires maps to be stored on disk, using a geo-referenced image/file format supported by the <A HREF="http://www.gdal.org/" TARGET="_blank"><CITE>Geospatial Data Abstraction Library (GDAL)</CITE></A> (preferrably the <A HREF="http://geotiff.osgeo.org/" TARGET="_blank"><CITE>GeoTIFF</CITE></A> format).</P>
 <P>The good news is that (almost) any image can be converted into a <CITE>GeoTIFF</CITE> file. The bad news is that it requires using the (command-line) <CITE>GDAL</CITE> utilities to do so. While it may appear an impossible task to people that are not used to the command-line, I beg you keep on reading the following few paragraphs, for in the end, you should be able to deal with <CITE>GDAL</CITE> and georeference most (if not all) your images/files.</P>
 
-<H3>Step 1: Obtain a Chart in Numeric (Raster) Format</H3>
+<H3>Step 1: Obtain a Map in Numeric (Raster) Format</H3>
 <DIV CLASS="H3">
-<P>There are several ways you can obtain a chart in numeric (raster) format:</P>
+<P>There are several ways you can obtain a map in numeric (raster) format:</P>
 
 <H4>Buy it</H4>
 <DIV CLASS="H4">
-<P>First option is to buy a chart in numeric (raster) format directly from a topograhic material supplier (e.g. <A HREF="http://www.swisstopo.ch/" TARGET="_blank"><CITE>SwissTopo</CITE></A> for Switzerland charts).</P>
+<P>First option is to buy a map in numeric (raster) format directly from a topograhic material supplier (e.g. <A HREF="http://www.swisstopo.ch/" TARGET="_blank"><CITE>SwissTopo</CITE></A> for Switzerland maps).</P>
 <P>Prices keep going down, to the point where one may really want to look into this solution. Also, the material obtained will be of the best possible quality and part of the georeferencing work may already have been done by the supplier.</P>
 </DIV><!-- DIV CLASS="H4" -->
 
 <H4>Scan it</H4>
 <DIV CLASS="H4">
-<P>Second option is to scan a paper chart you already have.</P>
+<P>Second option is to scan a paper map you already have.</P>
 <P>The quality will not be as good as what the former solution would provide. Also, it may appear cheaper... but given the time you will spend at the task, it may eventually end up more expensive than buying the numeric counterpart (depending on how much you hourly-rate yourself).</P>
 </DIV><!-- DIV CLASS="H4" -->
 
 <H4>Online &rarr; Offline</H4>
 <DIV CLASS="H4">
-<P>Last option is to create an offline version of an online chart, using for example the <A HREF="http://mobac.sourceforge.net/" TARGET="_blank"><CITE>Mobile Atlas Creator (MOBAC)</CITE></A>.</P>
+<P>Last option is to create an offline version of an online map, using for example the <A HREF="http://mobac.sourceforge.net/" TARGET="_blank"><CITE>Mobile Atlas Creator (MOBAC)</CITE></A>.</P>
 <P>When using <CITE>MOBAC</CITE>, make sure to choose the <CODE>PNG + Worldfile (PNG &amp; PGW)</CODE> output format, which will result in: 1. a (single) large - very large! - image (*.png) file; 2. a <A HREF="http://en.wikipedia.org/wiki/World_file"><CITE>World File</CITE></A> (*.pgw) containing georeferencing information that you will need later; 3. an auxiliary data file (*.aux.xml) containing other georeferencing information that you will need later.</P>
 </DIV><!-- DIV CLASS="H4" -->
 
-<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<H4>OpenStreetMap (MOBAC) Example</H4>
 <DIV CLASS="H4">
 <P>For the purpose of this manual, we will use <CITE>MOBAC</CITE> to create an offline version of <A HREF="http://www.openstreetmap.org/" TARGET="_blank"><CITE>OpenStreetMap</CITE></A> world map:</P>
 <UL>
@@ -341,9 +341,9 @@
 </UL>
 </DIV><!-- DIV CLASS="H4" -->
 
-<H4>Switzerland ICAO VFR Chart Example</H4>
+<H4>Switzerland ICAO VFR Map Example</H4>
 <DIV CLASS="H4">
-<P>We shall also refer to Switzerland ICAO VFR chart for the sake of further examples:</P>
+<P>We shall also refer to Switzerland ICAO VFR map for the sake of further examples:</P>
 <UL>
 <LI>Supplier: <B><A HREF="http://www.swisstopo.ch/" TARGET="_blank">SwissTopo</A></B> (Cost: &sim;50.- EUR)</LI>
 <LI>Scale: <B>1:500000</B></LI>
@@ -355,18 +355,18 @@
 
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3>Step 2: Make sure the Chart is Level</H3>
+<H3>Step 2: Make sure the Map is Level</H3>
 <DIV CLASS="H3">
-<P>Though is it theoretically possible to correct some charts rotation or skew issues using <CITE>GDAL</CITE>, it will be much easier to start with a chart that does not have such issues.</P>
-<P>Charts obtained from topographic material suppliers or created from online sources will not present this problem.</P>
-<P>On the other hand, scanned charts may require to have the scanner's rotation and/or skew issues be corrected using your preferred image editing software (e.g. <A HREF="http://www.gimp.org/" TARGET="_blank"><CITE>GIMP</CITE></A>).</P>
-<P><B>Keypoint: make sure the numeric version of your chart is aligned identically to the paper version, in respect with their respective horizontal/vertical borders.</B>.</P>
+<P>Though is it theoretically possible to correct some maps rotation or skew issues using <CITE>GDAL</CITE>, it will be much easier to start with a map that does not have such issues.</P>
+<P>maps obtained from topographic material suppliers or created from online sources will not present this problem.</P>
+<P>On the other hand, scanned maps may require to have the scanner's rotation and/or skew issues be corrected using your preferred image editing software (e.g. <A HREF="http://www.gimp.org/" TARGET="_blank"><CITE>GIMP</CITE></A>).</P>
+<P><B>Keypoint: make sure the numeric version of your map is aligned identically to the paper version, in respect with their respective horizontal/vertical borders.</B>.</P>
 </UL>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3>Step 3: Convert the Chart to an Indexed-Color TIFF File</H3>
+<H3>Step 3: Convert the Map to an Indexed-Color TIFF File</H3>
 <DIV CLASS="H3">
-<P>Once you have a numeric (raster) and level chart at hand, you must convert it to a color-indexed <CITE>TIFF</CITE> file in order to: 1. reduce its size as much as possible (thus the color indexing); 2. prepare it for georeferencing (and exporting to <CITE>GeoTIFF</CITE> format).</P>
+<P>Once you have a numeric (raster) and level map at hand, you must convert it to a color-indexed <CITE>TIFF</CITE> file in order to: 1. reduce its size as much as possible (thus the color indexing); 2. prepare it for georeferencing (and exporting to <CITE>GeoTIFF</CITE> format).</P>
 <P>This step is easily achieved using the <CODE>convert</CODE> utility provided by <A HREF="http://www.imagemagick.org/" TARGET="_blank"><CITE>ImageMagick</CITE></A>:</P>
 <PRE>
 $ convert openstreetmap-world.png -colors 256 -type Palette -compress lzw openstreetmap-world.tif
@@ -374,10 +374,10 @@ $ convert openstreetmap-world.png -colors 256 -type Palette -compress lzw openst
 <P>Note that you could choose to index less than 256 colors but you would end up either with a neglectable size gain or a much-degraded image quality.</P>
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3>Step 4: Find-Out the Chart's Corner Positions</H3>
+<H3>Step 4: Find-Out the Map's Corner Positions</H3>
 <DIV CLASS="H3">
-<P>You now need to know the <B>geographical positions of the upper-left and lower-right corners</B> of your chart.</P>
-<P><B>IMPORTANT NOTE:</B> The coordinates system used by the chart depends on its datum and units. Thus, at this stage, we are not talking of longitude or latitude expressed in degrees. In the case of the Switzerland's ICAO VFR chart, the coordinates are meters, relative to a reference point situated at &lt;600000;200000&gt; (and corresponding to Bern old observatory's position).</P>
+<P>You now need to know the <B>geographical positions of the upper-left and lower-right corners</B> of your map.</P>
+<P><B>IMPORTANT NOTE:</B> The coordinates system used by the map depends on its datum and units. Thus, at this stage, we are not talking of longitude or latitude expressed in degrees. In the case of the Switzerland's ICAO VFR map, the coordinates are meters, relative to a reference point situated at &lt;600000;200000&gt; (and corresponding to Bern old observatory's position).</P>
 
 <H4>Using GDAL</H4>
 <DIV CLASS="H4">
@@ -398,7 +398,7 @@ Center      (   -2445.985,    2440.780)
 
 <H4>Using the World File</H4>
 <DIV CLASS="H4">
-<P>If bought from a topographic material supplier or created with <CITE>MOBAC</CITE>, you chart may (will in the latter case) come bundled with its corresponding <A HREF="http://en.wikipedia.org/wiki/World_file"><CITE>World File</CITE></A>. The content of this file is very simple:</P>
+<P>If bought from a topographic material supplier or created with <CITE>MOBAC</CITE>, you map may (will in the latter case) come bundled with its corresponding <A HREF="http://en.wikipedia.org/wiki/World_file"><CITE>World File</CITE></A>. The content of this file is very simple:</P>
 <PRE>
 $ cat openstreetmap-world.pgw
 4891.969810251280000  # [A] X-axis offset per pixel (going from left to right)
@@ -415,7 +415,7 @@ openstreetmap-world.png PNG 8192x8192 8192x8192+0+0 8-bit DirectClass 28.54MiB 0
 # [G] Width:  8192
 # [H] Height: 8192
 </PRE>
-<P>Given all those data, one can easily compute the <B>coordinates of the upper-left and lower-right corners of the chart</B>:</P>
+<P>Given all those data, one can easily compute the <B>coordinates of the upper-left and lower-right corners of the map</B>:</P>
 <PRE>
 [UL_X] Upper-Left X  = [E] - [A]/2      = -20039954.3276
 [UL_Y] Upper-Left Y  = [F] - [D]/2      =  19997316.03
@@ -426,20 +426,20 @@ openstreetmap-world.png PNG 8192x8192 8192x8192+0+0 8-bit DirectClass 28.54MiB 0
 
 <H4>Using a Ruler</H4>
 <DIV CLASS="H4">
-<P>If no other mean is available, you will need to get a good ruler, measure as precisely as possible the positions of your chart corners relatively to its existing coordinates system and apply a good old rule of three.</P>
+<P>If no other mean is available, you will need to get a good ruler, measure as precisely as possible the positions of your map corners relatively to its existing coordinates system and apply a good old rule of three.</P>
 </DIV><!-- DIV CLASS="H4" -->
 
 <P>In the end, those data will be used to fill-in the values of the <CODE>-a_ullr</CODE> option of the <CODE>gdal_translate</CODE> utility (see below).</P>
 
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3>Step 5: Find-Out the Chart's Geodetic Characteristics</H3>
+<H3>Step 5: Find-Out the Map's Geodetic Characteristics</H3>
 <DIV CLASS="H3">
-<P>Now here is where the most difficult task lies, for this information is often not readily available to end users. If you're lucky, closely inspecting your chart may reveal some clues about its projection, datum, ellipsoid, etc. If not, you will need to do some Internet digging and acquire some general knowledge about what your country or topographic material supplier favors.</P>
+<P>Now here is where the most difficult task lies, for this information is often not readily available to end users. If you're lucky, closely inspecting your map may reveal some clues about its projection, datum, ellipsoid, etc. If not, you will need to do some Internet digging and acquire some general knowledge about what your country or topographic material supplier favors.</P>
 
-<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<H4>OpenStreetMap (MOBAC) Example</H4>
 <DIV CLASS="H4">
-<P>Offline version of online charts created with <CITE>MOBAC</CITE> (see above) will be created along with a <CITE>World File</CITE> (*.pgw) and a auxiliary data file (*.aux.xml) which luckily contains all the information we need:</P>
+<P>Offline version of online maps created with <CITE>MOBAC</CITE> (see above) will be created along with a <CITE>World File</CITE> (*.pgw) and a auxiliary data file (*.aux.xml) which luckily contains all the information we need:</P>
 <PRE>
 $ cat openstreetmap-world.png.aux.xml
 &lt;PAMDataset&gt;
@@ -460,7 +460,7 @@ PROJCS[&quot;World_Mercator&quot;,
   &lt;/SRS&gt;
 &lt;/PAMDataset&gt;
 </PRE>
-<P>And eventually allows us to identify the <B>key geodetic characteristics of the chart</B>:</P>
+<P>And eventually allows us to identify the <B>key geodetic characteristics of the map</B>:</P>
 <UL>
 <LI>Projection: <B>World Mercator</B></LI>
 <LI>Datum: <B>WGS-84</B></LI>
@@ -469,9 +469,9 @@ PROJCS[&quot;World_Mercator&quot;,
 </UL>
 </DIV><!-- DIV CLASS="H4" -->
 
-<H4>Switzerland ICAO VFR Chart Example</H4>
+<H4>Switzerland ICAO VFR Map Example</H4>
 <DIV CLASS="H4">
-<P>In the case of Switzerland ICAO VFR chart, general knowledge has it that Switzerland uses the so-called <VAR>CH-1903</VAR> datum for most of its charts, while close inspection of the chart itself (in paper format) reveals its other geodetic characteristics:</P>
+<P>In the case of Switzerland ICAO VFR map, general knowledge has it that Switzerland uses the so-called <VAR>CH-1903</VAR> datum for most of its maps, while close inspection of the map itself (in paper format) reveals its other geodetic characteristics:</P>
 <UL>
 <LI>Datum: <B>CH-1903</B></LI>
 <LI>Units: <B>meters</B></LI>
@@ -484,12 +484,12 @@ PROJCS[&quot;World_Mercator&quot;,
 
 <H3>Step 6: Find-Out GDAL (PROJ.4) Codes for the Datum, Projection and Ellipsoid</H3>
 <DIV CLASS="H3">
-<P>Once you know the actual geodetic characteristics of your chart, we need to find the corresponding stanza to feed to <CITE>GDAL</CITE>.</P>
-<P><CITE>GDAL</CITE> actually relies on the <A HREF="http://proj.osgeo.org/" TARGET="_blank"><CITE>PROJ.4</CITE></A> project and library to do its internal magic. We must thus find-out the <CITE>PROJ.4</CITE> codes that match the geodetic characteristics of the chart.</P>
+<P>Once you know the actual geodetic characteristics of your map, we need to find the corresponding stanza to feed to <CITE>GDAL</CITE>.</P>
+<P><CITE>GDAL</CITE> actually relies on the <A HREF="http://proj.osgeo.org/" TARGET="_blank"><CITE>PROJ.4</CITE></A> project and library to do its internal magic. We must thus find-out the <CITE>PROJ.4</CITE> codes that match the geodetic characteristics of the map.</P>
 
 <H4>Using the EPSG Database</H4>
 <DIV CLASS="H4">
-<P>Most common chart reference and transformation systems are listed and attributed a unique ID number by the <A HREF="http://www.epsg.org/" TARGET="_blank"><CITE>European Petroleum Survey Group (EPSG)</CITE></A>. The <CITE>PROJ.4</CITE> project keeps a list of those <CITE>EPSG</CITE> numbers as part of its resources, which can then be fed to the <CODE>-a_srs EPSG:&lt;ID&gt;</CODE> option of the <CODE>gdal_translate</CODE> utility in place of the actual geodetic characteristics (<CODE>+proj=... +datum=... +ellps=... +units=...</CODE>).</P>
+<P>Most common map reference and transformation systems are listed and attributed a unique ID number by the <A HREF="http://www.epsg.org/" TARGET="_blank"><CITE>European Petroleum Survey Group (EPSG)</CITE></A>. The <CITE>PROJ.4</CITE> project keeps a list of those <CITE>EPSG</CITE> numbers as part of its resources, which can then be fed to the <CODE>-a_srs EPSG:&lt;ID&gt;</CODE> option of the <CODE>gdal_translate</CODE> utility in place of the actual geodetic characteristics (<CODE>+proj=... +datum=... +ellps=... +units=...</CODE>).</P>
 <PRE>
 $ cat /usr/share/proj/epsg
 [...]
@@ -505,7 +505,7 @@ $ cat /usr/share/proj/epsg
 
 <H4>Using the PROJ Utility</H4>
 <DIV CLASS="H4">
-<P>The <CODE>proj</CODE> utility allows you to list its supported projections, datums and ellipsoids. You may thus find the <CITE>PROJ.4</CITE> codes matching your chart's geodetic characteristics:</P>
+<P>The <CODE>proj</CODE> utility allows you to list its supported projections, datums and ellipsoids. You may thus find the <CITE>PROJ.4</CITE> codes matching your map's geodetic characteristics:</P>
 <PRE>
 $ proj -lp  # Projections ('+proj=...')
 $ proj -ld  # Datums ('+datum=...')
@@ -514,17 +514,17 @@ $ proj -lu  # Units ('+units=...')
 </PRE>
 </DIV><!-- DIV CLASS="H4" -->
 
-<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<H4>OpenStreetMap (MOBAC) Example</H4>
 <DIV CLASS="H4">
 <P>Matching the content of <CODE>openstreetmap-world.png.aux.xml</CODE> file (see above) to the <CITE>EPSG</CITE> database's leads us straight to the corresponding <B>EPSG&nbsp;ID:&nbsp;3395</B>.</P>
 </DIV><!-- DIV CLASS="H4" -->
 
-<H4>Switzerland ICAO VFR Chart Example</H4>
+<H4>Switzerland ICAO VFR Map Example</H4>
 <DIV CLASS="H4">
-<P>Based on the data already at hand, we could erroneously jump to conclusions and choose the <CITE>EPSG</CITE> ID 21781 as the solution to our problem. While this would be fine for Switzerland topographic maps (which use a <I>Swiss Oblique Mercator</I> projection; <CODE>+proj=somerc</CODE> in <CITE>PROJ.4</CITE> stanza), it is not correct for the ICAO VFR chart, which uses a <B>Lambert Conform Conical</B> projection (<CODE>+proj=lcc</CODE> in <CITE>PROJ.4</CITE> stanza).</P>
+<P>Based on the data already at hand, we could erroneously jump to conclusions and choose the <CITE>EPSG</CITE> ID 21781 as the solution to our problem. While this would be fine for Switzerland topographic maps (which use a <I>Swiss Oblique Mercator</I> projection; <CODE>+proj=somerc</CODE> in <CITE>PROJ.4</CITE> stanza), it is not correct for the ICAO VFR map, which uses a <B>Lambert Conform Conical</B> projection (<CODE>+proj=lcc</CODE> in <CITE>PROJ.4</CITE> stanza).</P>
 <P>Unfortunately, there is no <CITE>EPSG</CITE> ID that matches this particular projection along with the <B>CH-1903</B> datum.</P>
-<P>Besides, since QVCT uses the <VAR>WGS-84</VAR> reference system internally, we MUST either have a chart that uses the <VAR>WGS-84</VAR> datum or one that has an <CITE>EPSG</CITE> entry which provides the <CODE>+towgs84=...</CODE> <CITE>PROJ.4</CITE> stanza to perform the tranformation from one datum to the other.</P>
-<P>Thus, the only way we can use the Switzerland ICAO VFR chart is by pretending it actually uses the <VAR>WGS-84</VAR> datum and adjusting the reference point coordinates correspondingly:</P>
+<P>Besides, since QVCT uses the <VAR>WGS-84</VAR> reference system internally, we MUST either have a map that uses the <VAR>WGS-84</VAR> datum or one that has an <CITE>EPSG</CITE> entry which provides the <CODE>+towgs84=...</CODE> <CITE>PROJ.4</CITE> stanza to perform the tranformation from one datum to the other.</P>
+<P>Thus, the only way we can use the Switzerland ICAO VFR map is by pretending it actually uses the <VAR>WGS-84</VAR> datum and adjusting the reference point coordinates correspondingly:</P>
 <PRE>
 +proj=lcc
 +lat_1=46d57'03.9\"N +lat_2=46d57'03.9\"N +lat_0=46d57'03.9\"N +lon_0=7d26'19.1\"E
@@ -533,16 +533,16 @@ $ proj -lu  # Units ('+units=...')
 +ellps=WGS84
 +no_defs
 </PRE>
-<P>Where <B>46d57'03.9&quot;N 7d26'19.1&quot;E</B> are the <B>WGS-84</B> coordinates of the reference point (Bern old observatory). Practically, this leads to no discernable error when using the chart in QVCT.</P>
+<P>Where <B>46d57'03.9&quot;N 7d26'19.1&quot;E</B> are the <B>WGS-84</B> coordinates of the reference point (Bern old observatory). Practically, this leads to no discernable error when using the map in QVCT.</P>
 </DIV><!-- DIV CLASS="H4" -->
 
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3>Step 7: Georeference your Chart using GDAL</H3>
+<H3>Step 7: Georeference your Map using GDAL</H3>
 <DIV CLASS="H3">
 <P>Now comes the easiest part: the creation of the final georeferenced <CITE>GeoTIFF</CITE> file, which is performed using the <CODE>gdal_translate</CODE> utility...</P>
 
-<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<H4>OpenStreetMap (MOBAC) Example</H4>
 <DIV CLASS="H4">
 <P>... using the <B>coordinates of the upper-left and lower-right corners</B> and the <B>EPSG ID</B> you now have at hand:</P>
 <PRE>
@@ -554,7 +554,7 @@ $ gdal_translate \
 </PRE>
 </DIV><!-- DIV CLASS="H4" -->
 
-<H4>Switzerland ICAO VFR Chart Example</H4>
+<H4>Switzerland ICAO VFR Map Example</H4>
 <DIV CLASS="H4">
 <P>... using the <B>coordinates of the upper-left and lower-right corners</B> and the <B>geodetic parameters</B> you now have at hand:</P>
 <PRE>
@@ -569,11 +569,11 @@ $ gdal_translate \
 
 </DIV><!-- DIV CLASS="H3" -->
 
-<H3>Step 8: Checking and Using your Chart in QVCT</H3>
+<H3>Step 8: Checking and Using your Map in QVCT</H3>
 <DIV CLASS="H3">
-<P>Before loading the chart in QVCT, you may want to check whether its georeferencing data actually make sense, using <CITE>GDAL</CITE>'s <CODE>gdalinfo</CODE> utility one last time:</P>
+<P>Before loading the map in QVCT, you may want to check whether its georeferencing data actually make sense, using <CITE>GDAL</CITE>'s <CODE>gdalinfo</CODE> utility one last time:</P>
 
-<H4>OpenStreetMap (MOBAC) Chart Example</H4>
+<H4>OpenStreetMap (MOBAC) Example</H4>
 <DIV CLASS="H4">
 <PRE>
 $ gdalinfo -nomd -nogcp -noct openstreetmap-world.geo.tif
@@ -609,7 +609,7 @@ Center      (   -2445.985,    2440.780) (  0d 1'19.10"W,  0d 1'19.47"N)
 Band 1 Block=256x256 Type=Byte, ColorInterp=Palette
   Color Table (RGB with 256 entries)
 </PRE>
-<P><B>You're done!</B> You may now enjoy your new chart in QVCT.</P>
+<P><B>You're done!</B> You may now enjoy your new map in QVCT.</P>
 </DIV><!-- DIV CLASS="H4" -->
 
 </DIV><!-- DIV CLASS="H3" -->

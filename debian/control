@@ -23,12 +23,12 @@ Description: Qt Virtual Chart Table (QVCT)
   - using easily identifiable landmarks as references
   - navigating along discrete waypoints routes
   - relying on GPS only as a secondary navigation mean
-  - using offline charts (rather than Internet-dependent online resources)
+  - using offline maps (rather than Internet-dependent online resources)
  .
  It features:
-  - loading offline geo-referenced charts, stored in any format/projection
+  - loading offline geo-referenced maps, stored in any format/projection
     supported by the Geospatial Data Abstraction Library (GDAL)
-  - associating a digital elevation model (DEM) to any chart, stored in any
+  - associating a digital elevation model (DEM) to any map, stored in any
     format/projection supported by the Geospatial Data Abstraction Library (GDAL)
   - creating, loading, saving and managing landmarks, routes and tracks, stored
     in GPX or QVCT (XML) format
@@ -43,7 +43,7 @@ Description: Qt Virtual Chart Table (QVCT)
     format
   - displaying vessel instruments in an activity-specific cockpit, including:
      * general aviation "basic six"
-  - printing charts and overlays (landmarks, routes, etc.) in standard (screen)
+  - printing maps and overlays (landmarks, routes, etc.) in standard (screen)
     or high (1200 DPI) resolution
   - touchscreen-friendly user interface (you really don't need a mouse or key-
     board while navigating)
@@ -55,7 +55,7 @@ Recommends: qvct
 Description: Qt Virtual Chart Table (QVCT) - User Manual
  Contents:
   - user interface presentation
-  - chart creation instructions
+  - map (chart) creation instructions
 
 Package: qvct-doc-devel
 Section: misc
