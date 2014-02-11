@@ -22,6 +22,7 @@
 // QT
 #include <QAbstractSocket> // QtNetwork module
 #include <QDomElement> // QtXml module
+#include <QHash>
 #include <QString>
 #include <QTcpSocket> // QtNetwork module
 #include <QXmlStreamWriter>
@@ -56,6 +57,9 @@ private:
   /// Time zone
   /** @see setTimeZone(), getTimeZone() */
   CUnitTimeZone::EUnit eTimeZone;
+  /// Callsign lookup
+  /** @see setCallsignLookup(), isCallsignLookup() */
+  bool bCallsignLookup;
   /// Ground traffic (inclusion/track)
   /** @see setGroundTraffic(), isGroundTraffic() */
   bool bGroundTraffic;
@@ -66,6 +70,22 @@ private:
   /// Pause status
   bool bPaused;
 
+  /// Callsign dictionary entry
+  class CCallsign
+  {
+  public:
+    /// Callsign
+    QString qsCallsign;
+    /// Insert/update timestamp
+    double fdTimestamp;
+  public:
+    CCallsign() : qsCallsign(), fdTimestamp( 0 ) {};
+    CCallsign( const QString& _rqsCallsign, double _fdTimestamp ) : qsCallsign( _rqsCallsign ), fdTimestamp( _fdTimestamp ) {};
+    void update( const QString& _rqsCallsign, double _fdTimestamp ) { qsCallsign = _rqsCallsign; fdTimestamp = _fdTimestamp; };
+    void update( double _fdTimestamp ) { fdTimestamp = _fdTimestamp; };
+  };
+  /// Callsign dictionary
+  QHash<QString,CCallsign> qHashCallsign;
 
   //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR
@@ -117,6 +137,8 @@ public:
   void setPort( int _iPort ) { iPort = _iPort; };
   // Sets the SBS-1 device's time zone
   void setTimeZone( CUnitTimeZone::EUnit _eTimeZone ) { eTimeZone = _eTimeZone; };
+  // Sets callsign lookup state
+  void setCallsignLookup( bool _bCallsignLookup ) { bCallsignLookup = _bCallsignLookup; };
   // Sets ground traffic (inclusion/track) state
   void setGroundTraffic( bool _bGroundTraffic ) { bGroundTraffic = _bGroundTraffic; };
 
@@ -128,6 +150,8 @@ public:
   int getPort() { return iPort; };
   // Returns the SBS-1 device's time zone
   CUnitTimeZone::EUnit getTimeZone() { return eTimeZone; };
+  // Returns callsign lookup state
+  bool isCallsignLookup() { return bCallsignLookup; };
   // Returns ground traffic (inclusion/track) state
   bool isGroundTraffic() { return bGroundTraffic; };
 

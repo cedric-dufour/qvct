@@ -23,6 +23,7 @@
 #include <QAbstractSocket> // QtNetwork module
 #include <QDateTime>
 #include <QDomElement> // QtXml module
+#include <QHash>
 #include <QRegExp>
 #include <QString>
 #include <QTcpSocket> // QtNetwork module
@@ -45,6 +46,7 @@ CDeviceTcpSbs1::CDeviceTcpSbs1( const QString& _rqsName )
   , qsHost( "127.0.0.1" )
   , iPort( 30003 )
   , eTimeZone( CUnitTimeZone::LOCAL )
+  , bCallsignLookup( true )
   , bGroundTraffic( false )
   , pqTcpSocket( 0 )
   , bStarted( false )
@@ -115,7 +117,8 @@ void CDeviceTcpSbs1::parseQVCT( const QDomElement& _rqDomElement )
   qsHost = __qDomElement.attribute( "host", "127.0.0.1" );
   iPort = __qDomElement.attribute( "port", "30003" ).toInt();
   eTimeZone = CUnitTimeZone::fromCode( __qDomElement.attribute( "time_zone", "local" ) );
-  bGroundTraffic = (bool)__qDomElement.attribute( "ground_traffic", "1" ).toInt();
+  bCallsignLookup = (bool)__qDomElement.attribute( "callsign_lookup", "1" ).toInt();
+  bGroundTraffic = (bool)__qDomElement.attribute( "ground_traffic", "0" ).toInt();
 }
 
 void CDeviceTcpSbs1::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
@@ -130,6 +133,7 @@ void CDeviceTcpSbs1::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
   _rqXmlStreamWriter.writeAttribute( "host", qsHost );
   _rqXmlStreamWriter.writeAttribute( "port", QString::number( iPort ) );
   _rqXmlStreamWriter.writeAttribute( "time_zone", CUnitTimeZone::toCode( eTimeZone ) );
+  _rqXmlStreamWriter.writeAttribute( "callsign_lookup", QString::number( (int)bCallsignLookup ) );
   _rqXmlStreamWriter.writeAttribute( "ground_traffic", QString::number( (int)bGroundTraffic ) );
   _rqXmlStreamWriter.writeEndElement(); // Configuration
   // ... [end]
@@ -201,6 +205,34 @@ void CDeviceTcpSbs1::slotProcessData()
     QString __qsSource = __qDataFields.at( 4 );
     //qDebug( "DEBUG[%s]: SBS-1 data are available from source %s", Q_FUNC_INFO, qPrintable( __qsSource ) );
 
+    // Callsign lookup
+    if( bCallsignLookup )
+    {
+      QString __qsCallsign;
+      double __fdTimestamp = microtime();
+      if( !__qDataFields.at( 10 ).isEmpty() )
+      {
+        __qsCallsign = __qDataFields.at( 10 );
+        if( qHashCallsign.contains( __qsSource ) )
+          qHashCallsign[ __qsSource ].update( __qsCallsign, __fdTimestamp );
+        else
+          qHashCallsign.insert( __qsSource, CCallsign( __qsCallsign, __fdTimestamp ) );
+      }
+      else
+      {
+        if( !qHashCallsign.contains( __qsSource ) ) continue;
+        CCallsign& __roCallsign = qHashCallsign[ __qsSource ];
+        if( __fdTimestamp - __roCallsign.fdTimestamp > (double)900.0 )
+        {
+          qHashCallsign.remove( __qsSource );
+          continue;
+        }
+        __qsCallsign = __roCallsign.qsCallsign;
+        __roCallsign.update( __fdTimestamp );
+      }
+      __qsSource = __qsCallsign;
+    }
+
     // Parse SBS-1 data
     CDeviceDataFix __oDeviceDataFix( __qsSource );
     __oDeviceDataFix.setSourceType( CDeviceDataSource::SBS );
@@ -264,10 +296,10 @@ void CDeviceTcpSbs1::slotProcessData()
       __bDataAvailable = true;
     }
 
-    // ... callsign
-    if( !__qDataFields.at( 10 ).isEmpty() )
+    // ... hexident/callsign
+    if( bCallsignLookup || !__qDataFields.at( 10 ).isEmpty() )
     {
-      __oDeviceDataFix.setText( __qDataFields.at( 10 ) );
+      __oDeviceDataFix.setText( bCallsignLookup ? "HEX:"+__qDataFields.at( 4 ) : "C/S"+__qDataFields.at( 10 ) );
       __bDataAvailable = true;
     }
 

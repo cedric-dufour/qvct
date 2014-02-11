@@ -81,6 +81,10 @@ void CDeviceTcpSbs1EditView::constructLayout()
   pqComboBoxTimeZone->addItems( QStringList( CUnitTimeZone::symbols().values() ) );
   pqComboBoxTimeZone->setCurrentIndex( pqComboBoxTimeZone->findText( CUnitTimeZone::toSymbol( __poDeviceTcpSbs1->getTimeZone() ) ) );
   __pqFormLayout->addRow( tr("Time Zone")+":", pqComboBoxTimeZone );
+  // ... callsign lookup
+  pqCheckBoxCallsignLookup = new QCheckBox( this );
+  pqCheckBoxCallsignLookup->setCheckState( __poDeviceTcpSbs1->isCallsignLookup() ? Qt::Checked : Qt::Unchecked );
+  __pqFormLayout->addRow( tr("Use Callsign")+":", pqCheckBoxCallsignLookup );
   // ... ground traffic (inclusion/track)
   pqCheckBoxGroundTraffic = new QCheckBox( this );
   pqCheckBoxGroundTraffic->setCheckState( __poDeviceTcpSbs1->isGroundTraffic() ? Qt::Checked : Qt::Unchecked );
@@ -126,6 +130,8 @@ void CDeviceTcpSbs1EditView::accept()
   __poDeviceTcpSbs1->setPort( __iPort );
   // ... time zone
   __poDeviceTcpSbs1->setTimeZone( CUnitTimeZone::fromSymbol( pqComboBoxTimeZone->currentText() ) );
+  // ... callsign lookup
+  __poDeviceTcpSbs1->setCallsignLookup( pqCheckBoxCallsignLookup->checkState() == Qt::Checked );
   // ... ground traffic (inclusion/track)
   __poDeviceTcpSbs1->setGroundTraffic( pqCheckBoxGroundTraffic->checkState() == Qt::Checked );
 

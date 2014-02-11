@@ -51,6 +51,8 @@ private:
   QLineEdit* pqLineEditPort;
   /// [UI:ComboBox] Time zone
   QComboBox* pqComboBoxTimeZone;
+  /// [UI:CheckBox] Callsign lookup
+  QCheckBox* pqCheckBoxCallsignLookup;
   /// [UI:CheckBox] Ground traffic
   QCheckBox* pqCheckBoxGroundTraffic;
 
