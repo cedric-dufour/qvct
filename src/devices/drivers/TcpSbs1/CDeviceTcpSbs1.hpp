@@ -82,10 +82,12 @@ private:
     CCallsign() : qsCallsign(), fdTimestamp( 0 ) {};
     CCallsign( const QString& _rqsCallsign, double _fdTimestamp ) : qsCallsign( _rqsCallsign ), fdTimestamp( _fdTimestamp ) {};
     void update( const QString& _rqsCallsign, double _fdTimestamp ) { qsCallsign = _rqsCallsign; fdTimestamp = _fdTimestamp; };
-    void update( double _fdTimestamp ) { fdTimestamp = _fdTimestamp; };
+    QString& get( double _fdTimestamp ) { fdTimestamp = _fdTimestamp; return qsCallsign; };
   };
   /// Callsign dictionary
   QHash<QString,CCallsign> qHashCallsign;
+  /// Callsign dictionary cleanup timestamp
+  double fdCallsignCleanupTimestamp;
 
   //------------------------------------------------------------------------------
   // CONSTRUCTORS / DESTRUCTOR

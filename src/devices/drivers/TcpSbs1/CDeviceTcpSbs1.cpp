@@ -24,6 +24,7 @@
 #include <QDateTime>
 #include <QDomElement> // QtXml module
 #include <QHash>
+#include <QList>
 #include <QRegExp>
 #include <QString>
 #include <QTcpSocket> // QtNetwork module
@@ -51,6 +52,7 @@ CDeviceTcpSbs1::CDeviceTcpSbs1( const QString& _rqsName )
   , pqTcpSocket( 0 )
   , bStarted( false )
   , bPaused( false )
+  , fdCallsignCleanupTimestamp( 0 )
 {
   pqTcpSocket = new QTcpSocket( this );
   QObject::connect( pqTcpSocket, SIGNAL( connected() ), this, SLOT( slotTcpConnected() ) );
@@ -210,6 +212,21 @@ void CDeviceTcpSbs1::slotProcessData()
     {
       QString __qsCallsign;
       double __fdTimestamp = microtime();
+
+      // Dictionary cleanup (every 300 seconds)
+      if( __fdTimestamp - fdCallsignCleanupTimestamp > (double)300.0 )
+      {
+        fdCallsignCleanupTimestamp = __fdTimestamp;
+        QList<QString> __qListSource = qHashCallsign.keys();
+        for( QList<QString>::const_iterator __iqsSource = __qListSource.begin();
+             __iqsSource != __qListSource.end();
+             ++__iqsSource )
+          // Cleanup stale entries (older than 900 seconds)
+          if( __fdTimestamp - qHashCallsign[ *__iqsSource ].fdTimestamp > (double)900.0 )
+            qHashCallsign.remove( *__iqsSource );
+      }
+
+      // Actual lookup
       if( !__qDataFields.at( 10 ).isEmpty() )
       {
         __qsCallsign = __qDataFields.at( 10 );
@@ -221,15 +238,10 @@ void CDeviceTcpSbs1::slotProcessData()
       else
       {
         if( !qHashCallsign.contains( __qsSource ) ) continue;
-        CCallsign& __roCallsign = qHashCallsign[ __qsSource ];
-        if( __fdTimestamp - __roCallsign.fdTimestamp > (double)900.0 )
-        {
-          qHashCallsign.remove( __qsSource );
-          continue;
-        }
-        __qsCallsign = __roCallsign.qsCallsign;
-        __roCallsign.update( __fdTimestamp );
+        __qsCallsign = qHashCallsign[ __qsSource ].get( __fdTimestamp );
       }
+
+      // Use looked-up callsign
       __qsSource = __qsCallsign;
     }
 
@@ -326,6 +338,7 @@ QVCT::EStatus CDeviceTcpSbs1::stop()
   if( bStarted )
   {
     pqTcpSocket->abort();
+    qHashCallsign.clear();
     bStarted = false;
   }
   qDebug( "DEBUG[%s]: Device successfully stopped", Q_FUNC_INFO );
@@ -348,6 +361,7 @@ QVCT::EStatus CDeviceTcpSbs1::start()
 {
   if( bStarted ) return QVCT::OK;
   bPaused = false;
+  fdCallsignCleanupTimestamp = microtime();
   pqTcpSocket->connectToHost( qsHost, iPort, QIODevice::ReadOnly );
   // NOTE: device is further "started" once the 'connected' signal is received
   return QVCT::OK;
