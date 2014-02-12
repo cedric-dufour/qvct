@@ -162,8 +162,10 @@ public:
 public:
   /// Connects to the actual device
   bool connectDevice();
-  /// Dicconnects from the actual device
+  /// Disconnects from the actual device
   void disconnectDevice();
+  /// Synchronizes fix data (sent by device)
+  void syncDataFix( const CDeviceDataFix& _roDeviceDataFix );
 
 public:
   /// Retrieves this object's content from the given QVCT source (file)

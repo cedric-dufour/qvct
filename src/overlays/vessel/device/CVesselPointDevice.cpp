@@ -94,6 +94,65 @@ void CVesselPointDevice::slotDestroyed( QObject* _pqObject )
 
 void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
 {
+  syncDataFix( _roDeviceDataFix );
+}
+
+void CVesselPointDevice::slotDataSkyView( const CDeviceDataSkyView& _roDeviceDataSkyView )
+{
+  if( !CDeviceDataFix::getSourceName().isEmpty()
+      && CDeviceDataFix::getSourceName() != _roDeviceDataSkyView.getSourceName() ) return;
+  if( _roDeviceDataSkyView.CDeviceDataDop::operator==( CDeviceDataDop::UNDEFINED ) ) return;
+  CDeviceDataFix::setDop( _roDeviceDataSkyView );
+  emit signalRefreshContent();
+}
+
+//
+// SETTERS
+//
+
+void CVesselPointDevice::setSynchronized( bool _bSynchronizePosition, bool _bSynchronizeElevation, bool _bSynchronizeTime,
+                                          bool _bSynchronizeGroundBearing, bool _bSynchronizeGroundSpeed, bool _bSynchronizeGroundSpeedVertical,
+                                          bool _bSynchronizeApparentBearing, bool _bSynchronizeApparentSpeed, bool _bSynchronizeApparentSpeedVertical,
+                                          bool _bSynchronizeText )
+{
+  bSynchronizePosition = _bSynchronizePosition;
+  bSynchronizeElevation = _bSynchronizeElevation;
+  bSynchronizeTime = _bSynchronizeTime;
+  bSynchronizeGroundBearing = _bSynchronizeGroundBearing;
+  bSynchronizeGroundSpeed = _bSynchronizeGroundSpeed;
+  bSynchronizeGroundSpeedVertical = _bSynchronizeGroundSpeedVertical;
+  bSynchronizeApparentBearing = _bSynchronizeApparentBearing;
+  bSynchronizeApparentSpeed = _bSynchronizeApparentSpeed;
+  bSynchronizeApparentSpeedVertical = _bSynchronizeApparentSpeedVertical;
+  bSynchronizeText = _bSynchronizeText;
+}
+
+//
+// OTHER
+//
+
+bool CVesselPointDevice::connectDevice()
+{
+  if( poDevice ) return true;
+  CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
+  CDevice* __poDevice = __poDeviceOverlay->pickDevice( COverlayObject::getName() );
+  if( !__poDevice ) return false;
+  poDevice = __poDevice;
+  QObject::connect( poDevice, SIGNAL( destroyed(QObject*) ), this, SLOT( slotDestroyed(QObject*) ) );
+  QObject::connect( poDevice, SIGNAL( signalDataFix(const CDeviceDataFix&) ), this, SLOT( slotDataFix(const CDeviceDataFix&) ) );
+  QObject::connect( poDevice, SIGNAL( signalDataSkyView(const CDeviceDataSkyView&) ), this, SLOT( slotDataSkyView(const CDeviceDataSkyView&) ) );
+  return true;
+}
+
+void CVesselPointDevice::disconnectDevice()
+{
+  if( !poDevice ) return;
+  QObject::disconnect( poDevice, 0, this, 0 );
+  poDevice = 0;
+}
+
+void CVesselPointDevice::syncDataFix( const CDeviceDataFix& _roDeviceDataFix )
+{
   if( !CDeviceDataFix::getSourceName().isEmpty()
       && CDeviceDataFix::getSourceName() != _roDeviceDataFix.getSourceName() ) return;
 
@@ -340,60 +399,6 @@ void CVesselPointDevice::slotDataFix( const CDeviceDataFix& _roDeviceDataFix )
     QVCTRuntime::useChartTable()->setProjectModified();
   }
   emit signalRefreshContent();
-}
-
-void CVesselPointDevice::slotDataSkyView( const CDeviceDataSkyView& _roDeviceDataSkyView )
-{
-  if( !CDeviceDataFix::getSourceName().isEmpty()
-      && CDeviceDataFix::getSourceName() != _roDeviceDataSkyView.getSourceName() ) return;
-  if( _roDeviceDataSkyView.CDeviceDataDop::operator==( CDeviceDataDop::UNDEFINED ) ) return;
-  CDeviceDataFix::setDop( _roDeviceDataSkyView );
-  emit signalRefreshContent();
-}
-
-//
-// SETTERS
-//
-
-void CVesselPointDevice::setSynchronized( bool _bSynchronizePosition, bool _bSynchronizeElevation, bool _bSynchronizeTime,
-                                          bool _bSynchronizeGroundBearing, bool _bSynchronizeGroundSpeed, bool _bSynchronizeGroundSpeedVertical,
-                                          bool _bSynchronizeApparentBearing, bool _bSynchronizeApparentSpeed, bool _bSynchronizeApparentSpeedVertical,
-                                          bool _bSynchronizeText )
-{
-  bSynchronizePosition = _bSynchronizePosition;
-  bSynchronizeElevation = _bSynchronizeElevation;
-  bSynchronizeTime = _bSynchronizeTime;
-  bSynchronizeGroundBearing = _bSynchronizeGroundBearing;
-  bSynchronizeGroundSpeed = _bSynchronizeGroundSpeed;
-  bSynchronizeGroundSpeedVertical = _bSynchronizeGroundSpeedVertical;
-  bSynchronizeApparentBearing = _bSynchronizeApparentBearing;
-  bSynchronizeApparentSpeed = _bSynchronizeApparentSpeed;
-  bSynchronizeApparentSpeedVertical = _bSynchronizeApparentSpeedVertical;
-  bSynchronizeText = _bSynchronizeText;
-}
-
-//
-// OTHER
-//
-
-bool CVesselPointDevice::connectDevice()
-{
-  if( poDevice ) return true;
-  CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
-  CDevice* __poDevice = __poDeviceOverlay->pickDevice( COverlayObject::getName() );
-  if( !__poDevice ) return false;
-  poDevice = __poDevice;
-  QObject::connect( poDevice, SIGNAL( destroyed(QObject*) ), this, SLOT( slotDestroyed(QObject*) ) );
-  QObject::connect( poDevice, SIGNAL( signalDataFix(const CDeviceDataFix&) ), this, SLOT( slotDataFix(const CDeviceDataFix&) ) );
-  QObject::connect( poDevice, SIGNAL( signalDataSkyView(const CDeviceDataSkyView&) ), this, SLOT( slotDataSkyView(const CDeviceDataSkyView&) ) );
-  return true;
-}
-
-void CVesselPointDevice::disconnectDevice()
-{
-  if( !poDevice ) return;
-  QObject::disconnect( poDevice, 0, this, 0 );
-  poDevice = 0;
 }
 
 void CVesselPointDevice::parseQVCT( const QDomElement& _rqDomElement )

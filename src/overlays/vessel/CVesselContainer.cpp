@@ -28,6 +28,7 @@
 
 // QVCT
 #include "QVCTRuntime.hpp"
+#include "devices/data/CDeviceDataFix.hpp"
 #include "overlays/vessel/CVesselContainer.hpp"
 #include "overlays/vessel/CVesselContainerEditView.hpp"
 #include "overlays/vessel/CVesselPoint.hpp"
@@ -252,26 +253,27 @@ CVesselPoint* CVesselContainer::addPoint( const QString& _rqsName, const CDataPo
   return __poVesselPoint;
 }
 
-void CVesselContainer::addPointDynamic( const QString& _rqsName, const QString& _rqsDeviceName )
+void CVesselContainer::addPointDynamic( const CDeviceDataFix& _roDeviceDataFix, const QString& _rqsDeviceName )
 {
   if( !bDynamic ) return;
   int __iCount = QTreeWidgetItem::childCount();
   for( int __i = 1; __i < __iCount; __i++ )
   {
     CVesselPoint* __poVesselPoint = (CVesselPoint*)QTreeWidgetItem::child( __i );
-    if( __poVesselPoint->getName() == _rqsName ) return;
+    if( __poVesselPoint->getName() == _roDeviceDataFix.getSourceName() ) return;
   }
-  CVesselPoint* __poVesselPoint = new CVesselPoint( _rqsName, true );
+  CVesselPoint* __poVesselPoint = new CVesselPoint( _roDeviceDataFix.getSourceName(), true );
   __poVesselPoint->setType( tr("Dynamic Vessel") );
   __poVesselPoint->setDescription( tr("This vessel has been automatically added as a result of the parent flotilla's device activity.") );
   __poVesselPoint->setSymbol( "DynamicVessel" );
   QTreeWidgetItem::addChild( __poVesselPoint );
-  CVesselPointDevice* __poVesselPointDevice = new CVesselPointDevice( _rqsDeviceName, _rqsName, true );
+  CVesselPointDevice* __poVesselPointDevice = new CVesselPointDevice( _rqsDeviceName, _roDeviceDataFix.getSourceName(), true );
   __poVesselPointDevice->setSynchronized( true, true, true,    // position & elevation
                                           true, true, true,    // ground course
                                           false, false, false, // apparent course
                                           true );              // additional textual data
   __poVesselPoint->addChild( __poVesselPointDevice );
+  __poVesselPointDevice->syncDataFix( _roDeviceDataFix );
   __poVesselPointDevice->connectDevice();
 }
 

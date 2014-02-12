@@ -28,6 +28,7 @@
 
 // QVCT
 #include "data/CDataPosition.hpp"
+#include "devices/data/CDeviceDataFix.hpp"
 #include "overlays/COverlayContainer.hpp"
 #include "overlays/COverlayVisibility.hpp"
 class CChart;
@@ -167,9 +168,9 @@ public:
 public:
   /// Add a new vessel (item/point) to this container
   CVesselPoint* addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition = CDataPosition::UNDEFINED );
-  /// Add a new dynamic vessel (item/point) with the given name to this container
+  /// Add a new dynamic vessel (item/point) with the given data fix to this container
   /** NOTE: If a vessel with a matching name already exists, none is created */
-  void addPointDynamic( const QString& _rqsName, const QString& _rqsDeviceName );
+  void addPointDynamic( const CDeviceDataFix& _roDeviceDataFix, const QString& _rqsDeviceName );
   /// Deletes dynamic vessels (items/points) that have not been updated for the given "time-to-live" seconds
   int cleanPointDynamic( int _iTTL );
 
