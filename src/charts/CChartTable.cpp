@@ -830,6 +830,20 @@ bool CChartTable::extendPointerPath( const CDataPosition& _roGeoPosition )
   return false;
 }
 
+void CChartTable::setOverlayObjectSelected( COverlayObject* _poOverlayObject )
+{
+  bool __bRedraw = poOverlayObjectSelected != _poOverlayObject;
+  poOverlayObjectSelected = _poOverlayObject;
+  if( __bRedraw )
+  {
+    QVCTRuntime::useLandmarkOverlay()->forceRedraw();
+    QVCTRuntime::useRouteOverlay()->forceRedraw();
+    QVCTRuntime::useVesselOverlay()->forceRedraw();
+    QVCTRuntime::useTrackOverlay()->forceRedraw();
+    updateChart();
+  }
+}
+
 void CChartTable::setOverlayPointMove( COverlayPoint* _poOverlayPoint )
 {
   poOverlayPointMove = _poOverlayPoint;

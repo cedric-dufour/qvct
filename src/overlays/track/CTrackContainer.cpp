@@ -89,6 +89,7 @@ void CTrackContainer::showDetail()
   QVCTRuntime::useTrackContainerDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::TRACK_CONTAINER );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::TRACK );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 void CTrackContainer::showEdit()

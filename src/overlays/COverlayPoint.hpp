@@ -95,7 +95,7 @@ public:
   /// Draws a line (between this and the other specified point), including distance/bearing data
   virtual void drawLine( const CChart* _poChart, QPainter* _pqPainter, const COverlayPoint* _poOverlayPoint );
   /// Draws the point (marker)
-  virtual void drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity = 0 );
+  virtual void drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity = 0, bool _bSelected = false );
   /// Draws the symbol (user-defined)
   virtual void drawSymbol( const CChart* _poChart, QPainter* _pqPainter, const QString& _rqsSymbol );
   /// Draws the tag (name)

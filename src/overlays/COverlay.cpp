@@ -50,8 +50,13 @@ COverlay::COverlay( const QString& _rqsName )
   qBrushMarker.setColor( QColor( 0, 0, 0, 128 ) );
   qPenMarker.setColor( QColor( 0, 0, 0, 192 ) );
   qPenMarker.setStyle( Qt::SolidLine );
-  qPenMarker.setWidth( 4 );
+  qPenMarker.setWidth( 3 );
   qPenMarker.setCapStyle( Qt::RoundCap );
+  qBrushMarkerSelected.setStyle( Qt::NoBrush );
+  qPenMarkerSelected.setColor( QColor( 192, 192, 0, 255 ) );
+  qPenMarkerSelected.setStyle( Qt::SolidLine );
+  qPenMarkerSelected.setWidth( 5 );
+  qPenMarkerSelected.setCapStyle( Qt::RoundCap );
   qPenLine.setColor( QColor( 0, 0, 0, 192 ) );
   qPenLine.setStyle( Qt::SolidLine );
   qPenLine.setWidth( 5 );

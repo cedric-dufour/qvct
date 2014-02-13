@@ -52,4 +52,5 @@ void CPointerPoint::showDetail()
   QVCTRuntime::usePointerPointDetailView()->setOverlayObject( this );
   QVCTRuntime::usePointerPointDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::POINTER_POINT );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( 0 );
 }

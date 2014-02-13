@@ -74,20 +74,13 @@ void CTrackPoint::unserialize( QDataStream& _rqDataStream )
   QTreeWidgetItem::setText( CTrackOverlay::NAME, qsName );
 }
 
-void CTrackPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
-{
-  // Draw
-  if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
-      || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return;
-  COverlayPoint::drawTag( _poChart, _pqPainter );
-}
-
 void CTrackPoint::showDetail()
 {
   QVCTRuntime::useTrackPointDetailView()->setOverlayObject( this );
   QVCTRuntime::useTrackPointDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::TRACK_POINT );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::TRACK );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 

@@ -78,6 +78,7 @@ void CLandmarkContainer::showDetail()
   QVCTRuntime::useLandmarkContainerDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::LANDMARK_CONTAINER );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::LANDMARK );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 void CLandmarkContainer::showEdit()

@@ -78,14 +78,27 @@ void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
   QPen __qPenMultiSelect = QVCTRuntime::useTrackOverlay()->getPenLine();
-  __qPenMultiSelect.setColor( QColor( 0, 192, 0, 192 ) );
+  __qPenMultiSelect.setColor( QColor( 192, 192, 0, 255 ) );
   __qPenMultiSelect.setWidth( __qPenMultiSelect.width() * __fdZoom );
 
   // Draw
   int __iCount = QTreeWidgetItem::childCount();
-  if( __iCount < 2 ) return;
+  if( !__iCount ) return;
   CTrackPoint* __poTrackPointFrom = (CTrackPoint*)QTreeWidgetItem::child( 0 );
   CTrackPoint* __poTrackPointTo = 0;
+  COverlayObject* __poOverlayObjectSelected = QVCTRuntime::useChartTable()->getOverlayObjectSelected();
+  // ... start
+  if( !__poTrackPointFrom->CDataPosition::operator==( CDataPosition::UNDEFINED ) &&
+      __poTrackPointFrom->isVisible() &&
+      _poChart->getDrawArea().contains( _poChart->toDrawPosition( *__poTrackPointFrom ).toPoint() ) )
+  {
+    if( __poOverlayObjectSelected == __poTrackPointFrom ||
+        __poOverlayObjectSelected == this ||
+        __poOverlayObjectSelected == QTreeWidgetItem::parent() )
+      __poTrackPointFrom->COverlayPoint::drawMarker( _poChart, _pqPainter, 0, true );
+    __poTrackPointFrom->COverlayPoint::drawTag( _poChart, _pqPainter );
+  }
+  // ... track
   for( int __i = 1; __i < __iCount; __i++ )
   {
     __poTrackPointTo = (CTrackPoint*)QTreeWidgetItem::child( __i );
@@ -97,13 +110,23 @@ void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
     }
     __poTrackPointFrom = __poTrackPointTo;
   }
-  if( __poTrackPointTo && __poTrackPointFrom->isMultiSelected() )
+  // ... end
+  if( __poTrackPointTo &&
+      !__poTrackPointTo->CDataPosition::operator==( CDataPosition::UNDEFINED ) &&
+      __poTrackPointTo->isVisible() &&
+      _poChart->getDrawArea().contains( _poChart->toDrawPosition( *__poTrackPointTo ).toPoint() ) )
   {
-    _pqPainter->setPen( __qPenMultiSelect );
-    _pqPainter->drawPoint( _poChart->toDrawPosition( *__poTrackPointTo ) );
+    if( __poTrackPointTo->isMultiSelected() )
+    {
+      _pqPainter->setPen( __qPenMultiSelect );
+      _pqPainter->drawPoint( _poChart->toDrawPosition( *__poTrackPointTo ) );
+    }
+    if( __poOverlayObjectSelected == __poTrackPointTo ||
+        __poOverlayObjectSelected == this ||
+        __poOverlayObjectSelected == QTreeWidgetItem::parent() )
+      __poTrackPointTo->COverlayPoint::drawMarker( _poChart, _pqPainter, 0, true );
+    __poTrackPointTo->COverlayPoint::drawTag( _poChart, _pqPainter );
   }
-  ((CTrackPoint*)QTreeWidgetItem::child( 0 ))->draw( _poChart, _pqPainter );
-  ((CTrackPoint*)QTreeWidgetItem::child( __iCount-1 ))->draw( _poChart, _pqPainter );
 }
 
 void CTrackSubContainer::showDetail()
@@ -112,6 +135,7 @@ void CTrackSubContainer::showDetail()
   QVCTRuntime::useTrackSubContainerDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::TRACK_SUBCONTAINER );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::TRACK );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 

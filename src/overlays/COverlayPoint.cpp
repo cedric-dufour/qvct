@@ -182,7 +182,7 @@ void COverlayPoint::drawText( const CChart* _poChart, QPainter* _pqPainter,
   // Draw
   COverlay* __poOverlay = useOverlay();
   QFont __qFont = __poOverlay->getFont();
-  __qFont.setPixelSize( __qFont.pixelSize() * ( __fdZoom >= 0.75 ? __fdZoom : 0.75 ) );
+  __qFont.setPixelSize( __qFont.pixelSize() * __fdZoom );
   __qFont.setBold( false );
   __qFont.setItalic( _bItalic );
   _pqPainter->setFont( __qFont );
@@ -202,7 +202,7 @@ void COverlayPoint::drawText( const CChart* _poChart, QPainter* _pqPainter,
   _pqPainter->drawText( QRectF( __qRectFBackground.topLeft()+__qPointFBackOffset, __qRectFBackground.size() ), Qt::AlignHCenter|Qt::AlignTop, __qsText );
 }
 
-void COverlayPoint::drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity )
+void COverlayPoint::drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity, bool _bSelected )
 {
   // Constant drawing resources
   static const QPointF __qPointFCrosshairA1(6,0), __qPointFCrosshairA2(12,0);
@@ -228,8 +228,16 @@ void COverlayPoint::drawMarker( const CChart* _poChart, QPainter* _pqPainter, co
   __qPen.setWidth( __qPen.width() * __fdZoom );
   if( _poDataPositionValidity && !_poDataPositionValidity->isValidPosition() ) __qPen.setStyle( Qt::DotLine );
   // ... marker
-  _pqPainter->setBrush( __poOverlay->getBrushMarker() );
+  if( _bSelected )
+  {
+    QPen __qPenSelected = __poOverlay->getPenMarkerSelected();
+    __qPenSelected.setWidth( __qPenSelected.width() * __fdZoom );
+    _pqPainter->setPen( __qPenSelected );
+    _pqPainter->setBrush( __poOverlay->getBrushMarkerSelected() );
+    _pqPainter->drawEllipse( __qPointF, 15*__fdZoom, 15*__fdZoom );
+  }
   _pqPainter->setPen( __qPen );
+  _pqPainter->setBrush( __poOverlay->getBrushMarker() );
   _pqPainter->drawEllipse( __qPointF, 9*__fdZoom, 9*__fdZoom );
   _pqPainter->drawPoint( __qPointF );
   _pqPainter->drawLine( __qPointF + __qPointFCrosshairA1*__fdZoom, __qPointF + __qPointFCrosshairA2*__fdZoom );
@@ -280,7 +288,7 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
   // Draw
   COverlay* __poOverlay = useOverlay();
   QFont __qFont = __poOverlay->getFont();
-  int __iFontSize = __qFont.pixelSize() * ( __fdZoom >= 0.75 ? __fdZoom : 0.75 );
+  int __iFontSize = __qFont.pixelSize() * __fdZoom;
   __qFont.setPixelSize( __iFontSize );
 
   // Draw: first pass (find out bounding rect)
@@ -293,7 +301,7 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
   __qFont.setBold( true ); __qFont.setItalic( false ); _pqPainter->setFont( __qFont );
   _pqPainter->drawText( QRectF( __qPointFaux, __qSizeFRect ), Qt::AlignLeft|Qt::AlignTop, __qsName, &__qRectFBounding );
   __qRectFBackground = __qRectFBounding;
-  if( bVisiblePosition && __fdZoom >= 0.75 )
+  if( bVisiblePosition )
   {
     __qFont.setBold( false );
     // ... time
@@ -326,7 +334,7 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
   }
 
   // Position
-  QPointF __qPointFPositionOffset = QPointF( 15*__fdZoom, -20*__fdZoom );
+  QPointF __qPointFPositionOffset = QPointF( 20*__fdZoom, -20*__fdZoom );
   __qRectFBackground.setSize( __qRectFBackground.size() + __qSizeRBackgroundGrow );
   if( _eTagPosition == TAG_AUTO )
     _eTagPosition = __qPointF.x() + __qPointFPositionOffset.x() + __qRectFBackground.width() < _poChart->getDrawArea().width()
@@ -353,7 +361,7 @@ void COverlayPoint::drawTag( const CChart* _poChart, QPainter* _pqPainter, ETagP
   // ... name
   __qFont.setBold( true ); __qFont.setItalic( false ); _pqPainter->setFont( __qFont );
   _pqPainter->drawText( QRectF( __qPointF, __qSizeFRect ), Qt::AlignLeft|Qt::AlignTop, __qsName );
-  if( bVisiblePosition && __fdZoom >= 0.75 )
+  if( bVisiblePosition )
   {
     __qFont.setBold( false );
     // ... time

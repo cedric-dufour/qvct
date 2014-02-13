@@ -77,7 +77,7 @@ public:
   virtual COverlay* useOverlay() { return (COverlay*)QTreeWidgetItem::parent()->parent()->parent(); };
 
 public:
-  virtual void draw( const CChart* _poChart, QPainter* _pqPainter );
+  virtual void draw( const CChart* _poChart, QPainter* _pqPainter ) {};
   virtual void showDetail();
   virtual void showEdit() {};
 

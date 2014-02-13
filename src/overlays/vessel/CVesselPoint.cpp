@@ -128,7 +128,8 @@ void CVesselPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
     COverlayCourse::drawVector( _poChart, _pqPainter, this );
 
   // ... position marker
-  COverlayCourse::drawMarker( _poChart, _pqPainter, this );
+  COverlayObject* __poOverlayObjectSelected = QVCTRuntime::useChartTable()->getOverlayObjectSelected();
+  COverlayCourse::drawMarker( _poChart, _pqPainter, this, __poOverlayObjectSelected == this || __poOverlayObjectSelected == QTreeWidgetItem::parent() );
   if( QVCTRuntime::useSettings()->isVisibleSymbols() ) COverlayPoint::drawSymbol( _poChart, _pqPainter, qsSymbol );
 
   // ... object tag
@@ -143,6 +144,7 @@ void CVesselPoint::showDetail()
   QVCTRuntime::useVesselPointDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::VESSEL_POINT );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::VESSEL );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 void CVesselPoint::showEdit()

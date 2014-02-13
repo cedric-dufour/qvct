@@ -101,6 +101,10 @@ private:
   /** @see enablePointerPathSingle() */
   bool bPointerPathSingle;
 
+  /// Currently selected overlay object
+  /** @see setOverlayObjectSelected(), getOverlayObjectSelected() */
+  COverlayObject* poOverlayObjectSelected;
+
   /// Overlay point being moved (non-0 only when a move is being performed)
   /** @see setOverlayPointMove(), getOverlayPointMove() */
   COverlayPoint* poOverlayPointMove;
@@ -244,6 +248,8 @@ public:
   /** NOTE: The pointer path will be extended only if is was previously enabled.
    *  @see enablePointerPath(), enablePointerSingle() */
   bool extendPointerPath( const CDataPosition& _roGeoPosition );
+  /// Sets the currently selected overlay object
+  void setOverlayObjectSelected( COverlayObject* _poOverlayObject );
   /// Sets the overlay point to be moved (and lock all other actions while it is ongoing)
   void setOverlayPointMove( COverlayPoint* _poOverlayPoint );
   /// Sets the vessel point used to synchronize the chart reference (geographical) position
@@ -259,6 +265,8 @@ public:
   CDataPosition getGeoPosition() const { return oGeoPositionReference; };
   /// Returns the reference scale factor
   double getScale() const { return fdScaleReference; };
+  /// Returns the currently selected overlay object
+  COverlayObject* getOverlayObjectSelected() const { return poOverlayObjectSelected; };
   /// Returns the overlay point currently being moved (0 if none)
   COverlayPoint* getOverlayPointMove() const { return poOverlayPointMove; };
   /// Returns the vessel defined to synchronize the chart reference (geographical) position

@@ -104,6 +104,7 @@ void CRouteContainer::showDetail()
   QVCTRuntime::useRouteContainerDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::ROUTE_CONTAINER );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::ROUTE );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 void CRouteContainer::showEdit()

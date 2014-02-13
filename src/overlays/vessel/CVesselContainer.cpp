@@ -92,6 +92,7 @@ void CVesselContainer::showDetail()
   QVCTRuntime::useVesselContainerDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::VESSEL_CONTAINER );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::VESSEL );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 void CVesselContainer::showEdit()

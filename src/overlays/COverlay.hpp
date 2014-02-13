@@ -80,6 +80,12 @@ protected:
   /// QPen used to draw markers on this overlay
   /** @see COverlayPoint::drawMarker() */
   QPen qPenMarker;
+  /// QBrush used to identify selected markers on this overlay
+  /** @see COverlayPoint::drawMarker() */
+  QBrush qBrushMarkerSelected;
+  /// QPen used to identify selected markers on this overlay
+  /** @see COverlayPoint::drawMarker() */
+  QPen qPenMarkerSelected;
   /// QPen used to draw lines on this overlay
   /** @see COverlayPoint::drawLine() */
   QPen qPenLine;
@@ -118,6 +124,8 @@ public:
   const QPen& getPenText() const { return qPenText; };
   const QBrush& getBrushMarker() const { return qBrushMarker; };
   const QPen& getPenMarker() const { return qPenMarker; };
+  const QBrush& getBrushMarkerSelected() const { return qBrushMarkerSelected; };
+  const QPen& getPenMarkerSelected() const { return qPenMarkerSelected; };
   const QPen& getPenLine() const { return qPenLine; };
   const QPen& getPenVector() const { return qPenVector; };
 

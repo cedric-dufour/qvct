@@ -87,7 +87,8 @@ void CLandmarkPoint::draw( const CChart* _poChart, QPainter* _pqPainter )
   // Draw
   if( CDataPosition::operator==( CDataPosition::UNDEFINED ) || !bVisible
       || !_poChart->getDrawArea().contains( _poChart->toDrawPosition( *this ).toPoint() ) ) return;
-  COverlayPoint::drawMarker( _poChart, _pqPainter );
+  COverlayObject* __poOverlayObjectSelected = QVCTRuntime::useChartTable()->getOverlayObjectSelected();
+  COverlayPoint::drawMarker( _poChart, _pqPainter, 0, __poOverlayObjectSelected == this || __poOverlayObjectSelected == QTreeWidgetItem::parent() );
   if( QVCTRuntime::useSettings()->isVisibleSymbols() ) COverlayPoint::drawSymbol( _poChart, _pqPainter, qsSymbol );
   COverlayPoint::drawTag( _poChart, _pqPainter );
 }
@@ -98,6 +99,7 @@ void CLandmarkPoint::showDetail()
   QVCTRuntime::useLandmarkPointDetailView()->refreshContent();
   QVCTRuntime::useOverlayDetailView()->switchView( COverlayDetailView::LANDMARK_POINT );
   QVCTRuntime::useOverlayListView()->switchView( COverlayListView::LANDMARK );
+  QVCTRuntime::useChartTable()->setOverlayObjectSelected( this );
 }
 
 void CLandmarkPoint::showEdit()

@@ -65,7 +65,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  virtual void drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity = 0 );
+  virtual void drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity = 0, bool _bSelected = false );
 
 
   //------------------------------------------------------------------------------

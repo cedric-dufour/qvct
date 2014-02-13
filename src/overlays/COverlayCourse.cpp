@@ -78,7 +78,7 @@ void COverlayCourse::unserialize( QDataStream& _rqDataStream )
 //------------------------------------------------------------------------------
 
 
-void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity )
+void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, const CDataPositionValidity* _poDataPositionValidity, bool _bSelected )
 {
   // Constant drawing resources
   static const QSize __qSizeSelect(32,32);
@@ -98,11 +98,19 @@ void COverlayCourse::drawMarker( const CChart* _poChart, QPainter* _pqPainter, c
   COverlay* __poOverlay = useOverlay();
   QPen __qPen = __poOverlay->getPenMarker();
   __qPen.setWidth( __qPen.width() * __fdZoom );
-  if( _poDataPositionValidity && !_poDataPositionValidity->isValidPosition() ) __qPen.setStyle( Qt::DotLine );
   // ... marker
   double __fdRadius = 11.0 * __fdZoom;
-  _pqPainter->setBrush( __poOverlay->getBrushMarker() );
+  if( _bSelected )
+  {
+    QPen __qPenSelected = __poOverlay->getPenMarkerSelected();
+    __qPenSelected.setWidth( __qPenSelected.width() * __fdZoom );
+    _pqPainter->setPen( __qPenSelected );
+    _pqPainter->setBrush( __poOverlay->getBrushMarkerSelected() );
+    _pqPainter->drawEllipse( __qPointF, 1.5*__fdRadius, 1.5*__fdRadius );
+  }
+  if( _poDataPositionValidity && !_poDataPositionValidity->isValidPosition() ) __qPen.setStyle( Qt::DotLine );
   _pqPainter->setPen( __qPen );
+  _pqPainter->setBrush( __poOverlay->getBrushMarker() );
   _pqPainter->drawEllipse( __qPointF, __fdRadius, __fdRadius );
   _pqPainter->drawPoint( __qPointF );
   double __fdGroundBearing = CDataCourseGA::GroundCourse.getBearing();
@@ -197,7 +205,7 @@ void COverlayCourse::drawVector( const CChart* _poChart, QPainter* _pqPainter, c
       __qsGroundSpeedVertical = CUnitSpeedVertical::toString( __fdGroundSpeedVertical );
       if( _poDataCourseValidityGA && !_poDataCourseValidityGA->GroundCourseValidity.isValidSpeedVertical() ) __bInvalid = true;
     }
-    double __fdBearingOffset = ( 35.0 + 25.0*fabs( pow( sin( __fdGroundBearing ), 3 ) ) ) * __fdZoom;
+    double __fdBearingOffset = ( 40.0 + 20.0*fabs( pow( sin( __fdGroundBearing ), 3 ) ) ) * __fdZoom;
     drawText( _poChart, _pqPainter, __qsGroundBearing+QString::fromUtf8("·")+__qsGroundSpeed+"\n"+__qsGroundSpeedVertical, __qPointF+QPointF( __fdBearingOffset*sin( __fdGroundBearing ), -__fdBearingOffset*cos( __fdGroundBearing ) ), __bInvalid );
   }
 
