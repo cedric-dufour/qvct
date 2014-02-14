@@ -74,6 +74,7 @@ CSettings::CSettings()
   , qColorRoute( 0, 0, 255 )
   , qColorTrack( 255, 0, 255 )
   , qColorVessel( 255, 0, 0 )
+  , qColorSelected( 192, 192, 0 )
   , iScreenDpi( 96 )
   , bScreenGestures( false )
   , iRateRefresh( 1000 )
@@ -539,6 +540,12 @@ void CSettings::dumpQVCT( QXmlStreamWriter& _rqXmlStreamWriter, bool _bProjectDu
     _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorVessel.green() ) );
     _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorVessel.blue() ) );
     _rqXmlStreamWriter.writeEndElement(); // Vessel
+    // ... selected
+    _rqXmlStreamWriter.writeStartElement( "Selected" );
+    _rqXmlStreamWriter.writeAttribute( "red", QString::number( qColorSelected.red() ) );
+    _rqXmlStreamWriter.writeAttribute( "green", QString::number( qColorSelected.green() ) );
+    _rqXmlStreamWriter.writeAttribute( "blue", QString::number( qColorSelected.blue() ) );
+    _rqXmlStreamWriter.writeEndElement(); // Selected
     // Colors [end]
     _rqXmlStreamWriter.writeEndElement(); // Colors
   }
@@ -826,6 +833,15 @@ void CSettings::parseQVCT( const QDomElement& _rqDomElement )
         __iGreen = __qDomElement.attribute( "green", "0" ).toInt();
         __iBlue = __qDomElement.attribute( "blue", "0" ).toInt();
         qColorVessel.setRgb( __iRed, __iGreen, __iBlue );
+      }
+      // ... selected
+      __qDomElement = __qDomElementContext.firstChildElement( "Selected" );
+      if( !__qDomElement.isNull() )
+      {
+        __iRed = __qDomElement.attribute( "red", "255" ).toInt();
+        __iGreen = __qDomElement.attribute( "green", "0" ).toInt();
+        __iBlue = __qDomElement.attribute( "blue", "0" ).toInt();
+        qColorSelected.setRgb( __iRed, __iGreen, __iBlue );
       }
     }
   }

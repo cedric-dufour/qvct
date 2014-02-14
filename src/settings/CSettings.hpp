@@ -170,6 +170,9 @@ private:
   /// [Color] Vessel overlay's base color
   /** @see slotColorVessel(), getColorVessel() */
   QColor qColorVessel;
+  /// [Color] Selected objects base color
+  /** @see slotColorSelected(), getColorSelected() */
+  QColor qColorSelected;
 
   /// [Misc] Main window geometry (Base64-encoded binary data)
   /** @see setMainWindowGeometry(), getMainWindowGeometry() */
@@ -415,6 +418,8 @@ public:
   QColor getColorTrack() { return qColorTrack; };
   /// [Color] Returns the vessel overlay's base color
   QColor getColorVessel() { return qColorVessel; };
+  /// [Color] Returns the selected objects base color
+  QColor getColorSelected() { return qColorSelected; };
 
   /// [Misc] Returns the main window geometry (Base64-encoded binary data)
   QString getMainWindowGeometry() { return qsMainWindowGeometry; };

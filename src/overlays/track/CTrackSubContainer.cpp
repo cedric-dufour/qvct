@@ -77,9 +77,12 @@ void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
 
   // Retrieve and adjust drawing parameters
   double __fdZoom = _poChart->getZoom();
-  QPen __qPenMultiSelect = QVCTRuntime::useTrackOverlay()->getPenLine();
-  __qPenMultiSelect.setColor( QColor( 192, 192, 0, 255 ) );
-  __qPenMultiSelect.setWidth( __qPenMultiSelect.width() * __fdZoom );
+  if( __fdZoom < 0.5 ) __fdZoom = 0.5;
+  else if( __fdZoom > 2.0 ) __fdZoom = 2.0;
+  __fdZoom *= QVCTRuntime::useSettings()->getScreenDpi() / 96.0 ;
+  QPen __qPenMultiSelected = QVCTRuntime::useTrackOverlay()->getPenMarkerSelected();
+  QPen __qPenLine = QVCTRuntime::useTrackOverlay()->getPenLine();
+  __qPenMultiSelected.setWidth( __qPenLine.width() * __fdZoom );
 
   // Draw
   int __iCount = QTreeWidgetItem::childCount();
@@ -105,7 +108,7 @@ void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
     __poTrackPointFrom->drawLine( _poChart, _pqPainter, __poTrackPointTo );
     if( __poTrackPointFrom->isMultiSelected() )
     {
-      _pqPainter->setPen( __qPenMultiSelect );
+      _pqPainter->setPen( __qPenMultiSelected );
       _pqPainter->drawPoint( _poChart->toDrawPosition( *__poTrackPointFrom ) );
     }
     __poTrackPointFrom = __poTrackPointTo;
@@ -118,7 +121,7 @@ void CTrackSubContainer::draw( const CChart* _poChart, QPainter* _pqPainter )
   {
     if( __poTrackPointTo->isMultiSelected() )
     {
-      _pqPainter->setPen( __qPenMultiSelect );
+      _pqPainter->setPen( __qPenMultiSelected );
       _pqPainter->drawPoint( _poChart->toDrawPosition( *__poTrackPointTo ) );
     }
     if( __poOverlayObjectSelected == __poTrackPointTo ||

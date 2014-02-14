@@ -17,11 +17,13 @@
  */
 
 // QT
+#include <QColor>
 #include <QPainter>
 #include <QTreeWidgetItem>
 #include <QWidget>
 
 // QVCT
+#include "QVCTRuntime.hpp"
 #include "charts/CChart.hpp"
 #include "overlays/COverlay.hpp"
 #include "overlays/COverlayObject.hpp"
@@ -65,6 +67,11 @@ COverlay::COverlay( const QString& _rqsName )
   qPenVector.setStyle( Qt::SolidLine );
   qPenVector.setWidth( 3 );
   qPenVector.setCapStyle( Qt::RoundCap );
+
+  // Import settings
+  QColor __qColor = QVCTRuntime::useSettings()->getColorSelected();
+  __qColor.setAlpha( 255 );
+  qPenMarkerSelected.setColor( __qColor );
 }
 
 
