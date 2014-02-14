@@ -230,6 +230,8 @@ double CTrackContainer::getTimeElapsed()
 
 int CTrackContainer::parseQVCT( const QDomElement& _rqDomElement )
 {
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "3" ).toInt() );
+  QTreeWidgetItem::setCheckState( CTrackOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   qsType = _rqDomElement.attribute( "type" );
   qsUrl = _rqDomElement.attribute( "url" );
   qsDescription = _rqDomElement.firstChildElement( "Description" ).text();
@@ -273,6 +275,8 @@ void CTrackContainer::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter, bool bOnl
   _rqXmlStreamWriter.writeStartElement( "Track" );
   // ... name
   if( !qsName.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", qsName );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... type
   if( !qsType.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "type", qsType );
   // ... url

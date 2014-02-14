@@ -29,7 +29,7 @@ COverlayVisibility::COverlayVisibility()
   , bVisibleName( true )
   , bVisiblePosition( false )
   , bVisibleCourse( false )
-  , bVisibleRouting( true )
+  , bVisibleRouting( false )
 {}
 
 
@@ -66,4 +66,28 @@ void COverlayVisibility::toggleVisible( bool _bIncludeCourse, bool _bIncludeRout
       else bVisibleName = true;
     }
   }
+}
+
+void COverlayVisibility::setVisibility( int _iVisibilityCode )
+{
+  bVisible = (bool)( _iVisibilityCode & 1 );
+  bVisibleName = (bool)( _iVisibilityCode & 2 );
+  bVisiblePosition = (bool)( _iVisibilityCode & 4 );
+  bVisibleCourse = (bool)( _iVisibilityCode & 8 );
+  bVisibleRouting = (bool)( _iVisibilityCode & 16 );
+}
+
+//
+// GETTERS
+//
+
+int COverlayVisibility::getVisibility() const
+{
+  int __iVisibilityCode = 0;
+  __iVisibilityCode |= bVisible ? 1 : 0;
+  __iVisibilityCode |= bVisibleName ? 2 : 0;
+  __iVisibilityCode |= bVisiblePosition ? 4 : 0;
+  __iVisibilityCode |= bVisibleCourse ? 8 : 0;
+  __iVisibilityCode |= bVisibleRouting ? 16 : 0;
+  return __iVisibilityCode;
 }

@@ -330,6 +330,9 @@ void CVesselPoint::onDeviceDataFix()
 
 void CVesselPoint::parseQVCT( const QDomElement& _rqDomElement )
 {
+  // ... visibility
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "3" ).toInt() );
+  QTreeWidgetItem::setCheckState( CVesselOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   // ... position
   if( _rqDomElement.hasAttribute( "longitude" ) && _rqDomElement.hasAttribute( "longitude" ) )
   {
@@ -402,6 +405,8 @@ void CVesselPoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
   _rqXmlStreamWriter.writeStartElement( "Vessel" );
   // ... name
   if( !qsName.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", qsName );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... position
   _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( CDataPosition::getLongitude() ) );
   _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( CDataPosition::getLatitude() ) );

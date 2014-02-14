@@ -300,6 +300,8 @@ int CVesselContainer::cleanPointDynamic( int _iTTL )
 
 int CVesselContainer::parseQVCT( const QDomElement& _rqDomElement )
 {
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "3" ).toInt() );
+  QTreeWidgetItem::setCheckState( CVesselOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   qsType = _rqDomElement.attribute( "type" );
   qsUrl = _rqDomElement.attribute( "url" );
   qsDescription = _rqDomElement.firstChildElement( "Description" ).text();
@@ -333,6 +335,8 @@ void CVesselContainer::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter, bool bOn
   _rqXmlStreamWriter.writeStartElement( "Flotilla" );
   // ... name
   if( !qsName.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", qsName );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... type
   if( !qsType.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "type", qsType );
   // ... url

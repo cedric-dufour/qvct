@@ -269,6 +269,8 @@ double CTrackSubContainer::getTimeElapsed()
 
 int CTrackSubContainer::parseQVCT( const QDomElement& _rqDomElement )
 {
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "3" ).toInt() );
+  QTreeWidgetItem::setCheckState( CTrackOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   int __iCount = 0;
   for( QDomElement __qDomElement = _rqDomElement.firstChildElement( "Point" );
        !__qDomElement.isNull();
@@ -315,6 +317,8 @@ void CTrackSubContainer::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter, bool b
 
   // Data
   _rqXmlStreamWriter.writeStartElement( "Segment" );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... points
   for( int __i = 0; __i < __iCount; __i++ )
   {

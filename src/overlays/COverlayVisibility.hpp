@@ -77,6 +77,8 @@ public:
   virtual void setVisibleCourse( bool _bVisibleCourse ) { bVisibleCourse = _bVisibleCourse; };
   /// Sets the routing's (data) visibility status
   virtual void setVisibleRouting( bool _bVisibleRouting ) { bVisibleRouting = _bVisibleRouting; };
+  /// Sets the global (coded) visibility status
+  void setVisibility( int _iVisibilityCode );
 
 protected:
   /// Toggle the visibility status
@@ -94,6 +96,8 @@ public:
   bool isVisibleCourse() const { return bVisibleCourse; };
   /// Returns the routing's (data) visibility status
   bool isVisibleRouting() const { return bVisibleRouting; };
+  /// Returns the global (coded) visibility status
+  int getVisibility() const;
 
 };
 

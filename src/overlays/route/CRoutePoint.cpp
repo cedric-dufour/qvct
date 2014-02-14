@@ -44,6 +44,7 @@ CRoutePoint::CRoutePoint( const QString& _rqsName )
   QTreeWidgetItem::setText( CRouteOverlay::NAME, qsName );
   QTreeWidgetItem::setCheckState( CRouteOverlay::VISIBLE, Qt::Checked );
   QTreeWidgetItem::setCheckState( CRouteOverlay::SELECT, Qt::Unchecked );
+  bVisibleRouting = true;
 }
 
 CRoutePoint::CRoutePoint( const QString& _rqsName, const CDataPosition& _roDataPosition )
@@ -146,6 +147,8 @@ void CRoutePoint::toggleMultiSelected()
 
 void CRoutePoint::parseQVCT( const QDomElement& _rqDomElement )
 {
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "19" ).toInt() );
+  QTreeWidgetItem::setCheckState( CRouteOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   if( _rqDomElement.hasAttribute( "longitude" ) && _rqDomElement.hasAttribute( "longitude" ) )
   {
     COverlayPoint::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
@@ -184,6 +187,8 @@ void CRoutePoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
   _rqXmlStreamWriter.writeStartElement( "Point" );
   // ... name
   if( !qsName.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", qsName );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... position
   _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( CDataPosition::getLongitude() ) );
   _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( CDataPosition::getLatitude() ) );

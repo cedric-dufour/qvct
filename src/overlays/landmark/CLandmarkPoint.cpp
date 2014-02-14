@@ -146,6 +146,8 @@ void CLandmarkPoint::toggleMultiSelected()
 
 void CLandmarkPoint::parseQVCT( const QDomElement& _rqDomElement )
 {
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "3" ).toInt() );
+  QTreeWidgetItem::setCheckState( CLandmarkOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   if( _rqDomElement.hasAttribute( "longitude" ) && _rqDomElement.hasAttribute( "longitude" ) )
   {
     COverlayPoint::setPosition( _rqDomElement.attribute( "longitude" ).toDouble(),
@@ -184,6 +186,8 @@ void CLandmarkPoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
   _rqXmlStreamWriter.writeStartElement( "Point" );
   // ... name
   if( !qsName.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", qsName );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... position
   _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( CDataPosition::getLongitude() ) );
   _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( CDataPosition::getLatitude() ) );

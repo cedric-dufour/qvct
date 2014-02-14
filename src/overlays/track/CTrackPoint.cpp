@@ -163,6 +163,8 @@ void CTrackPoint::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
 
   // Data
   _rqXmlStreamWriter.writeStartElement( "Point" );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... position
   _rqXmlStreamWriter.writeAttribute( "longitude", QString::number( CDataPosition::getLongitude() ) );
   _rqXmlStreamWriter.writeAttribute( "latitude", QString::number( CDataPosition::getLatitude() ) );

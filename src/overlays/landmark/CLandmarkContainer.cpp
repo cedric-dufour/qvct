@@ -156,6 +156,8 @@ CLandmarkPoint* CLandmarkContainer::addPoint( const QString& _rqsName, const CDa
 
 int CLandmarkContainer::parseQVCT( const QDomElement& _rqDomElement )
 {
+  COverlayVisibility::setVisibility( _rqDomElement.attribute( "visibility", "3" ).toInt() );
+  QTreeWidgetItem::setCheckState( CLandmarkOverlay::VISIBLE, bVisible ? Qt::Checked : Qt::Unchecked );
   int __iCount = 0;
   for( QDomElement __qDomElement = _rqDomElement.firstChildElement( "Point" );
        !__qDomElement.isNull();
@@ -195,6 +197,8 @@ void CLandmarkContainer::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter, bool b
   _rqXmlStreamWriter.writeStartElement( "Landmarks" );
   // ... name
   if( !qsName.isEmpty() ) _rqXmlStreamWriter.writeAttribute( "name", qsName );
+  // ... visibility
+  _rqXmlStreamWriter.writeAttribute( "visibility", QString::number( COverlayVisibility::getVisibility() ) );
   // ... points
   int __iCount = QTreeWidgetItem::childCount();
   for( int __i = 0; __i < __iCount; __i++ )
