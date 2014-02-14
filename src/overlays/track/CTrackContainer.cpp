@@ -184,6 +184,7 @@ CTrackSubContainer* CTrackContainer::addSubContainer()
   if( !__iCount || QTreeWidgetItem::child( __iCount-1 )->childCount() )
   {
     __poTrackSubContainer = new CTrackSubContainer( COverlayObject::newChildName( tr("Segment"), 1, true ) );
+    __poTrackSubContainer->setVisibility( this->getVisibility() | 1 );
     QTreeWidgetItem::addChild( __poTrackSubContainer );
   }
   else __poTrackSubContainer = (CTrackSubContainer*)QTreeWidgetItem::child( __iCount-1 );

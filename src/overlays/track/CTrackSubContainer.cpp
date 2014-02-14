@@ -222,6 +222,7 @@ CTrackPoint* CTrackSubContainer::getLastPoint()
 CTrackPoint* CTrackSubContainer::addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition )
 {
   CTrackPoint* __poTrackPoint = new CTrackPoint( _rqsName, _roDataPosition );
+  __poTrackPoint->setVisibility( this->getVisibility() | 1 );
   QTreeWidgetItem::addChild( __poTrackPoint );
   return __poTrackPoint;
 }

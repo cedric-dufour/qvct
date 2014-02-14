@@ -137,6 +137,7 @@ void CLandmarkContainer::toggleVisibility()
 CLandmarkPoint* CLandmarkContainer::addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition )
 {
   CLandmarkPoint* __poLandmarkPoint = new CLandmarkPoint( _rqsName, _roDataPosition );
+  __poLandmarkPoint->setVisibility( this->getVisibility() | 1 );
   QTreeWidgetItem::addChild( __poLandmarkPoint );
   return __poLandmarkPoint;
 }

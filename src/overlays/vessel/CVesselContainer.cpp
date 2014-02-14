@@ -235,6 +235,7 @@ CVesselPoint* CVesselContainer::addPoint( const QString& _rqsName, const CDataPo
 {
   if( bDynamic ) return 0;
   CVesselPoint* __poVesselPoint = new CVesselPoint( _rqsName, _roDataPosition );
+  __poVesselPoint->setVisibility( this->getVisibility() | 1 );
   QTreeWidgetItem::addChild( __poVesselPoint );
   return __poVesselPoint;
 }
@@ -252,6 +253,7 @@ void CVesselContainer::addPointDynamic( const CDeviceDataFix& _roDeviceDataFix, 
   __poVesselPoint->setType( tr("Dynamic Vessel") );
   __poVesselPoint->setDescription( tr("This vessel has been automatically added as a result of the parent flotilla's device activity.") );
   __poVesselPoint->setSymbol( "DynamicVessel" );
+  __poVesselPoint->setVisibility( this->getVisibility() | 1 );
   QTreeWidgetItem::addChild( __poVesselPoint );
   CVesselPointDevice* __poVesselPointDevice = new CVesselPointDevice( _rqsDeviceName, _roDeviceDataFix.getSourceName(), true );
   __poVesselPointDevice->setSynchronized( true, true, true,    // position & elevation

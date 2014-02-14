@@ -188,6 +188,7 @@ void CRouteContainer::toggleVisibility()
 CRoutePoint* CRouteContainer::addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition )
 {
   CRoutePoint* __poRoutePoint = new CRoutePoint( _rqsName, _roDataPosition );
+  __poRoutePoint->setVisibility( this->getVisibility() | 1 );
   QTreeWidgetItem::addChild( __poRoutePoint );
   return __poRoutePoint;
 }
