@@ -97,7 +97,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  virtual void toggleVisible() { COverlayVisibility::toggleVisible( false, true ); };
+  virtual void toggleVisibility() { COverlayVisibility::toggleVisibility( false, true ); };
 
 
   //------------------------------------------------------------------------------

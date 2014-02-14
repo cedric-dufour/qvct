@@ -146,38 +146,18 @@ void CTrackContainer::setVisibleRouting( bool _bVisibleRouting )
     ((CTrackSubContainer*)QTreeWidgetItem::child( __i ))->setVisibleRouting( bVisibleRouting );
 }
 
-void CTrackContainer::toggleVisible()
+void CTrackContainer::toggleVisibility()
 {
-  if( !bVisible ) bVisible = true;
-  else
+  // Toggle global visibility
+  COverlayVisibility::toggleVisibility( false, true );
+  // Set points visibility
+  int __iCount = QTreeWidgetItem::childCount();
+  for( int __i = 0; __i < __iCount; __i++ )
   {
-    int __iCount = QTreeWidgetItem::childCount();
-    // Retrieve points visibility
-    bVisibleName = false;
-    bVisiblePosition = false;
-    bVisibleRouting = false;
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CTrackSubContainer* __poTrackSubContainer = (CTrackSubContainer*)QTreeWidgetItem::child( __i );
-      int __iCount_aux = __poTrackSubContainer->childCount();
-      for( int __j = 0; __j < __iCount_aux; __j++ )
-      {
-        CTrackPoint* __poTrackPoint = (CTrackPoint*)__poTrackSubContainer->child( __j );
-        bVisibleName |= __poTrackPoint->isVisibleName();
-        bVisiblePosition |= __poTrackPoint->isVisiblePosition();
-        bVisibleRouting |= __poTrackPoint->isVisibleRouting();
-      }
-    }
-    // Toggle global visibility
-    COverlayVisibility::toggleVisible( false, true );
-    // Set points visibility
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CTrackSubContainer* __poTrackSubContainer = (CTrackSubContainer*)QTreeWidgetItem::child( __i );
-      __poTrackSubContainer->setVisibleName( bVisibleName );
-      __poTrackSubContainer->setVisiblePosition( bVisiblePosition );
-      __poTrackSubContainer->setVisibleRouting( bVisibleRouting );
-    }
+    CTrackSubContainer* __poTrackSubContainer = (CTrackSubContainer*)QTreeWidgetItem::child( __i );
+    __poTrackSubContainer->setVisibleName( bVisibleName );
+    __poTrackSubContainer->setVisiblePosition( bVisiblePosition );
+    __poTrackSubContainer->setVisibleRouting( bVisibleRouting );
   }
 }
 

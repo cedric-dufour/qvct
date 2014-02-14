@@ -262,7 +262,7 @@ void CPointerPointDetailView::slotToggleVisible()
 {
   if( !poOverlayObject ) return;
   CPointerPoint* __poPointerPoint = (CPointerPoint*)poOverlayObject;
-  __poPointerPoint->toggleVisible();
+  __poPointerPoint->toggleVisibility();
   __poPointerPoint->useOverlay()->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
 }

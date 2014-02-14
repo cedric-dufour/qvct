@@ -307,7 +307,7 @@ void CLandmarkPointDetailView::slotToggleVisible()
   if( !poOverlayObject ) return;
   CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)poOverlayObject;
   bool __bVisible = __poLandmarkPoint->isVisible();
-  __poLandmarkPoint->toggleVisible();
+  __poLandmarkPoint->toggleVisibility();
   if( __bVisible != __poLandmarkPoint->isVisible() )
   {
     __poLandmarkPoint->setCheckState( CLandmarkOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );

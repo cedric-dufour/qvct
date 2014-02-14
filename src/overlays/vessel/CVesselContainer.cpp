@@ -149,33 +149,18 @@ void CVesselContainer::setVisibleCourse( bool _bVisibleCourse )
     ((CVesselPoint*)QTreeWidgetItem::child( __i ))->setVisibleCourse( bVisibleCourse );
 }
 
-void CVesselContainer::toggleVisible()
+void CVesselContainer::toggleVisibility()
 {
-  if( !bVisible ) bVisible = true;
-  else
+  // Toggle global visibility
+  COverlayVisibility::toggleVisibility( true, false );
+  // Set points visibility
+  int __iCount = QTreeWidgetItem::childCount();
+  for( int __i = bDynamic ? 1 : 0; __i < __iCount; __i++ )
   {
-    int __iCount = QTreeWidgetItem::childCount();
-    // Retrieve points visibility
-    bVisibleName = false;
-    bVisiblePosition = false;
-    bVisibleCourse = false;
-    for( int __i = bDynamic ? 1 : 0; __i < __iCount; __i++ )
-    {
-      CVesselPoint* __poVesselPoint = (CVesselPoint*)QTreeWidgetItem::child( __i );
-      bVisibleName |= __poVesselPoint->isVisibleName();
-      bVisiblePosition |= __poVesselPoint->isVisiblePosition();
-      bVisibleCourse |= __poVesselPoint->isVisibleCourse();
-    }
-    // Toggle global visibility
-    COverlayVisibility::toggleVisible( true, false );
-    // Set points visibility
-    for( int __i = bDynamic ? 1 : 0; __i < __iCount; __i++ )
-    {
-      CVesselPoint* __poVesselPoint = (CVesselPoint*)QTreeWidgetItem::child( __i );
-      __poVesselPoint->setVisibleName( bVisibleName );
-      __poVesselPoint->setVisiblePosition( bVisiblePosition );
-      __poVesselPoint->setVisibleCourse( bVisibleCourse );
-    }
+    CVesselPoint* __poVesselPoint = (CVesselPoint*)QTreeWidgetItem::child( __i );
+    __poVesselPoint->setVisibleName( bVisibleName );
+    __poVesselPoint->setVisiblePosition( bVisiblePosition );
+    __poVesselPoint->setVisibleCourse( bVisibleCourse );
   }
 }
 

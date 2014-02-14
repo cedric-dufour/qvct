@@ -115,7 +115,7 @@ public:
   virtual void setVisibleName( bool _bVisibleName );
   virtual void setVisiblePosition( bool _bVisiblePosition );
   virtual void setVisibleCourse( bool _bVisibleCourse );
-  virtual void toggleVisible();
+  virtual void toggleVisibility();
 
 
   //------------------------------------------------------------------------------

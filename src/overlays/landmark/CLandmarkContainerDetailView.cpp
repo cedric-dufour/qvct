@@ -204,7 +204,7 @@ void CLandmarkContainerDetailView::slotToggleVisible()
   if( !poOverlayObject ) return;
   CLandmarkContainer* __poLandmarkContainer = (CLandmarkContainer*)poOverlayObject;
   bool __bVisible = __poLandmarkContainer->isVisible();
-  __poLandmarkContainer->toggleVisible();
+  __poLandmarkContainer->toggleVisibility();
   if( __bVisible != __poLandmarkContainer->isVisible() )
   {
     __poLandmarkContainer->setCheckState( CLandmarkOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );

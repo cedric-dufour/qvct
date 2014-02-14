@@ -41,7 +41,7 @@ COverlayVisibility::COverlayVisibility()
 // SETTERS
 //
 
-void COverlayVisibility::toggleVisible( bool _bIncludeCourse, bool _bIncludeRouting )
+void COverlayVisibility::toggleVisibility( bool _bIncludeCourse, bool _bIncludeRouting )
 {
   if( !bVisible ) bVisible = true;
   else

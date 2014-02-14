@@ -188,33 +188,18 @@ void CTrackSubContainer::setVisibleRouting( bool _bVisibleRouting )
     ((CTrackPoint*)QTreeWidgetItem::child( __i ))->setVisibleRouting( bVisibleRouting );
 }
 
-void CTrackSubContainer::toggleVisible()
+void CTrackSubContainer::toggleVisibility()
 {
-  if( !bVisible ) bVisible = true;
-  else
+  // Toggle global visibility
+  COverlayVisibility::toggleVisibility( false, true );
+  // Set points visibility
+  int __iCount = QTreeWidgetItem::childCount();
+  for( int __i = 0; __i < __iCount; __i++ )
   {
-    int __iCount = QTreeWidgetItem::childCount();
-    // Retrieve points visibility
-    bVisibleName = false;
-    bVisiblePosition = false;
-    bVisibleRouting = false;
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CTrackPoint* __poTrackPoint = (CTrackPoint*)QTreeWidgetItem::child( __i );
-      bVisibleName |= __poTrackPoint->isVisibleName();
-      bVisiblePosition |= __poTrackPoint->isVisiblePosition();
-      bVisibleRouting |= __poTrackPoint->isVisibleRouting();
-    }
-    // Toggle global visibility
-    COverlayVisibility::toggleVisible( false, true );
-    // Set points visibility
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CTrackPoint* __poTrackPoint = (CTrackPoint*)QTreeWidgetItem::child( __i );
-      __poTrackPoint->setVisibleName( bVisibleName );
-      __poTrackPoint->setVisiblePosition( bVisiblePosition );
-      __poTrackPoint->setVisibleRouting( bVisibleRouting );
-    }
+    CTrackPoint* __poTrackPoint = (CTrackPoint*)QTreeWidgetItem::child( __i );
+    __poTrackPoint->setVisibleName( bVisibleName );
+    __poTrackPoint->setVisiblePosition( bVisiblePosition );
+    __poTrackPoint->setVisibleRouting( bVisibleRouting );
   }
 }
 

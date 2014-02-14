@@ -111,30 +111,17 @@ COverlayPoint* CLandmarkContainer::matchScrPosition( const CChart* _poChart, con
 // METHODS: COverlayVisibility (override)
 //------------------------------------------------------------------------------
 
-void CLandmarkContainer::toggleVisible()
+void CLandmarkContainer::toggleVisibility()
 {
-  if( !bVisible ) bVisible = true;
-  else
+  // Toggle global visibility
+  COverlayVisibility::toggleVisibility( false, false );
+  // Set points visibility
+  int __iCount = QTreeWidgetItem::childCount();
+  for( int __i = 0; __i < __iCount; __i++ )
   {
-    int __iCount = QTreeWidgetItem::childCount();
-    // Retrieve points visibility
-    bVisibleName = false;
-    bVisiblePosition = false;
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)QTreeWidgetItem::child( __i );
-      bVisibleName |= __poLandmarkPoint->isVisibleName();
-      bVisiblePosition |= __poLandmarkPoint->isVisiblePosition();
-    }
-    // Toggle global visibility
-    COverlayVisibility::toggleVisible( false, false );
-    // Set points visibility
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)QTreeWidgetItem::child( __i );
-      __poLandmarkPoint->setVisibleName( bVisibleName );
-      __poLandmarkPoint->setVisiblePosition( bVisiblePosition );
-    }
+    CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)QTreeWidgetItem::child( __i );
+    __poLandmarkPoint->setVisibleName( bVisibleName );
+    __poLandmarkPoint->setVisiblePosition( bVisiblePosition );
   }
 }
 

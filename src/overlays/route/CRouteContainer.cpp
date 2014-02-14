@@ -161,33 +161,18 @@ void CRouteContainer::setVisibleRouting( bool _bVisibleRouting )
     ((CRoutePoint*)QTreeWidgetItem::child( __i ))->setVisibleRouting( bVisibleRouting );
 }
 
-void CRouteContainer::toggleVisible()
+void CRouteContainer::toggleVisibility()
 {
-  if( !bVisible ) bVisible = true;
-  else
+  // Toggle global visibility
+  COverlayVisibility::toggleVisibility( false, true );
+  // Set points visibility
+  int __iCount = QTreeWidgetItem::childCount();
+  for( int __i = 0; __i < __iCount; __i++ )
   {
-    int __iCount = QTreeWidgetItem::childCount();
-    // Retrieve points visibility
-    bVisibleName = false;
-    bVisiblePosition = false;
-    bVisibleRouting = false;
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CRoutePoint* __poRoutePoint = (CRoutePoint*)QTreeWidgetItem::child( __i );
-      bVisibleName |= __poRoutePoint->isVisibleName();
-      bVisiblePosition |= __poRoutePoint->isVisiblePosition();
-      bVisibleRouting |= __poRoutePoint->isVisibleRouting();
-    }
-    // Toggle global visibility
-    COverlayVisibility::toggleVisible( false, true );
-    // Set points visibility
-    for( int __i = 0; __i < __iCount; __i++ )
-    {
-      CRoutePoint* __poRoutePoint = (CRoutePoint*)QTreeWidgetItem::child( __i );
-      __poRoutePoint->setVisibleName( bVisibleName );
-      __poRoutePoint->setVisiblePosition( bVisiblePosition );
-      __poRoutePoint->setVisibleRouting( bVisibleRouting );
-    }
+    CRoutePoint* __poRoutePoint = (CRoutePoint*)QTreeWidgetItem::child( __i );
+    __poRoutePoint->setVisibleName( bVisibleName );
+    __poRoutePoint->setVisiblePosition( bVisiblePosition );
+    __poRoutePoint->setVisibleRouting( bVisibleRouting );
   }
 }
 

@@ -82,7 +82,7 @@ public:
   virtual void setVisibleName( bool _bVisibleName );
   virtual void setVisiblePosition( bool _bVisiblePosition );
   virtual void setVisibleRouting( bool _bVisibleRouting );
-  virtual void toggleVisible();
+  virtual void toggleVisibility();
 
 
   //------------------------------------------------------------------------------

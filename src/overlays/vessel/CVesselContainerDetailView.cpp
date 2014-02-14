@@ -265,7 +265,7 @@ void CVesselContainerDetailView::slotToggleVisible()
   if( !poOverlayObject ) return;
   CVesselContainer* __poVesselContainer = (CVesselContainer*)poOverlayObject;
   bool __bVisible = __poVesselContainer->isVisible();
-  __poVesselContainer->toggleVisible();
+  __poVesselContainer->toggleVisibility();
   if( __bVisible != __poVesselContainer->isVisible() )
   {
     __poVesselContainer->setCheckState( CVesselOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );

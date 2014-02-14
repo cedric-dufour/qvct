@@ -267,7 +267,7 @@ void CTrackContainerDetailView::slotToggleVisible()
   if( !poOverlayObject ) return;
   CTrackContainer* __poTrackContainer = (CTrackContainer*)poOverlayObject;
   bool __bVisible = __poTrackContainer->isVisible();
-  __poTrackContainer->toggleVisible();
+  __poTrackContainer->toggleVisibility();
   if( __bVisible != __poTrackContainer->isVisible() )
   {
     __poTrackContainer->setCheckState( CTrackOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );

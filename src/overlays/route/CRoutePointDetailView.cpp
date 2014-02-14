@@ -307,7 +307,7 @@ void CRoutePointDetailView::slotToggleVisible()
   if( !poOverlayObject ) return;
   CRoutePoint* __poRoutePoint = (CRoutePoint*)poOverlayObject;
   bool __bVisible = __poRoutePoint->isVisible();
-  __poRoutePoint->toggleVisible();
+  __poRoutePoint->toggleVisibility();
   if( __bVisible != __poRoutePoint->isVisible() )
   {
     __poRoutePoint->setCheckState( CRouteOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );

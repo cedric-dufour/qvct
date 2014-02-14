@@ -36,19 +36,19 @@ class COverlayVisibility
 
 protected:
   /// Global (marker) visibility status
-  /** @see setVisible(), toggleVisible(), isVisible() */
+  /** @see setVisible(), toggleVisibility(), isVisible() */
   bool bVisible;
   /// Name's (tag) visibility status
-  /** @see setVisibleName(), toggleVisible(), isVisibleName() */
+  /** @see setVisibleName(), toggleVisibility(), isVisibleName() */
   bool bVisibleName;
   /// Position's visibility status
-  /** @see setVisiblePosition(), toggleVisible(), isVisiblePosition() */
+  /** @see setVisiblePosition(), toggleVisibility(), isVisiblePosition() */
   bool bVisiblePosition;
   /// Course's visibility status
-  /** @see setVisibleCourse(), toggleVisible(), isVisibleCourse() */
+  /** @see setVisibleCourse(), toggleVisibility(), isVisibleCourse() */
   bool bVisibleCourse;
   /// Routing's (data) visibility status
-  /** @see setVisibleRouting(), toggleVisible(), isVisibleRouting() */
+  /** @see setVisibleRouting(), toggleVisibility(), isVisibleRouting() */
   bool bVisibleRouting;
 
 
@@ -82,7 +82,7 @@ public:
 
 protected:
   /// Toggle the visibility status
-  virtual void toggleVisible( bool _bIncludeCourse, bool _bIncludeRouting );
+  virtual void toggleVisibility( bool _bIncludeCourse, bool _bIncludeRouting );
 
   // GETTERS
 public:

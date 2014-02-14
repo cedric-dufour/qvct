@@ -176,10 +176,10 @@ bool CVesselPoint::matchScrPosition( const CChart* _poChart, const QPointF& _rqP
   // METHODS: COverlayVisibility (override)
   //------------------------------------------------------------------------------
 
-void CVesselPoint::toggleVisible()
+void CVesselPoint::toggleVisibility()
 {
   double __fdGroundSpeed = CDataCourseGA::GroundCourse.getSpeed();
-  COverlayVisibility::toggleVisible( __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED
+  COverlayVisibility::toggleVisibility( __fdGroundSpeed != CDataCourse::UNDEFINED_SPEED
                                      && __fdGroundSpeed >= QVCTRuntime::useSettings()->getMinValueSpeed(),
                                      QVCTRuntime::useChartTable()->getVesselPointSynchronize() == this
                                      && QVCTRuntime::usePointerOverlay()->usePointerTarget()->CDataPosition::operator!=( CDataPosition::UNDEFINED ) );

@@ -259,7 +259,7 @@ void CRouteContainerDetailView::slotToggleVisible()
   if( !poOverlayObject ) return;
   CRouteContainer* __poRouteContainer = (CRouteContainer*)poOverlayObject;
   bool __bVisible = __poRouteContainer->isVisible();
-  __poRouteContainer->toggleVisible();
+  __poRouteContainer->toggleVisibility();
   if( __bVisible != __poRouteContainer->isVisible() )
   {
     __poRouteContainer->setCheckState( CRouteOverlay::VISIBLE, __bVisible ? Qt::Unchecked : Qt::Checked );
