@@ -198,10 +198,11 @@ void CDeviceTcpSbs1::slotProcessData()
     emit signalActivity();
 
     // Check SBS-1 data status
+    int __iMSG;
     QStringList __qDataFields = __qsDataLine.split( "," );
     if( __qDataFields.at( 0 ) != "MSG" ) continue; // We process only SBS-1's "MSG" message type
     if( __qDataFields.size() != 22 ) continue; // "MSG" message type ought to be 22-fields long
-    if( __qDataFields.at( 1 ).toInt() > 4 ) continue; // Transmission types greater than "4" are useless to us
+    if( ( __iMSG = __qDataFields.at( 1 ).toInt() ) > 4 ) continue; // Transmission types greater than "4" are useless to us
     if( __qDataFields.at( 21 ).toInt() < 0 && !bGroundTraffic ) continue; // Ignore ground traffic
     if( __qDataFields.at( 4 ).isEmpty() ) continue; // We need a valid "HexIdent"
     QString __qsSource = __qDataFields.at( 4 );
@@ -229,7 +230,7 @@ void CDeviceTcpSbs1::slotProcessData()
       // Actual lookup
       if( !__qDataFields.at( 10 ).isEmpty() )
       {
-        __qsCallsign = __qDataFields.at( 10 );
+        __qsCallsign = __qDataFields.at( 10 ).trimmed();
         if( qHashCallsign.contains( __qsSource ) )
           qHashCallsign[ __qsSource ].update( __qsCallsign, __fdTimestamp );
         else
@@ -244,6 +245,7 @@ void CDeviceTcpSbs1::slotProcessData()
       // Use looked-up callsign
       __qsSource = __qsCallsign;
     }
+    if( __iMSG == 1 ) continue;
 
     // Parse SBS-1 data
     CDeviceDataFix __oDeviceDataFix( __qsSource );
@@ -260,7 +262,6 @@ void CDeviceTcpSbs1::slotProcessData()
       __qDateTime.setDate( QDate( __qRegExpYMD.cap(1).toInt(), __qRegExpYMD.cap(2).toInt(), __qRegExpYMD.cap(3).toInt() ) );
       __qDateTime.setTime( QTime( __qRegExpHMS.cap(1).toInt(), __qRegExpHMS.cap(2).toInt(), __qRegExpHMS.cap(3).toInt(), !__qRegExpHMS.cap(4).isEmpty() ? 1000*__qRegExpHMS.cap(4).toDouble() : 0 ) );
       __oDeviceDataFix.setTime( (double)__qDateTime.toTime_t() );
-      __bDataAvailable = true;
     }
     else
     {
@@ -311,7 +312,7 @@ void CDeviceTcpSbs1::slotProcessData()
     // ... hexident/callsign
     if( bCallsignLookup || !__qDataFields.at( 10 ).isEmpty() )
     {
-      __oDeviceDataFix.setText( bCallsignLookup ? "HEX:"+__qDataFields.at( 4 ) : "C/S"+__qDataFields.at( 10 ) );
+      __oDeviceDataFix.setText( bCallsignLookup ? "HEX:"+__qDataFields.at( 4 ) : "C/S:"+__qDataFields.at( 10 ) );
       __bDataAvailable = true;
     }
 
