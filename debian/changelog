@@ -1,3 +1,19 @@
+qvct (1.0.20140214) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - MOD: Newly added objects now inherit their parent's visibility status
+  - MOD: Reverted to "straight-forward" containers visibility toggling
+  - NEW: Save visibility status in QVCT files
+  - FIX: Display track even for small zoom factor
+  - NEW: Allow to specify selected objects color in 'settings.qvct'
+  - NEW: Identify currently selected objects on chart
+  - FIX: Synchronize fix data when creating new dynamic vessel
+         (prevent ghost vessels never being cleaned-up)
+  - MOD: Use the word 'map' instead of 'chart' when in the general context
+  - FIX: Improved callsign dictionary cleanup for SBS-1 (ADS-B) device
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Fri, 14 Feb 2014 16:33:04 +0100
+
 qvct (1.0.20140211) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)

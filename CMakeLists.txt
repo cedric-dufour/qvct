@@ -13,7 +13,7 @@ set( CMAKE_MODULE_PATH
 set( APPLICATION_NAME ${PROJECT_NAME} )
 set( APPLICATION_VERSION_MAJOR "1" )
 set( APPLICATION_VERSION_MINOR "0" )
-set( APPLICATION_VERSION_BUILD "20140211" )
+set( APPLICATION_VERSION_BUILD "20140214" )
 add_definitions(
   -DVER_MAJOR=${APPLICATION_VERSION_MAJOR}
   -DVER_MINOR=${APPLICATION_VERSION_MINOR}
@@ -30,6 +30,10 @@ include( DefineInstallationPaths )
 add_definitions(
   -DCONFDIR_STRING="/.config/qvct" -Wall
 )
+
+# Flags
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -g")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Wall -O2")
 
 # Sub-directories
 add_subdirectory( src )
