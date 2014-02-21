@@ -396,7 +396,8 @@ void CVesselPointDevice::syncDataFix( const CDeviceDataFix& _roDeviceDataFix )
   if( __bVesselSynchronized )
   {
     __poVesselPoint->onDeviceDataFix();
-    QVCTRuntime::useChartTable()->setProjectModified();
+    if( !__poVesselPoint->isDynamic() )
+      QVCTRuntime::useChartTable()->setProjectModified();
   }
   emit signalRefreshContent();
 }
