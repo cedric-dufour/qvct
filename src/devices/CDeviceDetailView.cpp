@@ -219,7 +219,11 @@ void CDeviceDetailView::slotOperatingMode( CDevice::EOperatingMode _eOperatingMo
 
 void CDeviceDetailView::slotActivity()
 {
+  static double __fdTimestampLast = 0;
+  double __fdTimestampNow = microtime();
+  if( __fdTimestampNow - __fdTimestampLast < 0.1 ) return;
   pqLabelActivity->setText( pqLabelActivity->text() == "\\" ? "/" : "\\" );
+  __fdTimestampLast = __fdTimestampNow;
 }
 
 void CDeviceDetailView::slotEdit()
