@@ -145,12 +145,6 @@ void CDeviceGpsdGps::slotProcessData( int )
 
   do // data-processing loop
   {
-    // Check data availability
-#if GPSD_API_MAJOR_VERSION >= 5
-    if( !gps_waiting( psGpsData, 100 ) ) break;
-#else
-    if( !gps_waiting( psGpsData ) ) break;
-#endif
     //qDebug( "DEBUG[%s]: GPS data are waiting to be read", Q_FUNC_INFO );
 
     // Retrieve data
@@ -160,6 +154,7 @@ void CDeviceGpsdGps::slotProcessData( int )
 #else
     __iStatus = gps_poll( psGpsData );
 #endif
+    if( __iStatus == 0 ) break; // No data available
     if( __iStatus < 0 )
     {
       qCritical( "ERROR[%s]: Failed to read data from device; status=%d", Q_FUNC_INFO, __iStatus );
@@ -365,6 +360,7 @@ QVCT::EStatus CDeviceGpsdGps::start()
 #endif
     if( __iStatus < 0 )
     {
+      psGpsData = 0;
       qCritical( "ERROR[%s]: Failed to open device; status=%d", Q_FUNC_INFO, __iStatus );
       emit signalError( QString( tr("Failed to open device")+"; status=%1" ).arg( __iStatus ) );
       break;
