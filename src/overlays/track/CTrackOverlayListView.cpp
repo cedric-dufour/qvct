@@ -26,6 +26,7 @@
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "overlays/track/CTrackContainer.hpp"
+#include "overlays/track/CTrackOverlayActionsView.hpp"
 #include "overlays/track/CTrackOverlayListView.hpp"
 
 
@@ -55,25 +56,21 @@ void CTrackOverlayListView::constructLayout()
   pqPushButtonLoad->setToolTip( tr("Load track from disk") );
   pqPushButtonLoad->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
-  // ... save (dummy)
-  QPushButton* __pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
-  __pqPushButtonSave->setMaximumSize( 36, 34 );
-  __pqPushButtonSave->setEnabled( false );
-  // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "", this );
-  pqPushButtonDelete->setToolTip( tr("Delete selected waypoints") );
-  pqPushButtonDelete->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... up
-  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/sort_ascending.png" ), "", this );
-  pqPushButtonUp->setToolTip( tr("[waypoint/track] Move up; [overlay] Sort in ascending order") );
+  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "", this );
+  pqPushButtonUp->setToolTip( tr("[track] Move up") );
   pqPushButtonUp->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonUp, SIGNAL( clicked() ), this, SLOT( slotUp() ) );
   // ... down
-  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/sort_descending.png" ), "", this );
-  pqPushButtonDown->setToolTip( tr("[waypoint/track] Move down; [overlay] Sort in descending order") );
+  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "", this );
+  pqPushButtonDown->setToolTip( tr("[track] Move down") );
   pqPushButtonDown->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDown, SIGNAL( clicked() ), this, SLOT( slotDown() ) );
+  // ... actions
+  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "", this );
+  pqPushButtonActions->setToolTip( tr("Additional actions")+"..." );
+  pqPushButtonActions->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonActions, SIGNAL( clicked() ), this, SLOT( slotActions() ) );
 
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
@@ -89,11 +86,10 @@ void CTrackOverlayListView::constructLayout()
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( __pqPushButtonAdd, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( __pqPushButtonSave, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 1, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonActions, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
 
   // Set the layout
@@ -124,22 +120,6 @@ void CTrackOverlayListView::slotLoad()
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 
-void CTrackOverlayListView::slotDelete()
-{
-  if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected point(s)") ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  CTrackOverlay* __poTrackOverlay = QVCTRuntime::useTrackOverlay();
-  __pqMutexDataChange->lock();
-  bool __bModified = __poTrackOverlay->deleteSelection();
-  __pqMutexDataChange->unlock();
-  if( __bModified )
-  {
-    __poTrackOverlay->forceRedraw();
-    QVCTRuntime::useChartTable()->updateChart();
-    QVCTRuntime::useChartTable()->setProjectModified();
-  };
-}
-
 void CTrackOverlayListView::slotUp()
 {
   CTrackOverlay* __poTrackOverlay = QVCTRuntime::useTrackOverlay();
@@ -147,11 +127,6 @@ void CTrackOverlayListView::slotUp()
   if( !__pqTreeWidgetItem_current ) return;
   switch( __pqTreeWidgetItem_current->type() )
   {
-
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CTrackOverlay::NAME, Qt::AscendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
 
   case COverlayObject::CONTAINER:
     {
@@ -184,11 +159,6 @@ void CTrackOverlayListView::slotDown()
   switch( __pqTreeWidgetItem_current->type() )
   {
 
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CTrackOverlay::NAME, Qt::DescendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
-
   case COverlayObject::CONTAINER:
     {
       QTreeWidgetItem* __pqTreeWidgetItem_parent = __pqTreeWidgetItem_current->parent();
@@ -210,4 +180,11 @@ void CTrackOverlayListView::slotDown()
   default:;
 
   }
+}
+
+void CTrackOverlayListView::slotActions()
+{
+  CTrackOverlayActionsView* __poTrackOverlayActionsView = new CTrackOverlayActionsView();
+  __poTrackOverlayActionsView->exec();
+  delete __poTrackOverlayActionsView;
 }

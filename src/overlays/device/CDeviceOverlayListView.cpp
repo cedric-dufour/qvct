@@ -17,7 +17,6 @@
  */
 
 // QT
-#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
@@ -28,6 +27,7 @@
 #include "QVCTRuntime.hpp"
 #include "devices/CDevice.hpp"
 #include "devices/CDeviceCreateView.hpp"
+#include "overlays/device/CDeviceOverlayActionsView.hpp"
 #include "overlays/device/CDeviceOverlayListView.hpp"
 
 
@@ -58,26 +58,21 @@ void CDeviceOverlayListView::constructLayout()
   pqPushButtonAdd->setToolTip( tr("Create a new device") );
   pqPushButtonAdd->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonAdd, SIGNAL( clicked() ), this, SLOT( slotAdd() ) );
-  // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
-  pqPushButtonSave->setToolTip( tr("Save selected devices to disk") );
-  pqPushButtonSave->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
-  // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "", this );
-  pqPushButtonDelete->setToolTip( tr("Delete selected devices") );
-  pqPushButtonDelete->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... up
-  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/sort_ascending.png" ), "", this );
-  pqPushButtonUp->setToolTip( tr("[device] Move up; [overlay] Sort in ascending order") );
+  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "", this );
+  pqPushButtonUp->setToolTip( tr("[device] Move up") );
   pqPushButtonUp->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonUp, SIGNAL( clicked() ), this, SLOT( slotUp() ) );
   // ... down
-  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/sort_descending.png" ), "", this );
-  pqPushButtonDown->setToolTip( tr("[device] Move down; [overlay] Sort in descending order") );
+  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "", this );
+  pqPushButtonDown->setToolTip( tr("[device] Move down") );
   pqPushButtonDown->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDown, SIGNAL( clicked() ), this, SLOT( slotDown() ) );
+  // ... actions
+  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "", this );
+  pqPushButtonActions->setToolTip( tr("Additional actions")+"..." );
+  pqPushButtonActions->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonActions, SIGNAL( clicked() ), this, SLOT( slotActions() ) );
 
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
@@ -92,12 +87,11 @@ void CDeviceOverlayListView::constructLayout()
 
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignHCenter );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 0, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 1, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonActions, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
 
   // Set the layout
@@ -142,28 +136,6 @@ void CDeviceOverlayListView::slotAdd()
   delete __poDeviceCreateView;
 }
 
-void CDeviceOverlayListView::slotSave()
-{
-  QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Device"), tr("QVCT Files")+" (*.qvct)" );
-  if( __qsFilename.isEmpty() ) return;
-  QFileInfo __qFileInfo( __qsFilename );
-  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
-  QStringList __qsListExtensions; __qsListExtensions << "qvct";
-  if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
-  QVCTRuntime::useDeviceOverlay()->save( __qsFilename, 0 ); // no device = save selection
-}
-
-void CDeviceOverlayListView::slotDelete()
-{
-  if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected device(s)") ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
-  __pqMutexDataChange->lock();
-  __poDeviceOverlay->deleteSelection();
-  __pqMutexDataChange->unlock();
-  QVCTRuntime::useChartTable()->setProjectModified();
-}
-
 void CDeviceOverlayListView::slotUp()
 {
   CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
@@ -171,11 +143,6 @@ void CDeviceOverlayListView::slotUp()
   if( !__pqTreeWidgetItem_current ) return;
   switch( __pqTreeWidgetItem_current->type() )
   {
-
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CDeviceOverlay::NAME, Qt::AscendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
 
   case COverlayObject::ITEM:
     {
@@ -203,11 +170,6 @@ void CDeviceOverlayListView::slotDown()
   switch( __pqTreeWidgetItem_current->type() )
   {
 
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CDeviceOverlay::NAME, Qt::DescendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
-
   case COverlayObject::ITEM:
     {
       QTreeWidgetItem* __pqTreeWidgetItem_parent = __pqTreeWidgetItem_current->parent();
@@ -224,4 +186,11 @@ void CDeviceOverlayListView::slotDown()
   default:;
 
   }
+}
+
+void CDeviceOverlayListView::slotActions()
+{
+  CDeviceOverlayActionsView* __poDeviceOverlayActionsView = new CDeviceOverlayActionsView();
+  __poDeviceOverlayActionsView->exec();
+  delete __poDeviceOverlayActionsView;
 }

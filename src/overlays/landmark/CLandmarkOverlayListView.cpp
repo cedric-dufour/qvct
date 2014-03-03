@@ -17,7 +17,6 @@
  */
 
 // QT
-#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
@@ -27,6 +26,7 @@
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "overlays/landmark/CLandmarkContainer.hpp"
+#include "overlays/landmark/CLandmarkOverlayActionsView.hpp"
 #include "overlays/landmark/CLandmarkOverlayListView.hpp"
 
 
@@ -57,26 +57,21 @@ void CLandmarkOverlayListView::constructLayout()
   pqPushButtonLoad->setToolTip( tr("Load landmarks set from disk") );
   pqPushButtonLoad->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
-  // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
-  pqPushButtonSave->setToolTip( tr("Save selected landmarks to disk") );
-  pqPushButtonSave->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
-  // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "", this );
-  pqPushButtonDelete->setToolTip( tr("Delete selected landmarks") );
-  pqPushButtonDelete->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... up
-  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/sort_ascending.png" ), "", this );
-  pqPushButtonUp->setToolTip( tr("[landmark] Move up; [overlay/landmarks set] Sort in ascending order") );
+  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "", this );
+  pqPushButtonUp->setToolTip( tr("[landmarks set/landmark] Move up") );
   pqPushButtonUp->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonUp, SIGNAL( clicked() ), this, SLOT( slotUp() ) );
   // ... down
-  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/sort_descending.png" ), "", this );
-  pqPushButtonDown->setToolTip( tr("[landmark] Move down; [overlay/landmarks set] Sort in descending order") );
+  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "", this );
+  pqPushButtonDown->setToolTip( tr("[landmarks set/landmark] Move down") );
   pqPushButtonDown->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDown, SIGNAL( clicked() ), this, SLOT( slotDown() ) );
+  // ... actions
+  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "", this );
+  pqPushButtonActions->setToolTip( tr("Additional actions")+"..." );
+  pqPushButtonActions->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonActions, SIGNAL( clicked() ), this, SLOT( slotActions() ) );
 
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
@@ -92,11 +87,10 @@ void CLandmarkOverlayListView::constructLayout()
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 1, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonActions, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
 
   // Set the layout
@@ -138,33 +132,6 @@ void CLandmarkOverlayListView::slotLoad()
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 
-void CLandmarkOverlayListView::slotSave()
-{
-  QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Landmarks"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
-  if( __qsFilename.isEmpty() ) return;
-  QFileInfo __qFileInfo( __qsFilename );
-  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
-  QStringList __qsListExtensions; __qsListExtensions << "qvct" << "gpx";
-  if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
-  QVCTRuntime::useLandmarkOverlay()->save( __qsFilename, 0 ); // no container = save selection
-}
-
-void CLandmarkOverlayListView::slotDelete()
-{
-  if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected landmark(s)") ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
-  __pqMutexDataChange->lock();
-  bool __bModified = __poLandmarkOverlay->deleteSelection();
-  __pqMutexDataChange->unlock();
-  if( __bModified )
-  {
-    __poLandmarkOverlay->forceRedraw();
-    QVCTRuntime::useChartTable()->updateChart();
-    QVCTRuntime::useChartTable()->setProjectModified();
-  };
-}
-
 void CLandmarkOverlayListView::slotUp()
 {
   CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
@@ -173,12 +140,7 @@ void CLandmarkOverlayListView::slotUp()
   switch( __pqTreeWidgetItem_current->type() )
   {
 
-  case COverlayObject::OVERLAY:
   case COverlayObject::CONTAINER:
-    __pqTreeWidgetItem_current->sortChildren( CLandmarkOverlay::NAME, Qt::AscendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
-
   case COverlayObject::ITEM:
     {
       QTreeWidgetItem* __pqTreeWidgetItem_parent = __pqTreeWidgetItem_current->parent();
@@ -205,12 +167,7 @@ void CLandmarkOverlayListView::slotDown()
   switch( __pqTreeWidgetItem_current->type() )
   {
 
-  case COverlayObject::OVERLAY:
   case COverlayObject::CONTAINER:
-    __pqTreeWidgetItem_current->sortChildren( CLandmarkOverlay::NAME, Qt::DescendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
-
   case COverlayObject::ITEM:
     {
       QTreeWidgetItem* __pqTreeWidgetItem_parent = __pqTreeWidgetItem_current->parent();
@@ -227,4 +184,11 @@ void CLandmarkOverlayListView::slotDown()
   default:;
 
   }
+}
+
+void CLandmarkOverlayListView::slotActions()
+{
+  CLandmarkOverlayActionsView* __poLandmarkOverlayActionsView = new CLandmarkOverlayActionsView();
+  __poLandmarkOverlayActionsView->exec();
+  delete __poLandmarkOverlayActionsView;
 }

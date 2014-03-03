@@ -16,25 +16,23 @@
  * See the GNU General Public License for more details.
  */
 
-#ifndef QVCT_CTRACKOVERLAYLISTVIEW_HPP
-#define QVCT_CTRACKOVERLAYLISTVIEW_HPP
+#ifndef QVCT_CDEVICEOVERLAYACTIONSVIEW_HPP
+#define QVCT_CDEVICEOVERLAYACTIONSVIEW_HPP
 
 // QT
 #include <QPushButton>
-#include <QStackedWidget>
-#include <QWidget>
 
 // QVCT
-class CTrackOverlay;
+#include "overlays/COverlayActionsView.hpp"
 
 
-/// [UI] Track overlay's list view
+/// [UI] Device overlay's actions view
 /**
- *  This class implements the user-interface that allows to store and display
- *  the track overlay.
+ *  This class implements the user-interface that allows to perform additional
+ *  actions on device overlay objects.
  *  @author Cedric Dufour <http://cedric.dufour.name>
  */
-class CTrackOverlayListView: public QWidget
+class CDeviceOverlayActionsView: public COverlayActionsView
 {
   Q_OBJECT
 
@@ -44,17 +42,16 @@ class CTrackOverlayListView: public QWidget
   //------------------------------------------------------------------------------
 
 private:
-  /// Track overlay
-  CTrackOverlay* poTrackOverlay;
-
+  /// [UI:Button] Order invert
+  QPushButton* pqPushButtonOrderInvert;
+  /// [UI:Button] Order ascending
+  QPushButton* pqPushButtonOrderAscending;
+  /// [UI:Button] Order descending
+  QPushButton* pqPushButtonOrderDescending;
   /// [UI:Button] Load
-  QPushButton* pqPushButtonLoad;
-  /// [UI:Button] Up
-  QPushButton* pqPushButtonUp;
-  /// [UI:Button] Down
-  QPushButton* pqPushButtonDown;
-  /// [UI:Button] Actions
-  QPushButton* pqPushButtonActions;
+  QPushButton* pqPushButtonSave;
+  /// [UI:Button] Delete
+  QPushButton* pqPushButtonDelete;
 
 
   //------------------------------------------------------------------------------
@@ -62,8 +59,8 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CTrackOverlayListView( QWidget* _pqParent );
-  virtual ~CTrackOverlayListView() {};
+  CDeviceOverlayActionsView();
+  virtual ~CDeviceOverlayActionsView() {};
 
 private:
   /// Constructs the layout of the user-interface
@@ -76,15 +73,17 @@ private:
 
   // SLOTS
 private slots:
-  /// [UI:Slot] Slot to load overlay's content from file
-  void slotLoad();
-  /// [UI:Slot] Slot to move overlay's content up
-  void slotUp();
-  /// [UI:Slot] Slot to move overlay's content down
-  void slotDown();
-  /// [UI:Slot] Slot to show additional actions
-  void slotActions();
+  /// [UI:Slot] Slot to invert overlay's content order
+  void slotOrderInvert();
+  /// [UI:Slot] Slot to order overlay's content in ascending direction
+  void slotOrderAscending();
+  /// [UI:Slot] Slot to order overlay's content in descending direction
+  void slotOrderDescending();
+  /// [UI:Slot] Slot to save overlay's selected content to file
+  void slotSave();
+  /// [UI:Slot] Slot to delete overlay's selected content
+  void slotDelete();
 
 };
 
-#endif // QVCT_CTRACKOVERLAYLISTVIEW_HPP
+#endif // QVCT_CDEVICEOVERLAYACTIONSVIEW_HPP

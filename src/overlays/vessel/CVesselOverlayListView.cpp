@@ -17,7 +17,6 @@
  */
 
 // QT
-#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
@@ -27,6 +26,7 @@
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "overlays/vessel/CVesselContainer.hpp"
+#include "overlays/vessel/CVesselOverlayActionsView.hpp"
 #include "overlays/vessel/CVesselOverlayListView.hpp"
 
 
@@ -57,26 +57,21 @@ void CVesselOverlayListView::constructLayout()
   pqPushButtonLoad->setToolTip( tr("Load flotilla from disk") );
   pqPushButtonLoad->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
-  // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
-  pqPushButtonSave->setToolTip( tr("Save selected vessels to disk") );
-  pqPushButtonSave->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
-  // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "", this );
-  pqPushButtonDelete->setToolTip( tr("Delete selected vessels") );
-  pqPushButtonDelete->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... up
-  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/sort_ascending.png" ), "", this );
-  pqPushButtonUp->setToolTip( tr("[flotilla/vessel] Move up; [overlay] Sort in ascending order") );
+  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "", this );
+  pqPushButtonUp->setToolTip( tr("[flotilla/vessel] Move up") );
   pqPushButtonUp->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonUp, SIGNAL( clicked() ), this, SLOT( slotUp() ) );
   // ... down
-  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/sort_descending.png" ), "", this );
-  pqPushButtonDown->setToolTip( tr("[flotilla/vessel] Move down; [overlay] Sort in descending order") );
+  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "", this );
+  pqPushButtonDown->setToolTip( tr("[flotilla/vessel] Move down") );
   pqPushButtonDown->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDown, SIGNAL( clicked() ), this, SLOT( slotDown() ) );
+  // ... actions
+  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "", this );
+  pqPushButtonActions->setToolTip( tr("Additional actions")+"..." );
+  pqPushButtonActions->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonActions, SIGNAL( clicked() ), this, SLOT( slotActions() ) );
 
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
@@ -92,11 +87,10 @@ void CVesselOverlayListView::constructLayout()
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 1, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonActions, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
 
   // Set the layout
@@ -138,33 +132,6 @@ void CVesselOverlayListView::slotLoad()
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 
-void CVesselOverlayListView::slotSave()
-{
-  QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::SAVE, tr("Save Vessel"), tr("QVCT Files")+" (*.qvct)" );
-  if( __qsFilename.isEmpty() ) return;
-  QFileInfo __qFileInfo( __qsFilename );
-  if( __qFileInfo.suffix().isEmpty() ) __qsFilename += ".qvct";
-  QStringList __qsListExtensions; __qsListExtensions << "qvct";
-  if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
-  QVCTRuntime::useVesselOverlay()->save( __qsFilename, 0 ); // no container = save selection
-}
-
-void CVesselOverlayListView::slotDelete()
-{
-  if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected vessel(s)") ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
-  __pqMutexDataChange->lock();
-  bool __bModified = __poVesselOverlay->deleteSelection();
-  __pqMutexDataChange->unlock();
-  if( __bModified )
-  {
-    __poVesselOverlay->forceRedraw();
-    QVCTRuntime::useChartTable()->updateChart();
-    QVCTRuntime::useChartTable()->setProjectModified();
-  };
-}
-
 void CVesselOverlayListView::slotUp()
 {
   CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
@@ -172,11 +139,6 @@ void CVesselOverlayListView::slotUp()
   if( !__pqTreeWidgetItem_current ) return;
   switch( __pqTreeWidgetItem_current->type() )
   {
-
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::AscendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
 
   case COverlayObject::CONTAINER:
   case COverlayObject::ITEM:
@@ -212,11 +174,6 @@ void CVesselOverlayListView::slotDown()
   switch( __pqTreeWidgetItem_current->type() )
   {
 
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::DescendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
-
   case COverlayObject::CONTAINER:
   case COverlayObject::ITEM:
     {
@@ -241,4 +198,11 @@ void CVesselOverlayListView::slotDown()
   default:;
 
   }
+}
+
+void CVesselOverlayListView::slotActions()
+{
+  CVesselOverlayActionsView* __poVesselOverlayActionsView = new CVesselOverlayActionsView();
+  __poVesselOverlayActionsView->exec();
+  delete __poVesselOverlayActionsView;
 }

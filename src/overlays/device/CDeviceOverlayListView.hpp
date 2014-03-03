@@ -51,14 +51,12 @@ private:
   QPushButton* pqPushButtonLoad;
   /// [UI:Button] Add
   QPushButton* pqPushButtonAdd;
-  /// [UI:Button] Load
-  QPushButton* pqPushButtonSave;
-  /// [UI:Button] Delete
-  QPushButton* pqPushButtonDelete;
   /// [UI:Button] Up
   QPushButton* pqPushButtonUp;
   /// [UI:Button] Down
   QPushButton* pqPushButtonDown;
+  /// [UI:Button] Actions
+  QPushButton* pqPushButtonActions;
 
 
   //------------------------------------------------------------------------------
@@ -84,14 +82,12 @@ private slots:
   void slotLoad();
   /// [UI:Slot] Slot to add a new container
   void slotAdd();
-  /// [UI:Slot] Slot to save overlay's selected content to file
-  void slotSave();
-  /// [UI:Slot] Slot to delete overlay's selected content
-  void slotDelete();
-  /// [UI:Slot] Slot to sort or move overlay's content (ascending/up direction)
+  /// [UI:Slot] Slot to move overlay's content up
   void slotUp();
-  /// [UI:Slot] Slot to sort or move overlay's content (descending/down direction)
+  /// [UI:Slot] Slot to move overlay's content down
   void slotDown();
+  /// [UI:Slot] Slot to show additional actions
+  void slotActions();
 
 };
 

@@ -17,7 +17,6 @@
  */
 
 // QT
-#include <QFileInfo>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QStackedWidget>
@@ -27,6 +26,7 @@
 // QVCT
 #include "QVCTRuntime.hpp"
 #include "overlays/route/CRouteContainer.hpp"
+#include "overlays/route/CRouteOverlayActionsView.hpp"
 #include "overlays/route/CRouteOverlayListView.hpp"
 
 
@@ -57,30 +57,21 @@ void CRouteOverlayListView::constructLayout()
   pqPushButtonLoad->setToolTip( tr("Load route from disk") );
   pqPushButtonLoad->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
-  // // ... save
-  // pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
-  // pqPushButtonSave->setToolTip( tr("Save selected waypoints to disk") );
-  // pqPushButtonSave->setMaximumSize( 36, 34 );
-  // QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
-  // ... save (dummy)
-  QPushButton* __pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
-  __pqPushButtonSave->setMaximumSize( 36, 34 );
-  __pqPushButtonSave->setEnabled( false );
-  // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "", this );
-  pqPushButtonDelete->setToolTip( tr("Delete selected waypoints") );
-  pqPushButtonDelete->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... up
-  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/sort_ascending.png" ), "", this );
-  pqPushButtonUp->setToolTip( tr("[waypoint/route] Move up; [overlay] Sort in ascending order") );
+  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "", this );
+  pqPushButtonUp->setToolTip( tr("[route/waypoint] Move up") );
   pqPushButtonUp->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonUp, SIGNAL( clicked() ), this, SLOT( slotUp() ) );
   // ... down
-  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/sort_descending.png" ), "", this );
-  pqPushButtonDown->setToolTip( tr("[waypoint/route] Move down; [overlay] Sort in descending order") );
+  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "", this );
+  pqPushButtonDown->setToolTip( tr("[route/waypoint] Move down") );
   pqPushButtonDown->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDown, SIGNAL( clicked() ), this, SLOT( slotDown() ) );
+  // ... actions
+  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "", this );
+  pqPushButtonActions->setToolTip( tr("Additional actions")+"..." );
+  pqPushButtonActions->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonActions, SIGNAL( clicked() ), this, SLOT( slotActions() ) );
 
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
@@ -96,11 +87,10 @@ void CRouteOverlayListView::constructLayout()
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( __pqPushButtonSave, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 1, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonActions, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
 
   // Set the layout
@@ -142,22 +132,6 @@ void CRouteOverlayListView::slotLoad()
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 
-void CRouteOverlayListView::slotDelete()
-{
-  if( !QVCTRuntime::useMainWindow()->deleteConfirm( tr("Selected waypoint(s)") ) ) return;
-  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
-  CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
-  __pqMutexDataChange->lock();
-  bool __bModified = __poRouteOverlay->deleteSelection();
-  __pqMutexDataChange->unlock();
-  if( __bModified )
-  {
-    __poRouteOverlay->forceRedraw();
-    QVCTRuntime::useChartTable()->updateChart();
-    QVCTRuntime::useChartTable()->setProjectModified();
-  };
-}
-
 void CRouteOverlayListView::slotUp()
 {
   CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
@@ -165,11 +139,6 @@ void CRouteOverlayListView::slotUp()
   if( !__pqTreeWidgetItem_current ) return;
   switch( __pqTreeWidgetItem_current->type() )
   {
-
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CRouteOverlay::NAME, Qt::AscendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
 
   case COverlayObject::CONTAINER:
   case COverlayObject::ITEM:
@@ -203,11 +172,6 @@ void CRouteOverlayListView::slotDown()
   switch( __pqTreeWidgetItem_current->type() )
   {
 
-  case COverlayObject::OVERLAY:
-    __pqTreeWidgetItem_current->sortChildren( CRouteOverlay::NAME, Qt::DescendingOrder );
-    QVCTRuntime::useChartTable()->setProjectModified();
-    break;
-
   case COverlayObject::CONTAINER:
   case COverlayObject::ITEM:
     {
@@ -230,4 +194,11 @@ void CRouteOverlayListView::slotDown()
   default:;
 
   }
+}
+
+void CRouteOverlayListView::slotActions()
+{
+  CRouteOverlayActionsView* __poRouteOverlayActionsView = new CRouteOverlayActionsView();
+  __poRouteOverlayActionsView->exec();
+  delete __poRouteOverlayActionsView;
 }

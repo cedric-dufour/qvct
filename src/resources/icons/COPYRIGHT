@@ -28,9 +28,15 @@ landmark_point.png,FATCOW,asterisk_orange.png+flag_1.png
 load.png,FATCOW,folder.png
 measure.png,FATCOW,measure.png
 measure_single.png,FATCOW,measure.png
+more.png,FATCOW,draw_points.png
 move.png,FATCOW,transform_move.png
+move_down.png,FATCOW,sort_descending.png
 move_lock.png,FATCOW,transform_move.png+lock.png
 move_unlock.png,FATCOW,move.png+lock_open.png
+move_up.png,FATCOW,sort_ascending.png
+order_ascending.png,FATCOW,sort_ascending.png
+order_descending.png,FATCOW,sort_descending.png
+order_invert.png,FATCOW,sort_ascending.png+sort_descending.png
 pause.png,FATCOW,control_pause.png
 point_add.png,FATCOW,flag_1.png+add.png
 pointer.png,FATCOW,mouse_2.png
@@ -41,8 +47,6 @@ route_point.png,FATCOW,32_bit.png+flag_1.png
 save.png,FATCOW,save_as.png
 save_select.png,FATCOW,save_as.png+tick.png
 select.png,FATCOW,tick.png
-sort_ascending.png,FATCOW,sort_ascending.png
-sort_descending.png,FATCOW,sort_descending.png
 start.png,FATCOW,control_play.png
 stop.png,FATCOW,control_stop.png
 target.png,FATCOW,radiolocator.png

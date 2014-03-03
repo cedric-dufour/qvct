@@ -54,6 +54,7 @@ set( MY_CPPS
   # devices/drivers/Sample/CDeviceSample.cpp # SAMPLE_DRIVER
   # devices/drivers/Sample/CDeviceSampleEditView.cpp # SAMPLE_DRIVER
   overlays/COverlay.cpp
+  overlays/COverlayActionsView.cpp
   overlays/COverlayBase.cpp
   overlays/COverlayBaseTree.cpp
   overlays/COverlayContainer.cpp
@@ -68,6 +69,7 @@ set( MY_CPPS
   overlays/COverlayUrl.cpp
   overlays/COverlayVisibility.cpp
   overlays/device/CDeviceOverlay.cpp
+  overlays/device/CDeviceOverlayActionsView.cpp
   overlays/device/CDeviceOverlayListView.cpp
   overlays/dock/COverlayDetailView.cpp
   overlays/dock/COverlayListView.cpp
@@ -76,6 +78,7 @@ set( MY_CPPS
   overlays/landmark/CLandmarkContainerEditView.cpp
   overlays/landmark/CLandmarkContainerPickView.cpp
   overlays/landmark/CLandmarkOverlay.cpp
+  overlays/landmark/CLandmarkOverlayActionsView.cpp
   overlays/landmark/CLandmarkOverlayListView.cpp
   overlays/landmark/CLandmarkPoint.cpp
   overlays/landmark/CLandmarkPointDetailView.cpp
@@ -88,6 +91,7 @@ set( MY_CPPS
   overlays/route/CRouteContainerEditView.cpp
   overlays/route/CRouteContainerPickView.cpp
   overlays/route/CRouteOverlay.cpp
+  overlays/route/CRouteOverlayActionsView.cpp
   overlays/route/CRouteOverlayListView.cpp
   overlays/route/CRoutePoint.cpp
   overlays/route/CRoutePointDetailView.cpp
@@ -96,6 +100,7 @@ set( MY_CPPS
   overlays/track/CTrackContainerDetailView.cpp
   overlays/track/CTrackContainerEditView.cpp
   overlays/track/CTrackOverlay.cpp
+  overlays/track/CTrackOverlayActionsView.cpp
   overlays/track/CTrackOverlayListView.cpp
   overlays/track/CTrackPoint.cpp
   overlays/track/CTrackPointDetailView.cpp
@@ -105,6 +110,7 @@ set( MY_CPPS
   overlays/vessel/CVesselContainerDetailView.cpp
   overlays/vessel/CVesselContainerEditView.cpp
   overlays/vessel/CVesselOverlay.cpp
+  overlays/vessel/CVesselOverlayActionsView.cpp
   overlays/vessel/CVesselOverlayListView.cpp
   overlays/vessel/CVesselPoint.cpp
   overlays/vessel/CVesselPointDetailView.cpp
@@ -165,28 +171,34 @@ set( MY_MOCS
   devices/drivers/TcpSbs1/CDeviceTcpSbs1EditView.hpp
   # devices/drivers/Sample/CDeviceSample.hpp # SAMPLE_DRIVER
   # devices/drivers/Sample/CDeviceSampleEditView.hpp # SAMPLE_DRIVER
+  overlays/COverlayActionsView.hpp
   overlays/COverlayBase.hpp
   overlays/COverlayBaseTree.hpp
   overlays/COverlayObject.hpp
   overlays/COverlayObjectDetailView.hpp
   overlays/COverlayObjectEditView.hpp
   overlays/COverlayObjectPickView.hpp
+  overlays/device/CDeviceOverlayActionsView.hpp
   overlays/device/CDeviceOverlayListView.hpp
   overlays/dock/COverlayDetailView.hpp
   overlays/dock/COverlayListView.hpp
   overlays/landmark/CLandmarkContainerDetailView.hpp
+  overlays/landmark/CLandmarkOverlayActionsView.hpp
   overlays/landmark/CLandmarkOverlayListView.hpp
   overlays/landmark/CLandmarkPointDetailView.hpp
   overlays/pointer/CPointerPointDetailView.hpp
   overlays/route/CRouteContainerDetailView.hpp
+  overlays/route/CRouteOverlayActionsView.hpp
   overlays/route/CRouteOverlayListView.hpp
   overlays/route/CRoutePointDetailView.hpp
   overlays/track/CTrackContainerDetailView.hpp
+  overlays/track/CTrackOverlayActionsView.hpp
   overlays/track/CTrackOverlayListView.hpp
   overlays/track/CTrackPointDetailView.hpp
   overlays/track/CTrackSubContainerDetailView.hpp
   overlays/vessel/CVesselContainer.hpp
   overlays/vessel/CVesselContainerDetailView.hpp
+  overlays/vessel/CVesselOverlayActionsView.hpp
   overlays/vessel/CVesselOverlayListView.hpp
   overlays/vessel/CVesselPointDetailView.hpp
   overlays/vessel/device/CVesselContainerDevice.hpp
