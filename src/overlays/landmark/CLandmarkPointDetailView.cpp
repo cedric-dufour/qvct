@@ -62,6 +62,12 @@ void CLandmarkPointDetailView::constructLayout()
   pqPushButtonCenter->setMaximumSize( 36, 34 );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
+  // ... edit
+  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
+  pqPushButtonEdit->setToolTip( tr("Edit this landmark") );
+  pqPushButtonEdit->setMaximumSize( 36, 34 );
+  pqPushButtonEdit->setEnabled( false );
+  QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... move
   pqPushButtonMove = new QPushButton( QIcon( ":icons/32x32/move.png" ), "", this );
   pqPushButtonMove->setToolTip( tr("Change this landmark's position)") );
@@ -69,12 +75,6 @@ void CLandmarkPointDetailView::constructLayout()
   pqPushButtonMove->setEnabled( false );
   pqPushButtonMove->setCheckable( true );
   QWidget::connect( pqPushButtonMove, SIGNAL( toggled(bool) ), this, SLOT( slotMove(bool) ) );
-  // ... edit
-  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
-  pqPushButtonEdit->setToolTip( tr("Edit this landmark") );
-  pqPushButtonEdit->setMaximumSize( 36, 34 );
-  pqPushButtonEdit->setEnabled( false );
-  QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... delete
   pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
   pqPushButtonDelete->setToolTip( tr("Delete this landmark") );
@@ -198,8 +198,8 @@ void CLandmarkPointDetailView::constructLayout()
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( pqPushButtonVisible, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonCenter, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonMove, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonEdit, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonMove, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonAddRoute, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
@@ -276,8 +276,8 @@ void CLandmarkPointDetailView::enableContent()
   {
     pqPushButtonVisible->setEnabled( true );
     pqPushButtonCenter->setEnabled( true );
-    pqPushButtonMove->setEnabled( true );
     pqPushButtonEdit->setEnabled( true );
+    pqPushButtonMove->setEnabled( true );
     pqPushButtonDelete->setEnabled( true );
     pqPushButtonAddRoute->setEnabled( true );
   }
@@ -287,8 +287,8 @@ void CLandmarkPointDetailView::disableContent()
 {
   pqPushButtonVisible->setEnabled( false );
   pqPushButtonCenter->setEnabled( false );
-  pqPushButtonMove->setEnabled( false );
   pqPushButtonEdit->setEnabled( false );
+  pqPushButtonMove->setEnabled( false );
   pqPushButtonDelete->setEnabled( false );
   pqPushButtonAddRoute->setEnabled( false );
 }
@@ -324,6 +324,13 @@ void CLandmarkPointDetailView::slotPositionCenter()
   QVCTRuntime::useChartTable()->updateChart();
 }
 
+void CLandmarkPointDetailView::slotEdit()
+{
+  if( !poOverlayObject ) return;
+  ((CLandmarkPoint*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
+}
+
 void CLandmarkPointDetailView::slotMove( bool _bEnable )
 {
   if( !poOverlayObject ) return;
@@ -333,13 +340,6 @@ void CLandmarkPointDetailView::slotMove( bool _bEnable )
   pqPushButtonAddRoute->setEnabled( !_bEnable );
   QVCTRuntime::useOverlayListView()->setEnabled( !_bEnable );
   QVCTRuntime::useChartTable()->setOverlayPointMove( _bEnable ? (CLandmarkPoint*)poOverlayObject : 0 );
-  QVCTRuntime::useChartTable()->setProjectModified();
-}
-
-void CLandmarkPointDetailView::slotEdit()
-{
-  if( !poOverlayObject ) return;
-  ((CLandmarkPoint*)poOverlayObject)->showEdit();
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 

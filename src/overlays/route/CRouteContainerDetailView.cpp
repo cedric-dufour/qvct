@@ -61,18 +61,18 @@ void CRouteContainerDetailView::constructLayout()
   pqPushButtonCenter->setToolTip( tr("Center chart on this route's mean position") );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
-  // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save.png" ), "", this );
-  pqPushButtonSave->setMaximumSize( 36, 34 );
-  pqPushButtonSave->setToolTip( tr("Save this route to disk") );
-  pqPushButtonSave->setEnabled( false );
-  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
   // ... edit
   pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
   pqPushButtonEdit->setMaximumSize( 36, 34 );
   pqPushButtonEdit->setToolTip( tr("Edit this route") );
   pqPushButtonEdit->setEnabled( false );
   QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
+  // ... save
+  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save.png" ), "", this );
+  pqPushButtonSave->setMaximumSize( 36, 34 );
+  pqPushButtonSave->setToolTip( tr("Save this route to disk") );
+  pqPushButtonSave->setEnabled( false );
+  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
   // ... delete
   pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
@@ -182,8 +182,8 @@ void CRouteContainerDetailView::constructLayout()
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( pqPushButtonVisible, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonCenter, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonEdit, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonAddPoint, 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
@@ -228,8 +228,8 @@ void CRouteContainerDetailView::enableContent()
   {
     pqPushButtonVisible->setEnabled( true );
     pqPushButtonCenter->setEnabled( true );
-    pqPushButtonSave->setEnabled( true );
     pqPushButtonEdit->setEnabled( true );
+    pqPushButtonSave->setEnabled( true );
     pqPushButtonDelete->setEnabled( true );
     pqPushButtonAddPoint->setEnabled( true );
   }
@@ -239,8 +239,8 @@ void CRouteContainerDetailView::disableContent()
 {
   pqPushButtonVisible->setEnabled( false );
   pqPushButtonCenter->setEnabled( false );
-  pqPushButtonSave->setEnabled( false );
   pqPushButtonEdit->setEnabled( false );
+  pqPushButtonSave->setEnabled( false );
   pqPushButtonDelete->setEnabled( false );
   pqPushButtonAddPoint->setEnabled( false );
 }
@@ -278,6 +278,13 @@ void CRouteContainerDetailView::slotPositionCenter()
   QVCTRuntime::useChartTable()->updateChart();
 }
 
+void CRouteContainerDetailView::slotEdit()
+{
+  if( !poOverlayObject ) return;
+  ((CRouteContainer*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
+}
+
 void CRouteContainerDetailView::slotSave()
 {
   if( !poOverlayObject ) return;
@@ -288,13 +295,6 @@ void CRouteContainerDetailView::slotSave()
   QStringList __qsListExtensions; __qsListExtensions << "qvct" << "gpx";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
   QVCTRuntime::useRouteOverlay()->save( __qsFilename, (CRouteContainer*)poOverlayObject );
-}
-
-void CRouteContainerDetailView::slotEdit()
-{
-  if( !poOverlayObject ) return;
-  ((CRouteContainer*)poOverlayObject)->showEdit();
-  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CRouteContainerDetailView::slotDelete()

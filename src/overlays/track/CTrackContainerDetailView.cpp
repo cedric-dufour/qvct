@@ -64,18 +64,18 @@ void CTrackContainerDetailView::constructLayout()
   pqPushButtonCenter->setToolTip( tr("Center chart on this track's mean position") );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
-  // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save.png" ), "", this );
-  pqPushButtonSave->setMaximumSize( 36, 34 );
-  pqPushButtonSave->setToolTip( tr("Save this track to disk") );
-  pqPushButtonSave->setEnabled( false );
-  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
   // ... edit
   pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
   pqPushButtonEdit->setMaximumSize( 36, 34 );
   pqPushButtonEdit->setToolTip( tr("Edit this track") );
   pqPushButtonEdit->setEnabled( false );
   QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
+  // ... save
+  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save.png" ), "", this );
+  pqPushButtonSave->setMaximumSize( 36, 34 );
+  pqPushButtonSave->setToolTip( tr("Save this track to disk") );
+  pqPushButtonSave->setEnabled( false );
+  QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
   // ... delete
   pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
@@ -186,8 +186,8 @@ void CTrackContainerDetailView::constructLayout()
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
   __pqHBoxLayoutButtons->addWidget( pqPushButtonVisible, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonCenter, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonEdit, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
   __pqHBoxLayoutButtons->addWidget( new QLabel(), 1, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
@@ -238,8 +238,8 @@ void CTrackContainerDetailView::enableContent()
   {
     pqPushButtonVisible->setEnabled( true );
     pqPushButtonCenter->setEnabled( true );
-    pqPushButtonSave->setEnabled( true );
     pqPushButtonEdit->setEnabled( true );
+    pqPushButtonSave->setEnabled( true );
     pqPushButtonDelete->setEnabled( true );
   }
 }
@@ -248,8 +248,8 @@ void CTrackContainerDetailView::disableContent()
 {
   pqPushButtonVisible->setEnabled( false );
   pqPushButtonCenter->setEnabled( false );
-  pqPushButtonSave->setEnabled( false );
   pqPushButtonEdit->setEnabled( false );
+  pqPushButtonSave->setEnabled( false );
   pqPushButtonDelete->setEnabled( false );
 }
 
@@ -302,6 +302,13 @@ void CTrackContainerDetailView::slotPositionCenter()
   QVCTRuntime::useChartTable()->updateChart();
 }
 
+void CTrackContainerDetailView::slotEdit()
+{
+  if( !poOverlayObject ) return;
+  ((CTrackContainer*)poOverlayObject)->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
+}
+
 void CTrackContainerDetailView::slotSave()
 {
   if( !poOverlayObject ) return;
@@ -312,13 +319,6 @@ void CTrackContainerDetailView::slotSave()
   QStringList __qsListExtensions; __qsListExtensions << "qvct" << "gpx";
   if( !QVCTRuntime::useMainWindow()->fileCheck( QVCT::SAVE, __qsFilename, &__qsListExtensions ) ) return;
   QVCTRuntime::useTrackOverlay()->save( __qsFilename, (CTrackContainer*)poOverlayObject );
-}
-
-void CTrackContainerDetailView::slotEdit()
-{
-  if( !poOverlayObject ) return;
-  ((CTrackContainer*)poOverlayObject)->showEdit();
-  QVCTRuntime::useChartTable()->setProjectModified();
 }
 
 void CTrackContainerDetailView::slotDelete()

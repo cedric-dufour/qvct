@@ -47,16 +47,16 @@ void CLandmarkOverlayListView::constructLayout()
   QVCTRuntime::registerLandmarkOverlay( poLandmarkOverlay );
 
   // Create the buttons
-  // ... load
-  pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "", this );
-  pqPushButtonLoad->setToolTip( tr("Load landmarks set from disk") );
-  pqPushButtonLoad->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
   // ... add
   pqPushButtonAdd = new QPushButton( QIcon( ":icons/32x32/add.png" ), "", this );
   pqPushButtonAdd->setToolTip( tr("Create a new landmarks set") );
   pqPushButtonAdd->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonAdd, SIGNAL( clicked() ), this, SLOT( slotAdd() ) );
+  // ... load
+  pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "", this );
+  pqPushButtonLoad->setToolTip( tr("Load landmarks set from disk") );
+  pqPushButtonLoad->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
   // ... save
   pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
   pqPushButtonSave->setToolTip( tr("Save selected landmarks to disk") );
@@ -91,10 +91,10 @@ void CLandmarkOverlayListView::constructLayout()
 
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignHCenter );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonSave, 0, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
@@ -113,6 +113,17 @@ void CLandmarkOverlayListView::constructLayout()
 // SLOTS
 //
 
+void CLandmarkOverlayListView::slotAdd()
+{
+  CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
+  QString __qsName = __poLandmarkOverlay->newChildName( tr("Landmarks"), 1, true );
+  CLandmarkContainer* __poLandmarkContainer = __poLandmarkOverlay->addContainer( __qsName );
+  if( !__poLandmarkContainer ) return;
+  __poLandmarkOverlay->setCurrentItem( __poLandmarkContainer );
+  __poLandmarkContainer->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
+}
+
 void CLandmarkOverlayListView::slotLoad()
 {
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Landmarks"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
@@ -124,17 +135,6 @@ void CLandmarkOverlayListView::slotLoad()
   __poLandmarkOverlay->setCurrentItem( __poLandmarkContainer );
   __poLandmarkOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  QVCTRuntime::useChartTable()->setProjectModified();
-}
-
-void CLandmarkOverlayListView::slotAdd()
-{
-  CLandmarkOverlay* __poLandmarkOverlay = QVCTRuntime::useLandmarkOverlay();
-  QString __qsName = __poLandmarkOverlay->newChildName( tr("Landmarks"), 1, true );
-  CLandmarkContainer* __poLandmarkContainer = __poLandmarkOverlay->addContainer( __qsName );
-  if( !__poLandmarkContainer ) return;
-  __poLandmarkOverlay->setCurrentItem( __poLandmarkContainer );
-  __poLandmarkContainer->showEdit();
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 

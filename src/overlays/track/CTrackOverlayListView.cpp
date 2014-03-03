@@ -46,15 +46,15 @@ void CTrackOverlayListView::constructLayout()
   QVCTRuntime::registerTrackOverlay( poTrackOverlay );
 
   // Create the buttons
+  // ... add (dummy)
+  QPushButton* __pqPushButtonAdd = new QPushButton( QIcon( ":icons/32x32/add.png" ), "", this );
+  __pqPushButtonAdd->setMaximumSize( 36, 34 );
+  __pqPushButtonAdd->setEnabled( false );
   // ... load
   pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "", this );
   pqPushButtonLoad->setToolTip( tr("Load track from disk") );
   pqPushButtonLoad->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
-  // ... add (dummy)
-  QPushButton* __pqPushButtonAdd = new QPushButton( QIcon( ":icons/32x32/add.png" ), "", this );
-  __pqPushButtonAdd->setMaximumSize( 36, 34 );
-  __pqPushButtonAdd->setEnabled( false );
   // ... save (dummy)
   QPushButton* __pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
   __pqPushButtonSave->setMaximumSize( 36, 34 );
@@ -88,10 +88,10 @@ void CTrackOverlayListView::constructLayout()
 
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
+  __pqHBoxLayoutButtons->addWidget( __pqPushButtonAdd, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( __pqPushButtonAdd, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( __pqPushButtonSave, 0, Qt::AlignHCenter );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( __pqPushButtonSave, 0, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );

@@ -76,7 +76,7 @@ void CTrackPointDetailView::constructLayout()
   pqPushButtonAddRoute->setMaximumSize( 36, 34 );
   pqPushButtonAddRoute->setEnabled( false );
   QWidget::connect( pqPushButtonAddRoute, SIGNAL( clicked() ), this, SLOT( slotAddRoute() ) );
-    
+
   // Create layout
   QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
 

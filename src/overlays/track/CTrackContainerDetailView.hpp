@@ -66,10 +66,10 @@ private:
   QPushButton* pqPushButtonVisible;
   /// [UI:Button] Center (on chart)
   QPushButton* pqPushButtonCenter;
-  /// [UI:Button] Save
-  QPushButton* pqPushButtonSave;
   /// [UI:Button] Edit
   QPushButton* pqPushButtonEdit;
+  /// [UI:Button] Save
+  QPushButton* pqPushButtonSave;
   /// [UI:Button] Delete
   QPushButton* pqPushButtonDelete;
   /// [UI:Button] Add new waypoint
@@ -111,13 +111,13 @@ private slots:
   void slotToggleVisible();
   /// [UI:Slot] Slot to center chart (on container's items position)
   void slotPositionCenter();
-  /// [UI:Slot] Slot to save this container to file
-  void slotSave();
   /// [UI:Slot] Slot to display edit view
   void slotEdit();
+  /// [UI:Slot] Slot to save this container to file
+  void slotSave();
   /// [UI:Slot] Slot to delete (this container)
   void slotDelete();
-  
+
 };
 
 #endif // QVCT_CTRACKCONTAINERDETAILVIEW_HPP

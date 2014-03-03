@@ -68,10 +68,10 @@ private:
   QPushButton* pqPushButtonVisible;
   /// [UI:Button] Center (on chart)
   QPushButton* pqPushButtonCenter;
-  /// [UI:Button] Move (change position)
-  QPushButton* pqPushButtonMove;
   /// [UI:Button] Edit
   QPushButton* pqPushButtonEdit;
+  /// [UI:Button] Move (change position)
+  QPushButton* pqPushButtonMove;
   /// [UI:Button] Delete
   QPushButton* pqPushButtonDelete;
   /// [UI:Button] Add new landmark
@@ -114,10 +114,10 @@ private slots:
   void slotToggleVisible();
   /// [UI:Slot] Slot to center chart (on item's position)
   void slotPositionCenter();
-  /// [UI:Slot] Slot to enable/disable move (position change)
-  void slotMove( bool _bEnable );
   /// [UI:Slot] Slot to display edit view
   void slotEdit();
+  /// [UI:Slot] Slot to enable/disable move (position change)
+  void slotMove( bool _bEnable );
   /// [UI:Slot] Slot to delete (this item/point)
   void slotDelete();
   /// [UI:Slot] Slot to add new landmark

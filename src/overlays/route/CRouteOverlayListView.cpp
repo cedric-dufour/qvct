@@ -47,16 +47,16 @@ void CRouteOverlayListView::constructLayout()
   QVCTRuntime::registerRouteOverlay( poRouteOverlay );
 
   // Create the buttons
-  // ... load
-  pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "", this );
-  pqPushButtonLoad->setToolTip( tr("Load route from disk") );
-  pqPushButtonLoad->setMaximumSize( 36, 34 );
-  QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
   // ... add
   pqPushButtonAdd = new QPushButton( QIcon( ":icons/32x32/add.png" ), "", this );
   pqPushButtonAdd->setToolTip( tr("Create a new route") );
   pqPushButtonAdd->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonAdd, SIGNAL( clicked() ), this, SLOT( slotAdd() ) );
+  // ... load
+  pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "", this );
+  pqPushButtonLoad->setToolTip( tr("Load route from disk") );
+  pqPushButtonLoad->setMaximumSize( 36, 34 );
+  QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
   // // ... save
   // pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
   // pqPushButtonSave->setToolTip( tr("Save selected waypoints to disk") );
@@ -95,10 +95,10 @@ void CRouteOverlayListView::constructLayout()
 
   // Add buttons
   QHBoxLayout* __pqHBoxLayoutButtons = new QHBoxLayout();
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 0, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonLoad, 0, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonAdd, 1, Qt::AlignLeft );
-  __pqHBoxLayoutButtons->addWidget( __pqPushButtonSave, 0, Qt::AlignHCenter );
-  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 0, Qt::AlignHCenter );
+  __pqHBoxLayoutButtons->addWidget( __pqPushButtonSave, 0, Qt::AlignLeft );
+  __pqHBoxLayoutButtons->addWidget( pqPushButtonDelete, 1, Qt::AlignLeft );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonUp, 1, Qt::AlignRight );
   __pqHBoxLayoutButtons->addWidget( pqPushButtonDown, 0, Qt::AlignRight );
   __pqVBoxLayout->addLayout( __pqHBoxLayoutButtons );
@@ -117,6 +117,17 @@ void CRouteOverlayListView::constructLayout()
 // SLOTS
 //
 
+void CRouteOverlayListView::slotAdd()
+{
+  CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
+  QString __qsName = __poRouteOverlay->newChildName( tr("Route"), 1, true );
+  CRouteContainer* __poRouteContainer = __poRouteOverlay->addContainer( __qsName );
+  if( !__poRouteContainer ) return;
+  __poRouteOverlay->setCurrentItem( __poRouteContainer );
+  __poRouteContainer->showEdit();
+  QVCTRuntime::useChartTable()->setProjectModified();
+}
+
 void CRouteOverlayListView::slotLoad()
 {
   QString __qsFilename = QVCTRuntime::useMainWindow()->fileDialog( QVCT::OPEN, tr("Load Route"), tr("GPX Files")+" (*.gpx);;"+tr("QVCT Files")+" (*.qvct)" );
@@ -128,17 +139,6 @@ void CRouteOverlayListView::slotLoad()
   __poRouteOverlay->setCurrentItem( __poRouteContainer );
   __poRouteOverlay->forceRedraw();
   QVCTRuntime::useChartTable()->updateChart();
-  QVCTRuntime::useChartTable()->setProjectModified();
-}
-
-void CRouteOverlayListView::slotAdd()
-{
-  CRouteOverlay* __poRouteOverlay = QVCTRuntime::useRouteOverlay();
-  QString __qsName = __poRouteOverlay->newChildName( tr("Route"), 1, true );
-  CRouteContainer* __poRouteContainer = __poRouteOverlay->addContainer( __qsName );
-  if( !__poRouteContainer ) return;
-  __poRouteOverlay->setCurrentItem( __poRouteContainer );
-  __poRouteContainer->showEdit();
   QVCTRuntime::useChartTable()->setProjectModified();
 }
 

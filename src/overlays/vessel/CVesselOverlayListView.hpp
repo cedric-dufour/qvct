@@ -47,10 +47,10 @@ private:
   /// Vessel overlay
   CVesselOverlay* poVesselOverlay;
 
-  /// [UI:Button] Load
-  QPushButton* pqPushButtonLoad;
   /// [UI:Button] Add
   QPushButton* pqPushButtonAdd;
+  /// [UI:Button] Load
+  QPushButton* pqPushButtonLoad;
   /// [UI:Button] Load
   QPushButton* pqPushButtonSave;
   /// [UI:Button] Delete
@@ -80,10 +80,10 @@ private:
 
   // SLOTS
 private slots:
-  /// [UI:Slot] Slot to load overlay's content from file
-  void slotLoad();
   /// [UI:Slot] Slot to add a new container
   void slotAdd();
+  /// [UI:Slot] Slot to load overlay's content from file
+  void slotLoad();
   /// [UI:Slot] Slot to save overlay's selected content to file
   void slotSave();
   /// [UI:Slot] Slot to delete overlay's selected content

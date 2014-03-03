@@ -62,10 +62,10 @@ private:
   QPushButton* pqPushButtonVisible;
   /// [UI:Button] Center (on chart)
   QPushButton* pqPushButtonCenter;
-  /// [UI:Button] Save
-  QPushButton* pqPushButtonSave;
   /// [UI:Button] Edit
   QPushButton* pqPushButtonEdit;
+  /// [UI:Button] Save
+  QPushButton* pqPushButtonSave;
   /// [UI:Button] Delete
   QPushButton* pqPushButtonDelete;
   /// [UI:Button] Set device (dynamic flotilla)
@@ -110,17 +110,17 @@ private slots:
   void slotToggleVisible();
   /// [UI:Slot] Slot to center chart (on container's items position)
   void slotPositionCenter();
-  /// [UI:Slot] Slot to save this container to file
-  void slotSave();
   /// [UI:Slot] Slot to display edit view
   void slotEdit();
+  /// [UI:Slot] Slot to save this container to file
+  void slotSave();
   /// [UI:Slot] Slot to delete (this container)
   void slotDelete();
   /// [UI:Slot] Slot to set device (dynamic flotilla)
   void slotSetDevice();
   /// [UI:Slot] Slot to add new (vessel) point
   void slotAddPoint();
-  
+
 };
 
 #endif // QVCT_CVESSELCONTAINERDETAILVIEW_HPP
