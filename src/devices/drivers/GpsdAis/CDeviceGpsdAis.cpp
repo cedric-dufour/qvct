@@ -224,7 +224,8 @@ void CDeviceGpsdAis::slotProcessData( int )
       __qsCallsign =  psGpsData->ais.type24.callsign;
       break;
 
-    default:;
+    default:
+      continue;
 
     }
 
