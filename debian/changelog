@@ -1,3 +1,20 @@
+qvct (1.0.20140304) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  - FIX: Prevent ordering of dynamic flotillas' device
+  - NEW: Added 'additional actions' button, allowing more and better
+         controls for overlays' content ordering
+  - NEW: Added 'order invert' action for overlays' content ordering
+  - MOD: Reordered buttons in a more (personally?) intuitive way
+  - FIX: Do not process irrelevant AIS data types (in GPSD AIS driver)
+  - FIX: Do not signal device activity faster than user can see
+  - FIX: Segmentation fault when GPSD (<5) cannot be opened
+  - FIX: Suppress unnecessary 'gps_waiting' call in GPSD drivers
+  - FIX: Trim white spaces from SBS-1 callsigns
+  - FIX: Do not set project as modified when updating dynamic vessels
+
+ -- Cedric Dufour <cedric.dufour@ced-network.net>  Tue, 04 Mar 2014 09:08:54 +0100
+
 qvct (1.0.20140214) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
