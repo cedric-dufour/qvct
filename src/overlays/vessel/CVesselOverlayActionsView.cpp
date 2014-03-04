@@ -23,6 +23,7 @@
 
 // QVCT
 #include "QVCTRuntime.hpp"
+#include "overlays/vessel/CVesselContainer.hpp"
 #include "overlays/vessel/CVesselOverlayActionsView.hpp"
 
 
@@ -93,13 +94,15 @@ void CVesselOverlayActionsView::slotOrderInvert()
     CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
     QTreeWidgetItem* __pqTreeWidgetItem_current = __poVesselOverlay->currentItem();
     if( !__pqTreeWidgetItem_current ) break;
+    bool __bDynamic = false;
     switch( __pqTreeWidgetItem_current->type() )
     {
 
-    case COverlayObject::OVERLAY:
     case COverlayObject::CONTAINER:
+      __bDynamic = ((CVesselContainer*)__pqTreeWidgetItem_current)->isDynamic();
+    case COverlayObject::OVERLAY:
       {
-        int __iHead = 0, __iTail = __pqTreeWidgetItem_current->childCount()-1;
+        int __iHead = __bDynamic ? 1 : 0, __iTail = __pqTreeWidgetItem_current->childCount()-1;
         while( __iTail > __iHead )
         {
           QTreeWidgetItem* __pqTreeWidgetItem_head = __pqTreeWidgetItem_current->child( __iHead );
@@ -128,13 +131,27 @@ void CVesselOverlayActionsView::slotOrderAscending()
     CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
     QTreeWidgetItem* __pqTreeWidgetItem_current = __poVesselOverlay->currentItem();
     if( !__pqTreeWidgetItem_current ) break;
+    bool __bDynamic = false;
     switch( __pqTreeWidgetItem_current->type() )
     {
 
-    case COverlayObject::OVERLAY:
     case COverlayObject::CONTAINER:
-      __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::AscendingOrder );
-      QVCTRuntime::useChartTable()->setProjectModified();
+      __bDynamic = ((CVesselContainer*)__pqTreeWidgetItem_current)->isDynamic();
+    case COverlayObject::OVERLAY:
+      {
+        QTreeWidgetItem* __pqTreeWidgetItem_device = 0;
+        if( __bDynamic )
+        {
+          __pqTreeWidgetItem_device = __pqTreeWidgetItem_current->child( 0 );
+          __pqTreeWidgetItem_current->removeChild( __pqTreeWidgetItem_device );
+        }
+        __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::AscendingOrder );
+        if( __bDynamic )
+        {
+          __pqTreeWidgetItem_current->insertChild( 0, __pqTreeWidgetItem_device );
+        }
+        QVCTRuntime::useChartTable()->setProjectModified();
+      }
       break;
 
     default:;
@@ -152,13 +169,27 @@ void CVesselOverlayActionsView::slotOrderDescending()
     CVesselOverlay* __poVesselOverlay = QVCTRuntime::useVesselOverlay();
     QTreeWidgetItem* __pqTreeWidgetItem_current = __poVesselOverlay->currentItem();
     if( !__pqTreeWidgetItem_current ) break;
+    bool __bDynamic = false;
     switch( __pqTreeWidgetItem_current->type() )
     {
 
-    case COverlayObject::OVERLAY:
     case COverlayObject::CONTAINER:
-      __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::DescendingOrder );
-      QVCTRuntime::useChartTable()->setProjectModified();
+      __bDynamic = ((CVesselContainer*)__pqTreeWidgetItem_current)->isDynamic();
+    case COverlayObject::OVERLAY:
+      {
+        QTreeWidgetItem* __pqTreeWidgetItem_device = 0;
+        if( __bDynamic )
+        {
+          __pqTreeWidgetItem_device = __pqTreeWidgetItem_current->child( 0 );
+          __pqTreeWidgetItem_current->removeChild( __pqTreeWidgetItem_device );
+        }
+        __pqTreeWidgetItem_current->sortChildren( CVesselOverlay::NAME, Qt::DescendingOrder );
+        if( __bDynamic )
+        {
+          __pqTreeWidgetItem_current->insertChild( 0, __pqTreeWidgetItem_device );
+        }
+        QVCTRuntime::useChartTable()->setProjectModified();
+      }
       break;
 
     default:;
