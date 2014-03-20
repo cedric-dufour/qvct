@@ -355,7 +355,7 @@ void CPointerPointDetailView::slotAddRoute()
   else
   {
     QString __qsName = __poRouteContainer->newChildName( tr("Waypoint"), 1, true );
-    __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject );
+    __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject, true );
     if( __poRoutePoint ) __poRouteOverlay->setCurrentItem( __poRoutePoint );
   }
   __poRouteOverlay->forceRedraw();

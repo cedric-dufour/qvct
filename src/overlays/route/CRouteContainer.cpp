@@ -185,11 +185,15 @@ void CRouteContainer::toggleVisibility()
 // OTHER
 //
 
-CRoutePoint* CRouteContainer::addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition )
+CRoutePoint* CRouteContainer::addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition, bool _bMinimizeLength )
 {
   CRoutePoint* __poRoutePoint = new CRoutePoint( _rqsName, _roDataPosition );
   __poRoutePoint->setVisibility( this->getVisibility() | 1 );
-  QTreeWidgetItem::addChild( __poRoutePoint );
+  int __iCount = QTreeWidgetItem::childCount();
+  int __iIndex = __iCount;
+  if( _bMinimizeLength && __iCount > 1 )
+    __iIndex = this->getInsertIndexMinLength( *__poRoutePoint );
+  QTreeWidgetItem::insertChild( __iIndex, __poRoutePoint );
   return __poRoutePoint;
 }
 
@@ -207,6 +211,52 @@ double CRouteContainer::getLengthRL()
     __poRoutePathFrom = __poRoutePathTo;
   }
   return __fdLength;
+}
+
+int CRouteContainer::getInsertIndexMinLength( const CDataPosition& _roDataPosition )
+{
+  int __iCount = QTreeWidgetItem::childCount();
+  if( __iCount < 2 ) return __iCount;
+
+  // Compute current overall length (and detect overlapping waypoint)
+  CRoutePoint* __poRoutePathFrom = (CRoutePoint*)QTreeWidgetItem::child( 0 );
+  if( CDataPosition::length( *__poRoutePathFrom, _roDataPosition ) < 10.0 )
+    return __iCount; // best to append overlapping (nonsensical) waypoint
+  CRoutePoint* __poRoutePathTo = 0;
+  double __fdLengthCurrent = 0;
+  for( int __i = 1; __i < __iCount; __i++ )
+  {
+    __poRoutePathTo = (CRoutePoint*)QTreeWidgetItem::child( __i );
+    if( CDataPosition::length( _roDataPosition, *__poRoutePathTo ) < 10.0 )
+      return __iCount; // best to append overlapping (nonsensical) waypoint
+    __fdLengthCurrent += CDataPosition::length( *__poRoutePathFrom, *__poRoutePathTo );
+    __poRoutePathFrom = __poRoutePathTo;
+  }
+
+  // Find index that minimizes length
+  int __iIndexBest = __iCount;
+  double __fdLengthBest = __fdLengthCurrent + CDataPosition::length( *__poRoutePathFrom, _roDataPosition );
+  for( int __iIndexCandidate = 1; __iIndexCandidate < __iCount; __iIndexCandidate++ )
+  {
+    double __fdLengthCandidate = __fdLengthCurrent;
+    for( int __i = 1; __i < __iCount; __i++ )
+    {
+      if( __i == __iIndexCandidate )
+      {
+        __poRoutePathFrom = (CRoutePoint*)QTreeWidgetItem::child( __i-1 );
+        __poRoutePathTo = (CRoutePoint*)QTreeWidgetItem::child( __i );
+        __fdLengthCandidate -= CDataPosition::length( *__poRoutePathFrom, *__poRoutePathTo );
+        __fdLengthCandidate += CDataPosition::length( *__poRoutePathFrom, _roDataPosition );
+        __fdLengthCandidate += CDataPosition::length( _roDataPosition, *__poRoutePathTo );
+      }
+    }
+    if( __fdLengthCandidate <= __fdLengthBest || __fdLengthBest < 0 )
+    {
+      __iIndexBest = __iIndexCandidate;
+      __fdLengthBest = __fdLengthCandidate;
+    }
+  }
+  return __iIndexBest;
 }
 
 int CRouteContainer::parseQVCT( const QDomElement& _rqDomElement )

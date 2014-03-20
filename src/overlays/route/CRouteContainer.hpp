@@ -131,9 +131,11 @@ public:
   // OTHER
 public:
   /// Add a new route (item/point) to this container
-  CRoutePoint* addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition = CDataPosition::UNDEFINED );
+  CRoutePoint* addPoint( const QString& _rqsName, const CDataPosition& _roDataPosition = CDataPosition::UNDEFINED, bool _bMinimizeLength = false );
   /// Returns the route's (rhumb-line) length
   double getLengthRL();
+  /// Returns the given point insertion index that minimizes the route's (rhumb-line) length
+  int getInsertIndexMinLength( const CDataPosition& _roDataPosition );
 
 public:
   /// Retrieves this object's content from the given QVCT source (file)
@@ -146,7 +148,7 @@ public:
   void dumpGPX( QXmlStreamWriter & _rqXmlStreamWriter, bool bOnlySelected = false ) const;
   /// Deletes selected items within this container
   int deleteSelection();
-  
+
 };
 
 #endif // QVCT_CROUTECONTAINER_HPP

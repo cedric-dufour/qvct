@@ -362,7 +362,7 @@ void CTrackPointDetailView::slotAddRoute()
   CRouteContainer* __poRouteContainer = __poRouteOverlay->pickContainer();
   if( !__poRouteContainer ) return;
   QString __qsName = __poRouteContainer->newChildName( poOverlayObject->getName() );
-  CRoutePoint* __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject );
+  CRoutePoint* __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject, true );
   if( !__poRoutePoint ) return;
   __poRouteOverlay->setCurrentItem( __poRoutePoint );
   __poRouteOverlay->forceRedraw();

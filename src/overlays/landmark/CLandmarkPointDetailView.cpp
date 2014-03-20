@@ -370,7 +370,7 @@ void CLandmarkPointDetailView::slotAddRoute()
   if( !__poRouteContainer ) return;
   CLandmarkPoint* __poLandmarkPoint = (CLandmarkPoint*)poOverlayObject;
   QString __qsName = __poRouteContainer->newChildName( __poLandmarkPoint->getName() );
-  CRoutePoint* __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject );
+  CRoutePoint* __poRoutePoint = __poRouteContainer->addPoint( __qsName, *(CPointerPoint*)poOverlayObject, true );
   if( !__poRoutePoint ) return;
   __poRoutePoint->setType( __poLandmarkPoint->getType() );
   __poRoutePoint->setDescription( __poLandmarkPoint->getDescription() );

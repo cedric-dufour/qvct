@@ -58,6 +58,8 @@ public:
   static double distanceRL( const CDataPosition& _roPosition1, const CDataPosition& _roPosition2 );
   /// Returns the rhumb-line (constant) bearing between two points, in degrees
   static double bearingRL( const CDataPosition& _roPosition1, const CDataPosition& _roPosition2 );
+  /// Returns the length (rhumb-line distance and elevation delta) between two points, in meters
+  static double length( const CDataPosition& _roPosition1, const CDataPosition& _roPosition2 );
 
 
   //------------------------------------------------------------------------------

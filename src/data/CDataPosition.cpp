@@ -89,6 +89,17 @@ double CDataPosition::bearingRL( const CDataPosition& _roGP1, const CDataPositio
   return __fdBearing;
 }
 
+double CDataPosition::length( const CDataPosition& _roGP1, const CDataPosition& _roGP2 )
+{
+  double __fdDistance = CDataPosition::distanceRL( _roGP1, _roGP2 );
+  if( _roGP1.fdElevation != UNDEFINED_ELEVATION && _roGP2.fdElevation != UNDEFINED_ELEVATION )
+  {
+    double __fdClimb = _roGP2.fdElevation - _roGP1.fdElevation;
+    __fdDistance = sqrt( __fdDistance*__fdDistance + __fdClimb*__fdClimb );
+  }
+  return __fdDistance;
+}
+
 
 //------------------------------------------------------------------------------
 // CONSTRUCTORS / DESTRUCTOR
