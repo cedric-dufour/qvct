@@ -175,7 +175,7 @@ void CDeviceGpsdGps::slotProcessData( int )
     // Check device data
     // NOTE: ( psGpsData->set & DEVICE_SET ) is unreliable; let's use an alternate method
     if( psGpsData->dev.path[0] == '\0' ) continue; // We MUST have a device/source name
-    QString __qsSource = QString::fromAscii( psGpsData->dev.path );
+    QString __qsSource = QString::fromLatin1( psGpsData->dev.path );
     //qDebug( "DEBUG[%s]: GPS data are available from source %s", Q_FUNC_INFO, qPrintable( __qsSource ) );
 
     // Check source (filter)
