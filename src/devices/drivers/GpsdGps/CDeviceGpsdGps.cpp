@@ -27,6 +27,9 @@
 // GPSD
 #include "gps.h"
 // #include "gpsdclient.h"
+#ifndef STATUS_DGPS_FIX
+#define STATUS_DGPS_FIX  2
+#endif
 
 // QVCT
 #include "QVCTRuntime.hpp"
@@ -268,15 +271,27 @@ void CDeviceGpsdGps::slotProcessData( int )
       // Loop through satellites data
       for( int __i = 0; __i < psGpsData->satellites_visible; __i++ )
       {
-        int __iPRN = psGpsData->PRN[ __i ];
+#if GPSD_API_MAJOR_VERSION >= 6
+        int __iPRN = psGpsData->skyview[ __i ].PRN;
         CDeviceDataSatellite __oDeviceDataSatellite( __iPRN );
-        __oDeviceDataSatellite.setAzimuth( psGpsData->azimuth[ __i ] );
-        __oDeviceDataSatellite.setElevation( psGpsData->elevation[ __i ] );
-        __oDeviceDataSatellite.setSignal( psGpsData->ss[ __i ] );
+        __oDeviceDataSatellite.setAzimuth( psGpsData->skyview[ __i ].azimuth );
+        __oDeviceDataSatellite.setElevation( psGpsData->skyview[ __i ].elevation );
+        __oDeviceDataSatellite.setSignal( psGpsData->skyview[ __i ].ss );
+#else
+         int __iPRN = psGpsData->PRN[ __i ];
+         CDeviceDataSatellite __oDeviceDataSatellite( __iPRN );
+         __oDeviceDataSatellite.setAzimuth( psGpsData->azimuth[ __i ] );
+         __oDeviceDataSatellite.setElevation( psGpsData->elevation[ __i ] );
+         __oDeviceDataSatellite.setSignal( psGpsData->ss[ __i ] );
+#endif
         bool __bUsed = false;
         for( int __j = 0; __j < psGpsData->satellites_used; __j++ )
         {
+#if GPSD_API_MAJOR_VERSION >= 6
+          if( psGpsData->skyview[ __j ].used == __iPRN )
+#else
           if( psGpsData->used[ __j ] == __iPRN )
+#endif
           {
             __bUsed = true;
             break;
