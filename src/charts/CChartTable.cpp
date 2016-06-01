@@ -367,7 +367,11 @@ bool CChartTable::handlerKeyEvent( QKeyEvent* _pqKeyEvent )
 bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
 {
   if( QTabWidget::currentIndex() < 0 ) return false;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+  QPointF __qPointFMouse = _pqMouseEvent->localPos();
+#else
   QPointF __qPointFMouse = _pqMouseEvent->posF();
+#endif
   int __iMouseButton = _pqMouseEvent->button();
   switch( _pqMouseEvent->type() )
   {

@@ -57,7 +57,11 @@ CInstrumentGAChronograph::CInstrumentGAChronograph( CVesselCockpit* _poVesselCoc
 
 void CInstrumentGAChronograph::mouseReleaseEvent( QMouseEvent* _pqMouseEvent )
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+  QPointF __qPointFMouse = _pqMouseEvent->localPos();
+#else
   QPointF __qPointFMouse = _pqMouseEvent->posF();
+#endif
   if( __qPointFMouse.x() < QWidget::size().width()/2 )
   { // left-hand side
     if( fdSW1TimeStarted )
@@ -85,7 +89,11 @@ void CInstrumentGAChronograph::mouseReleaseEvent( QMouseEvent* _pqMouseEvent )
 void CInstrumentGAChronograph::mouseDoubleClickEvent( QMouseEvent* _pqMouseEvent )
 {
   // NOTE: don't forget that the widget also receives the two corresponding mouseReleaseEvents
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+  QPointF __qPointFMouse = _pqMouseEvent->localPos();
+#else
   QPointF __qPointFMouse = _pqMouseEvent->posF();
+#endif
   if( __qPointFMouse.x() < QWidget::size().width()/2 )
   { // left-hand side
     if( fdSW1TimeStarted ) fdSW1TimeAccumulated = 0;
