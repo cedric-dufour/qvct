@@ -74,5 +74,8 @@ int main( int argc, char* argv[] )
     __poSettings->setMainWindowState( QString( __poMainWindow->saveState().toBase64() ) );
     __poSettings->save( __qsSettingsFilename );
   }
+
+  delete __poSettings;
+
   return __iExit;
 }
