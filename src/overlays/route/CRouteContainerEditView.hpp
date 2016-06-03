@@ -51,8 +51,6 @@ private:
   QTextEdit* pqTextEditDescription;
   /// [UI:TextEdit] Comment
   QTextEdit* pqTextEditComment;
-  /// [UI:LineEdit] Symbol
-  QLineEdit* pqLineEditSymbol;
   /// [UI:LineEdit] URL
   QLineEdit* pqLineEditUrl;
 
