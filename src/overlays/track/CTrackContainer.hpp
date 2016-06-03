@@ -155,6 +155,8 @@ public:
   /// Deletes selected items within this container
   int deleteSelection();
 
+protected:
+  using COverlayVisibility::toggleVisibility;
 };
 
 #endif // QVCT_CTRACKCONTAINER_HPP

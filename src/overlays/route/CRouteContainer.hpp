@@ -146,7 +146,9 @@ public:
   void dumpGPX( QXmlStreamWriter & _rqXmlStreamWriter, bool bOnlySelected = false ) const;
   /// Deletes selected items within this container
   int deleteSelection();
-  
+
+protected:
+  using COverlayVisibility::toggleVisibility;
 };
 
 #endif // QVCT_CROUTECONTAINER_HPP

@@ -182,6 +182,9 @@ public:
   /// Deletes selected items within this container
   int deleteSelection();
 
+protected:
+  using COverlayVisibility::toggleVisibility;
+
 private:
   /// Clear the entire content of this container
   void clear();
