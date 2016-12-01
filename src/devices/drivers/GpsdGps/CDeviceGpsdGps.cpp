@@ -230,8 +230,8 @@ void CDeviceGpsdGps::slotProcessData( int )
 
       // Errors
       if( !std::isnan( psGpsData->fix.ept ) && psGpsData->fix.ept > 0.0 ) __oDeviceDataFix.setErrorTime( psGpsData->fix.ept );
-      if( !std::isnan( psGpsData->fix.epx ) && psGpsData->fix.epx > 0.0
-          && !std::isnan( psGpsData->fix.epy ) && psGpsData->fix.epy > 0.0 )
+      if( !std::isnan( psGpsData->fix.epx ) && !std::isnan( psGpsData->fix.epy )
+          && ( psGpsData->fix.epx > 0.0 || psGpsData->fix.epy > 0.0 ) )
         __oDeviceDataFix.setErrorPosition( sqrt( psGpsData->fix.epx*psGpsData->fix.epx + psGpsData->fix.epy*psGpsData->fix.epy ),
                                            !std::isnan( psGpsData->fix.epv ) && psGpsData->fix.epv > 0.0 ? psGpsData->fix.epv : CDataValidity::UNDEFINED_VALUE );
       if( !std::isnan( psGpsData->fix.epd ) && psGpsData->fix.epd > 0.0 ) __oDeviceDataFix.setErrorBearing( psGpsData->fix.epd );
