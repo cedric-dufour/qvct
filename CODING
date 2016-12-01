@@ -114,7 +114,7 @@ template ('SAMPLE.hpp' and 'SAMPLE.cpp').
 
 All fields shall be private (unless exceptions are justified).
 
-Calls to parent (inherited) fields and methods shall be explicitely prefixed
+Calls to parent (inherited) fields and methods should be explicitely prefixed
 by the parent name ('CParent::...'), especially so for fields and methods
 that are inherited from classes external of the current application/API.
 

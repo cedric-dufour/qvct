@@ -21,7 +21,7 @@
  *
  *  @tableofcontents
  *
- *  @section sysnopsis Synopsis
+ *  @section synopsis Synopsis
  *
  *  The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
  *  navigation software that simulates the chart table (and instruments corner)
