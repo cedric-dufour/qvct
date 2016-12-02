@@ -241,16 +241,15 @@ void CMainWindow::slotAbout()
                       QString( "<H3 ALIGN=\"center\">Qt&nbsp;Virtual&nbsp;Chart&nbsp;Table&nbsp;(QVCT)<BR/>" ) +
                       QString( VER_STRING ) +
                       QString( "</H3>\n" ) +
-                      tr( "<P><B>Authors:</B></P>\n"
-                          "<P>C&eacute;dric Dufour &lt;<A HREF=\"http://cedric.dufour.name\">http://cedric.dufour.name</A>&gt;</P>\n"
+                      tr( "<P><B>Authors &amp; Contributors:</B></P>\n"
+                          "<P>C&eacute;dric Dufour &lt;<A HREF=\"http://cedric.dufour.name\">http://cedric.dufour.name</A>&gt;,\n"
+                          "<BR/>Samuel Gaist &lt;<A HREF=\"http://http://www.edeltech.ch\">http://www.edeltech.ch</A>&gt;</P>\n"
                           "<P><B>Website:</B></P>\n"
                           "<P><A HREF=\"http://cedric.dufour.name/software/qvct\">http://cedric.dufour.name/software/qvct</A></P>\n"
                           "<P><B>Copyright:</B></P>\n"
                           "<P>The Qt Virtual Chart Table (QVCT) is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, Version 3.</P>\n"
                           "<P>The Qt Virtual Chart Table (QVCT) is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</P>\n"
-                          "<P>See the <A HREF=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License</A> for more details.</P>\n"
-                          "<P><B>Donation:</B></P>\n"
-                          "<P><A HREF=\"http://cedric.dufour.name/software/qvct/donate.html\">http://cedric.dufour.name/software/qvct/donate.html</A></P>\n" ) );
+                          "<P>See the <A HREF=\"http://www.gnu.org/copyleft/gpl.html\">GNU General Public License</A> for more details.</P>\n" ) );
 }
 
 void CMainWindow::slotShowSettings()
