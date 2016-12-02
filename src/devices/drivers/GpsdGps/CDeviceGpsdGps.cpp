@@ -27,6 +27,9 @@
 // GPSD
 #include "gps.h"
 // #include "gpsdclient.h"
+#ifndef STATUS_DGPS_FIX
+#define STATUS_DGPS_FIX  2
+#endif
 
 // QVCT
 #include "QVCTRuntime.hpp"
@@ -175,7 +178,7 @@ void CDeviceGpsdGps::slotProcessData( int )
     // Check device data
     // NOTE: ( psGpsData->set & DEVICE_SET ) is unreliable; let's use an alternate method
     if( psGpsData->dev.path[0] == '\0' ) continue; // We MUST have a device/source name
-    QString __qsSource = QString::fromAscii( psGpsData->dev.path );
+    QString __qsSource = QString::fromLatin1( psGpsData->dev.path );
     //qDebug( "DEBUG[%s]: GPS data are available from source %s", Q_FUNC_INFO, qPrintable( __qsSource ) );
 
     // Check source (filter)
@@ -268,15 +271,27 @@ void CDeviceGpsdGps::slotProcessData( int )
       // Loop through satellites data
       for( int __i = 0; __i < psGpsData->satellites_visible; __i++ )
       {
-        int __iPRN = psGpsData->PRN[ __i ];
+#if GPSD_API_MAJOR_VERSION >= 6
+        int __iPRN = psGpsData->skyview[ __i ].PRN;
         CDeviceDataSatellite __oDeviceDataSatellite( __iPRN );
-        __oDeviceDataSatellite.setAzimuth( psGpsData->azimuth[ __i ] );
-        __oDeviceDataSatellite.setElevation( psGpsData->elevation[ __i ] );
-        __oDeviceDataSatellite.setSignal( psGpsData->ss[ __i ] );
+        __oDeviceDataSatellite.setAzimuth( psGpsData->skyview[ __i ].azimuth );
+        __oDeviceDataSatellite.setElevation( psGpsData->skyview[ __i ].elevation );
+        __oDeviceDataSatellite.setSignal( psGpsData->skyview[ __i ].ss );
+#else
+         int __iPRN = psGpsData->PRN[ __i ];
+         CDeviceDataSatellite __oDeviceDataSatellite( __iPRN );
+         __oDeviceDataSatellite.setAzimuth( psGpsData->azimuth[ __i ] );
+         __oDeviceDataSatellite.setElevation( psGpsData->elevation[ __i ] );
+         __oDeviceDataSatellite.setSignal( psGpsData->ss[ __i ] );
+#endif
         bool __bUsed = false;
         for( int __j = 0; __j < psGpsData->satellites_used; __j++ )
         {
+#if GPSD_API_MAJOR_VERSION >= 6
+          if( psGpsData->skyview[ __j ].used == __iPRN )
+#else
           if( psGpsData->used[ __j ] == __iPRN )
+#endif
           {
             __bUsed = true;
             break;
@@ -367,7 +382,11 @@ QVCT::EStatus CDeviceGpsdGps::start()
     }
 
     // Initialize socket notifier
-    pqSocketNotifier = new QSocketNotifier( psGpsData->gps_fd, QSocketNotifier::Read );
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    pqSocketNotifier = new QSocketNotifier( (qintptr)psGpsData->gps_fd, QSocketNotifier::Read );
+#else
+    pqSocketNotifier = new QSocketNotifier( (quintptr)psGpsData->gps_fd, QSocketNotifier::Read );
+#endif
     QObject::connect( pqSocketNotifier, SIGNAL( activated(int) ), this, SLOT( slotProcessData(int) ) );
     pqSocketNotifier->setEnabled( true );
 

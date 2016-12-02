@@ -211,6 +211,8 @@ public:
   /// Stores this object's content to the given QVCT destination (file)
   void dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const;
 
+protected:
+  using COverlayVisibility::toggleVisibility;
 };
 
 #endif // QVCT_CVESSELPOINT_HPP

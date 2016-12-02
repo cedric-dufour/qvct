@@ -56,7 +56,11 @@ CInstrumentGAHorizontalSituation::CInstrumentGAHorizontalSituation( CVesselCockp
 
 void CInstrumentGAHorizontalSituation::mouseReleaseEvent( QMouseEvent* _pqMouseEvent )
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+  QPointF __qPointFMouse = _pqMouseEvent->localPos();
+#else
   QPointF __qPointFMouse = _pqMouseEvent->posF();
+#endif
   if( __qPointFMouse.x() < QWidget::size().width()/2 )
   { // left-hand side
     fdBearingRadial -= 1.0;
@@ -74,7 +78,11 @@ void CInstrumentGAHorizontalSituation::mouseReleaseEvent( QMouseEvent* _pqMouseE
 void CInstrumentGAHorizontalSituation::mouseDoubleClickEvent( QMouseEvent* _pqMouseEvent )
 {
   // NOTE: don't forget that the widget also receives the two corresponding mouseReleaseEvents
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+  QPointF __qPointFMouse = _pqMouseEvent->localPos();
+#else
   QPointF __qPointFMouse = _pqMouseEvent->posF();
+#endif
   if( __qPointFMouse.x() < QWidget::size().width()/2 )
   { // left-hand side
     fdBearingRadial -= 8.0;

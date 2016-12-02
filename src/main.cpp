@@ -36,9 +36,6 @@ double microtime()
 
 int main( int argc, char* argv[] )
 {
-  // Encoding
-  QTextCodec::setCodecForTr( QTextCodec::codecForName( "UTF-8" ) );
-
   // Application
   QApplication qApplication( argc, argv );
 
@@ -61,8 +58,8 @@ int main( int argc, char* argv[] )
   if( argc >= 2 ) QVCTRuntime::useChartTable()->load( argv[1] );
 
   // Main loop
-  __poMainWindow->restoreGeometry( QByteArray::fromBase64( __poSettings->getMainWindowGeometry().toAscii() ) );
-  __poMainWindow->restoreState( QByteArray::fromBase64( __poSettings->getMainWindowState().toAscii() ) );
+  __poMainWindow->restoreGeometry( QByteArray::fromBase64( __poSettings->getMainWindowGeometry().toLatin1() ) );
+  __poMainWindow->restoreState( QByteArray::fromBase64( __poSettings->getMainWindowState().toLatin1() ) );
   __poMainWindow->show();
   int __iExit = qApplication.exec();
 
@@ -77,5 +74,8 @@ int main( int argc, char* argv[] )
     __poSettings->setMainWindowState( QString( __poMainWindow->saveState().toBase64() ) );
     __poSettings->save( __qsSettingsFilename );
   }
+
+  delete __poSettings;
+
   return __iExit;
 }

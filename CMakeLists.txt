@@ -3,7 +3,16 @@
 
 # Project
 project( QVCT )
-cmake_minimum_required( VERSION 2.8 )
+cmake_minimum_required( VERSION 2.8.12 )
+
+if (APPLE)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gnu-static-float-init")
+endif()
+
+option(USE_QT4 "Use Qt 4" OFF)
+
+# enable GPSD Qt support
+add_definitions(-DUSE_QT)
 
 set( CMAKE_MODULE_PATH
   ${CMAKE_SOURCE_DIR}/cmake/modules
