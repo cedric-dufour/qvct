@@ -1,3 +1,32 @@
+qvct (1.0.20161202) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+  [Cédric Dufour]
+  - NEW: Add new route waypoint such as to minimize route length
+  - FIX: Minor typos
+  - FIX: GPS error would not be reported if zero along X or Y axis
+  * Merged branch 'master' of https://github.com/sgaist/qvct into PR1-sgaist
+  * Merged branch 'PR1-sgaist' into 'master'
+  - MOD: Transparently depend on Qt5 if available, revert to Qt4 if not
+  - FIX: Explicitely free all non-Qt-parented resources on exit
+  - FIX: Match Qt-specific GPSD socket type (introduced in release-2.93)
+  - MOD: Use Harvesine instead of (iterative) Vincenty formula for Great-Circle distance calculation
+  - MOD: Updated the 'About' section
+  - MOD: Removed Ubuntu/Launchpad PPA binary packages download references
+
+  [Samuel Gaist]
+  - NEW: Can now build with both Qt 4 and Qt 5
+  - FIX: Don't use obsolete functions
+  - MOD: Qt4/Qt5 positioning handling
+  - MOD: Qt4/Qt5 QSocketNotifier handling when using gpsd with Qt support enabled
+  - NEW: Added support for version 6 of GPSD API
+  - FIX: Settings object leak
+  - FIX: Removed unused member variables
+  - FIX: Add using statement to fix method hiding warning.
+  - MOD: Disable gnu-static-float-init for clang
+
+ -- Cédric Dufour <cedric.dufour@ced-network.net>  Fri, 02 Dec 2016 16:36:32 +0100
+
 qvct (1.0.20140304) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
