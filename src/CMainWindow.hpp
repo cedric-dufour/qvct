@@ -42,7 +42,7 @@ class CMainWindow: public QMainWindow
 
 public:
   CMainWindow();
-  virtual ~CMainWindow() {};
+  virtual ~CMainWindow();
 
 private:
   /// Constructs the layout of the application

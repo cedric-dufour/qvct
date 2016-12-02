@@ -73,3 +73,17 @@ void COverlayBaseTree::slotItemChanged( QTreeWidgetItem* _pqTreeWidgetItem, int 
 {
   onChange( _pqTreeWidgetItem, _iColumn );
 }
+
+//
+// OTHER
+//
+
+void COverlayBaseTree::destroy()
+{
+  // NOTE: Since 'this' is both the QTreeWidget and its top-level QTreeWidgetItem,
+  //       it MUST be removed as top-level QTreeWidgetItem before the QTreeWidget
+  //       is destructed (and all its children as well). Failure to do so would
+  //       result in the QTreeWidget destructing itself (and lead to segmentation
+  //       fault on application exit).
+  QTreeWidget::takeTopLevelItem( 0 ); // this
+}

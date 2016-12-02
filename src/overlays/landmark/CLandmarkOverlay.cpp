@@ -70,6 +70,7 @@ CLandmarkOverlay::CLandmarkOverlay( QWidget* _pqParent )
 
 CLandmarkOverlay::~CLandmarkOverlay()
 {
+  COverlayBaseTree::destroy();
   clear();
 }
 

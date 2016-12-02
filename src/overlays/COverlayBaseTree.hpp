@@ -73,6 +73,9 @@ private slots:
   void slotItemChanged( QTreeWidgetItem* _pqTreeWidgetItem, int _iColumn );
 
   // OTHER
+protected:
+  /// Prepare the underlying QTreeWidget for destruction
+  void destroy();
 public:
   /// Handles item (content) changes in the underlying QTreeWidget
   virtual void onChange( QTreeWidgetItem* _pqTreeWidgetItem, int __iColumn ) = 0;

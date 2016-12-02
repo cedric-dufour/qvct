@@ -40,6 +40,9 @@
 #include "CMainWindow.hpp"
 #include "settings/CSettingsEditView.hpp"
 
+// C/C++
+#include <time.h>
+
 
 //------------------------------------------------------------------------------
 // CONSTRUCTORS / DESTRUCTOR
@@ -55,6 +58,25 @@ CMainWindow::CMainWindow()
   QTimer* __qTimerRefresh = QVCTRuntime::useTimerRefresh();
   QObject::connect( __qTimerRefresh, SIGNAL( timeout() ), this, SLOT( slotTimerRefresh() ) );
   __qTimerRefresh->start( QVCTRuntime::useSettings()->getRateRefresh() );
+}
+
+CMainWindow::~CMainWindow()
+{
+  // Prevent any update while children objects are destroyed
+  // ... destroy all devices
+  CDeviceOverlay* __poDeviceOverlay = QVCTRuntime::useDeviceOverlay();
+  __poDeviceOverlay->clear();
+  // ... stop screen refresh
+  QTimer* __qTimerRefresh = QVCTRuntime::useTimerRefresh();
+  __qTimerRefresh->stop();
+  // ... make sure everyone is done
+  struct timespec __tsDelay;
+  __tsDelay.tv_sec = 0;
+  __tsDelay.tv_nsec = (long)QVCTRuntime::useSettings()->getRateRefresh()*1000000;
+  nanosleep( &__tsDelay, NULL );
+  QMutex* __pqMutexDataChange = QVCTRuntime::useMutexDataChange();
+  __pqMutexDataChange->lock();
+  __pqMutexDataChange->unlock();
 }
 
 void CMainWindow::constructLayout()

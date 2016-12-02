@@ -61,6 +61,7 @@ CDeviceOverlay::CDeviceOverlay( QWidget* _pqParent )
 
 CDeviceOverlay::~CDeviceOverlay()
 {
+  COverlayBaseTree::destroy();
   clear();
 }
 

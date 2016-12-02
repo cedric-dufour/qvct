@@ -70,6 +70,7 @@ CTrackOverlay::CTrackOverlay( QWidget* _pqParent )
 
 CTrackOverlay::~CTrackOverlay()
 {
+  COverlayBaseTree::destroy();
   clear();
 }
 

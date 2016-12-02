@@ -71,6 +71,7 @@ CVesselOverlay::CVesselOverlay( QWidget* _pqParent )
 
 CVesselOverlay::~CVesselOverlay()
 {
+  COverlayBaseTree::destroy();
   clear();
 }
 

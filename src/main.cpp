@@ -75,7 +75,9 @@ int main( int argc, char* argv[] )
     __poSettings->save( __qsSettingsFilename );
   }
 
+  delete __poMainWindow;
   delete __poSettings;
+  QVCTRuntime::destroy();
 
   return __iExit;
 }

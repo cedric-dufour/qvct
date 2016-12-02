@@ -331,6 +331,7 @@ QVCT::EStatus CDeviceGpsdGps::stop()
   bPaused = false;
   if( pqSocketNotifier )
   {
+    QObject::disconnect( pqSocketNotifier, 0, this, 0 );
     pqSocketNotifier->setEnabled( false );
     delete pqSocketNotifier;
     pqSocketNotifier = 0;

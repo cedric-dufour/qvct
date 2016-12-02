@@ -196,6 +196,9 @@ public:
   static CVesselPosition* useVesselPosition() { return poVesselPosition; };
   static CVesselTarget* useVesselTarget() { return poVesselTarget; };
 
+public:
+  static void destroy();
+
 };
 
 #endif // QVCT_QVCTRUNTIME_HPP

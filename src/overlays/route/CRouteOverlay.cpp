@@ -70,6 +70,7 @@ CRouteOverlay::CRouteOverlay( QWidget* _pqParent )
 
 CRouteOverlay::~CRouteOverlay()
 {
+  COverlayBaseTree::destroy();
   clear();
 }
 

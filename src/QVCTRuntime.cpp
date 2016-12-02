@@ -65,3 +65,14 @@ CVesselCockpit* QVCTRuntime::poVesselCockpit = 0;
 CVesselCourse* QVCTRuntime::poVesselCourse = 0;
 CVesselPosition* QVCTRuntime::poVesselPosition = 0;
 CVesselTarget* QVCTRuntime::poVesselTarget = 0;
+
+
+//------------------------------------------------------------------------------
+// METHODS
+//------------------------------------------------------------------------------
+
+void QVCTRuntime::destroy()
+{
+  if( pqTimerRefresh ) { delete pqTimerRefresh; pqTimerRefresh = 0; }
+  if( pqMutexDataChange ) { delete pqMutexDataChange; pqMutexDataChange = 0; }
+}
