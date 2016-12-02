@@ -23,7 +23,7 @@
  *
  *  @section synopsis Synopsis
  *
- *  The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
+ *  The Qt Virtual Chart Table (QVCT) is a Qt application which provides a
  *  navigation software that simulates the chart table (and instruments corner)
  *  usually found in ships.
  *
@@ -121,7 +121,7 @@ dpkg -i ../qvct*.deb
  *
  *  @subsection development_architecture General Architecture
  *
- *  The Qt Virtual Chart Table (QVCT) is build on top of the standard Qt4's
+ *  The Qt Virtual Chart Table (QVCT) is build on top of the standard Qt's
  *  QMainWindow object. The screenshot below shows which class(es) correspond to
  *  each of the visible parts of the interface (and give you the place to start
  *  digging into the source code):

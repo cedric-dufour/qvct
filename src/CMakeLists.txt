@@ -7,21 +7,28 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
 # External resources
-# ... Qt
-if (USE_QT4)
-  find_package( Qt4 COMPONENTS QtCore QtGui QtNetwork QtXml REQUIRED )
+# ... Qt (prefer latest version if available)
+find_package( Qt5 COMPONENTS Core Widgets Gui Network Xml PrintSupport QUIET )
+if( NOT Qt5_FOUND )
+  find_package( Qt4 COMPONENTS QtCore QtGui QtNetwork QtXml QUIET )
+endif()
+if( Qt5_FOUND )
+  message( "-- Found Qt5" )
+  include_directories( ${Qt5Core_INCLUDE_DIRS} )
+  include_directories( ${Qt5Widgets_INCLUDE_DIRS} )
+  include_directories( ${Qt5Gui_INCLUDE_DIRS} )
+  include_directories( ${Qt5Network_INCLUDE_DIRS} )
+  include_directories( ${Qt5Xml_INCLUDE_DIRS} )
+  include_directories( ${Qt5PrintSupport_INCLUDE_DIRS} )
+  option( USE_QT4 "Use Qt 4" OFF )
+elseif( Qt4_FOUND )
+  message( "-- Found Qt4" )
   include( ${QT_USE_FILE} )
   add_definitions( ${QT_DEFINITIONS} )
+  option( USE_QT4 "Use Qt 4" ON )
 else()
-  find_package( Qt5 COMPONENTS Core Widgets Gui Network Xml PrintSupport REQUIRED )
-  include_directories(${Qt5Core_INCLUDE_DIRS})
-  include_directories(${Qt5Widgets_INCLUDE_DIRS})
-  include_directories(${Qt5Gui_INCLUDE_DIRS})
-  include_directories(${Qt5Network_INCLUDE_DIRS})
-  include_directories(${Qt5Xml_INCLUDE_DIRS})
-  include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
+  message( FATAL_ERROR "No supported version of Qt found" )
 endif()
-
 # ... GDAL
 find_package( GDAL REQUIRED )
 # ... GPSD
@@ -248,7 +255,7 @@ set( MY_RCS
 
 
 # Qt resources
-if (USE_QT4)
+if( USE_QT4 )
   qt4_add_resources( MY_QT_RCS ${MY_RCS})
 else()
   qt5_add_resources( MY_QT_RCS ${MY_RCS})
@@ -269,7 +276,7 @@ add_executable( ${PROGNAME}
 )
 
 # Libraries
-if(USE_QT4)
+if( USE_QT4 )
 target_link_libraries( ${PROGNAME}
   ${QT_LIBRARIES}
   ${GDAL_LIBRARIES}

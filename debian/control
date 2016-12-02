@@ -2,7 +2,7 @@ Source: qvct
 Section: misc
 Priority: optional
 Maintainer: Cedric Dufour <cedric.dufour@ced-network.net>
-Build-Depends: cdbs, cmake (>= 2.8), debhelper (>= 5), doxygen, imagemagick, libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libgps-dev
+Build-Depends: cdbs, cmake (>= 2.8), debhelper (>= 5), doxygen, imagemagick, qtbase5-dev | libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libgps-dev
 Standards-Version: 3.8.4
 Homepage: http://cedric.dufour.name/software/qvct
 
@@ -13,7 +13,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: qvct-doc-user
 Suggests: gdal-bin, imagemagick, proj-bin
 Description: Qt Virtual Chart Table (QVCT)
- The Qt Virtual Chart Table (QVCT) is a Qt4 application which provides a
+ The Qt Virtual Chart Table (QVCT) is a Qt application which provides a
  navigation software that simulates the chart table (and instruments corner)
  usually found in ships.
  .
