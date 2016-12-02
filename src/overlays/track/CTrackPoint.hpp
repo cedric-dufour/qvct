@@ -141,6 +141,8 @@ public:
   /// Stores this object's content to the given GPX destination (file)
   void dumpGPX( QXmlStreamWriter & _rqXmlStreamWriter ) const;
 
+protected:
+  using COverlayPoint::toggleVisibility;
 };
 
 #endif // QVCT_CTRACKPOINT_HPP

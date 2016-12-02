@@ -64,6 +64,8 @@ public:
 public:
   virtual void toggleVisibility() { COverlayVisibility::toggleVisibility( false, false ); };
 
+protected:
+  using COverlayVisibility::toggleVisibility;
 };
 
 #endif // QVCT_CPOINTERPOINT_HPP

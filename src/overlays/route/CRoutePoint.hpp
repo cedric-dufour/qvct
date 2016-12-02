@@ -143,6 +143,8 @@ public:
   /// Stores this object's content to the given GPX destination (file)
   void dumpGPX( QXmlStreamWriter & _rqXmlStreamWriter ) const;
 
+protected:
+  using COverlayVisibility::toggleVisibility;
 };
 
 #endif // QVCT_CROUTEPOINT_HPP

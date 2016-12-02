@@ -418,7 +418,7 @@ void CChartGDAL::draw( QPainter* _pqPainter, const QPointF& _rqPointFDatPosition
     //qDebug( "DEBUG[%s] __qPointDatPositionGDALWished: %d, %d", Q_FUNC_INFO, __qPointDatPositionGDALWished.x(), __qPointDatPositionGDALWished.y() );
     // ... "actual" dataset area by intersecting with the dataset "existing" area
     QRect __qRectGDALActual( __qPointDatPositionGDALWished.x(), __qPointDatPositionGDALWished.y(), __qSizeGDALWished.width(), __qSizeGDALWished.height() );
-    __qRectGDALActual = __qRectGDALActual.intersect( qRectGeometry );
+    __qRectGDALActual = __qRectGDALActual.intersected( qRectGeometry );
     // ... "actual" pixmap area (mirroring the correction made on the dataset area)
     QSize __qSizePixmapActual( (double)__qRectGDALActual.width() * _fdZoom + 0.5, (double)__qRectGDALActual.height() * _fdZoom + 0.5 );
     //qDebug( "DEBUG[%s] __qSizePixmapActual: %d, %d", Q_FUNC_INFO, __qSizePixmapActual.width(), __qSizePixmapActual.height() );

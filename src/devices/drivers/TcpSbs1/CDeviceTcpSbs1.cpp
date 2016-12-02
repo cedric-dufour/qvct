@@ -187,7 +187,7 @@ void CDeviceTcpSbs1::slotProcessData()
     //qDebug( "DEBUG[%s]: SBS-1 data are waiting to be read", Q_FUNC_INFO );
 
     // Retrieve data
-    QString __qsDataLine = QString::fromAscii( pqTcpSocket->readLine().trimmed() );
+    QString __qsDataLine = QString::fromLatin1( pqTcpSocket->readLine().trimmed() );
     //qDebug( "DEBUG[%s]: SBS-1 data successfully read; data=%s", Q_FUNC_INFO, qPrintable( __qsDataLine ) );
 
     // Do not process data if paused

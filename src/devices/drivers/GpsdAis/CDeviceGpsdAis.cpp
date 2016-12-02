@@ -346,7 +346,11 @@ QVCT::EStatus CDeviceGpsdAis::start()
     }
 
     // Initialize socket notifier
-    pqSocketNotifier = new QSocketNotifier( psGpsData->gps_fd, QSocketNotifier::Read );
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    pqSocketNotifier = new QSocketNotifier( (qintptr)psGpsData->gps_fd, QSocketNotifier::Read );
+#else
+    pqSocketNotifier = new QSocketNotifier( (quintptr)psGpsData->gps_fd, QSocketNotifier::Read );
+#endif
     QObject::connect( pqSocketNotifier, SIGNAL( activated(int) ), this, SLOT( slotProcessData(int) ) );
     pqSocketNotifier->setEnabled( true );
 

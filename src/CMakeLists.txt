@@ -1,11 +1,27 @@
 # REFERENCE:
 # http://qt-quarterly.developpez.com/qq-34/cmake/
 
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
 # External resources
-# ... Qt4
-find_package( Qt4 COMPONENTS QtCore QtGui QtNetwork QtXml REQUIRED )
-include( ${QT_USE_FILE} )
-add_definitions( ${QT_DEFINITIONS} )
+# ... Qt
+if (USE_QT4)
+  find_package( Qt4 COMPONENTS QtCore QtGui QtNetwork QtXml REQUIRED )
+  include( ${QT_USE_FILE} )
+  add_definitions( ${QT_DEFINITIONS} )
+else()
+  find_package( Qt5 COMPONENTS Core Widgets Gui Network Xml PrintSupport REQUIRED )
+  include_directories(${Qt5Core_INCLUDE_DIRS})
+  include_directories(${Qt5Widgets_INCLUDE_DIRS})
+  include_directories(${Qt5Gui_INCLUDE_DIRS})
+  include_directories(${Qt5Network_INCLUDE_DIRS})
+  include_directories(${Qt5Xml_INCLUDE_DIRS})
+  include_directories(${Qt5PrintSupport_INCLUDE_DIRS})
+endif()
+
 # ... GDAL
 find_package( GDAL REQUIRED )
 # ... GPSD
@@ -230,10 +246,13 @@ set( MY_RCS
   resources/icons-32x32.qrc
 )
 
-# Qt4 resources
-qt4_wrap_cpp( MY_QT_MOCS ${MY_MOCS} )
-#qt4_wrap_ui( MY_QT_UIS ${MY_UIS})
-qt4_add_resources( MY_QT_RCS ${MY_RCS})
+
+# Qt resources
+if (USE_QT4)
+  qt4_add_resources( MY_QT_RCS ${MY_RCS})
+else()
+  qt5_add_resources( MY_QT_RCS ${MY_RCS})
+endif()
 
 # Executable
 set( MY_DEPS
@@ -250,11 +269,24 @@ add_executable( ${PROGNAME}
 )
 
 # Libraries
+if(USE_QT4)
 target_link_libraries( ${PROGNAME}
   ${QT_LIBRARIES}
   ${GDAL_LIBRARIES}
   ${GPSD_LIBRARIES}
 )
+else()
+target_link_libraries( ${PROGNAME}
+  Qt5::Core
+  Qt5::Widgets
+  Qt5::Gui
+  Qt5::Network
+  Qt5::Xml
+  Qt5::PrintSupport
+  ${GDAL_LIBRARIES}
+  ${GPSD_LIBRARIES}
+)
+endif()
 
 # Install
 install(
