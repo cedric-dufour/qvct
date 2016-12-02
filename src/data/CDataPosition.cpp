@@ -39,8 +39,16 @@ const CDataPosition CDataPosition::UNDEFINED( CDataPosition::UNDEFINED_LONGITUDE
 
 double CDataPosition::distanceGC( const CDataPosition& _roGP1, const CDataPosition& _roGP2 )
 {
-  // Let's use GPSD function; certainly better than anything I could come up with
-  return earth_distance( _roGP1.fdLatitude, _roGP1.fdLongitude, _roGP2.fdLatitude, _roGP2.fdLongitude );
+  // NOTE: DEG_2_RAD and RAD_2_DEG come from "gps.h"
+  double __fdLon1 = _roGP1.fdLongitude * DEG_2_RAD, __fdLat1 = _roGP1.fdLatitude * DEG_2_RAD;
+  double __fdLon2 = _roGP2.fdLongitude * DEG_2_RAD, __fdLat2 = _roGP2.fdLatitude * DEG_2_RAD;
+  double __fdLonD = __fdLon2 - __fdLon1, __fdLatD = __fdLat2 - __fdLat1;
+
+  // Formula shamelessly copied from http://www.movable-type.co.uk/scripts/latlong.html
+  double __fdLonS = sin( __fdLonD/2.0 ), __fdLatS = sin( __fdLatD/2.0 );
+  double __fdA = __fdLatS*__fdLatS + cos( __fdLat1 )*cos( __fdLat2 )*__fdLonS*__fdLonS;
+  double __fdDistance = ( WGS84A + WGS84B ) * atan2( sqrt( __fdA ), sqrt( 1.0-__fdA ) );
+  return __fdDistance;
 }
 
 double CDataPosition::bearingGC( const CDataPosition& _roGP1, const CDataPosition& _roGP2 )
