@@ -418,7 +418,11 @@ QVCT::EStatus CDeviceGpsdGps::start()
     stop();
     return QVCT::ERROR;
   }
+#ifndef USE_QT
   qDebug( "DEBUG[%s]: Device successfully started; socket=%d", Q_FUNC_INFO, psGpsData->gps_fd );
+#else
+  qDebug( "DEBUG[%s]: Device successfully started; socket=%p", Q_FUNC_INFO, psGpsData->gps_fd );
+#endif
   emit signalOperatingMode( CDevice::START );
   return QVCT::OK;
 }
