@@ -69,10 +69,12 @@ void CDeviceGpsdAisEditView::constructLayout()
   __pqFormLayout->addRow( tr("Name")+":", __poTextName );
   // ... host
   pqLineEditHost = new QLineEdit( this );
+  pqLineEditHost->setToolTip( tr("GPS daemon host (hostname or IP address)") );
   pqLineEditHost->setText( __poDeviceGpsdAis->getHost() );
   __pqFormLayout->addRow( tr("Host")+":", pqLineEditHost );
   // ... port
   pqLineEditPort = new QLineEdit( this );
+  pqLineEditPort->setToolTip( tr("GPS daemon port") );
   pqLineEditPort->setText( QString::number( __poDeviceGpsdAis->getPort() ) );
   __pqFormLayout->addRow( tr("Port")+":", pqLineEditPort );
   // ... [end]

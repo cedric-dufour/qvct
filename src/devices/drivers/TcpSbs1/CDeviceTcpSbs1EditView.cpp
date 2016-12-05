@@ -70,23 +70,28 @@ void CDeviceTcpSbs1EditView::constructLayout()
   __pqFormLayout->addRow( tr("Name")+":", __poTextName );
   // ... host
   pqLineEditHost = new QLineEdit( this );
+  pqLineEditHost->setToolTip( tr("SBS-1 service host (hostname or IP address)") );
   pqLineEditHost->setText( __poDeviceTcpSbs1->getHost() );
   __pqFormLayout->addRow( tr("Host")+":", pqLineEditHost );
   // ... port
   pqLineEditPort = new QLineEdit( this );
+  pqLineEditPort->setToolTip( tr("SBS-1 service port") );
   pqLineEditPort->setText( QString::number( __poDeviceTcpSbs1->getPort() ) );
   __pqFormLayout->addRow( tr("Port")+":", pqLineEditPort );
   // ... time zone
   pqComboBoxTimeZone = new QComboBox( this );
+  pqComboBoxTimeZone->setToolTip( tr("Whether this SBS-1 service uses UTC or local date/time data") );
   pqComboBoxTimeZone->addItems( QStringList( CUnitTimeZone::symbols().values() ) );
   pqComboBoxTimeZone->setCurrentIndex( pqComboBoxTimeZone->findText( CUnitTimeZone::toSymbol( __poDeviceTcpSbs1->getTimeZone() ) ) );
   __pqFormLayout->addRow( tr("Time Zone")+":", pqComboBoxTimeZone );
   // ... callsign lookup
   pqCheckBoxCallsignLookup = new QCheckBox( this );
+  pqCheckBoxCallsignLookup->setToolTip( tr("Whether to perform aircrafts callsign lookup (based on previous ad-hoc SBS-1 messages)\nor display the aircrafts hexadecimal identifier") );
   pqCheckBoxCallsignLookup->setCheckState( __poDeviceTcpSbs1->isCallsignLookup() ? Qt::Checked : Qt::Unchecked );
   __pqFormLayout->addRow( tr("Use Callsign")+":", pqCheckBoxCallsignLookup );
   // ... ground traffic (inclusion/track)
   pqCheckBoxGroundTraffic = new QCheckBox( this );
+  pqCheckBoxGroundTraffic->setToolTip( tr("Whether to listen for and display ground traffic") );
   pqCheckBoxGroundTraffic->setCheckState( __poDeviceTcpSbs1->isGroundTraffic() ? Qt::Checked : Qt::Unchecked );
   __pqFormLayout->addRow( tr("Ground Traffic")+":", pqCheckBoxGroundTraffic );
   // ... [end]

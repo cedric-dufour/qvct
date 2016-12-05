@@ -59,11 +59,11 @@ void CVesselPointDeviceCreateView::constructLayout()
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
   pqLineEditName = new QLineEdit( this );
-  pqLineEditName->setToolTip( tr("Device Name") );
+  pqLineEditName->setToolTip( tr("Device name (matching one of the defined devices)") );
   __pqFormLayout->addRow( tr("Device")+":", pqLineEditName );
   // ... source name
   pqLineEditSourceName = new QLineEdit( this );
-  pqLineEditSourceName->setToolTip( tr("Source Name") );
+  pqLineEditSourceName->setToolTip( tr("Source name/filter (exactly matching the device provided source name)") );
   __pqFormLayout->addRow( tr("Source")+":", pqLineEditSourceName );
   // ... [end]
   __pqHBoxLayout->addLayout( __pqFormLayout, 1 );

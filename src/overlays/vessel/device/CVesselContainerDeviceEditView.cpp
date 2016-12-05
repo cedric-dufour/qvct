@@ -62,13 +62,13 @@ void CVesselContainerDeviceEditView::constructLayout()
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
   poTextName = new COverlayText( this );
-  poTextName->setToolTip( tr("Device Name") );
+  poTextName->setToolTip( tr("Device name (matching one of the defined devices)") );
   poTextName->setText( __poVesselContainerDevice->getName() );
   __pqFormLayout->addRow( tr("Name")+":", poTextName );
   // ... (vessels) time-to-live
   pqSpinBoxTTL = new QSpinBox( this );
   pqSpinBoxTTL->setRange( 5, 86400 );
-  pqSpinBoxTTL->setToolTip( tr("Vessels Time-To-Live (after no corresponding data are received) [seconds]") );
+  pqSpinBoxTTL->setToolTip( tr("Vessels Time-To-Live (after which vessels are automatically deleted if no corresponding data are received), in seconds [s]") );
   pqSpinBoxTTL->setValue( __poVesselContainerDevice->getTTL() );
   __pqFormLayout->addRow( tr("TTL")+":", pqSpinBoxTTL );
   // ... [end]

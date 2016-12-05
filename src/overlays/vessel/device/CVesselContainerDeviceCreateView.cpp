@@ -58,7 +58,7 @@ void CVesselContainerDeviceCreateView::constructLayout()
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
   pqLineEditName = new QLineEdit( this );
-  pqLineEditName->setToolTip( tr("Device Name") );
+  pqLineEditName->setToolTip( tr("Device name (matching one of the defined devices)") );
   __pqFormLayout->addRow( tr("Device")+":", pqLineEditName );
   // ... [end]
   __pqHBoxLayout->addLayout( __pqFormLayout, 1 );

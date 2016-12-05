@@ -66,17 +66,17 @@ void CVesselPointDeviceEditView::constructLayout()
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Device/Source")+":" ), __iRow, 0 );
   poTextName = new COverlayText( this );
-  poTextName->setToolTip( tr("Device Name") );
+  poTextName->setToolTip( tr("Device name (matching one of the defined devices)") );
   poTextName->setText( __poVesselPointDevice->getName() );
-  __pqGridLayout->addWidget( poTextName, __iRow, 1 );
+  __pqGridLayout->addWidget( poTextName, __iRow, 1, Qt::AlignHCenter );
   poTextSourceName = new COverlayText( this );
-  poTextSourceName->setToolTip( tr("Source Name") );
+  poTextSourceName->setToolTip( tr("Source name/filter (exactly matching the device provided source name)") );
   poTextSourceName->setText( __poVesselPointDevice->getSourceName() );
-  __pqGridLayout->addWidget( poTextSourceName, __iRow, 2 );
+  __pqGridLayout->addWidget( poTextSourceName, __iRow, 3, Qt::AlignHCenter );
 
   // ... separator
   __iRow++;
-  __pqGridLayout->addWidget( new QLabel( "<B>"+tr("Synchronize")+":</B>" ), __iRow, 0 );
+  __pqGridLayout->addWidget( new QLabel( "<B>"+tr("Synchronize/Update")+"</B>" ), __iRow, 2, Qt::AlignHCenter );
 
   // ... position & time (header)
   __iRow++;
@@ -88,15 +88,15 @@ void CVesselPointDeviceEditView::constructLayout()
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Position & Time")+":" ), __iRow, 0 );
   pqCheckBoxPosition = new QCheckBox( this );
-  pqCheckBoxPosition->setToolTip( tr("Position") );
+  pqCheckBoxPosition->setToolTip( tr("Whether to use this device to update the vessel position (longitude/latitude)") );
   pqCheckBoxPosition->setCheckState( __poVesselPointDevice->isSynchronizedPosition() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxPosition, __iRow, 1, Qt::AlignHCenter );
   pqCheckBoxElevation = new QCheckBox( this );
-  pqCheckBoxElevation->setToolTip( tr("Elevation") );
+  pqCheckBoxElevation->setToolTip( tr("Whether to use this device to update the vessel elevation") );
   pqCheckBoxElevation->setCheckState( __poVesselPointDevice->isSynchronizedElevation() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxElevation, __iRow, 2, Qt::AlignHCenter );
   pqCheckBoxTime = new QCheckBox( this );
-  pqCheckBoxTime->setToolTip( tr("Time") );
+  pqCheckBoxTime->setToolTip( tr("Whether to use this device to update the vessel time") );
   pqCheckBoxTime->setCheckState( __poVesselPointDevice->isSynchronizedTime() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxTime, __iRow, 3, Qt::AlignHCenter );
 
@@ -110,15 +110,15 @@ void CVesselPointDeviceEditView::constructLayout()
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Ground Course")+":" ), __iRow, 0 );
   pqCheckBoxGroundBearing = new QCheckBox( this );
-  pqCheckBoxGroundBearing->setToolTip( tr("Bearing") );
+  pqCheckBoxGroundBearing->setToolTip( tr("Whether to use this device to update the vessel ground (true) bearing") );
   pqCheckBoxGroundBearing->setCheckState( __poVesselPointDevice->isSynchronizedGroundBearing() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxGroundBearing, __iRow, 1, Qt::AlignHCenter );
   pqCheckBoxGroundSpeed = new QCheckBox( this );
-  pqCheckBoxGroundSpeed->setToolTip( tr("Speed (horizontal)") );
+  pqCheckBoxGroundSpeed->setToolTip( tr("Whether to use this device to update the vessel ground (true) horizontal speed") );
   pqCheckBoxGroundSpeed->setCheckState( __poVesselPointDevice->isSynchronizedGroundSpeed() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxGroundSpeed, __iRow, 2, Qt::AlignHCenter );
   pqCheckBoxGroundSpeedVertical = new QCheckBox( this );
-  pqCheckBoxGroundSpeedVertical->setToolTip( tr("Speed (vertical)") );
+  pqCheckBoxGroundSpeedVertical->setToolTip( tr("Whether to use this device to update the vessel ground (true) vertical speed") );
   pqCheckBoxGroundSpeedVertical->setCheckState( __poVesselPointDevice->isSynchronizedGroundSpeedVertical() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxGroundSpeedVertical, __iRow, 3, Qt::AlignHCenter );
 
@@ -126,15 +126,15 @@ void CVesselPointDeviceEditView::constructLayout()
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Apparent Course")+":" ), __iRow, 0 );
   pqCheckBoxApparentBearing = new QCheckBox( this );
-  pqCheckBoxApparentBearing->setToolTip( tr("Bearing") );
+  pqCheckBoxApparentBearing->setToolTip( tr("Whether to use this device to update the vessel apparent (relative) bearing") );
   pqCheckBoxApparentBearing->setCheckState( __poVesselPointDevice->isSynchronizedApparentBearing() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxApparentBearing, __iRow, 1, Qt::AlignHCenter );
   pqCheckBoxApparentSpeed = new QCheckBox( this );
-  pqCheckBoxApparentSpeed->setToolTip( tr("Speed (horizontal)") );
+  pqCheckBoxApparentSpeed->setToolTip( tr("Whether to use this device to update the vessel apparent (relative) horizontal speed") );
   pqCheckBoxApparentSpeed->setCheckState( __poVesselPointDevice->isSynchronizedApparentSpeed() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxApparentSpeed, __iRow, 2, Qt::AlignHCenter );
   pqCheckBoxApparentSpeedVertical = new QCheckBox( this );
-  pqCheckBoxApparentSpeedVertical->setToolTip( tr("Speed (vertical)") );
+  pqCheckBoxApparentSpeedVertical->setToolTip( tr("Whether to use this device to update the vessel apparent (relative) vertical speed") );
   pqCheckBoxApparentSpeedVertical->setCheckState( __poVesselPointDevice->isSynchronizedApparentSpeedVertical() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxApparentSpeedVertical, __iRow, 3, Qt::AlignHCenter );
 
@@ -146,7 +146,7 @@ void CVesselPointDeviceEditView::constructLayout()
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Other")+":" ), __iRow, 0 );
   pqCheckBoxText = new QCheckBox( this );
-  pqCheckBoxText->setToolTip( tr("Additional Text") );
+  pqCheckBoxText->setToolTip( tr("Whether to use this device to update the vessel additional textual information") );
   pqCheckBoxText->setCheckState( __poVesselPointDevice->isSynchronizedText() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( pqCheckBoxText, __iRow, 1, Qt::AlignHCenter );
 
