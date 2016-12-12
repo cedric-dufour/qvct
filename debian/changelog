@@ -1,3 +1,15 @@
+qvct (1.0.20161212) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+
+  [Cédric Dufour]
+  - MOD: Improve settings documentation (tooltips)
+  - MOD: Improve devices setup documentation (tooltips)
+  - MOD: Removed unnecessary Qt objects parenting (implicitely achieved         
+         when constructing UI layouts)
+
+ -- Cédric Dufour <cedric.dufour@ced-network.net>  Mon, 12 Dec 2016 14:36:07 +0100
+
 qvct (1.0.20161202) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
