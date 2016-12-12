@@ -45,10 +45,10 @@ void CChartControl::constructLayout()
   CChartTable* __poChartTable = QVCTRuntime::useChartTable();
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add controls
-  pqPushButtonPositionLock = new QPushButton( QIcon( ":icons/32x32/move_unlock.png" ), "", this );
+  pqPushButtonPositionLock = new QPushButton( QIcon( ":icons/32x32/move_unlock.png" ), "" );
   pqPushButtonPositionLock->setToolTip( tr("Keep chart position synchronized with other charts") );
   pqPushButtonPositionLock->installEventFilter( __poChartTable );
   pqPushButtonPositionLock->setMaximumSize( 36, 34 );
@@ -56,7 +56,7 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->addWidget( pqPushButtonPositionLock );
   QWidget::connect( pqPushButtonPositionLock, SIGNAL( toggled(bool) ), this, SLOT( slotPositionLock(bool) ) );
 
-  pqPushButtonScaleLock = new QPushButton( QIcon( ":icons/32x32/zoom_unlock.png" ), "", this );
+  pqPushButtonScaleLock = new QPushButton( QIcon( ":icons/32x32/zoom_unlock.png" ), "" );
   pqPushButtonScaleLock->setToolTip( tr("Keep chart scale synchronized with other charts") );
   pqPushButtonScaleLock->installEventFilter( __poChartTable );
   pqPushButtonScaleLock->setMaximumSize( 36, 34 );
@@ -64,25 +64,25 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->addWidget( pqPushButtonScaleLock );
   QWidget::connect( pqPushButtonScaleLock, SIGNAL( toggled(bool) ), this, SLOT( slotScaleLock(bool) ) );
 
-  QFrame* __pqFrameSeparator1 = new QFrame( this );
+  QFrame* __pqFrameSeparator1 = new QFrame();
   __pqFrameSeparator1->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator1 );
 
-  pqPushButtonScaleActual = new QPushButton( QIcon( ":icons/32x32/zoom_actual.png" ), "", this );
+  pqPushButtonScaleActual = new QPushButton( QIcon( ":icons/32x32/zoom_actual.png" ), "" );
   pqPushButtonScaleActual->setToolTip( tr("Match chart scale to screen resolution") );
   pqPushButtonScaleActual->installEventFilter( __poChartTable );
   pqPushButtonScaleActual->setMaximumSize( 36, 34 );
   __pqVBoxLayout->addWidget( pqPushButtonScaleActual );
   QWidget::connect( pqPushButtonScaleActual, SIGNAL( clicked() ), __poChartTable, SLOT( slotScaleActual() ) );
 
-  pqPushButtonScaleIn = new QPushButton( QIcon( ":icons/32x32/zoom_in.png" ), "", this );
+  pqPushButtonScaleIn = new QPushButton( QIcon( ":icons/32x32/zoom_in.png" ), "" );
   pqPushButtonScaleIn->setToolTip( tr("Zoom chart (decrease scale)") );
   pqPushButtonScaleIn->installEventFilter( __poChartTable );
   pqPushButtonScaleIn->setMaximumSize( 36, 34 );
   __pqVBoxLayout->addWidget( pqPushButtonScaleIn );
   QWidget::connect( pqPushButtonScaleIn, SIGNAL( clicked() ), this, SLOT( slotScaleIn() ) );
 
-  pqSliderScale = new QSlider( Qt::Vertical, this );
+  pqSliderScale = new QSlider( Qt::Vertical );
   pqSliderScale->installEventFilter( __poChartTable );
   pqSliderScale->setRange( 0, 1000 );
   pqSliderScale->setSingleStep( 1 );
@@ -91,25 +91,25 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->setAlignment( pqSliderScale, Qt::AlignHCenter );
   QWidget::connect( pqSliderScale, SIGNAL( valueChanged(int) ), this, SLOT( slotScaleTo(int) ) );
 
-  pqPushButtonScaleOut = new QPushButton( QIcon( ":icons/32x32/zoom_out.png" ), "", this );
+  pqPushButtonScaleOut = new QPushButton( QIcon( ":icons/32x32/zoom_out.png" ), "" );
   pqPushButtonScaleOut->setToolTip( tr("Unzoom chart (increase scale)") );
   pqPushButtonScaleOut->installEventFilter( __poChartTable );
   pqPushButtonScaleOut->setMaximumSize( 36, 34 );
   __pqVBoxLayout->addWidget( pqPushButtonScaleOut );
   QWidget::connect( pqPushButtonScaleOut, SIGNAL( clicked() ), this, SLOT( slotScaleOut() ) );
 
-  pqPushButtonScaleFit = new QPushButton( QIcon( ":icons/32x32/zoom_fit.png" ), "", this );
+  pqPushButtonScaleFit = new QPushButton( QIcon( ":icons/32x32/zoom_fit.png" ), "" );
   pqPushButtonScaleFit->setToolTip( tr("Adjust scale to display entire chart") );
   pqPushButtonScaleFit->installEventFilter( __poChartTable );
   pqPushButtonScaleFit->setMaximumSize( 36, 34 );
   __pqVBoxLayout->addWidget( pqPushButtonScaleFit );
   QWidget::connect( pqPushButtonScaleFit, SIGNAL( clicked() ), __poChartTable, SLOT( slotScaleFit() ) );
 
-  QFrame* __pqFrameSeparator2 = new QFrame( this );
+  QFrame* __pqFrameSeparator2 = new QFrame();
   __pqFrameSeparator2->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator2 );
 
-  pqPushButtonTarget = new QPushButton( QIcon( ":icons/32x32/target.png" ), "", this );
+  pqPushButtonTarget = new QPushButton( QIcon( ":icons/32x32/target.png" ), "" );
   pqPushButtonTarget->setToolTip( tr("Enable target destination") );
   pqPushButtonTarget->installEventFilter( __poChartTable );
   pqPushButtonTarget->setMaximumSize( 36, 34 );
@@ -117,7 +117,7 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->addWidget( pqPushButtonTarget );
   QWidget::connect( pqPushButtonTarget, SIGNAL( toggled(bool) ), __poChartTable, SLOT( slotPointerTarget(bool) ) );
 
-  pqPushButtonMeasureSingle = new QPushButton( QIcon( ":icons/32x32/measure_single.png" ), "", this );
+  pqPushButtonMeasureSingle = new QPushButton( QIcon( ":icons/32x32/measure_single.png" ), "" );
   pqPushButtonMeasureSingle->setToolTip( tr("Enable single segment measurement(s)") );
   pqPushButtonMeasureSingle->installEventFilter( __poChartTable );
   pqPushButtonMeasureSingle->setMaximumSize( 36, 34 );
@@ -125,7 +125,7 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->addWidget( pqPushButtonMeasureSingle );
   QWidget::connect( pqPushButtonMeasureSingle, SIGNAL( toggled(bool) ), __poChartTable, SLOT( slotPointerPathSingle(bool) ) );
 
-  pqPushButtonMeasure = new QPushButton( QIcon( ":icons/32x32/measure.png" ), "", this );
+  pqPushButtonMeasure = new QPushButton( QIcon( ":icons/32x32/measure.png" ), "" );
   pqPushButtonMeasure->setToolTip( tr("Enable ongoing measurements (pointer path)") );
   pqPushButtonMeasure->installEventFilter( __poChartTable );
   pqPushButtonMeasure->setMaximumSize( 36, 34 );
@@ -133,11 +133,11 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->addWidget( pqPushButtonMeasure );
   QWidget::connect( pqPushButtonMeasure, SIGNAL( toggled(bool) ), __poChartTable, SLOT( slotPointerPath(bool) ) );
 
-  QFrame* __pqFrameSeparator3 = new QFrame( this );
+  QFrame* __pqFrameSeparator3 = new QFrame();
   __pqFrameSeparator3->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator3 );
 
-  pqPushButtonElevation = new QPushButton( QIcon( ":icons/32x32/elevation_add.png" ), "", this );
+  pqPushButtonElevation = new QPushButton( QIcon( ":icons/32x32/elevation_add.png" ), "" );
   pqPushButtonElevation->setToolTip( tr("Add, view or hide elevation data") );
   pqPushButtonElevation->installEventFilter( __poChartTable );
   pqPushButtonElevation->setMaximumSize( 36, 34 );
@@ -145,7 +145,7 @@ void CChartControl::constructLayout()
   __pqVBoxLayout->addWidget( pqPushButtonElevation );
   QWidget::connect( pqPushButtonElevation, SIGNAL( toggled(bool) ), this, SLOT( slotElevation(bool) ) );
 
-  QPushButton* __pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/chart_load.png" ), "", this );
+  QPushButton* __pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/chart_load.png" ), "" );
   __pqPushButtonLoad->setToolTip( tr("Load chart from disk") );
   __pqPushButtonLoad->installEventFilter( __poChartTable );
   __pqPushButtonLoad->setMaximumSize( 36, 34 );

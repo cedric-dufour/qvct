@@ -83,7 +83,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CLandmarkPointDetailView( QWidget* _pqParent );
+  CLandmarkPointDetailView( QWidget* _pqParent = 0 );
   virtual ~CLandmarkPointDetailView() {};
 
 private:

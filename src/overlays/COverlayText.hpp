@@ -38,8 +38,8 @@ class COverlayText: public QLabel
   //------------------------------------------------------------------------------
 
 public:
-  COverlayText( QWidget* _pqParent );
-  COverlayText( const QString& _rqsText, QWidget* _pqParent );
+  COverlayText( QWidget* _pqParent = 0 );
+  COverlayText( const QString& _rqsText, QWidget* _pqParent = 0 );
   virtual ~COverlayText() {};
 
 

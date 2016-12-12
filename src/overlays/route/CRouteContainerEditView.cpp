@@ -43,17 +43,17 @@ CRouteContainerEditView::CRouteContainerEditView( CRouteContainer* _poRouteConta
 void CRouteContainerEditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/route.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"..." );
   __pqLabelEdit->setFont( __qFontHeader );
   __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
   // ... [end]
@@ -64,33 +64,33 @@ void CRouteContainerEditView::constructLayout()
   QFormLayout* __pqFormLayout = new QFormLayout();
 
   // ... name
-  pqLineEditName = new QLineEdit( this );
+  pqLineEditName = new QLineEdit();
   pqLineEditName->setToolTip( tr("Name") );
   pqLineEditName->setText( __poRouteContainer->getName() );
   __pqFormLayout->addRow( tr("Name")+":", pqLineEditName );
 
   // ... type
-  pqLineEditType = new QLineEdit( this );
+  pqLineEditType = new QLineEdit();
   pqLineEditType->setToolTip( tr("Type") );
   pqLineEditType->setText( __poRouteContainer->getType() );
   __pqFormLayout->addRow( tr("Type")+":", pqLineEditType );
 
   // ... description
-  pqTextEditDescription = new QTextEdit( this );
+  pqTextEditDescription = new QTextEdit();
   pqTextEditDescription->setToolTip( tr("Description") );
   pqTextEditDescription->setAcceptRichText( false );
   pqTextEditDescription->setPlainText( __poRouteContainer->getDescription() );
   __pqFormLayout->addRow( tr("Description")+":", pqTextEditDescription );
 
   // ... comment
-  pqTextEditComment = new QTextEdit( this );
+  pqTextEditComment = new QTextEdit();
   pqTextEditComment->setToolTip( tr("Comment") );
   pqTextEditComment->setAcceptRichText( false );
   pqTextEditComment->setPlainText( __poRouteContainer->getComment() );
   __pqFormLayout->addRow( tr("Comment")+":", pqTextEditComment );
 
   // ... url
-  pqLineEditUrl = new QLineEdit( this );
+  pqLineEditUrl = new QLineEdit();
   pqLineEditUrl->setToolTip( tr("URL") );
   pqLineEditUrl->setText( __poRouteContainer->getUrl() );
   __pqFormLayout->addRow( tr("URL")+":", pqLineEditUrl );
@@ -99,7 +99,7 @@ void CRouteContainerEditView::constructLayout()
   __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

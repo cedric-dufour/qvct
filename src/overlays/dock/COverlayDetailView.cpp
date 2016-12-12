@@ -42,72 +42,72 @@ COverlayDetailView::COverlayDetailView( QWidget* _pqParent )
 void COverlayDetailView::constructLayout()
 {
   // Create stacked widget
-  pqStackedWidget = new QStackedWidget( this );
+  pqStackedWidget = new QStackedWidget();
 
   // Add overlay
 
   // ... pointer (COverlayDetailView::POINTER_POINT)
-  CPointerPointDetailView* __poPointerPointDetailView = new CPointerPointDetailView( pqStackedWidget );
+  CPointerPointDetailView* __poPointerPointDetailView = new CPointerPointDetailView();
   QVCTRuntime::registerPointerPointDetailView( __poPointerPointDetailView );
   pqStackedWidget->addWidget( __poPointerPointDetailView );
 
   // ... landmark container (COverlayDetailView::LANDMARK_CONTAINER)
-  CLandmarkContainerDetailView* __poLandmarkContainerDetailView = new CLandmarkContainerDetailView( pqStackedWidget );
+  CLandmarkContainerDetailView* __poLandmarkContainerDetailView = new CLandmarkContainerDetailView();
   QVCTRuntime::registerLandmarkContainerDetailView( __poLandmarkContainerDetailView );
   pqStackedWidget->addWidget( __poLandmarkContainerDetailView );
 
   // ... landmark point (COverlayDetailView::LANDMARK_POINT)
-  CLandmarkPointDetailView* __poLandmarkPointDetailView = new CLandmarkPointDetailView( pqStackedWidget );
+  CLandmarkPointDetailView* __poLandmarkPointDetailView = new CLandmarkPointDetailView();
   QVCTRuntime::registerLandmarkPointDetailView( __poLandmarkPointDetailView );
   pqStackedWidget->addWidget( __poLandmarkPointDetailView );
 
   // ... route container (COverlayDetailView::ROUTE_CONTAINER)
-  CRouteContainerDetailView* __poRouteContainerDetailView = new CRouteContainerDetailView( pqStackedWidget );
+  CRouteContainerDetailView* __poRouteContainerDetailView = new CRouteContainerDetailView();
   QVCTRuntime::registerRouteContainerDetailView( __poRouteContainerDetailView );
   pqStackedWidget->addWidget( __poRouteContainerDetailView );
 
   // ... route point (COverlayDetailView::ROUTE_POINT)
-  CRoutePointDetailView* __poRoutePointDetailView = new CRoutePointDetailView( pqStackedWidget );
+  CRoutePointDetailView* __poRoutePointDetailView = new CRoutePointDetailView();
   QVCTRuntime::registerRoutePointDetailView( __poRoutePointDetailView );
   pqStackedWidget->addWidget( __poRoutePointDetailView );
 
   // ... track container (COverlayDetailView::TRACK_CONTAINER)
-  CTrackContainerDetailView* __poTrackContainerDetailView = new CTrackContainerDetailView( pqStackedWidget );
+  CTrackContainerDetailView* __poTrackContainerDetailView = new CTrackContainerDetailView();
   QVCTRuntime::registerTrackContainerDetailView( __poTrackContainerDetailView );
   pqStackedWidget->addWidget( __poTrackContainerDetailView );
 
   // ... track sub-container (COverlayDetailView::TRACK_SUBCONTAINER)
-  CTrackSubContainerDetailView* __poTrackSubContainerDetailView = new CTrackSubContainerDetailView( pqStackedWidget );
+  CTrackSubContainerDetailView* __poTrackSubContainerDetailView = new CTrackSubContainerDetailView();
   QVCTRuntime::registerTrackSubContainerDetailView( __poTrackSubContainerDetailView );
   pqStackedWidget->addWidget( __poTrackSubContainerDetailView );
 
   // ... track point (COverlayDetailView::TRACK_POINT)
-  CTrackPointDetailView* __poTrackPointDetailView = new CTrackPointDetailView( pqStackedWidget );
+  CTrackPointDetailView* __poTrackPointDetailView = new CTrackPointDetailView();
   QVCTRuntime::registerTrackPointDetailView( __poTrackPointDetailView );
   pqStackedWidget->addWidget( __poTrackPointDetailView );
 
   // ... vessel container (COverlayDetailView::VESSEL_CONTAINER)
-  CVesselContainerDetailView* __poVesselContainerDetailView = new CVesselContainerDetailView( pqStackedWidget );
+  CVesselContainerDetailView* __poVesselContainerDetailView = new CVesselContainerDetailView();
   QVCTRuntime::registerVesselContainerDetailView( __poVesselContainerDetailView );
   pqStackedWidget->addWidget( __poVesselContainerDetailView );
 
   // ... vessel container's device (COverlayDetailView::VESSEL_CONTAINER_DEVICE)
-  CVesselContainerDeviceDetailView* __poVesselContainerDeviceDetailView = new CVesselContainerDeviceDetailView( pqStackedWidget );
+  CVesselContainerDeviceDetailView* __poVesselContainerDeviceDetailView = new CVesselContainerDeviceDetailView();
   QVCTRuntime::registerVesselContainerDeviceDetailView( __poVesselContainerDeviceDetailView );
   pqStackedWidget->addWidget( __poVesselContainerDeviceDetailView );
 
   // ... vessel point (COverlayDetailView::VESSEL_POINT)
-  CVesselPointDetailView* __poVesselPointDetailView = new CVesselPointDetailView( pqStackedWidget );
+  CVesselPointDetailView* __poVesselPointDetailView = new CVesselPointDetailView();
   QVCTRuntime::registerVesselPointDetailView( __poVesselPointDetailView );
   pqStackedWidget->addWidget( __poVesselPointDetailView );
 
   // ... vessel point's device (COverlayDetailView::VESSEL_POINT_DEVICE)
-  CVesselPointDeviceDetailView* __poVesselPointDeviceDetailView = new CVesselPointDeviceDetailView( pqStackedWidget );
+  CVesselPointDeviceDetailView* __poVesselPointDeviceDetailView = new CVesselPointDeviceDetailView();
   QVCTRuntime::registerVesselPointDeviceDetailView( __poVesselPointDeviceDetailView );
   pqStackedWidget->addWidget( __poVesselPointDeviceDetailView );
 
   // ... device (COverlayDetailView::DEVICE)
-  CDeviceDetailView* __poDeviceDetailView = new CDeviceDetailView( pqStackedWidget );
+  CDeviceDetailView* __poDeviceDetailView = new CDeviceDetailView();
   QVCTRuntime::registerDeviceDetailView( __poDeviceDetailView );
   pqStackedWidget->addWidget( __poDeviceDetailView );
 

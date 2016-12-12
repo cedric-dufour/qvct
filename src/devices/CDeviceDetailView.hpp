@@ -71,7 +71,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CDeviceDetailView( QWidget* _pqParent );
+  CDeviceDetailView( QWidget* _pqParent = 0 );
   virtual ~CDeviceDetailView() {};
 
 private:

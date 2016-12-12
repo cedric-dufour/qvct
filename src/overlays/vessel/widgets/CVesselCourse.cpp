@@ -45,17 +45,17 @@ void CVesselCourse::constructLayout()
 {
   // Add data
   // ... course
-  poTextBearing = new COverlayText( this );
+  poTextBearing = new COverlayText();
   poTextBearing->setToolTip( tr("Bearing") );
   poTextBearing->setAlignment( Qt::AlignCenter );
   poTextBearing->resetText();
   pqBoxLayout->addWidget( poTextBearing );
-  poTextSpeed = new COverlayText( this );
+  poTextSpeed = new COverlayText();
   poTextSpeed->setToolTip( tr("Speed (horizontal)") );
   poTextSpeed->setAlignment( Qt::AlignCenter );
   poTextSpeed->resetText();
   pqBoxLayout->addWidget( poTextSpeed );
-  poTextSpeedVertical = new COverlayText( this );
+  poTextSpeedVertical = new COverlayText();
   poTextSpeedVertical->setToolTip( tr("Speed (vertical)") );
   poTextSpeedVertical->setAlignment( Qt::AlignCenter );
   poTextSpeedVertical->resetText();

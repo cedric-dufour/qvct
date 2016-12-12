@@ -60,7 +60,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CTimeView( QWidget* _pqParent );
+  CTimeView( QWidget* _pqParent = 0 );
   virtual ~CTimeView() {};
 
 private:

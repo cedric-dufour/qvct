@@ -44,17 +44,17 @@ CDeviceSampleEditView::CDeviceSampleEditView( CDeviceSample* _poDeviceSample )
 void CDeviceSampleEditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/device.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"..." );
   __pqLabelEdit->setFont( __qFontHeader );
   __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
   // ... [end]
@@ -64,22 +64,22 @@ void CDeviceSampleEditView::constructLayout()
   CDeviceSample* __poDeviceSample = (CDeviceSample*)poOverlayObject;
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
-  COverlayText* __poTextName = new COverlayText( this );
+  COverlayText* __poTextName = new COverlayText();
   __poTextName->setText( __poDeviceSample->getName() );
   __pqFormLayout->addRow( tr("Name")+":", __poTextName );
   // ... host
-  pqLineEditHost = new QLineEdit( this );
+  pqLineEditHost = new QLineEdit();
   pqLineEditHost->setText( __poDeviceSample->getHost() );
   __pqFormLayout->addRow( tr("Host")+":", pqLineEditHost );
   // ... port
-  pqLineEditPort = new QLineEdit( this );
+  pqLineEditPort = new QLineEdit();
   pqLineEditPort->setText( QString::number( __poDeviceSample->getPort() ) );
   __pqFormLayout->addRow( tr("Port")+":", pqLineEditPort );
   // ... [end]
   __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

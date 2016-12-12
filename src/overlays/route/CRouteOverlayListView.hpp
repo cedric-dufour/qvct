@@ -64,7 +64,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CRouteOverlayListView( QWidget* _pqParent );
+  CRouteOverlayListView( QWidget* _pqParent = 0 );
   virtual ~CRouteOverlayListView() {};
 
 private:

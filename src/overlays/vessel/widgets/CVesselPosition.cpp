@@ -45,17 +45,17 @@ void CVesselPosition::constructLayout()
 {
   // Add data
   // ... position
-  poTextLongitude = new COverlayText( this );
+  poTextLongitude = new COverlayText();
   poTextLongitude->setToolTip( tr("Longitude") );
   poTextLongitude->setAlignment( Qt::AlignCenter );
   poTextLongitude->resetText();
   pqBoxLayout->addWidget( poTextLongitude );
-  poTextLatitude = new COverlayText( this );
+  poTextLatitude = new COverlayText();
   poTextLatitude->setToolTip( tr("Latitude") );
   poTextLatitude->setAlignment( Qt::AlignCenter );
   poTextLatitude->resetText();
   pqBoxLayout->addWidget( poTextLatitude );
-  poTextElevation = new COverlayText( this );
+  poTextElevation = new COverlayText();
   poTextElevation->setToolTip( tr("Elevation") );
   poTextElevation->setAlignment( Qt::AlignCenter );
   poTextElevation->resetText();

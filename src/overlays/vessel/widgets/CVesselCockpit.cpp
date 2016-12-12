@@ -35,7 +35,7 @@ CVesselCockpit::CVesselCockpit( const QString& _rqsTitle, QWidget* _pqParent )
   , poVesselPoint( 0 )
 {
   QWidget::setWindowTitle( _rqsTitle );
-  pqGridLayout = new QGridLayout( this );
+  pqGridLayout = new QGridLayout();
   pqGridLayout->setContentsMargins( 0, 0, 0, 0 );
   pqGridLayout->setSpacing( 0 );
   QWidget::setLayout( pqGridLayout );

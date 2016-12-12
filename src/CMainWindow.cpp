@@ -82,50 +82,50 @@ CMainWindow::~CMainWindow()
 void CMainWindow::constructLayout()
 {
   // Create layout
-  QWidget* __pqWidget = new QWidget( this );
-  QHBoxLayout* __pqHBoxLayout = new QHBoxLayout( __pqWidget );
+  QWidget* __pqWidget = new QWidget();
+  QHBoxLayout* __pqHBoxLayout = new QHBoxLayout();
 
   // Add the "virtual" chart table
-  CChartTable* __poChartTable = new CChartTable( __pqWidget );
+  CChartTable* __poChartTable = new CChartTable();
   QVCTRuntime::registerChartTable( __poChartTable );
   __pqHBoxLayout->addWidget( __poChartTable, 1 );
 
   // Add the chart control
-  CChartControl* __poChartControl = new CChartControl( __pqWidget );
+  CChartControl* __poChartControl = new CChartControl();
   QVCTRuntime::registerChartControl( __poChartControl );
   __poChartControl->installEventFilter( __poChartTable );
   __pqHBoxLayout->addWidget( __poChartControl );
 
   // Add the overlay docks
   // ... list
-  COverlayListView* __poOverlayListView = new COverlayListView( this );
+  COverlayListView* __poOverlayListView = new COverlayListView();
   QVCTRuntime::registerOverlayListView( __poOverlayListView );
   QMainWindow::addDockWidget( Qt::LeftDockWidgetArea, __poOverlayListView );
   // ... detail
-  COverlayDetailView* __poOverlayDetailView = new COverlayDetailView( this );
+  COverlayDetailView* __poOverlayDetailView = new COverlayDetailView();
   QVCTRuntime::registerOverlayDetailView( __poOverlayDetailView );
   QMainWindow::addDockWidget( Qt::LeftDockWidgetArea, __poOverlayDetailView );
   __poOverlayDetailView->resize( __poOverlayDetailView->width(), 100 );
 
   // Add other docks
   // ... time
-  CTimeView* __poTimeView = new CTimeView( this );
+  CTimeView* __poTimeView = new CTimeView();
   QVCTRuntime::registerTimeView( __poTimeView );
   QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poTimeView );
   // ... vessel target
-  CVesselTarget* __poVesselTarget = new CVesselTarget( this );
+  CVesselTarget* __poVesselTarget = new CVesselTarget();
   QVCTRuntime::registerVesselTarget( __poVesselTarget );
   QMainWindow::addDockWidget( Qt::TopDockWidgetArea, __poVesselTarget );
   // ... vessel position
-  CVesselPosition* __poVesselPosition = new CVesselPosition( this );
+  CVesselPosition* __poVesselPosition = new CVesselPosition();
   QVCTRuntime::registerVesselPosition( __poVesselPosition );
   QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselPosition );
   // ... vessel course
-  CVesselCourse* __poVesselCourse = new CVesselCourse( this );
+  CVesselCourse* __poVesselCourse = new CVesselCourse();
   QVCTRuntime::registerVesselCourse( __poVesselCourse );
   QMainWindow::addDockWidget( Qt::BottomDockWidgetArea, __poVesselCourse );
   // ... vessel cockpit
-  CVesselCockpitGeneralAviation* __poVesselCockpitGeneralAviation = new CVesselCockpitGeneralAviation( this );
+  CVesselCockpitGeneralAviation* __poVesselCockpitGeneralAviation = new CVesselCockpitGeneralAviation();
   QVCTRuntime::registerVesselCockpit( __poVesselCockpitGeneralAviation );
   // QMainWindow::addDockWidget( Qt::NoDockWidgetArea, __poVesselCockpitGeneralAviation );
 
@@ -137,7 +137,7 @@ void CMainWindow::constructLayout()
 void CMainWindow::constructMenus()
 {
   // Construct menus
-  QMenu* __pqMenuFile = new QMenu( tr("&File"), this );
+  QMenu* __pqMenuFile = new QMenu( tr("&File") );
   QAction* __pqActionLoad = new QAction( tr("L&oad Project..." ), this );
   __pqActionLoad->setShortcuts( QKeySequence::Open );
   QMainWindow::connect( __pqActionLoad, SIGNAL( triggered() ), QVCTRuntime::useChartTable(), SLOT( slotLoad() ) );
@@ -166,23 +166,23 @@ void CMainWindow::constructMenus()
   QMainWindow::connect( __pqActionLoadVessel, SIGNAL( triggered() ), QVCTRuntime::useVesselOverlayListView(), SLOT( slotLoad() ) );
   __pqMenuFile->addAction( __pqActionLoadVessel );
   __pqMenuFile->addSeparator();
-  QAction* __pqActionSettings = new QAction( tr("S&ettings..."), this);
+  QAction* __pqActionSettings = new QAction( tr("S&ettings..."), this );
   __pqActionSettings->setShortcuts( QKeySequence::Preferences );
   QMainWindow::connect( __pqActionSettings, SIGNAL( triggered() ), this, SLOT( slotShowSettings() ) );
   __pqMenuFile->addAction( __pqActionSettings );
   __pqMenuFile->addSeparator();
-  QAction* __pqActionPrint = new QAction( tr("&Print..."), this);
+  QAction* __pqActionPrint = new QAction( tr("&Print..."), this );
   __pqActionPrint->setShortcuts( QKeySequence::Print );
   QMainWindow::connect( __pqActionPrint, SIGNAL( triggered() ), QVCTRuntime::useChartTable(), SLOT( slotPrintChart() ) );
   __pqMenuFile->addAction( __pqActionPrint );
   __pqMenuFile->addSeparator();
-  QAction* __pqActionExit = new QAction( tr("E&xit"), this);
+  QAction* __pqActionExit = new QAction( tr("E&xit"), this );
   __pqActionExit->setShortcuts( QKeySequence::Quit );
   QMainWindow::connect( __pqActionExit, SIGNAL( triggered() ), this, SLOT( slotExit() ) );
   __pqMenuFile->addAction( __pqActionExit );
   menuBar()->addMenu( __pqMenuFile );
 
-  QMenu* __pqMenuWindow = new QMenu( tr("&Window"), this );
+  QMenu* __pqMenuWindow = new QMenu( tr("&Window") );
   QAction* __pqActionShowOverlayListView = new QAction( tr("Show Overlay &List" ), this );
   QMainWindow::connect( __pqActionShowOverlayListView, SIGNAL( triggered() ), this, SLOT( slotShowOverlayListView() ) );
   __pqMenuWindow->addAction( __pqActionShowOverlayListView );
@@ -210,7 +210,7 @@ void CMainWindow::constructMenus()
   __pqMenuWindow->addAction( __pqActionToggleFullscreen );
   menuBar()->addMenu( __pqMenuWindow );
 
-  QMenu* __pqMenuHelp = new QMenu( tr("&Help"), this );
+  QMenu* __pqMenuHelp = new QMenu( tr("&Help") );
   QAction* __pqActionAbout = new QAction( tr("&About"), this );
   QMainWindow::connect( __pqActionAbout, SIGNAL( triggered() ), this, SLOT( slotAbout() ) );
   __pqMenuHelp->addAction( __pqActionAbout );
@@ -254,7 +254,7 @@ void CMainWindow::slotAbout()
 
 void CMainWindow::slotShowSettings()
 {
-  CSettingsEditView* __poSettingsEditView = new CSettingsEditView( this );
+  CSettingsEditView* __poSettingsEditView = new CSettingsEditView();
   __poSettingsEditView->exec();
   delete __poSettingsEditView;
 

@@ -41,17 +41,17 @@ CVesselContainerDeviceEditView::CVesselContainerDeviceEditView( CVesselContainer
 void CVesselContainerDeviceEditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/vessel_device.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"..." );
   __pqLabelEdit->setFont( __qFontHeader );
   __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
   // ... [end]
@@ -61,12 +61,12 @@ void CVesselContainerDeviceEditView::constructLayout()
   CVesselContainerDevice* __poVesselContainerDevice = (CVesselContainerDevice*)poOverlayObject;
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Device name (matching one of the defined devices)") );
   poTextName->setText( __poVesselContainerDevice->getName() );
   __pqFormLayout->addRow( tr("Name")+":", poTextName );
   // ... (vessels) time-to-live
-  pqSpinBoxTTL = new QSpinBox( this );
+  pqSpinBoxTTL = new QSpinBox();
   pqSpinBoxTTL->setRange( 5, 86400 );
   pqSpinBoxTTL->setToolTip( tr("Vessels Time-To-Live (after which vessels are automatically deleted if no corresponding data are received), in seconds [s]") );
   pqSpinBoxTTL->setValue( __poVesselContainerDevice->getTTL() );
@@ -75,7 +75,7 @@ void CVesselContainerDeviceEditView::constructLayout()
   __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

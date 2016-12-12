@@ -45,17 +45,17 @@ CVesselPointEditView::CVesselPointEditView( CVesselPoint* _poVesselPoint )
 void CVesselPointEditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/vessel_point.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"..." );
   __pqLabelEdit->setFont( __qFontHeader );
   __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
   // ... [end]
@@ -66,7 +66,7 @@ void CVesselPointEditView::constructLayout()
   QFormLayout* __pqFormLayout = new QFormLayout();
 
   // ... name
-  pqLineEditName = new QLineEdit( this );
+  pqLineEditName = new QLineEdit();
   pqLineEditName->setToolTip( tr("Name") );
   pqLineEditName->setText( __poVesselPoint->getName() );
   __pqFormLayout->addRow( tr("Name")+":", pqLineEditName );
@@ -74,24 +74,24 @@ void CVesselPointEditView::constructLayout()
 
   // ... position
   QHBoxLayout* __pqHBoxLayoutPosition = new QHBoxLayout();
-  pqLineEditLongitude = new QLineEdit( this );
+  pqLineEditLongitude = new QLineEdit();
   pqLineEditLongitude->setToolTip( tr("Longitude") );
   if( __bPositionDefined ) pqLineEditLongitude->setText( CUnitPosition::toString( __poVesselPoint->getLongitude(), CUnitPosition::LONGITUDE ) );
   __pqHBoxLayoutPosition->addWidget( pqLineEditLongitude );
-  pqLineEditLatitude = new QLineEdit( this );
+  pqLineEditLatitude = new QLineEdit();
   pqLineEditLatitude->setToolTip( tr("Latitude") );
   if( __bPositionDefined ) pqLineEditLatitude->setText( CUnitPosition::toString( __poVesselPoint->getLatitude(), CUnitPosition::LATITUDE ) );
   __pqHBoxLayoutPosition->addWidget( pqLineEditLatitude );
-  pqCheckBoxValidityPosition = new QCheckBox( this );
+  pqCheckBoxValidityPosition = new QCheckBox();
   pqCheckBoxValidityPosition->setToolTip( tr("Position Validity") );
   pqCheckBoxValidityPosition->setTristate( true );
   pqCheckBoxValidityPosition->setCheckState( Qt::PartiallyChecked );
   __pqHBoxLayoutPosition->addWidget( pqCheckBoxValidityPosition );
-  pqLineEditElevation = new QLineEdit( this );
+  pqLineEditElevation = new QLineEdit();
   pqLineEditElevation->setToolTip( tr("Elevation") );
   if( __poVesselPoint->getElevation() != CDataPosition::UNDEFINED_ELEVATION ) pqLineEditElevation->setText( CUnitElevation::toString( __poVesselPoint->getElevation() ) );
   __pqHBoxLayoutPosition->addWidget( pqLineEditElevation );
-  pqCheckBoxValidityElevation = new QCheckBox( this );
+  pqCheckBoxValidityElevation = new QCheckBox();
   pqCheckBoxValidityElevation->setToolTip( tr("Elevation Validity") );
   pqCheckBoxValidityElevation->setTristate( true );
   pqCheckBoxValidityElevation->setCheckState( Qt::PartiallyChecked );
@@ -100,15 +100,15 @@ void CVesselPointEditView::constructLayout()
 
   // ... date/time
   QHBoxLayout* __pqHBoxLayoutDate = new QHBoxLayout();
-  pqLineEditDate = new QLineEdit( this );
+  pqLineEditDate = new QLineEdit();
   pqLineEditDate->setToolTip( tr("Date") );
   if( __poVesselPoint->getTime() != CDataTime::UNDEFINED_TIME ) pqLineEditDate->setText( CUnitDate::toString( __poVesselPoint->getTime() ) );
   __pqHBoxLayoutDate->addWidget( pqLineEditDate );
-  pqLineEditTime = new QLineEdit( this );
+  pqLineEditTime = new QLineEdit();
   pqLineEditTime->setToolTip( tr("Time") );
   if( __poVesselPoint->getTime() != CDataTime::UNDEFINED_TIME ) pqLineEditTime->setText( CUnitTime::toString( __poVesselPoint->getTime() ) );
   __pqHBoxLayoutDate->addWidget( pqLineEditTime );
-  pqCheckBoxValidityTime = new QCheckBox( this );
+  pqCheckBoxValidityTime = new QCheckBox();
   pqCheckBoxValidityTime->setToolTip( tr("Time Validity") );
   pqCheckBoxValidityTime->setTristate( true );
   pqCheckBoxValidityTime->setCheckState( Qt::PartiallyChecked );
@@ -117,29 +117,29 @@ void CVesselPointEditView::constructLayout()
 
   // ... ground course
   QHBoxLayout* __pqHBoxLayoutGroundCourse = new QHBoxLayout();
-  pqLineEditGroundBearing = new QLineEdit( this );
+  pqLineEditGroundBearing = new QLineEdit();
   pqLineEditGroundBearing->setToolTip( tr("Bearing") );
   if( __poVesselPoint->GroundCourse.getBearing() != CDataCourse::UNDEFINED_BEARING ) pqLineEditGroundBearing->setText( CUnitBearing::toString( __poVesselPoint->GroundCourse.getBearing() ) );
   __pqHBoxLayoutGroundCourse->addWidget( pqLineEditGroundBearing );
-  pqCheckBoxValidityGroundBearing = new QCheckBox( this );
+  pqCheckBoxValidityGroundBearing = new QCheckBox();
   pqCheckBoxValidityGroundBearing->setToolTip( tr("Ground Bearing Validity") );
   pqCheckBoxValidityGroundBearing->setTristate( true );
   pqCheckBoxValidityGroundBearing->setCheckState( Qt::PartiallyChecked );
   __pqHBoxLayoutGroundCourse->addWidget( pqCheckBoxValidityGroundBearing );
-  pqLineEditGroundSpeed = new QLineEdit( this );
+  pqLineEditGroundSpeed = new QLineEdit();
   pqLineEditGroundSpeed->setToolTip( tr("Speed (horizontal)") );
   if( __poVesselPoint->GroundCourse.getSpeed() != CDataCourse::UNDEFINED_SPEED ) pqLineEditGroundSpeed->setText( CUnitSpeed::toString( __poVesselPoint->GroundCourse.getSpeed() ) );
   __pqHBoxLayoutGroundCourse->addWidget( pqLineEditGroundSpeed );
-  pqCheckBoxValidityGroundSpeed = new QCheckBox( this );
+  pqCheckBoxValidityGroundSpeed = new QCheckBox();
   pqCheckBoxValidityGroundSpeed->setToolTip( tr("Ground Speed Validity (horizontal)") );
   pqCheckBoxValidityGroundSpeed->setTristate( true );
   pqCheckBoxValidityGroundSpeed->setCheckState( Qt::PartiallyChecked );
   __pqHBoxLayoutGroundCourse->addWidget( pqCheckBoxValidityGroundSpeed );
-  pqLineEditGroundSpeedVertical = new QLineEdit( this );
+  pqLineEditGroundSpeedVertical = new QLineEdit();
   pqLineEditGroundSpeedVertical->setToolTip( tr("Speed (vertical)") );
   if( __poVesselPoint->GroundCourse.getSpeedVertical() != CDataCourse::UNDEFINED_SPEED ) pqLineEditGroundSpeedVertical->setText( CUnitSpeedVertical::toString( __poVesselPoint->GroundCourse.getSpeedVertical() ) );
   __pqHBoxLayoutGroundCourse->addWidget( pqLineEditGroundSpeedVertical );
-  pqCheckBoxValidityGroundSpeedVertical = new QCheckBox( this );
+  pqCheckBoxValidityGroundSpeedVertical = new QCheckBox();
   pqCheckBoxValidityGroundSpeedVertical->setToolTip( tr("Ground Speed Validity (vertical)") );
   pqCheckBoxValidityGroundSpeedVertical->setTristate( true );
   pqCheckBoxValidityGroundSpeedVertical->setCheckState( Qt::PartiallyChecked );
@@ -148,29 +148,29 @@ void CVesselPointEditView::constructLayout()
 
   // ... apparent course
   QHBoxLayout* __pqHBoxLayoutApparentCourse = new QHBoxLayout();
-  pqLineEditApparentBearing = new QLineEdit( this );
+  pqLineEditApparentBearing = new QLineEdit();
   pqLineEditApparentBearing->setToolTip( tr("Bearing") );
   if( __poVesselPoint->ApparentCourse.getBearing() != CDataCourse::UNDEFINED_BEARING ) pqLineEditApparentBearing->setText( CUnitBearing::toString( __poVesselPoint->ApparentCourse.getBearing() ) );
   __pqHBoxLayoutApparentCourse->addWidget( pqLineEditApparentBearing );
-  pqCheckBoxValidityApparentBearing = new QCheckBox( this );
+  pqCheckBoxValidityApparentBearing = new QCheckBox();
   pqCheckBoxValidityApparentBearing->setToolTip( tr("Apparent Bearing Validity") );
   pqCheckBoxValidityApparentBearing->setTristate( true );
   pqCheckBoxValidityApparentBearing->setCheckState( Qt::PartiallyChecked );
   __pqHBoxLayoutApparentCourse->addWidget( pqCheckBoxValidityApparentBearing );
-  pqLineEditApparentSpeed = new QLineEdit( this );
+  pqLineEditApparentSpeed = new QLineEdit();
   pqLineEditApparentSpeed->setToolTip( tr("Speed (horizontal)") );
   if( __poVesselPoint->ApparentCourse.getSpeed() != CDataCourse::UNDEFINED_SPEED ) pqLineEditApparentSpeed->setText( CUnitSpeed::toString( __poVesselPoint->ApparentCourse.getSpeed() ) );
   __pqHBoxLayoutApparentCourse->addWidget( pqLineEditApparentSpeed );
-  pqCheckBoxValidityApparentSpeed = new QCheckBox( this );
+  pqCheckBoxValidityApparentSpeed = new QCheckBox();
   pqCheckBoxValidityApparentSpeed->setToolTip( tr("Apparent Speed Validity (horizontal)") );
   pqCheckBoxValidityApparentSpeed->setTristate( true );
   pqCheckBoxValidityApparentSpeed->setCheckState( Qt::PartiallyChecked );
   __pqHBoxLayoutApparentCourse->addWidget( pqCheckBoxValidityApparentSpeed );
-  pqLineEditApparentSpeedVertical = new QLineEdit( this );
+  pqLineEditApparentSpeedVertical = new QLineEdit();
   pqLineEditApparentSpeedVertical->setToolTip( tr("Speed (vertical)") );
   if( __poVesselPoint->ApparentCourse.getSpeedVertical() != CDataCourse::UNDEFINED_SPEED ) pqLineEditApparentSpeedVertical->setText( CUnitSpeedVertical::toString( __poVesselPoint->ApparentCourse.getSpeedVertical() ) );
   __pqHBoxLayoutApparentCourse->addWidget( pqLineEditApparentSpeedVertical );
-  pqCheckBoxValidityApparentSpeedVertical = new QCheckBox( this );
+  pqCheckBoxValidityApparentSpeedVertical = new QCheckBox();
   pqCheckBoxValidityApparentSpeedVertical->setToolTip( tr("Apparent Speed Validity (vertical)") );
   pqCheckBoxValidityApparentSpeedVertical->setTristate( true );
   pqCheckBoxValidityApparentSpeedVertical->setCheckState( Qt::PartiallyChecked );
@@ -179,38 +179,38 @@ void CVesselPointEditView::constructLayout()
 
   // ... type/symbol
   QHBoxLayout* __pqHBoxLayoutTypeSymbol = new QHBoxLayout();
-  pqLineEditType = new QLineEdit( this );
+  pqLineEditType = new QLineEdit();
   pqLineEditType->setToolTip( tr("Type") );
   pqLineEditType->setText( __poVesselPoint->getType() );
   __pqHBoxLayoutTypeSymbol->addWidget( pqLineEditType );
-  pqLineEditSymbol = new QLineEdit( this );
+  pqLineEditSymbol = new QLineEdit();
   pqLineEditSymbol->setToolTip( tr("Symbol") );
   pqLineEditSymbol->setText( __poVesselPoint->getSymbol() );
   __pqHBoxLayoutTypeSymbol->addWidget( pqLineEditSymbol );
   __pqFormLayout->addRow( tr("Type & Symbol")+":", __pqHBoxLayoutTypeSymbol );
 
   // ... description
-  pqTextEditDescription = new QTextEdit( this );
+  pqTextEditDescription = new QTextEdit();
   pqTextEditDescription->setToolTip( tr("Comment") );
   pqTextEditDescription->setAcceptRichText( false );
   pqTextEditDescription->setPlainText( __poVesselPoint->getDescription() );
   __pqFormLayout->addRow( tr("Description")+":", pqTextEditDescription );
 
   // ... comment
-  pqTextEditComment = new QTextEdit( this );
+  pqTextEditComment = new QTextEdit();
   pqTextEditComment->setToolTip( tr("Comment") );
   pqTextEditComment->setAcceptRichText( false );
   pqTextEditComment->setPlainText( __poVesselPoint->getComment() );
   __pqFormLayout->addRow( tr("Comment")+":", pqTextEditComment );
 
   // ... url
-  pqLineEditUrl = new QLineEdit( this );
+  pqLineEditUrl = new QLineEdit();
   pqLineEditUrl->setToolTip( tr("URL") );
   pqLineEditUrl->setText( __poVesselPoint->getUrl() );
   __pqFormLayout->addRow( tr("URL")+":", pqLineEditUrl );
 
   // ... track recording
-  pqSpinBoxTrackRecordRate = new QSpinBox( this );
+  pqSpinBoxTrackRecordRate = new QSpinBox();
   pqSpinBoxTrackRecordRate->setRange( 1, 300 );
   pqSpinBoxTrackRecordRate->setToolTip( tr("Track Recording Rate [seconds]") );
   pqSpinBoxTrackRecordRate->setValue( __poVesselPoint->getTrackRecordRate() );
@@ -220,7 +220,7 @@ void CVesselPointEditView::constructLayout()
   __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

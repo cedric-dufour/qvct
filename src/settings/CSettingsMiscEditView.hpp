@@ -38,7 +38,7 @@ class CSettingsMiscEditView: public QWidget
   //------------------------------------------------------------------------------
 
 public:
-  CSettingsMiscEditView( QWidget* _pqParent );
+  CSettingsMiscEditView( QWidget* _pqParent = 0 );
   virtual ~CSettingsMiscEditView() {};
 
 private:

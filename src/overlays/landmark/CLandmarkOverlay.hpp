@@ -69,7 +69,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  CLandmarkOverlay( QWidget* _pqParent );
+  CLandmarkOverlay( QWidget* _pqParent = 0 );
   virtual ~CLandmarkOverlay();
 
 

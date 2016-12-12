@@ -55,7 +55,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  CSample( QWidget* _pqParent );
+  CSample( QWidget* _pqParent = 0 );
   virtual ~CSample() {};
 
 private:

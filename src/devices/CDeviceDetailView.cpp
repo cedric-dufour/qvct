@@ -47,33 +47,33 @@ void CDeviceDetailView::constructLayout()
 {
   // Create the buttons
   // ... edit
-  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
+  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "" );
   pqPushButtonEdit->setMaximumSize( 36, 34 );
   pqPushButtonEdit->setToolTip( tr("Edit this device's configuration") );
   pqPushButtonEdit->setEnabled( false );
   QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setToolTip( tr("Delete this device") );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... stop
-  pqPushButtonStop = new QPushButton( QIcon( ":icons/32x32/stop.png" ), "", this );
+  pqPushButtonStop = new QPushButton( QIcon( ":icons/32x32/stop.png" ), "" );
   pqPushButtonStop->setMaximumSize( 36, 34 );
   pqPushButtonStop->setToolTip( tr("Stop this device") );
   pqPushButtonStop->setCheckable( true );
   pqPushButtonStop->setEnabled( false );
   QWidget::connect( pqPushButtonStop, SIGNAL( clicked() ), this, SLOT( slotStop() ) );
   // ... pause
-  pqPushButtonPause = new QPushButton( QIcon( ":icons/32x32/pause.png" ), "", this );
+  pqPushButtonPause = new QPushButton( QIcon( ":icons/32x32/pause.png" ), "" );
   pqPushButtonPause->setMaximumSize( 36, 34 );
   pqPushButtonPause->setToolTip( tr("Pause this device") );
   pqPushButtonPause->setCheckable( true );
   pqPushButtonPause->setEnabled( false );
   QWidget::connect( pqPushButtonPause, SIGNAL( clicked() ), this, SLOT( slotPause() ) );
   // ... start
-  pqPushButtonStart = new QPushButton( QIcon( ":icons/32x32/start.png" ), "", this );
+  pqPushButtonStart = new QPushButton( QIcon( ":icons/32x32/start.png" ), "" );
   pqPushButtonStart->setMaximumSize( 36, 34 );
   pqPushButtonStart->setToolTip( tr("Start this device") );
   pqPushButtonStart->setCheckable( true );
@@ -81,18 +81,18 @@ void CDeviceDetailView::constructLayout()
   QWidget::connect( pqPushButtonStart, SIGNAL( clicked() ), this, SLOT( slotStart() ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/device.png" ) );
   __pqLabelIcon->setToolTip( tr("Device") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Name") );
   poTextName->setFont( __qFontHeader );
   poTextName->setWordWrap( true );
@@ -101,22 +101,22 @@ void CDeviceDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
   __poTabWidget->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 
   // ... summary
-  QWidget* __poWidgetSummary = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutSummary = new QVBoxLayout( __poWidgetSummary );
+  QWidget* __poWidgetSummary = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutSummary = new QVBoxLayout();
   __qFontData.setPixelSize( 20 );
-  poTextDriver = new COverlayText( this );
+  poTextDriver = new COverlayText();
   poTextDriver->setToolTip( tr("Driver") );
   poTextDriver->setFont( __qFontData );
   poTextDriver->setIndent( 10 );
   poTextDriver->setAlignment( Qt::AlignHCenter );
   poTextDriver->resetText();
   __pqVBoxLayoutSummary->addWidget( poTextDriver, 0 );
-  pqLabelActivity = new COverlayText( this );
+  pqLabelActivity = new COverlayText();
   pqLabelActivity->setToolTip( tr("Activity") );
   pqLabelActivity->setFont( __qFontData );
   pqLabelActivity->setIndent( 10 );
@@ -129,7 +129,7 @@ void CDeviceDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

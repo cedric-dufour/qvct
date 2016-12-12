@@ -64,7 +64,7 @@ protected:
   //------------------------------------------------------------------------------
 
 protected:
-  CVesselWidget( const QString& _qsTitle, QWidget* _pqParent );
+  CVesselWidget( const QString& _qsTitle, QWidget* _pqParent = 0 );
   virtual ~CVesselWidget() {};
 
 

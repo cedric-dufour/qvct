@@ -69,7 +69,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  CRouteOverlay( QWidget* _pqParent );
+  CRouteOverlay( QWidget* _pqParent = 0 );
   virtual ~CRouteOverlay();
 
 

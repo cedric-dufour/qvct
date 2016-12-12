@@ -48,49 +48,49 @@ void CPointerPointDetailView::constructLayout()
 {
   // Create the buttons
   // ... visible
-  pqPushButtonVisible = new QPushButton( QIcon( ":icons/32x32/visible.png" ), "", this );
+  pqPushButtonVisible = new QPushButton( QIcon( ":icons/32x32/visible.png" ), "" );
   pqPushButtonVisible->setToolTip( tr("Toggle the pointer visibility") );
   pqPushButtonVisible->setMaximumSize( 36, 34 );
   pqPushButtonVisible->setEnabled( false );
   QWidget::connect( pqPushButtonVisible, SIGNAL( clicked() ), this, SLOT( slotToggleVisible() ) );
   // ... center
-  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "", this );
+  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "" );
   pqPushButtonCenter->setToolTip( tr("Center chart on the pointer position") );
   pqPushButtonCenter->setMaximumSize( 36, 34 );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setToolTip( tr("Delete the last pointer path's position") );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... Add landmark
-  pqPushButtonAddLandmark = new QPushButton( QIcon( ":icons/32x32/landmark_add.png" ), "", this );
+  pqPushButtonAddLandmark = new QPushButton( QIcon( ":icons/32x32/landmark_add.png" ), "" );
   pqPushButtonAddLandmark->setToolTip( tr("Create new landmark(s) at the pointer (path) positions") );
   pqPushButtonAddLandmark->setMaximumSize( 36, 34 );
   pqPushButtonAddLandmark->setEnabled( false );
   QWidget::connect( pqPushButtonAddLandmark, SIGNAL( clicked() ), this, SLOT( slotAddLandmark() ) );
   // ... Add route
-  pqPushButtonAddRoute = new QPushButton( QIcon( ":icons/32x32/route_add.png" ), "", this );
+  pqPushButtonAddRoute = new QPushButton( QIcon( ":icons/32x32/route_add.png" ), "" );
   pqPushButtonAddRoute->setToolTip( tr("Create new (route) waypoint(s) at the pointer (path) position(s)") );
   pqPushButtonAddRoute->setMaximumSize( 36, 34 );
   pqPushButtonAddRoute->setEnabled( false );
   QWidget::connect( pqPushButtonAddRoute, SIGNAL( clicked() ), this, SLOT( slotAddRoute() ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/pointer.png" ) );
   __pqLabelIcon->setToolTip( tr("Pointer") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  COverlayText* __poTextName = new COverlayText( tr("Pointer"), this );
+  COverlayText* __poTextName = new COverlayText( tr("Pointer") );
   __poTextName->setToolTip( tr("Name") );
   __poTextName->setFont( __qFontHeader );
   __poTextName->setWordWrap( true );
@@ -99,29 +99,29 @@ void CPointerPointDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
   __poTabWidget->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 
   // ... position
   __qFontData.setPixelSize( 20 );
-  QWidget* __poWidgetPosition = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutPosition = new QVBoxLayout( __poWidgetPosition );
-  poTextLongitude = new COverlayText( this );
+  QWidget* __poWidgetPosition = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutPosition = new QVBoxLayout();
+  poTextLongitude = new COverlayText();
   poTextLongitude->setToolTip( tr("Longitude") );
   poTextLongitude->setFont( __qFontData );
   poTextLongitude->setIndent( 10 );
   poTextLongitude->setAlignment( Qt::AlignHCenter );
   poTextLongitude->resetText();
   __pqVBoxLayoutPosition->addWidget( poTextLongitude );
-  poTextLatitude = new COverlayText( this );
+  poTextLatitude = new COverlayText();
   poTextLatitude->setToolTip( tr("Latitude") );
   poTextLatitude->setFont( __qFontData );
   poTextLatitude->setIndent( 10 );
   poTextLatitude->setAlignment( Qt::AlignHCenter );
   poTextLatitude->resetText();
   __pqVBoxLayoutPosition->addWidget( poTextLatitude );
-  poTextElevation = new COverlayText( this );
+  poTextElevation = new COverlayText();
   poTextElevation->setToolTip( tr("Elevation") );
   poTextElevation->setFont( __qFontData );
   poTextElevation->setIndent( 10 );
@@ -132,23 +132,23 @@ void CPointerPointDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetPosition, tr("Position") );
 
   // ... path
-  QWidget* __poWidgetPath = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutPath = new QVBoxLayout( __poWidgetPath );
-  poTextPathSegments = new COverlayText( this );
+  QWidget* __poWidgetPath = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutPath = new QVBoxLayout();
+  poTextPathSegments = new COverlayText();
   poTextPathSegments->setToolTip( tr("Segments") );
   poTextPathSegments->setFont( __qFontData );
   poTextPathSegments->setIndent( 10 );
   poTextPathSegments->setAlignment( Qt::AlignHCenter );
   poTextPathSegments->resetText();
   __pqVBoxLayoutPath->addWidget( poTextPathSegments );
-  poTextPathLengthRL = new COverlayText( this );
+  poTextPathLengthRL = new COverlayText();
   poTextPathLengthRL->setToolTip( tr("Length (rhumb-line along segments)") );
   poTextPathLengthRL->setFont( __qFontData );
   poTextPathLengthRL->setIndent( 10 );
   poTextPathLengthRL->setAlignment( Qt::AlignHCenter );
   poTextPathLengthRL->resetText();
   __pqVBoxLayoutPath->addWidget( poTextPathLengthRL );
-  poTextPathLengthGC = new COverlayText( this );
+  poTextPathLengthGC = new COverlayText();
   poTextPathLengthGC->setToolTip( tr("Length (great-circle equivalent)") );
   poTextPathLengthGC->setFont( __qFontData );
   poTextPathLengthGC->setIndent( 10 );
@@ -162,7 +162,7 @@ void CPointerPointDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

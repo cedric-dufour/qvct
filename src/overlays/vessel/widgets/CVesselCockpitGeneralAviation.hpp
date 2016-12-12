@@ -65,7 +65,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselCockpitGeneralAviation( QWidget* _pqParent );
+  CVesselCockpitGeneralAviation( QWidget* _pqParent = 0 );
   virtual ~CVesselCockpitGeneralAviation() {};
 
 private:

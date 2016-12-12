@@ -68,7 +68,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselOverlay( QWidget* _pqParent );
+  CVesselOverlay( QWidget* _pqParent = 0 );
   virtual ~CVesselOverlay();
 
 

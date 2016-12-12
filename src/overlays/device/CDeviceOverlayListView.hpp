@@ -64,7 +64,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CDeviceOverlayListView( QWidget* _pqParent );
+  CDeviceOverlayListView( QWidget* _pqParent = 0 );
   virtual ~CDeviceOverlayListView() {};
 
 private:

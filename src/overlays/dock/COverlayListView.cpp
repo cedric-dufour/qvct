@@ -54,11 +54,11 @@ void COverlayListView::constructLayout()
 {
   // Create layout
   // NOTE: Merely a place-holder to insure the same margin appearance as the COverlayDetailView
-  QWidget* __pqWidget = new QWidget( this );
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( __pqWidget );
+  QWidget* __pqWidget = new QWidget();
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Create tab widget
-  pqTabWidget = new QTabWidget( __pqWidget );
+  pqTabWidget = new QTabWidget();
   __pqVBoxLayout->addWidget( pqTabWidget );
   // ... style
   pqTabWidget->setStyleSheet( ".QTabBar::tab { PADDING:4px 0px 0px 14px; HEIGHT:28px; }" );
@@ -68,35 +68,35 @@ void COverlayListView::constructLayout()
 
   // ... landmark (COverlayListView::LANDMARK)
   __iIndex++;
-  CLandmarkOverlayListView* __poLandmarkOverlayListView = new CLandmarkOverlayListView( pqTabWidget );
+  CLandmarkOverlayListView* __poLandmarkOverlayListView = new CLandmarkOverlayListView();
   QVCTRuntime::registerLandmarkOverlayListView( __poLandmarkOverlayListView );
   pqTabWidget->addTab( __poLandmarkOverlayListView, QIcon( ":icons/16x16/landmark.png" ), "" );
   pqTabWidget->setTabToolTip( __iIndex, tr("Landmarks") );
 
   // ... route (COverlayListView::ROUTE)
   __iIndex++;
-  CRouteOverlayListView* __poRouteOverlayListView = new CRouteOverlayListView( pqTabWidget );
+  CRouteOverlayListView* __poRouteOverlayListView = new CRouteOverlayListView();
   QVCTRuntime::registerRouteOverlayListView( __poRouteOverlayListView );
   pqTabWidget->addTab( __poRouteOverlayListView, QIcon( ":icons/16x16/route.png" ), "" );
   pqTabWidget->setTabToolTip( __iIndex, tr("Routes") );
 
   // ... track (COverlayListView::TRACK)
   __iIndex++;
-  CTrackOverlayListView* __poTrackOverlayListView = new CTrackOverlayListView( pqTabWidget );
+  CTrackOverlayListView* __poTrackOverlayListView = new CTrackOverlayListView();
   QVCTRuntime::registerTrackOverlayListView( __poTrackOverlayListView );
   pqTabWidget->addTab( __poTrackOverlayListView, QIcon( ":icons/16x16/track.png" ), "" );
   pqTabWidget->setTabToolTip( __iIndex, tr("Tracks") );
 
   // ... vessel (COverlayListView::VESSEL)
   __iIndex++;
-  CVesselOverlayListView* __poVesselOverlayListView = new CVesselOverlayListView( pqTabWidget );
+  CVesselOverlayListView* __poVesselOverlayListView = new CVesselOverlayListView();
   QVCTRuntime::registerVesselOverlayListView( __poVesselOverlayListView );
   pqTabWidget->addTab( __poVesselOverlayListView, QIcon( ":icons/16x16/vessel.png" ), "" );
   pqTabWidget->setTabToolTip( __iIndex, tr("Vessels") );
 
   // ... device (COverlayListView::DEVICE)
   __iIndex++;
-  CDeviceOverlayListView* __poDeviceOverlayListView = new CDeviceOverlayListView( pqTabWidget );
+  CDeviceOverlayListView* __poDeviceOverlayListView = new CDeviceOverlayListView();
   QVCTRuntime::registerDeviceOverlayListView( __poDeviceOverlayListView );
   pqTabWidget->addTab( __poDeviceOverlayListView, QIcon( ":icons/16x16/device.png" ), "" );
   pqTabWidget->setTabToolTip( __iIndex, tr("Devices") );
@@ -105,6 +105,7 @@ void COverlayListView::constructLayout()
   connect( pqTabWidget, SIGNAL( currentChanged(int) ), this, SLOT( slotChangeTab(int) ) );
 
   // Finalize
+  __pqWidget->setLayout( __pqVBoxLayout );
   QDockWidget::setWidget( __pqWidget );
 }
 

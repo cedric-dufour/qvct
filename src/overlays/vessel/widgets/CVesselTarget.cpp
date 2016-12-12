@@ -51,22 +51,22 @@ void CVesselTarget::constructLayout()
 {
   // Add data
   // ... target
-  poTextBearing = new COverlayText( this );
+  poTextBearing = new COverlayText();
   poTextBearing->setToolTip( tr("Bearing") );
   poTextBearing->setAlignment( Qt::AlignCenter );
   poTextBearing->resetText();
   pqBoxLayout->addWidget( poTextBearing );
-  poTextDistance = new COverlayText( this );
+  poTextDistance = new COverlayText();
   poTextDistance->setToolTip( tr("Distance") );
   poTextDistance->setAlignment( Qt::AlignCenter );
   poTextDistance->resetText();
   pqBoxLayout->addWidget( poTextDistance );
-  poTextEte = new COverlayText( this );
+  poTextEte = new COverlayText();
   poTextEte->setToolTip( tr("Estimated Time En-Route (ETE)") );
   poTextEte->setAlignment( Qt::AlignCenter );
   poTextEte->resetText();
   pqBoxLayout->addWidget( poTextEte );
-  poTextEta = new COverlayText( this );
+  poTextEta = new COverlayText();
   poTextEta->setToolTip( tr("Estimated Time of Arrival (ETA)") );
   poTextEta->setAlignment( Qt::AlignCenter );
   poTextEta->resetText();

@@ -70,7 +70,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  COverlayListView( QWidget* _pqParent );
+  COverlayListView( QWidget* _pqParent = 0 );
   virtual ~COverlayListView();
 
 private:

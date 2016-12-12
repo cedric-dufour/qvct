@@ -1054,7 +1054,7 @@ void CChartTable::dumpQVCT( QXmlStreamWriter & _rqXmlStreamWriter ) const
 CChart* CChartTable::loadChart( const QString& _rqsFilename )
 {
   // Create new chart widget
-  CChart* __poChart = new CChart( this, _rqsFilename );
+  CChart* __poChart = new CChart( _rqsFilename );
   if( __poChart->getStatus() != QVCT::OK )
   {
     delete __poChart;

@@ -37,11 +37,12 @@ CVesselWidget::CVesselWidget( const QString& _qsTitle, QWidget* _pqParent )
   , poVesselPoint( 0 )
 {
   // Create holder widget and layout
-  pqWidget = new QWidget( this );
+  pqWidget = new QWidget();
   pqWidget->setStyleSheet( ".QWidget { BACKGROUND-COLOR: rgba(0,0,0,255); } .QLabel { COLOR: rgba(255,255,255,255); }" );
-  QDockWidget::setWidget( pqWidget );
-  pqBoxLayout = new QBoxLayout( QBoxLayout::TopToBottom, pqWidget );
+  pqBoxLayout = new QBoxLayout( QBoxLayout::TopToBottom );
   pqBoxLayout->setContentsMargins( 5, 5, 5, 5 );
+  pqWidget->setLayout( pqBoxLayout );
+  QDockWidget::setWidget( pqWidget );
 }
 
 

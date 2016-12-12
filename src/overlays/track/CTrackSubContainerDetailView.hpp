@@ -67,7 +67,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CTrackSubContainerDetailView( QWidget* _pqParent );
+  CTrackSubContainerDetailView( QWidget* _pqParent = 0 );
   virtual ~CTrackSubContainerDetailView() {};
 
 private:

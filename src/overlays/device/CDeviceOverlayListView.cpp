@@ -44,44 +44,44 @@ CDeviceOverlayListView::CDeviceOverlayListView( QWidget* _pqParent )
 void CDeviceOverlayListView::constructLayout()
 {
   // Create the overlay/tree
-  poDeviceOverlay = new CDeviceOverlay( this );
+  poDeviceOverlay = new CDeviceOverlay();
   QVCTRuntime::registerDeviceOverlay( poDeviceOverlay );
 
   // Create the buttons
   // ... load
-  pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "", this );
+  pqPushButtonLoad = new QPushButton( QIcon( ":icons/32x32/load.png" ), "" );
   pqPushButtonLoad->setToolTip( tr("Load device from disk") );
   pqPushButtonLoad->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonLoad, SIGNAL( clicked() ), this, SLOT( slotLoad() ) );
   // ... add
-  pqPushButtonAdd = new QPushButton( QIcon( ":icons/32x32/add.png" ), "", this );
+  pqPushButtonAdd = new QPushButton( QIcon( ":icons/32x32/add.png" ), "" );
   pqPushButtonAdd->setToolTip( tr("Create a new device") );
   pqPushButtonAdd->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonAdd, SIGNAL( clicked() ), this, SLOT( slotAdd() ) );
   // ... up
-  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "", this );
+  pqPushButtonUp = new QPushButton( QIcon( ":icons/32x32/move_up.png" ), "" );
   pqPushButtonUp->setToolTip( tr("[device] Move up") );
   pqPushButtonUp->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonUp, SIGNAL( clicked() ), this, SLOT( slotUp() ) );
   // ... down
-  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "", this );
+  pqPushButtonDown = new QPushButton( QIcon( ":icons/32x32/move_down.png" ), "" );
   pqPushButtonDown->setToolTip( tr("[device] Move down") );
   pqPushButtonDown->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDown, SIGNAL( clicked() ), this, SLOT( slotDown() ) );
   // ... actions
-  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "", this );
+  pqPushButtonActions = new QPushButton( QIcon( ":icons/32x32/more.png" ), "" );
   pqPushButtonActions->setToolTip( tr("Additional actions")+"..." );
   pqPushButtonActions->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonActions, SIGNAL( clicked() ), this, SLOT( slotActions() ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add the overlay/tree
   __pqVBoxLayout->addWidget( poDeviceOverlay, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

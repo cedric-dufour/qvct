@@ -56,7 +56,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselCourse( QWidget* _pqParent );
+  CVesselCourse( QWidget* _pqParent = 0 );
   virtual ~CVesselCourse() {};
 
 private:

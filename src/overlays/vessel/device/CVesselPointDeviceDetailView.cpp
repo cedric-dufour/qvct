@@ -47,19 +47,19 @@ void CVesselPointDeviceDetailView::constructLayout()
 {
   // Create the buttons
   // ... edit
-  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
+  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "" );
   pqPushButtonEdit->setToolTip( tr("Edit this device") );
   pqPushButtonEdit->setMaximumSize( 36, 34 );
   pqPushButtonEdit->setEnabled( false );
   QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setToolTip( tr("Delete this device") );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... connect (device)
-  pqPushButtonConnect = new QPushButton( QIcon( ":icons/32x32/device_disconnect.png" ), "", this );
+  pqPushButtonConnect = new QPushButton( QIcon( ":icons/32x32/device_disconnect.png" ), "" );
   pqPushButtonConnect->setToolTip( tr("Connect to the actual device/source") );
   pqPushButtonConnect->setMaximumSize( 36, 34 );
   pqPushButtonConnect->setEnabled( false );
@@ -67,18 +67,18 @@ void CVesselPointDeviceDetailView::constructLayout()
   QWidget::connect( pqPushButtonConnect, SIGNAL( toggled(bool) ), this, SLOT( slotConnect(bool) ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/vessel_device.png" ) );
   __pqLabelIcon->setToolTip( tr("Device") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Name/Source") );
   poTextName->setFont( __qFontHeader );
   poTextName->setWordWrap( true );
@@ -87,28 +87,28 @@ void CVesselPointDeviceDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
 
   // ... position
-  QWidget* __poWidgetPosition = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutPosition = new QVBoxLayout( __poWidgetPosition );
+  QWidget* __poWidgetPosition = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutPosition = new QVBoxLayout();
   __qFontData.setPixelSize( 20 );
-  poTextLongitude = new COverlayText( this );
+  poTextLongitude = new COverlayText();
   poTextLongitude->setToolTip( tr("Longitude & Error[m]") );
   poTextLongitude->setFont( __qFontData );
   poTextLongitude->setIndent( 10 );
   poTextLongitude->setAlignment( Qt::AlignHCenter );
   poTextLongitude->resetText();
   __pqVBoxLayoutPosition->addWidget( poTextLongitude );
-  poTextLatitude = new COverlayText( this );
+  poTextLatitude = new COverlayText();
   poTextLatitude->setToolTip( tr("Latitude & Error[m]") );
   poTextLatitude->setFont( __qFontData );
   poTextLatitude->setIndent( 10 );
   poTextLatitude->setAlignment( Qt::AlignHCenter );
   poTextLatitude->resetText();
   __pqVBoxLayoutPosition->addWidget( poTextLatitude );
-  poTextElevation = new COverlayText( this );
+  poTextElevation = new COverlayText();
   poTextElevation->setToolTip( tr("Elevation & Error[m]") );
   poTextElevation->setFont( __qFontData );
   poTextElevation->setIndent( 10 );
@@ -119,24 +119,24 @@ void CVesselPointDeviceDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetPosition, tr("Position") );
 
   // ... course
-  QWidget* __poWidgetCourse = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutCourse = new QVBoxLayout( __poWidgetCourse );
+  QWidget* __poWidgetCourse = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutCourse = new QVBoxLayout();
   __qFontData.setPixelSize( 20 );
-  poTextBearing = new COverlayText( this );
+  poTextBearing = new COverlayText();
   poTextBearing->setToolTip( tr("Bearing & Error[deg]") );
   poTextBearing->setFont( __qFontData );
   poTextBearing->setIndent( 10 );
   poTextBearing->setAlignment( Qt::AlignHCenter );
   poTextBearing->resetText();
   __pqVBoxLayoutCourse->addWidget( poTextBearing );
-  poTextSpeed = new COverlayText( this );
+  poTextSpeed = new COverlayText();
   poTextSpeed->setToolTip( tr("Speed (horizontal) & Error[m/s]") );
   poTextSpeed->setFont( __qFontData );
   poTextSpeed->setIndent( 10 );
   poTextSpeed->setAlignment( Qt::AlignHCenter );
   poTextSpeed->resetText();
   __pqVBoxLayoutCourse->addWidget( poTextSpeed );
-  poTextSpeedVertical = new COverlayText( this );
+  poTextSpeedVertical = new COverlayText();
   poTextSpeedVertical->setToolTip( tr("Speed (vertical) & Error[m/s]") );
   poTextSpeedVertical->setFont( __qFontData );
   poTextSpeedVertical->setIndent( 10 );
@@ -147,23 +147,23 @@ void CVesselPointDeviceDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetCourse, tr("Course") );
 
   // ... date/time
-  QWidget* __poWidgetTime = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutTime = new QVBoxLayout( __poWidgetTime );
-  poTextDate = new COverlayText( this );
+  QWidget* __poWidgetTime = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutTime = new QVBoxLayout();
+  poTextDate = new COverlayText();
   poTextDate->setToolTip( tr("Date") );
   poTextDate->setFont( __qFontData );
   poTextDate->setIndent( 10 );
   poTextDate->setAlignment( Qt::AlignHCenter );
   poTextDate->resetText();
   __pqVBoxLayoutTime->addWidget( poTextDate );
-  poTextTime = new COverlayText( this );
+  poTextTime = new COverlayText();
   poTextTime->setToolTip( tr("Time & Error[s]") );
   poTextTime->setFont( __qFontData );
   poTextTime->setIndent( 10 );
   poTextTime->setAlignment( Qt::AlignHCenter );
   poTextTime->resetText();
   __pqVBoxLayoutTime->addWidget( poTextTime );
-  poTextTime2 = new COverlayText( this );
+  poTextTime2 = new COverlayText();
   poTextTime2->setToolTip( tr("Time (alternate timezone)") );
   poTextTime2->setFont( __qFontData );
   poTextTime2->setIndent( 10 );
@@ -174,23 +174,23 @@ void CVesselPointDeviceDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetTime, tr("Time") );
 
   // ... precision
-  QWidget* __poWidgetPrecision = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutPrecision = new QVBoxLayout( __poWidgetPrecision );
-  poTextFixType = new COverlayText( this );
+  QWidget* __poWidgetPrecision = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutPrecision = new QVBoxLayout();
+  poTextFixType = new COverlayText();
   poTextFixType->setToolTip( tr("Fix Type") );
   poTextFixType->setFont( __qFontData );
   poTextFixType->setIndent( 10 );
   poTextFixType->setAlignment( Qt::AlignHCenter );
   poTextFixType->resetText();
   __pqVBoxLayoutPrecision->addWidget( poTextFixType );
-  poTextSources = new COverlayText( this );
+  poTextSources = new COverlayText();
   poTextSources->setToolTip( tr("Sources Used / Visible") );
   poTextSources->setFont( __qFontData );
   poTextSources->setIndent( 10 );
   poTextSources->setAlignment( Qt::AlignHCenter );
   poTextSources->resetText();
   __pqVBoxLayoutPrecision->addWidget( poTextSources );
-  poTextDop = new COverlayText( this );
+  poTextDop = new COverlayText();
   poTextDop->setToolTip( tr("HDOP / VDOP / TDOP") );
   poTextDop->setFont( __qFontData );
   poTextDop->setIndent( 10 );
@@ -201,13 +201,13 @@ void CVesselPointDeviceDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetPrecision, tr("Precision") );
 
   // ... text
-  QScrollArea* __poScrollAreaText = new QScrollArea( __poTabWidget );
+  QScrollArea* __poScrollAreaText = new QScrollArea();
   __poScrollAreaText->setStyleSheet( ".QScrollArea, .QWidget { BACKGROUND-COLOR: rgba(0, 0, 0, 0); BORDER: none; }" );
   __poScrollAreaText->setWidgetResizable( true );
-  QWidget* __poWidgetText = new QWidget( __poScrollAreaText );
-  QVBoxLayout* __pqVBoxLayoutText = new QVBoxLayout( __poWidgetText );
+  QWidget* __poWidgetText = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutText = new QVBoxLayout();
   __qFontData.setPixelSize( 12 );
-  poText = new COverlayText( this );
+  poText = new COverlayText();
   poText->setToolTip( tr("Additional Textual Data") );
   poText->setFont( __qFontData );
   poText->setIndent( 10 );
@@ -222,7 +222,7 @@ void CVesselPointDeviceDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

@@ -65,7 +65,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselContainerDeviceDetailView( QWidget* _pqParent );
+  CVesselContainerDeviceDetailView( QWidget* _pqParent = 0 );
   virtual ~CVesselContainerDeviceDetailView() {};
 
 private:

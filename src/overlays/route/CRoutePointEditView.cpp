@@ -44,17 +44,17 @@ CRoutePointEditView::CRoutePointEditView( CRoutePoint* _poRoutePoint )
 void CRoutePointEditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/route_point.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"..." );
   __pqLabelEdit->setFont( __qFontHeader );
   __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
   // ... [end]
@@ -65,7 +65,7 @@ void CRoutePointEditView::constructLayout()
   QFormLayout* __pqFormLayout = new QFormLayout();
 
   // ... name
-  pqLineEditName = new QLineEdit( this );
+  pqLineEditName = new QLineEdit();
   pqLineEditName->setToolTip( tr("Name") );
   pqLineEditName->setText( __poRoutePoint->getName() );
   __pqFormLayout->addRow( tr("Name")+":", pqLineEditName );
@@ -73,15 +73,15 @@ void CRoutePointEditView::constructLayout()
 
   // ... position
   QHBoxLayout* __pqHBoxLayoutPosition = new QHBoxLayout();
-  pqLineEditLongitude = new QLineEdit( this );
+  pqLineEditLongitude = new QLineEdit();
   pqLineEditLongitude->setToolTip( tr("Longitude") );
   if( __bPositionDefined ) pqLineEditLongitude->setText( CUnitPosition::toString( __poRoutePoint->getLongitude(), CUnitPosition::LONGITUDE ) );
   __pqHBoxLayoutPosition->addWidget( pqLineEditLongitude );
-  pqLineEditLatitude = new QLineEdit( this );
+  pqLineEditLatitude = new QLineEdit();
   pqLineEditLatitude->setToolTip( tr("Latitude") );
   if( __bPositionDefined ) pqLineEditLatitude->setText( CUnitPosition::toString( __poRoutePoint->getLatitude(), CUnitPosition::LATITUDE ) );
   __pqHBoxLayoutPosition->addWidget( pqLineEditLatitude );
-  pqLineEditElevation = new QLineEdit( this );
+  pqLineEditElevation = new QLineEdit();
   pqLineEditElevation->setToolTip( tr("Elevation") );
   if( __poRoutePoint->getElevation() != CDataPosition::UNDEFINED_ELEVATION ) pqLineEditElevation->setText( CUnitElevation::toString( __poRoutePoint->getElevation() ) );
   __pqHBoxLayoutPosition->addWidget( pqLineEditElevation );
@@ -89,32 +89,32 @@ void CRoutePointEditView::constructLayout()
 
   // ... type/symbol
   QHBoxLayout* __pqHBoxLayoutTypeSymbol = new QHBoxLayout();
-  pqLineEditType = new QLineEdit( this );
+  pqLineEditType = new QLineEdit();
   pqLineEditType->setToolTip( tr("Type") );
   pqLineEditType->setText( __poRoutePoint->getType() );
   __pqHBoxLayoutTypeSymbol->addWidget( pqLineEditType );
-  pqLineEditSymbol = new QLineEdit( this );
+  pqLineEditSymbol = new QLineEdit();
   pqLineEditSymbol->setToolTip( tr("Symbol") );
   pqLineEditSymbol->setText( __poRoutePoint->getSymbol() );
   __pqHBoxLayoutTypeSymbol->addWidget( pqLineEditSymbol );
   __pqFormLayout->addRow( tr("Type & Symbol")+":", __pqHBoxLayoutTypeSymbol );
 
   // ... description
-  pqTextEditDescription = new QTextEdit( this );
+  pqTextEditDescription = new QTextEdit();
   pqTextEditDescription->setToolTip( tr("Comment") );
   pqTextEditDescription->setAcceptRichText( false );
   pqTextEditDescription->setPlainText( __poRoutePoint->getDescription() );
   __pqFormLayout->addRow( tr("Description")+":", pqTextEditDescription );
 
   // ... comment
-  pqTextEditComment = new QTextEdit( this );
+  pqTextEditComment = new QTextEdit();
   pqTextEditComment->setToolTip( tr("Comment") );
   pqTextEditComment->setAcceptRichText( false );
   pqTextEditComment->setPlainText( __poRoutePoint->getComment() );
   __pqFormLayout->addRow( tr("Comment")+":", pqTextEditComment );
 
   // ... url
-  pqLineEditUrl = new QLineEdit( this );
+  pqLineEditUrl = new QLineEdit();
   pqLineEditUrl->setToolTip( tr("URL") );
   pqLineEditUrl->setText( __poRoutePoint->getUrl() );
   __pqFormLayout->addRow( tr("URL")+":", pqLineEditUrl );
@@ -123,7 +123,7 @@ void CRoutePointEditView::constructLayout()
   __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

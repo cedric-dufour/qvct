@@ -48,27 +48,28 @@ CTimeView::CTimeView( QWidget* _pqParent )
 void CTimeView::constructLayout()
 {
   // Create holder widget and layout
-  pqWidget = new QWidget( this );
+  pqWidget = new QWidget();
   pqWidget->setStyleSheet( ".QWidget { BACKGROUND-COLOR: rgba(0,0,0,255); } .QLabel { COLOR: rgba(255,255,255,255); }" );
-  pqBoxLayout = new QBoxLayout( QBoxLayout::LeftToRight, pqWidget );
+  pqBoxLayout = new QBoxLayout( QBoxLayout::LeftToRight );
   pqBoxLayout->setContentsMargins( 5, 5, 5, 5 );
 
   // Add data
   // ... date/time
-  pqLabelDate = new QLabel( this );
+  pqLabelDate = new QLabel();
   pqLabelDate->setToolTip( tr("Date") );
   pqLabelDate->setAlignment( Qt::AlignCenter );
   pqBoxLayout->addWidget( pqLabelDate );
-  pqLabelTime = new QLabel( this );
+  pqLabelTime = new QLabel();
   pqLabelTime->setToolTip( tr("Time") );
   pqLabelTime->setAlignment( Qt::AlignCenter );
   pqBoxLayout->addWidget( pqLabelTime );
-  pqLabelTime2 = new QLabel( this );
+  pqLabelTime2 = new QLabel();
   pqLabelTime2->setToolTip( tr("Time (alternate timezone)") );
   pqLabelTime2->setAlignment( Qt::AlignCenter );
   pqBoxLayout->addWidget( pqLabelTime2 );
 
   // Finalize
+  pqWidget->setLayout( pqBoxLayout );
   QDockWidget::setWidget( pqWidget );
 }
 

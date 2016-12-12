@@ -44,7 +44,7 @@ void CSettingsValidityEditView::constructLayout()
   CSettings* __poSettings = QVCTRuntime::useSettings();
 
   // Create layout
-  QGridLayout* __pqGridLayout = new QGridLayout( this );
+  QGridLayout* __pqGridLayout = new QGridLayout();
 
   // Add items
   QLabel* __pqLabelMinVariation = new QLabel( "<I>"+tr("Min. Variation")+"</I>" );
@@ -60,13 +60,13 @@ void CSettingsValidityEditView::constructLayout()
   // ... time validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Time")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditMaxErrorTime = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxErrorTime = new QLineEdit();
   __pqLineEditMaxErrorTime->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxErrorTime->setInputMask( "09.99" );
   __pqLineEditMaxErrorTime->setText( QString::number( __poSettings->getMaxErrorTime(), 'f', 2 ).prepend(" ").right(5) );
   __pqGridLayout->addWidget( __pqLineEditMaxErrorTime, __iRow, 2 );
   connect( __pqLineEditMaxErrorTime, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMaxErrorTime(const QString&) ) );
-  QLineEdit* __pqLineEditMaxAgeTime = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxAgeTime = new QLineEdit();
   __pqLineEditMaxAgeTime->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxAgeTime->setInputMask( "09.99" );
   __pqLineEditMaxAgeTime->setText( QString::number( __poSettings->getMaxAgeTime(), 'f', 2 ).prepend(" ").right(5) );
@@ -76,19 +76,19 @@ void CSettingsValidityEditView::constructLayout()
   // ... position validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Position")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditMinValuePosition = new QLineEdit( this );
+  QLineEdit* __pqLineEditMinValuePosition = new QLineEdit();
   __pqLineEditMinValuePosition->setToolTip( tr("in meters [m]") );
   __pqLineEditMinValuePosition->setInputMask( "009.99" );
   __pqLineEditMinValuePosition->setText( QString::number( __poSettings->getMinValuePosition(), 'f', 2 ).prepend("  ").right(6) );
   __pqGridLayout->addWidget( __pqLineEditMinValuePosition, __iRow, 1 );
   connect( __pqLineEditMinValuePosition, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMinValuePosition(const QString&) ) );
-  QLineEdit* __pqLineEditMaxErrorPosition = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxErrorPosition = new QLineEdit();
   __pqLineEditMaxErrorPosition->setToolTip( tr("in meters [m]") );
   __pqLineEditMaxErrorPosition->setInputMask( "009.99" );
   __pqLineEditMaxErrorPosition->setText( QString::number( __poSettings->getMaxErrorPosition(), 'f', 2 ).prepend("  ").right(6) );
   __pqGridLayout->addWidget( __pqLineEditMaxErrorPosition, __iRow, 2 );
   connect( __pqLineEditMaxErrorPosition, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMaxErrorPosition(const QString&) ) );
-  QLineEdit* __pqLineEditMaxAgePosition = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxAgePosition = new QLineEdit();
   __pqLineEditMaxAgePosition->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxAgePosition->setInputMask( "09.99" );
   __pqLineEditMaxAgePosition->setText( QString::number( __poSettings->getMaxAgePosition(), 'f', 2 ).prepend(" ").right(5) );
@@ -98,13 +98,13 @@ void CSettingsValidityEditView::constructLayout()
   // ... elevation validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Elevation")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditMaxErrorElevation = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxErrorElevation = new QLineEdit();
   __pqLineEditMaxErrorElevation->setToolTip( tr("in meters [m]") );
   __pqLineEditMaxErrorElevation->setInputMask( "009.99" );
   __pqLineEditMaxErrorElevation->setText( QString::number( __poSettings->getMaxErrorElevation(), 'f', 2 ).prepend("  ").right(6) );
   __pqGridLayout->addWidget( __pqLineEditMaxErrorElevation, __iRow, 2 );
   connect( __pqLineEditMaxErrorElevation, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMaxErrorElevation(const QString&) ) );
-  QLineEdit* __pqLineEditMaxAgeElevation = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxAgeElevation = new QLineEdit();
   __pqLineEditMaxAgeElevation->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxAgeElevation->setInputMask( "09.99" );
   __pqLineEditMaxAgeElevation->setText( QString::number( __poSettings->getMaxAgeElevation(), 'f', 2 ).prepend(" ").right(5) );
@@ -114,19 +114,19 @@ void CSettingsValidityEditView::constructLayout()
   // ... bearing validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Bearing")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditMinValueBearing = new QLineEdit( this );
+  QLineEdit* __pqLineEditMinValueBearing = new QLineEdit();
   __pqLineEditMinValueBearing->setToolTip( tr("in degrees [deg]") );
   __pqLineEditMinValueBearing->setInputMask( "009.99" );
   __pqLineEditMinValueBearing->setText( QString::number( __poSettings->getMinValueBearing(), 'f', 2 ).prepend("  ").right(6) );
   __pqGridLayout->addWidget( __pqLineEditMinValueBearing, __iRow, 1 );
   connect( __pqLineEditMinValueBearing, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMinValueBearing(const QString&) ) );
-  QLineEdit* __pqLineEditMaxErrorBearing = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxErrorBearing = new QLineEdit();
   __pqLineEditMaxErrorBearing->setToolTip( tr("in degrees [deg]") );
   __pqLineEditMaxErrorBearing->setInputMask( "09.99" );
   __pqLineEditMaxErrorBearing->setText( QString::number( __poSettings->getMaxErrorBearing(), 'f', 2 ).prepend(" ").right(5) );
   __pqGridLayout->addWidget( __pqLineEditMaxErrorBearing, __iRow, 2 );
   connect( __pqLineEditMaxErrorBearing, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMaxErrorBearing(const QString&) ) );
-  QLineEdit* __pqLineEditMaxAgeBearing = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxAgeBearing = new QLineEdit();
   __pqLineEditMaxAgeBearing->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxAgeBearing->setInputMask( "09.99" );
   __pqLineEditMaxAgeBearing->setText( QString::number( __poSettings->getMaxAgeBearing(), 'f', 2 ).prepend(" ").right(5) );
@@ -136,19 +136,19 @@ void CSettingsValidityEditView::constructLayout()
   // ... horizontal speed validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Speed (horizontal)")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditMinValueSpeed = new QLineEdit( this );
+  QLineEdit* __pqLineEditMinValueSpeed = new QLineEdit();
   __pqLineEditMinValueSpeed->setToolTip( tr("in meters-per-second [m/s]") );
   __pqLineEditMinValueSpeed->setInputMask( "09.99" );
   __pqLineEditMinValueSpeed->setText( QString::number( __poSettings->getMinValueSpeed(), 'f', 2 ).prepend(" ").right(5) );
   __pqGridLayout->addWidget( __pqLineEditMinValueSpeed, __iRow, 1 );
   connect( __pqLineEditMinValueSpeed, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMinValueSpeed(const QString&) ) );
-  QLineEdit* __pqLineEditMaxErrorSpeed = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxErrorSpeed = new QLineEdit();
   __pqLineEditMaxErrorSpeed->setToolTip( tr("in meters-per-second [m/s]") );
   __pqLineEditMaxErrorSpeed->setInputMask( "09.99" );
   __pqLineEditMaxErrorSpeed->setText( QString::number( __poSettings->getMaxErrorSpeed(), 'f', 2 ).prepend(" ").right(5) );
   __pqGridLayout->addWidget( __pqLineEditMaxErrorSpeed, __iRow, 2 );
   connect( __pqLineEditMaxErrorSpeed, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMaxErrorSpeed(const QString&) ) );
-  QLineEdit* __pqLineEditMaxAgeSpeed = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxAgeSpeed = new QLineEdit();
   __pqLineEditMaxAgeSpeed->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxAgeSpeed->setInputMask( "09.99" );
   __pqLineEditMaxAgeSpeed->setText( QString::number( __poSettings->getMaxAgeSpeed(), 'f', 2 ).prepend(" ").right(5) );
@@ -158,19 +158,19 @@ void CSettingsValidityEditView::constructLayout()
   // ... vertical speed validity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Speed (vertical)")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditMinValueSpeedVertical = new QLineEdit( this );
+  QLineEdit* __pqLineEditMinValueSpeedVertical = new QLineEdit();
   __pqLineEditMinValueSpeedVertical->setToolTip( tr("in meters-per-second [m/s]") );
   __pqLineEditMinValueSpeedVertical->setInputMask( "09.99" );
   __pqLineEditMinValueSpeedVertical->setText( QString::number( __poSettings->getMinValueSpeedVertical(), 'f', 2 ).prepend(" ").right(5) );
   __pqGridLayout->addWidget( __pqLineEditMinValueSpeedVertical, __iRow, 1 );
   connect( __pqLineEditMinValueSpeedVertical, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMinValueSpeedVertical(const QString&) ) );
-  QLineEdit* __pqLineEditMaxErrorSpeedVertical = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxErrorSpeedVertical = new QLineEdit();
   __pqLineEditMaxErrorSpeedVertical->setToolTip( tr("in meters-per-second [m/s]") );
   __pqLineEditMaxErrorSpeedVertical->setInputMask( "09.99" );
   __pqLineEditMaxErrorSpeedVertical->setText( QString::number( __poSettings->getMaxErrorSpeedVertical(), 'f', 2 ).prepend(" ").right(5) );
   __pqGridLayout->addWidget( __pqLineEditMaxErrorSpeedVertical, __iRow, 2 );
   connect( __pqLineEditMaxErrorSpeedVertical, SIGNAL( textChanged(const QString&) ), __poSettings, SLOT( slotMaxErrorSpeedVertical(const QString&) ) );
-  QLineEdit* __pqLineEditMaxAgeSpeedVertical = new QLineEdit( this );
+  QLineEdit* __pqLineEditMaxAgeSpeedVertical = new QLineEdit();
   __pqLineEditMaxAgeSpeedVertical->setToolTip( tr("in seconds [s]") );
   __pqLineEditMaxAgeSpeedVertical->setInputMask( "09.99" );
   __pqLineEditMaxAgeSpeedVertical->setText( QString::number( __poSettings->getMaxAgeSpeedVertical(), 'f', 2 ).prepend(" ").right(5) );

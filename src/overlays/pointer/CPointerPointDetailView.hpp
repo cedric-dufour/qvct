@@ -73,7 +73,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CPointerPointDetailView( QWidget* _pqParent );
+  CPointerPointDetailView( QWidget* _pqParent = 0 );
   virtual ~CPointerPointDetailView() {};
 
 private:

@@ -76,7 +76,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  COverlayDetailView( QWidget* _pqParent );
+  COverlayDetailView( QWidget* _pqParent = 0 );
   virtual ~COverlayDetailView() {};
 
 private:

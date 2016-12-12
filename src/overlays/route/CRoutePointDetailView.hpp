@@ -83,7 +83,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CRoutePointDetailView( QWidget* _pqParent );
+  CRoutePointDetailView( QWidget* _pqParent = 0 );
   virtual ~CRoutePointDetailView() {};
 
 private:

@@ -46,18 +46,18 @@ CVesselContainerDeviceCreateView::CVesselContainerDeviceCreateView( CVesselConta
 void CVesselContainerDeviceCreateView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add form
   QHBoxLayout* __pqHBoxLayout = new QHBoxLayout();
   // ... icon
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/vessel_device.png" ) );
   __pqHBoxLayout->addWidget( __pqLabelIcon, 0 );
   // ... form
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
-  pqLineEditName = new QLineEdit( this );
+  pqLineEditName = new QLineEdit();
   pqLineEditName->setToolTip( tr("Device name (matching one of the defined devices)") );
   __pqFormLayout->addRow( tr("Device")+":", pqLineEditName );
   // ... [end]
@@ -65,7 +65,7 @@ void CVesselContainerDeviceCreateView::constructLayout()
   __pqVBoxLayout->addLayout( __pqHBoxLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

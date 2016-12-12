@@ -56,7 +56,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselPosition( QWidget* _pqParent );
+  CVesselPosition( QWidget* _pqParent = 0 );
   virtual ~CVesselPosition() {};
 
 private:

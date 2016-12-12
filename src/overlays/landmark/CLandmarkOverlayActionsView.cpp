@@ -39,27 +39,27 @@ void CLandmarkOverlayActionsView::constructLayout()
 {
   // Create the buttons
   // ... order invert
-  pqPushButtonOrderInvert = new QPushButton( QIcon( ":icons/32x32/order_invert.png" ), "", this );
+  pqPushButtonOrderInvert = new QPushButton( QIcon( ":icons/32x32/order_invert.png" ), "" );
   pqPushButtonOrderInvert->setToolTip( tr("[overlay/landmarks set] Invert order") );
   pqPushButtonOrderInvert->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonOrderInvert, SIGNAL( clicked() ), this, SLOT( slotOrderInvert() ) );
   // ... order ascending
-  pqPushButtonOrderAscending = new QPushButton( QIcon( ":icons/32x32/order_ascending.png" ), "", this );
+  pqPushButtonOrderAscending = new QPushButton( QIcon( ":icons/32x32/order_ascending.png" ), "" );
   pqPushButtonOrderAscending->setToolTip( tr("[overlay/landmarks set] Sort in ascending order") );
   pqPushButtonOrderAscending->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonOrderAscending, SIGNAL( clicked() ), this, SLOT( slotOrderAscending() ) );
   // ... order descending
-  pqPushButtonOrderDescending = new QPushButton( QIcon( ":icons/32x32/order_descending.png" ), "", this );
+  pqPushButtonOrderDescending = new QPushButton( QIcon( ":icons/32x32/order_descending.png" ), "" );
   pqPushButtonOrderDescending->setToolTip( tr("[overlay/landmarks set] Sort in descending order") );
   pqPushButtonOrderDescending->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonOrderDescending, SIGNAL( clicked() ), this, SLOT( slotOrderDescending() ) );
   // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "", this );
+  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save_select.png" ), "" );
   pqPushButtonSave->setToolTip( tr("Save selected landmarks to disk") );
   pqPushButtonSave->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete_select.png" ), "" );
   pqPushButtonDelete->setToolTip( tr("Delete selected landmarks") );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );

@@ -70,7 +70,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  CTrackOverlay( QWidget* _pqParent );
+  CTrackOverlay( QWidget* _pqParent = 0 );
   virtual ~CTrackOverlay();
 
 

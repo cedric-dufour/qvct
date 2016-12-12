@@ -38,7 +38,7 @@ class CSettingsUnitsEditView: public QWidget
   //------------------------------------------------------------------------------
 
 public:
-  CSettingsUnitsEditView( QWidget* _pqParent );
+  CSettingsUnitsEditView( QWidget* _pqParent = 0 );
   virtual ~CSettingsUnitsEditView() {};
 
 private:

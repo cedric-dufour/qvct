@@ -64,7 +64,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CLandmarkOverlayListView( QWidget* _pqParent );
+  CLandmarkOverlayListView( QWidget* _pqParent = 0 );
   virtual ~CLandmarkOverlayListView() {};
 
 private:

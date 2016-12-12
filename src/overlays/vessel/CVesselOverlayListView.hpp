@@ -64,7 +64,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselOverlayListView( QWidget* _pqParent );
+  CVesselOverlayListView( QWidget* _pqParent = 0 );
   virtual ~CVesselOverlayListView() {};
 
 private:

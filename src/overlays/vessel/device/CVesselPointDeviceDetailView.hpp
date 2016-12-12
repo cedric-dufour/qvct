@@ -89,7 +89,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselPointDeviceDetailView( QWidget* _pqParent );
+  CVesselPointDeviceDetailView( QWidget* _pqParent = 0 );
   virtual ~CVesselPointDeviceDetailView() {};
 
 private:

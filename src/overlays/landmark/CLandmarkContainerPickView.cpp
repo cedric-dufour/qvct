@@ -42,16 +42,16 @@ CLandmarkContainerPickView::CLandmarkContainerPickView( const CLandmarkOverlay* 
 void CLandmarkContainerPickView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add icon and data
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
   // ... icon
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/landmark.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0 );
   // ... picker
-  pqComboBox = new QComboBox( this );
+  pqComboBox = new QComboBox();
   int __iCount = COverlayObjectPickView::pqTreeWidgetItem->childCount();
   for( int __i = 0; __i < __iCount; __i++ ) pqComboBox->addItem( ((COverlayObject*)COverlayObjectPickView::pqTreeWidgetItem->child( __i ))->getName() );
   __pqHBoxLayoutHeader->addWidget( pqComboBox, 1 );
@@ -59,7 +59,7 @@ void CLandmarkContainerPickView::constructLayout()
   __pqVBoxLayout->addLayout( __pqHBoxLayoutHeader );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

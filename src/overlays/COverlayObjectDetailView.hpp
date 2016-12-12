@@ -51,7 +51,7 @@ protected:
   //------------------------------------------------------------------------------
 
 protected:
-  COverlayObjectDetailView( QWidget* _pqParent );
+  COverlayObjectDetailView( QWidget* _pqParent = 0 );
   virtual ~COverlayObjectDetailView() {};
 
 

@@ -46,7 +46,7 @@ void CSettingsMiscEditView::constructLayout()
   CSettings* __poSettings = QVCTRuntime::useSettings();
 
   // Create layout
-  QGridLayout* __pqGridLayout = new QGridLayout( this );
+  QGridLayout* __pqGridLayout = new QGridLayout();
 
   // Add items
   int __iRow = -1;
@@ -54,7 +54,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... screen resolution (DPI)
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Screen Resolution")+":" ), __iRow, 0 );
-  QSpinBox* __pqSpinBoxScreenDpi = new QSpinBox( this );
+  QSpinBox* __pqSpinBoxScreenDpi = new QSpinBox();
   __pqSpinBoxScreenDpi->setToolTip( tr("Manually set the screen resolution for optimal rendering/sizing, in DPI") );
   __pqSpinBoxScreenDpi->setRange( 1, 1200 );
   __pqSpinBoxScreenDpi->setValue( __poSettings->getScreenDpi() );
@@ -64,7 +64,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... screen gestures
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Screen Gestures")+":" ), __iRow, 0 );
-  QCheckBox* __pqCheckBoxScreenGestures = new QCheckBox( this );
+  QCheckBox* __pqCheckBoxScreenGestures = new QCheckBox();
   __pqCheckBoxScreenGestures->setCheckState( __poSettings->isScreenGestures() ? Qt::Checked : Qt::Unchecked );
   __pqCheckBoxScreenGestures->setToolTip( tr("Whether to enable screen gestures, like pinch-to-zoom\nWARNING: this may lead to unresponsive interface on incompatible devices!") );
   __pqGridLayout->addWidget( __pqCheckBoxScreenGestures, __iRow, 1 );
@@ -73,7 +73,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... refresh rate
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Refresh Rate (detail)")+":" ), __iRow, 0 );
-  QSpinBox* __pqSpinBoxRateRefresh = new QSpinBox( this );
+  QSpinBox* __pqSpinBoxRateRefresh = new QSpinBox();
   __pqSpinBoxRateRefresh->setToolTip( tr("How often to refresh the interface content (chart, overlays, textual data, etc.), in milli-seconds [ms]\nWARNING: the lower this setting, the higher the CPU usage!") );
   __pqSpinBoxRateRefresh->setRange( 100, 5000 );
   __pqSpinBoxRateRefresh->setValue( __poSettings->getRateRefresh() );
@@ -83,7 +83,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... redraw rate
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Redraw Rate (chart)")+":" ), __iRow, 0 );
-  QSpinBox* __pqSpinBoxRateRedraw = new QSpinBox( this );
+  QSpinBox* __pqSpinBoxRateRedraw = new QSpinBox();
   __pqSpinBoxRateRedraw->setToolTip( tr("How often to inconditionally redraw the charted content (chart and overlays), in seconds [s]\nWARNING: the lower this setting, the higher the CPU usage!") );
   __pqSpinBoxRateRedraw->setRange( 1, 300 );
   __pqSpinBoxRateRedraw->setValue( __poSettings->getRateRedraw() );
@@ -93,7 +93,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... chart opacity
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Chart Opacity")+":" ), __iRow, 0 );
-  QSpinBox* __pqSpinBoxChartOpacity = new QSpinBox( this );
+  QSpinBox* __pqSpinBoxChartOpacity = new QSpinBox();
   __pqSpinBoxChartOpacity->setToolTip( tr("Chart opacity/dimming (to improve overlays contrast), in percent [%]") );
   __pqSpinBoxChartOpacity->setRange( 0, 100 );
   __pqSpinBoxChartOpacity->setValue( __poSettings->getChartOpacity() );
@@ -104,7 +104,7 @@ void CSettingsMiscEditView::constructLayout()
   // TODO: Use a QFileDialog for user-friendliness
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Symbols Path")+":" ), __iRow, 0 );
-  QLineEdit* __pqLineEditPathSymbolsDirectory = new QLineEdit( this );
+  QLineEdit* __pqLineEditPathSymbolsDirectory = new QLineEdit();
   __pqLineEditPathSymbolsDirectory->setToolTip( tr("Directory path to symbols (PNG files) library\nNOTE: Symbol names (used in landmark, waypoint or vessel definition)\nwill be lower-cased and space-stripped before a library match is looked for") );
   __pqLineEditPathSymbolsDirectory->setText( __poSettings->getPathSymbolsDirectory() );
   __pqGridLayout->addWidget( __pqLineEditPathSymbolsDirectory, __iRow, 1 );
@@ -113,7 +113,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... symbols visibility
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("Symbols Visibility")+":" ), __iRow, 0 );
-  QCheckBox* __pqCheckBoxVisibleSymbols = new QCheckBox( this );
+  QCheckBox* __pqCheckBoxVisibleSymbols = new QCheckBox();
   __pqCheckBoxVisibleSymbols->setToolTip( tr("Whether to draw the symbols associated with landmarks, waypoints or vessels") );
   __pqCheckBoxVisibleSymbols->setCheckState( __poSettings->isVisibleSymbols() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( __pqCheckBoxVisibleSymbols, __iRow, 1 );
@@ -122,7 +122,7 @@ void CSettingsMiscEditView::constructLayout()
   // ... printing resolution
   __iRow++;
   __pqGridLayout->addWidget( new QLabel( tr("High-Resolution Printing")+":" ), __iRow, 0 );
-  QCheckBox* __pqCheckBoxPrintHighRes = new QCheckBox( this );
+  QCheckBox* __pqCheckBoxPrintHighRes = new QCheckBox();
   __pqCheckBoxPrintHighRes->setToolTip( tr("Whether to print charted content in high-resolution (1200 DPI) or screen resolution (see above Screen Resolution)\nWARNING: high-resolution prints may take very long to reach your printer!") );
   __pqCheckBoxPrintHighRes->setCheckState( __poSettings->isPrintHighRes() ? Qt::Checked : Qt::Unchecked );
   __pqGridLayout->addWidget( __pqCheckBoxPrintHighRes, __iRow, 1 );

@@ -38,7 +38,7 @@ class CSettingsValidityEditView: public QWidget
   //------------------------------------------------------------------------------
 
 public:
-  CSettingsValidityEditView( QWidget* _pqParent );
+  CSettingsValidityEditView( QWidget* _pqParent = 0 );
   virtual ~CSettingsValidityEditView() {};
 
 private:

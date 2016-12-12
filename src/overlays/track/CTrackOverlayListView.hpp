@@ -62,7 +62,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CTrackOverlayListView( QWidget* _pqParent );
+  CTrackOverlayListView( QWidget* _pqParent = 0 );
   virtual ~CTrackOverlayListView() {};
 
 private:

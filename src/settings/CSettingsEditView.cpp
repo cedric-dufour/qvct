@@ -44,22 +44,21 @@ CSettingsEditView::CSettingsEditView( QWidget* _pqParent )
 void CSettingsEditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add settings tabs
-  QTabWidget* __pqTabWidget = new QTabWidget( this );
+  // ? BUG ? If (child) widget parent is not set before addTab, QDialog size is messed up
+  QTabWidget* __pqTabWidget = new QTabWidget();
   // ... units
   __pqTabWidget->addTab( new CSettingsUnitsEditView( __pqTabWidget ), tr("Units") );
-  __pqVBoxLayout->addWidget( __pqTabWidget );
   // ... validity
   __pqTabWidget->addTab( new CSettingsValidityEditView( __pqTabWidget ), tr("Validity") );
-  __pqVBoxLayout->addWidget( __pqTabWidget );
   // ... misc. options
   __pqTabWidget->addTab( new CSettingsMiscEditView( __pqTabWidget ), tr("Misc.") );
   __pqVBoxLayout->addWidget( __pqTabWidget );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Ok, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Ok, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );
 

@@ -79,7 +79,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CChart( QWidget* _pqParent, const QString& _rqsFileName );
+  CChart( const QString& _rqsFileName, QWidget* _pqParent = 0 );
   virtual ~CChart();
 
 public:

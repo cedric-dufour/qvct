@@ -119,7 +119,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CChartTable( QWidget* _pqParent );
+  CChartTable( QWidget* _pqParent = 0 );
   virtual ~CChartTable() {};
 
 private:

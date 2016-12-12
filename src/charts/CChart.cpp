@@ -41,7 +41,7 @@
 // CONSTRUCTORS / DESTRUCTOR
 //------------------------------------------------------------------------------
 
-CChart::CChart( QWidget* _pqParent, const QString& _rqsFileName )
+CChart::CChart( const QString& _rqsFileName, QWidget* _pqParent )
   : QWidget( _pqParent )
   , poChartGDALRaster( 0 )
   , poChartGDALElevation( 0 )

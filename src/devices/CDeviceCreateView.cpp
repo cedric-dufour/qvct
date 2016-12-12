@@ -50,21 +50,21 @@ CDeviceCreateView::CDeviceCreateView( CDevice** _ppoDevice )
 void CDeviceCreateView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add form
   QHBoxLayout* __pqHBoxLayout = new QHBoxLayout();
   // ... icon
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/device.png" ) );
   __pqHBoxLayout->addWidget( __pqLabelIcon, 0 );
   // ... form
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
-  pqLineEditName = new QLineEdit( this );
+  pqLineEditName = new QLineEdit();
   __pqFormLayout->addRow( tr("Name")+":", pqLineEditName );
   // ... driver
-  pqComboBoxDriver = new QComboBox( this );
+  pqComboBoxDriver = new QComboBox();
   QList<QString> __qListDriverName = CDeviceDriver::names().values();
   int __iCount = __qListDriverName.count();
   for( int __i = 0; __i < __iCount; __i++ ) pqComboBoxDriver->addItem( __qListDriverName.at( __i ) );
@@ -74,7 +74,7 @@ void CDeviceCreateView::constructLayout()
   __pqVBoxLayout->addLayout( __pqHBoxLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Ok, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

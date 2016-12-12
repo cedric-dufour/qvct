@@ -48,19 +48,19 @@ void CVesselContainerDeviceDetailView::constructLayout()
 {
   // Create the buttons
   // ... edit
-  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
+  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "" );
   pqPushButtonEdit->setToolTip( tr("Edit this device") );
   pqPushButtonEdit->setMaximumSize( 36, 34 );
   pqPushButtonEdit->setEnabled( false );
   QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setToolTip( tr("Delete this device") );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... connect (device)
-  pqPushButtonConnect = new QPushButton( QIcon( ":icons/32x32/device_disconnect.png" ), "", this );
+  pqPushButtonConnect = new QPushButton( QIcon( ":icons/32x32/device_disconnect.png" ), "" );
   pqPushButtonConnect->setToolTip( tr("Connect to the actual device/source") );
   pqPushButtonConnect->setMaximumSize( 36, 34 );
   pqPushButtonConnect->setEnabled( false );
@@ -68,18 +68,18 @@ void CVesselContainerDeviceDetailView::constructLayout()
   QWidget::connect( pqPushButtonConnect, SIGNAL( toggled(bool) ), this, SLOT( slotConnect(bool) ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/vessel_device.png" ) );
   __pqLabelIcon->setToolTip( tr("Device") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Name/Source") );
   poTextName->setFont( __qFontHeader );
   poTextName->setWordWrap( true );
@@ -88,14 +88,14 @@ void CVesselContainerDeviceDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
 
   // ... device
-  QWidget* __poWidgetText = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutText = new QVBoxLayout( __poWidgetText );
+  QWidget* __poWidgetText = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutText = new QVBoxLayout();
   __qFontData.setPixelSize( 12 );
-  QLabel* __pqLabel = new QLabel( this );
+  QLabel* __pqLabel = new QLabel();
   __pqLabel->setToolTip( tr("Dynamic Flotilla Device") );
   __pqLabel->setFont( __qFontData );
   __pqLabel->setIndent( 10 );
@@ -109,7 +109,7 @@ void CVesselContainerDeviceDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

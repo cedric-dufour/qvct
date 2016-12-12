@@ -53,49 +53,49 @@ void CTrackContainerDetailView::constructLayout()
 {
   // Create the buttons
   // ... visible
-  pqPushButtonVisible = new QPushButton( QIcon( ":icons/32x32/visible.png" ), "", this );
+  pqPushButtonVisible = new QPushButton( QIcon( ":icons/32x32/visible.png" ), "" );
   pqPushButtonVisible->setMaximumSize( 36, 34 );
   pqPushButtonVisible->setToolTip( tr("Toggle this track's visibility") );
   pqPushButtonVisible->setEnabled( false );
   QWidget::connect( pqPushButtonVisible, SIGNAL( clicked() ), this, SLOT( slotToggleVisible() ) );
   // ... center
-  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "", this );
+  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "" );
   pqPushButtonCenter->setMaximumSize( 36, 34 );
   pqPushButtonCenter->setToolTip( tr("Center chart on this track's mean position") );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
   // ... edit
-  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "", this );
+  pqPushButtonEdit = new QPushButton( QIcon( ":icons/32x32/edit.png" ), "" );
   pqPushButtonEdit->setMaximumSize( 36, 34 );
   pqPushButtonEdit->setToolTip( tr("Edit this track") );
   pqPushButtonEdit->setEnabled( false );
   QWidget::connect( pqPushButtonEdit, SIGNAL( clicked() ), this, SLOT( slotEdit() ) );
   // ... save
-  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save.png" ), "", this );
+  pqPushButtonSave = new QPushButton( QIcon( ":icons/32x32/save.png" ), "" );
   pqPushButtonSave->setMaximumSize( 36, 34 );
   pqPushButtonSave->setToolTip( tr("Save this track to disk") );
   pqPushButtonSave->setEnabled( false );
   QWidget::connect( pqPushButtonSave, SIGNAL( clicked() ), this, SLOT( slotSave() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setToolTip( tr("Delete this track") );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/track.png" ) );
   __pqLabelIcon->setToolTip( tr("Track") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Name") );
   poTextName->setFont( __qFontHeader );
   poTextName->setWordWrap( true );
@@ -104,29 +104,29 @@ void CTrackContainerDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
   __poTabWidget->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 
   // ... summary
-  QWidget* __poWidgetSummary = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutSummary = new QVBoxLayout( __poWidgetSummary );
+  QWidget* __poWidgetSummary = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutSummary = new QVBoxLayout();
   __qFontData.setPixelSize( 20 );
-  poTextContent = new COverlayText( this );
+  poTextContent = new COverlayText();
   poTextContent->setToolTip( tr("Points count") );
   poTextContent->setFont( __qFontData );
   poTextContent->setIndent( 10 );
   poTextContent->setAlignment( Qt::AlignHCenter );
   poTextContent->resetText();
   __pqVBoxLayoutSummary->addWidget( poTextContent, 0 );
-  poTextLengthRL = new COverlayText( this );
+  poTextLengthRL = new COverlayText();
   poTextLengthRL->setToolTip( tr("Length (rhumb-lines along track)") );
   poTextLengthRL->setFont( __qFontData );
   poTextLengthRL->setIndent( 10 );
   poTextLengthRL->setAlignment( Qt::AlignHCenter );
   poTextLengthRL->resetText();
   __pqVBoxLayoutSummary->addWidget( poTextLengthRL, 0 );
-  poTextTimeElapsed = new COverlayText( this );
+  poTextTimeElapsed = new COverlayText();
   poTextTimeElapsed->setToolTip( tr("Elapsed time") );
   poTextTimeElapsed->setFont( __qFontData );
   poTextTimeElapsed->setIndent( 10 );
@@ -137,34 +137,34 @@ void CTrackContainerDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetSummary, tr("Summary") );
 
   // ... info
-  QScrollArea* __poScrollAreaInfo = new QScrollArea( __poTabWidget );
+  QScrollArea* __poScrollAreaInfo = new QScrollArea();
   __poScrollAreaInfo->setStyleSheet( ".QScrollArea, .QWidget { BACKGROUND-COLOR: rgba(0, 0, 0, 0); BORDER: none; }" );
   __poScrollAreaInfo->setWidgetResizable( true );
-  QWidget* __poWidgetInfo = new QWidget( __poScrollAreaInfo );
-  QVBoxLayout* __pqVBoxLayoutInfo = new QVBoxLayout( __poWidgetInfo );
+  QWidget* __poWidgetInfo = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutInfo = new QVBoxLayout();
   __qFontData.setPixelSize( 12 );
   __qFontData.setBold( true );
-  poTextType = new COverlayText( this );
+  poTextType = new COverlayText();
   poTextType->setToolTip( tr("Type") );
   poTextType->setFont( __qFontData );
   poTextType->setIndent( 10 );
   poTextType->resetText();
   __pqVBoxLayoutInfo->addWidget( poTextType );
   __qFontData.setBold( false );
-  poTextDescription = new COverlayText( this );
+  poTextDescription = new COverlayText();
   poTextDescription->setToolTip( tr("Description") );
   poTextDescription->setFont( __qFontData );
   poTextDescription->setIndent( 10 );
   poTextDescription->resetText();
   __pqVBoxLayoutInfo->addWidget( poTextDescription );
   __qFontData.setPixelSize( 10 );
-  poTextComment = new COverlayText( this );
+  poTextComment = new COverlayText();
   poTextComment->setToolTip( tr("Comment") );
   poTextComment->setFont( __qFontData );
   poTextComment->setIndent( 10 );
   poTextComment->resetText();
   __pqVBoxLayoutInfo->addWidget( poTextComment );
-  poUrl = new COverlayUrl( this );
+  poUrl = new COverlayUrl();
   poUrl->setToolTip( tr("URL") );
   poUrl->setFont( __qFontData );
   poUrl->setIndent( 10 );
@@ -178,7 +178,7 @@ void CTrackContainerDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

@@ -47,37 +47,37 @@ void CTrackSubContainerDetailView::constructLayout()
 {
   // Create the buttons
   // ... visible
-  pqPushButtonVisible = new QPushButton( QIcon( ":icons/32x32/visible.png" ), "", this );
+  pqPushButtonVisible = new QPushButton( QIcon( ":icons/32x32/visible.png" ), "" );
   pqPushButtonVisible->setMaximumSize( 36, 34 );
   pqPushButtonVisible->setToolTip( tr("Toggle this segment's visibility") );
   pqPushButtonVisible->setEnabled( false );
   QWidget::connect( pqPushButtonVisible, SIGNAL( clicked() ), this, SLOT( slotToggleVisible() ) );
   // ... center
-  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "", this );
+  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "" );
   pqPushButtonCenter->setMaximumSize( 36, 34 );
   pqPushButtonCenter->setToolTip( tr("Center chart on this segment's mean position") );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setToolTip( tr("Delete this segment") );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/track.png" ) );
   __pqLabelIcon->setToolTip( tr("Segment") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Name") );
   poTextName->setFont( __qFontHeader );
   poTextName->setWordWrap( true );
@@ -86,29 +86,29 @@ void CTrackSubContainerDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
   __poTabWidget->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 
   // ... summary
-  QWidget* __poWidgetSummary = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutSummary = new QVBoxLayout( __poWidgetSummary );
+  QWidget* __poWidgetSummary = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutSummary = new QVBoxLayout();
   __qFontData.setPixelSize( 20 );
-  poTextContent = new COverlayText( this );
+  poTextContent = new COverlayText();
   poTextContent->setToolTip( tr("Points count") );
   poTextContent->setFont( __qFontData );
   poTextContent->setIndent( 10 );
   poTextContent->setAlignment( Qt::AlignHCenter );
   poTextContent->resetText();
   __pqVBoxLayoutSummary->addWidget( poTextContent, 0 );
-  poTextLengthRL = new COverlayText( this );
+  poTextLengthRL = new COverlayText();
   poTextLengthRL->setToolTip( tr("Length (rhumb-lines along segment)") );
   poTextLengthRL->setFont( __qFontData );
   poTextLengthRL->setIndent( 10 );
   poTextLengthRL->setAlignment( Qt::AlignHCenter );
   poTextLengthRL->resetText();
   __pqVBoxLayoutSummary->addWidget( poTextLengthRL, 0 );
-  poTextTimeElapsed = new COverlayText( this );
+  poTextTimeElapsed = new COverlayText();
   poTextTimeElapsed->setToolTip( tr("Elapsed time") );
   poTextTimeElapsed->setFont( __qFontData );
   poTextTimeElapsed->setIndent( 10 );
@@ -122,7 +122,7 @@ void CTrackSubContainerDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

@@ -68,7 +68,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CLandmarkContainerDetailView( QWidget* _pqParent );
+  CLandmarkContainerDetailView( QWidget* _pqParent = 0 );
   virtual ~CLandmarkContainerDetailView() {};
 
 private:

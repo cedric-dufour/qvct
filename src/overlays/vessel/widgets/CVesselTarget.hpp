@@ -61,7 +61,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CVesselTarget( QWidget* _pqParent );
+  CVesselTarget( QWidget* _pqParent = 0 );
   virtual ~CVesselTarget() {};
 
 private:

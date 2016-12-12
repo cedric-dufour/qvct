@@ -57,7 +57,7 @@ protected:
   //------------------------------------------------------------------------------
 
 protected:
-  CVesselCockpit( const QString& _rqsTitle, QWidget* _pqParent );
+  CVesselCockpit( const QString& _rqsTitle, QWidget* _pqParent = 0 );
   virtual ~CVesselCockpit() {};
 
 

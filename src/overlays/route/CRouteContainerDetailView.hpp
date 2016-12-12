@@ -79,7 +79,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CRouteContainerDetailView( QWidget* _pqParent );
+  CRouteContainerDetailView( QWidget* _pqParent = 0 );
   virtual ~CRouteContainerDetailView() {};
 
 private:

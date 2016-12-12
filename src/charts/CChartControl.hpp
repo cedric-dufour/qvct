@@ -79,7 +79,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CChartControl( QWidget* _pqParent );
+  CChartControl( QWidget* _pqParent = 0 );
   virtual ~CChartControl() {};
 
 private:

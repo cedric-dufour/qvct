@@ -72,7 +72,7 @@ public:
   //------------------------------------------------------------------------------
 
 public:
-  CDeviceOverlay( QWidget* _pqParent );
+  CDeviceOverlay( QWidget* _pqParent = 0 );
   virtual ~CDeviceOverlay();
 
 

@@ -40,7 +40,7 @@ class CSettingsEditView: public QDialog
   //------------------------------------------------------------------------------
 
 public:
-  CSettingsEditView( QWidget* _pqParent );
+  CSettingsEditView( QWidget* _pqParent = 0 );
   virtual ~CSettingsEditView() {};
 
 private:

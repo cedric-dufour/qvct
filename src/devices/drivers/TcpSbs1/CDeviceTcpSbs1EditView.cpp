@@ -45,17 +45,17 @@ CDeviceTcpSbs1EditView::CDeviceTcpSbs1EditView( CDeviceTcpSbs1* _poDeviceTcpSbs1
 void CDeviceTcpSbs1EditView::constructLayout()
 {
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/device.png" ) );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"...", this );
+  QLabel* __pqLabelEdit = new QLabel( tr("Edit")+"..." );
   __pqLabelEdit->setFont( __qFontHeader );
   __pqHBoxLayoutHeader->addWidget( __pqLabelEdit, 1 );
   // ... [end]
@@ -65,32 +65,32 @@ void CDeviceTcpSbs1EditView::constructLayout()
   CDeviceTcpSbs1* __poDeviceTcpSbs1 = (CDeviceTcpSbs1*)poOverlayObject;
   QFormLayout* __pqFormLayout = new QFormLayout();
   // ... name
-  COverlayText* __poTextName = new COverlayText( this );
+  COverlayText* __poTextName = new COverlayText();
   __poTextName->setText( __poDeviceTcpSbs1->getName() );
   __pqFormLayout->addRow( tr("Name")+":", __poTextName );
   // ... host
-  pqLineEditHost = new QLineEdit( this );
+  pqLineEditHost = new QLineEdit();
   pqLineEditHost->setToolTip( tr("SBS-1 service host (hostname or IP address)") );
   pqLineEditHost->setText( __poDeviceTcpSbs1->getHost() );
   __pqFormLayout->addRow( tr("Host")+":", pqLineEditHost );
   // ... port
-  pqLineEditPort = new QLineEdit( this );
+  pqLineEditPort = new QLineEdit();
   pqLineEditPort->setToolTip( tr("SBS-1 service port") );
   pqLineEditPort->setText( QString::number( __poDeviceTcpSbs1->getPort() ) );
   __pqFormLayout->addRow( tr("Port")+":", pqLineEditPort );
   // ... time zone
-  pqComboBoxTimeZone = new QComboBox( this );
+  pqComboBoxTimeZone = new QComboBox();
   pqComboBoxTimeZone->setToolTip( tr("Whether this SBS-1 service uses UTC or local date/time data") );
   pqComboBoxTimeZone->addItems( QStringList( CUnitTimeZone::symbols().values() ) );
   pqComboBoxTimeZone->setCurrentIndex( pqComboBoxTimeZone->findText( CUnitTimeZone::toSymbol( __poDeviceTcpSbs1->getTimeZone() ) ) );
   __pqFormLayout->addRow( tr("Time Zone")+":", pqComboBoxTimeZone );
   // ... callsign lookup
-  pqCheckBoxCallsignLookup = new QCheckBox( this );
+  pqCheckBoxCallsignLookup = new QCheckBox();
   pqCheckBoxCallsignLookup->setToolTip( tr("Whether to perform aircrafts callsign lookup (based on previous ad-hoc SBS-1 messages)\nor display the aircrafts hexadecimal identifier") );
   pqCheckBoxCallsignLookup->setCheckState( __poDeviceTcpSbs1->isCallsignLookup() ? Qt::Checked : Qt::Unchecked );
   __pqFormLayout->addRow( tr("Use Callsign")+":", pqCheckBoxCallsignLookup );
   // ... ground traffic (inclusion/track)
-  pqCheckBoxGroundTraffic = new QCheckBox( this );
+  pqCheckBoxGroundTraffic = new QCheckBox();
   pqCheckBoxGroundTraffic->setToolTip( tr("Whether to listen for and display ground traffic") );
   pqCheckBoxGroundTraffic->setCheckState( __poDeviceTcpSbs1->isGroundTraffic() ? Qt::Checked : Qt::Unchecked );
   __pqFormLayout->addRow( tr("Ground Traffic")+":", pqCheckBoxGroundTraffic );
@@ -98,7 +98,7 @@ void CDeviceTcpSbs1EditView::constructLayout()
   __pqVBoxLayout->addLayout( __pqFormLayout );
 
   // Add buttons
-  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal, this );
+  QDialogButtonBox* __pqDialogButtonBox = new QDialogButtonBox( QDialogButtonBox::Cancel|QDialogButtonBox::Save, Qt::Horizontal );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(accepted()), this, SLOT(accept()) );
   QDialog::connect( __pqDialogButtonBox, SIGNAL(rejected()), this, SLOT(reject()) );
   __pqVBoxLayout->addWidget( __pqDialogButtonBox );

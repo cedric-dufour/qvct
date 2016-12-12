@@ -40,9 +40,9 @@ class COverlayUrl: public COverlayText
   //------------------------------------------------------------------------------
 
 public:
-  COverlayUrl( QWidget* _pqParent );
-  COverlayUrl( const QString& _rqsText, QWidget* _pqParent );
-  COverlayUrl( const QString& _rqsText, const QString& _rqsLink, QWidget* _pqParent );
+  COverlayUrl( QWidget* _pqParent = 0 );
+  COverlayUrl( const QString& _rqsText, QWidget* _pqParent = 0 );
+  COverlayUrl( const QString& _rqsText, const QString& _rqsLink, QWidget* _pqParent = 0 );
   virtual ~COverlayUrl() {};
 
 

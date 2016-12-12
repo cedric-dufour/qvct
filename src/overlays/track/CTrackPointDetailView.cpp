@@ -53,43 +53,43 @@ void CTrackPointDetailView::constructLayout()
 {
   // Create the buttons
   // ... center
-  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "", this );
+  pqPushButtonCenter = new QPushButton( QIcon( ":icons/32x32/center.png" ), "" );
   pqPushButtonCenter->setToolTip( tr("Center chart on this point") );
   pqPushButtonCenter->setMaximumSize( 36, 34 );
   pqPushButtonCenter->setEnabled( false );
   QWidget::connect( pqPushButtonCenter, SIGNAL( clicked() ), this, SLOT( slotPositionCenter() ) );
   // ... delete
-  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "", this );
+  pqPushButtonDelete = new QPushButton( QIcon( ":icons/32x32/delete.png" ), "" );
   pqPushButtonDelete->setToolTip( tr("Delete this point") );
   pqPushButtonDelete->setMaximumSize( 36, 34 );
   pqPushButtonDelete->setEnabled( false );
   QWidget::connect( pqPushButtonDelete, SIGNAL( clicked() ), this, SLOT( slotDelete() ) );
   // ... Add landmark
-  pqPushButtonAddLandmark = new QPushButton( QIcon( ":icons/32x32/landmark_add.png" ), "", this );
+  pqPushButtonAddLandmark = new QPushButton( QIcon( ":icons/32x32/landmark_add.png" ), "" );
   pqPushButtonAddLandmark->setToolTip( tr("Create a new landmark at the point position") );
   pqPushButtonAddLandmark->setMaximumSize( 36, 34 );
   pqPushButtonAddLandmark->setEnabled( false );
   QWidget::connect( pqPushButtonAddLandmark, SIGNAL( clicked() ), this, SLOT( slotAddLandmark() ) );
   // ... Add (route) waypoint
-  pqPushButtonAddRoute = new QPushButton( QIcon( ":icons/32x32/route_add.png" ), "", this );
+  pqPushButtonAddRoute = new QPushButton( QIcon( ":icons/32x32/route_add.png" ), "" );
   pqPushButtonAddRoute->setToolTip( tr("Create a new (route) waypoint at the point position") );
   pqPushButtonAddRoute->setMaximumSize( 36, 34 );
   pqPushButtonAddRoute->setEnabled( false );
   QWidget::connect( pqPushButtonAddRoute, SIGNAL( clicked() ), this, SLOT( slotAddRoute() ) );
 
   // Create layout
-  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout( this );
+  QVBoxLayout* __pqVBoxLayout = new QVBoxLayout();
 
   // Add header
   QFont __qFontHeader;
   __qFontHeader.setPixelSize( 16 );
   __qFontHeader.setBold( true );
   QHBoxLayout* __pqHBoxLayoutHeader = new QHBoxLayout();
-  QLabel* __pqLabelIcon = new QLabel( this );
+  QLabel* __pqLabelIcon = new QLabel();
   __pqLabelIcon->setPixmap( QPixmap( ":icons/32x32/track_point.png" ) );
   __pqLabelIcon->setToolTip( tr("Point") );
   __pqHBoxLayoutHeader->addWidget( __pqLabelIcon, 0, Qt::AlignTop );
-  poTextName = new COverlayText( this );
+  poTextName = new COverlayText();
   poTextName->setToolTip( tr("Name") );
   poTextName->setFont( __qFontHeader );
   poTextName->setWordWrap( true );
@@ -98,29 +98,29 @@ void CTrackPointDetailView::constructLayout()
 
   // Add data
   QFont __qFontData;
-  QTabWidget* __poTabWidget = new QTabWidget( this );
+  QTabWidget* __poTabWidget = new QTabWidget();
   __poTabWidget->setTabPosition( QTabWidget::South );
   __poTabWidget->setSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum );
 
   // ... position
-  QWidget* __poWidgetPosition = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutPosition = new QVBoxLayout( __poWidgetPosition );
+  QWidget* __poWidgetPosition = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutPosition = new QVBoxLayout();
   __qFontData.setPixelSize( 20 );
-  poTextLongitude = new COverlayText( this );
+  poTextLongitude = new COverlayText();
   poTextLongitude->setToolTip( tr("Longitude") );
   poTextLongitude->setFont( __qFontData );
   poTextLongitude->setIndent( 10 );
   poTextLongitude->setAlignment( Qt::AlignHCenter );
   poTextLongitude->resetText();
   __pqVBoxLayoutPosition->addWidget( poTextLongitude );
-  poTextLatitude = new COverlayText( this );
+  poTextLatitude = new COverlayText();
   poTextLatitude->setToolTip( tr("Latitude") );
   poTextLatitude->setFont( __qFontData );
   poTextLatitude->setIndent( 10 );
   poTextLatitude->setAlignment( Qt::AlignHCenter );
   poTextLatitude->resetText();
   __pqVBoxLayoutPosition->addWidget( poTextLatitude );
-  poTextElevation = new COverlayText( this );
+  poTextElevation = new COverlayText();
   poTextElevation->setToolTip( tr("Elevation") );
   poTextElevation->setFont( __qFontData );
   poTextElevation->setIndent( 10 );
@@ -131,23 +131,23 @@ void CTrackPointDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetPosition, tr("Position") );
 
   // ... date/time
-  QWidget* __poWidgetTime = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutTime = new QVBoxLayout( __poWidgetTime );
-  poTextDate = new COverlayText( this );
+  QWidget* __poWidgetTime = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutTime = new QVBoxLayout();
+  poTextDate = new COverlayText();
   poTextDate->setToolTip( tr("Date") );
   poTextDate->setFont( __qFontData );
   poTextDate->setIndent( 10 );
   poTextDate->setAlignment( Qt::AlignHCenter );
   poTextDate->resetText();
   __pqVBoxLayoutTime->addWidget( poTextDate );
-  poTextTime = new COverlayText( this );
+  poTextTime = new COverlayText();
   poTextTime->setToolTip( tr("Time") );
   poTextTime->setFont( __qFontData );
   poTextTime->setIndent( 10 );
   poTextTime->setAlignment( Qt::AlignHCenter );
   poTextTime->resetText();
   __pqVBoxLayoutTime->addWidget( poTextTime );
-  poTextTime2 = new COverlayText( this );
+  poTextTime2 = new COverlayText();
   poTextTime2->setToolTip( tr("Time (alternate timezone)") );
   poTextTime2->setFont( __qFontData );
   poTextTime2->setIndent( 10 );
@@ -158,23 +158,23 @@ void CTrackPointDetailView::constructLayout()
   __poTabWidget->addTab( __poWidgetTime, tr("Time") );
 
   // ... precision
-  QWidget* __poWidgetPrecision = new QWidget( __poTabWidget );
-  QVBoxLayout* __pqVBoxLayoutPrecision = new QVBoxLayout( __poWidgetPrecision );
-  poTextFixType = new COverlayText( this );
+  QWidget* __poWidgetPrecision = new QWidget();
+  QVBoxLayout* __pqVBoxLayoutPrecision = new QVBoxLayout();
+  poTextFixType = new COverlayText();
   poTextFixType->setToolTip( tr("Fix Type") );
   poTextFixType->setFont( __qFontData );
   poTextFixType->setIndent( 10 );
   poTextFixType->setAlignment( Qt::AlignHCenter );
   poTextFixType->resetText();
   __pqVBoxLayoutPrecision->addWidget( poTextFixType );
-  poTextSatellite = new COverlayText( this );
+  poTextSatellite = new COverlayText();
   poTextSatellite->setToolTip( tr("Satellites Used") );
   poTextSatellite->setFont( __qFontData );
   poTextSatellite->setIndent( 10 );
   poTextSatellite->setAlignment( Qt::AlignHCenter );
   poTextSatellite->resetText();
   __pqVBoxLayoutPrecision->addWidget( poTextSatellite );
-  poTextDop = new COverlayText( this );
+  poTextDop = new COverlayText();
   poTextDop->setToolTip( tr("HDOP / VDOP") );
   poTextDop->setFont( __qFontData );
   poTextDop->setIndent( 10 );
@@ -188,7 +188,7 @@ void CTrackPointDetailView::constructLayout()
   __pqVBoxLayout->addWidget( __poTabWidget, 1 );
 
   // Add separator
-  QFrame* __pqFrameSeparator = new QFrame( this );
+  QFrame* __pqFrameSeparator = new QFrame();
   __pqFrameSeparator->setFrameStyle( QFrame::HLine | QFrame::Sunken );
   __pqVBoxLayout->addWidget( __pqFrameSeparator );
 

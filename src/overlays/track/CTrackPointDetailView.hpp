@@ -81,7 +81,7 @@ private:
   //------------------------------------------------------------------------------
 
 public:
-  CTrackPointDetailView( QWidget* _pqParent );
+  CTrackPointDetailView( QWidget* _pqParent = 0 );
   virtual ~CTrackPointDetailView() {};
 
 private:
