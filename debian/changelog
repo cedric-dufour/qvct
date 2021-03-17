@@ -1,3 +1,15 @@
+qvct (1.0.20210317) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+
+  [Cédric Dufour]
+  - FIX(build): constexpr needed for in-class initialization of static data member
+  - FIX(build): warning: this if clause does not guard
+  - FIX: Milliseconds being ingored in time units
+  - FIX(build): Debian/Buster packaging
+
+ -- Cédric Dufour <cedric.dufour@ced-network.net>  Wed, 17 Mar 2021 22:32:21 +0100
+
 qvct (1.0.20161212) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
