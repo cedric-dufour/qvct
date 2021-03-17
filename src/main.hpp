@@ -111,7 +111,7 @@ make install
  *
  *  @verbatim
 cd /path/to/source
-debuild -us -uc -b && ls -al ../qvct*.deb
+dpkg-buildpackage -us -uc -b && ls -al ../qvct*.deb
 dpkg -i ../qvct*.deb
 @endverbatim
  *

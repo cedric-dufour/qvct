@@ -25,6 +25,6 @@ Alternatively (to Make), distribution-specific Debian packages can be built
 and installed using the ad-hoc commands:
 
   cd /path/to/source
-  debuild -us -uc -b && ls -al ../qvct*.deb
+  dpkg-buildpackage -us -uc -b && ls -al ../qvct*.deb
   dpkg -i ../qvct*.deb
 

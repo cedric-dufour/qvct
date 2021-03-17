@@ -2,8 +2,8 @@ Source: qvct
 Section: misc
 Priority: optional
 Maintainer: Cedric Dufour <cedric.dufour@ced-network.net>
-Build-Depends: cdbs, cmake (>= 2.8), debhelper (>= 5), doxygen, imagemagick, qtbase5-dev | libqt4-dev (>= 4.6), libgdal1-dev (>= 1.6) | libgdal-dev, libgps-dev
-Standards-Version: 3.8.4
+Build-Depends: cdbs, cmake (>= 2.8), debhelper (>= 9), doxygen, imagemagick, qtbase5-dev | libqt4-dev (>= 4.6), libgdal-dev | libgdal1-dev (>= 1.6) | libgdal-dev, libgps-dev
+Standards-Version: 4.3.0
 Homepage: http://cedric.dufour.name/software/qvct
 
 Package: qvct

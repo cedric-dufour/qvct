@@ -95,7 +95,7 @@ make install
 and installed using the ad-hoc commands:</P>
 <PRE>
 cd /path/to/source
-debuild -us -uc -b && ls -al ../qvct*.deb
+dpkg-buildpackage -us -uc -b && ls -al ../qvct*.deb
 dpkg -i ../qvct*.deb
 </PRE>
 </DIV><!-- DIV CLASS="H2" -->
