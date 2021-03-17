@@ -322,43 +322,43 @@ void CSettings::validate()
   if( eUnitSpeedVertical == CUnitSpeedVertical::UNDEFINED ) eUnitSpeedVertical = CUnitSpeedVertical::M_S;
 
   // Precision
-  if( iPrecisionTime < 0 ) iPrecisionTime = 0; if( iPrecisionTime > 3 ) iPrecisionTime = 3;
-  if( iPrecisionTimeDelta < 0 ) iPrecisionTimeDelta = 0; if( iPrecisionTimeDelta > 3 ) iPrecisionTimeDelta = 3;
-  if( iPrecisionPosition < 0 ) iPrecisionPosition = 0; if( iPrecisionPosition > 6 ) iPrecisionPosition = 6;
-  if( iPrecisionBearing < 0 ) iPrecisionBearing = 0; if( iPrecisionBearing > 3 ) iPrecisionBearing = 3;
-  if( iPrecisionDistance < 0 ) iPrecisionDistance = 0; if( iPrecisionDistance > 3 ) iPrecisionDistance = 3;
-  if( iPrecisionSpeed < 0 ) iPrecisionSpeed = 0; if( iPrecisionSpeed > 3 ) iPrecisionSpeed = 3;
-  if( iPrecisionElevation < 0 ) iPrecisionElevation = 0; if( iPrecisionElevation > 3 ) iPrecisionElevation = 3;
-  if( iPrecisionSpeedVertical < 0 ) iPrecisionSpeedVertical = 0; if( iPrecisionSpeedVertical > 3 ) iPrecisionSpeedVertical = 3;
+  if( iPrecisionTime < 0 ) { iPrecisionTime = 0; }; if( iPrecisionTime > 3 ) { iPrecisionTime = 3; };
+  if( iPrecisionTimeDelta < 0 ) { iPrecisionTimeDelta = 0; }; if( iPrecisionTimeDelta > 3 ) { iPrecisionTimeDelta = 3; };
+  if( iPrecisionPosition < 0 ) { iPrecisionPosition = 0; }; if( iPrecisionPosition > 6 ) { iPrecisionPosition = 6; };
+  if( iPrecisionBearing < 0 ) { iPrecisionBearing = 0; }; if( iPrecisionBearing > 3 ) { iPrecisionBearing = 3; };
+  if( iPrecisionDistance < 0 ) { iPrecisionDistance = 0; }; if( iPrecisionDistance > 3 ) { iPrecisionDistance = 3; };
+  if( iPrecisionSpeed < 0 ) { iPrecisionSpeed = 0; }; if( iPrecisionSpeed > 3 ) { iPrecisionSpeed = 3; };
+  if( iPrecisionElevation < 0 ) { iPrecisionElevation = 0; }; if( iPrecisionElevation > 3 ) { iPrecisionElevation = 3; };
+  if( iPrecisionSpeedVertical < 0 ) { iPrecisionSpeedVertical = 0; }; if( iPrecisionSpeedVertical > 3 ) { iPrecisionSpeedVertical = 3; };
 
   // Minimum values
-  if( fdMinValueBearing < 0.0 ) fdMinValueBearing = 0.0; if( fdMinValueBearing > 180.0 ) fdMinValueBearing = 180.0;
-  if( fdMinValuePosition < 0.0 ) fdMinValuePosition = 0.0;
-  if( fdMinValueSpeed < 0.0 ) fdMinValueSpeed = 0.0;
-  if( fdMinValueSpeedVertical < 0.0 ) fdMinValueSpeedVertical = 0.0;
+  if( fdMinValueBearing < 0.0 ) { fdMinValueBearing = 0.0; }; if( fdMinValueBearing > 180.0 ) { fdMinValueBearing = 180.0; };
+  if( fdMinValuePosition < 0.0 ) { fdMinValuePosition = 0.0; };
+  if( fdMinValueSpeed < 0.0 ) { fdMinValueSpeed = 0.0; };
+  if( fdMinValueSpeedVertical < 0.0 ) { fdMinValueSpeedVertical = 0.0; };
 
   // Maximum error
-  if( fdMaxErrorPosition < 0.0 ) fdMaxErrorPosition = 0.0;
-  if( fdMaxErrorElevation < 0.0 ) fdMaxErrorElevation = 0.0;
-  if( fdMaxErrorTime < 0.0 ) fdMaxErrorTime = 0.0;
-  if( fdMaxErrorBearing < 0.0 ) fdMaxErrorBearing = 0.0;
-  if( fdMaxErrorSpeed < 0.0 ) fdMaxErrorSpeed = 0.0;
-  if( fdMaxErrorSpeedVertical < 0.0 ) fdMaxErrorSpeedVertical = 0.0;
+  if( fdMaxErrorPosition < 0.0 ) { fdMaxErrorPosition = 0.0; };
+  if( fdMaxErrorElevation < 0.0 ) { fdMaxErrorElevation = 0.0; };
+  if( fdMaxErrorTime < 0.0 ) { fdMaxErrorTime = 0.0; };
+  if( fdMaxErrorBearing < 0.0 ) { fdMaxErrorBearing = 0.0; };
+  if( fdMaxErrorSpeed < 0.0 ) { fdMaxErrorSpeed = 0.0; };
+  if( fdMaxErrorSpeedVertical < 0.0 ) { fdMaxErrorSpeedVertical = 0.0; };
 
   // Maximum age
-  if( fdMaxAgePosition < 0.0 ) fdMaxAgePosition = 0.0;
-  if( fdMaxAgeElevation < 0.0 ) fdMaxAgeElevation = 0.0;
-  if( fdMaxAgeTime < 0.0 ) fdMaxAgeTime = 0.0;
-  if( fdMaxAgeBearing < 0.0 ) fdMaxAgeBearing = 0.0;
-  if( fdMaxAgeSpeed < 0.0 ) fdMaxAgeSpeed = 0.0;
-  if( fdMaxAgeSpeedVertical < 0.0 ) fdMaxAgeSpeedVertical = 0.0;
+  if( fdMaxAgePosition < 0.0 ) { fdMaxAgePosition = 0.0; };
+  if( fdMaxAgeElevation < 0.0 ) { fdMaxAgeElevation = 0.0; };
+  if( fdMaxAgeTime < 0.0 ) { fdMaxAgeTime = 0.0; };
+  if( fdMaxAgeBearing < 0.0 ) { fdMaxAgeBearing = 0.0; };
+  if( fdMaxAgeSpeed < 0.0 ) { fdMaxAgeSpeed = 0.0; };
+  if( fdMaxAgeSpeedVertical < 0.0 ) { fdMaxAgeSpeedVertical = 0.0; };
 
 
   // Misc.
-  if( iScreenDpi < 1 ) iScreenDpi = 1; if( iScreenDpi > 1200 ) iScreenDpi = 1200;
-  if( iRateRefresh < 100 ) iRateRefresh = 100; if( iRateRefresh > 5000 ) iRateRefresh = 5000;
-  if( iRateRedraw < 1 ) iRateRedraw = 1; if( iRateRedraw > 300 ) iRateRedraw = 300;
-  if( iChartOpacity < 0 ) iChartOpacity = 0; if( iChartOpacity > 100 ) iChartOpacity = 100;
+  if( iScreenDpi < 1 ) { iScreenDpi = 1; }; if( iScreenDpi > 1200 ) { iScreenDpi = 1200; };
+  if( iRateRefresh < 100 ) { iRateRefresh = 100; }; if( iRateRefresh > 5000 ) { iRateRefresh = 5000; };
+  if( iRateRedraw < 1 ) { iRateRedraw = 1; }; if( iRateRedraw > 300 ) { iRateRedraw = 300; };
+  if( iChartOpacity < 0 ) { iChartOpacity = 0; }; if( iChartOpacity > 100 ) { iChartOpacity = 100; };
 }
 
 void CSettings::save( const QString& _rqsFilename ) const
