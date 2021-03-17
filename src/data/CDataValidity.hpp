@@ -34,7 +34,7 @@ class CDataValidity
   //------------------------------------------------------------------------------
 
 public:
-  static const double UNDEFINED_VALUE = -9999999;
+  static constexpr double UNDEFINED_VALUE = -9999999;
 
 
   //------------------------------------------------------------------------------

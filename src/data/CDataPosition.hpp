@@ -41,11 +41,11 @@ class CDataPosition
 
 public:
   /// Specific value for an undefined longitude
-  static const double UNDEFINED_LONGITUDE = -999;
+  static constexpr double UNDEFINED_LONGITUDE = -999;
   /// Specific value for an undefined latitude
-  static const double UNDEFINED_LATITUDE = -99;
+  static constexpr double UNDEFINED_LATITUDE = -99;
   /// Specific value for an undefined elevation
-  static const double UNDEFINED_ELEVATION = -9999999;
+  static constexpr double UNDEFINED_ELEVATION = -9999999;
   /// Specific value for an undefined position
   static const CDataPosition UNDEFINED;
 

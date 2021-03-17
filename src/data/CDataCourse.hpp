@@ -39,9 +39,9 @@ class CDataCourse
 
 public:
   /// Specific value for an undefined bearing
-  static const double UNDEFINED_BEARING = -999;
+  static constexpr double UNDEFINED_BEARING = -999;
   /// Specific value for an undefined speed
-  static const double UNDEFINED_SPEED = -9999999;
+  static constexpr double UNDEFINED_SPEED = -9999999;
   /// Specific value for an undefined course
   static const CDataCourse UNDEFINED;
 

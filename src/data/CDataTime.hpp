@@ -38,7 +38,7 @@ class CDataTime
 
 public:
   /// Specific value for an undefined time
-  static const double UNDEFINED_TIME = -9999999;
+  static constexpr double UNDEFINED_TIME = -9999999;
   /// Specific value for an undefined time object
   static const CDataTime UNDEFINED;
 
