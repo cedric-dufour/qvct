@@ -18,6 +18,7 @@
 
 // C/C++
 #include <cmath>
+#include <time.h>
 
 // QT
 #include <QDataStream>
@@ -60,6 +61,16 @@ void CDataTime::setTime( double _fdTime )
 {
   if( _fdTime < 0.0 ) _fdTime = UNDEFINED_TIME;
   fdTime = _fdTime;
+}
+
+void CDataTime::setTime( time_t _tSeconds, long _lNanoSeconds )
+{
+  if( _tSeconds < 0 ) {
+    fdTime = UNDEFINED_TIME;
+  }
+  else {
+    fdTime = (double)_tSeconds + (double)_lNanoSeconds/1000000000.0;
+  }
 }
 
 void CDataTime::setTime( const CDataTime& _roDataTime )

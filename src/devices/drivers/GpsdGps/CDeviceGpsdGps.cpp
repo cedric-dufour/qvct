@@ -152,7 +152,9 @@ void CDeviceGpsdGps::slotProcessData( int )
 
     // Retrieve data
     int __iStatus;
-#if GPSD_API_MAJOR_VERSION >= 5
+#if GPSD_API_MAJOR_VERSION >= 7
+    __iStatus = gps_read( psGpsData, NULL, 0 );
+#elif GPSD_API_MAJOR_VERSION >= 5
     __iStatus = gps_read( psGpsData );
 #else
     __iStatus = gps_poll( psGpsData );
@@ -196,7 +198,11 @@ void CDeviceGpsdGps::slotProcessData( int )
         if( psGpsData->set & STATUS_SET )
         {
           __eFixType &= ~CDeviceDataFix::FIX_UNDEFINED;
+#if GPSD_API_MAJOR_VERSION >= 10
+          switch( psGpsData->fix.status )
+#else
           switch( psGpsData->status )
+#endif
           {
           case STATUS_NO_FIX: __eFixType |= CDeviceDataFix::FIX_NONE; break;
           case STATUS_FIX: __eFixType |= CDeviceDataFix::FIX_2D; break;
@@ -219,7 +225,11 @@ void CDeviceGpsdGps::slotProcessData( int )
       }
 
       // Time
+#if GPSD_API_MAJOR_VERSION >= 9
+      if( psGpsData->fix.time.tv_sec > 0 ) __oDeviceDataFix.setTime( psGpsData->fix.time.tv_sec, psGpsData->fix.time.tv_nsec );
+#else
       if( !std::isnan( psGpsData->fix.time ) && psGpsData->fix.time > 0.0 ) __oDeviceDataFix.setTime( psGpsData->fix.time );
+#endif
 
       // Position
       if( !std::isnan( psGpsData->fix.longitude ) && !std::isnan( psGpsData->fix.latitude ) )
@@ -266,7 +276,11 @@ void CDeviceGpsdGps::slotProcessData( int )
       __oDeviceDataSkyView.setSourceType( CDeviceDataSource::GPS );
 
       // Time
+#if GPSD_API_MAJOR_VERSION >= 9
+      if( psGpsData->skyview_time.tv_sec > 0 ) __oDeviceDataSkyView.setTime( psGpsData->skyview_time.tv_sec, psGpsData->skyview_time.tv_nsec );
+#else
       if( !std::isnan( psGpsData->skyview_time ) && psGpsData->skyview_time > 0.0 ) __oDeviceDataSkyView.setTime( psGpsData->skyview_time );
+#endif
 
       // Loop through satellites data
       for( int __i = 0; __i < psGpsData->satellites_visible; __i++ )

@@ -147,7 +147,9 @@ void CDeviceGpsdAis::slotProcessData( int )
 
     // Retrieve data
     int __iStatus;
-#if GPSD_API_MAJOR_VERSION >= 5
+#if GPSD_API_MAJOR_VERSION >= 7
+    __iStatus = gps_read( psGpsData, NULL, 0 );
+#elif GPSD_API_MAJOR_VERSION >= 5
     __iStatus = gps_read( psGpsData );
 #else
     __iStatus = gps_poll( psGpsData );

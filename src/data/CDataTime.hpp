@@ -19,6 +19,9 @@
 #ifndef QVCT_CDATATIME_HPP
 #define QVCT_CDATATIME_HPP
 
+// C/C++
+#include <time.h>
+
 // QT
 class QDataStream;
 
@@ -72,6 +75,8 @@ public:
 public:
   /// Sets the time, in seconds from Unix epoch
   void setTime( double _fdTime );
+  /// Sets the time, in seconds from Unix epoch, using timespec stanza
+  void setTime( time_t _tSeconds, long _lNanoSeconds );
   /// Copy time from another time object
   void setTime( const CDataTime& _roDataTime );
   /// Resets the time (to an undefined Time)
