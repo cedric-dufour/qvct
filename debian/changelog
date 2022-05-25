@@ -1,3 +1,14 @@
+qvct (1.0.20220525) UNRELEASED; urgency=low
+
+  * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
+
+  [Cédric Dufour]
+  - FIX(build): Gpsd 3.22 support
+  - FIX(build): Qt5 deprecations
+  - NEW(build): Debian/Bullseye support
+
+ -- Cédric Dufour <cedric.dufour@ced-network.net>  Wed, 25 May 2022 18:07:53 +0200
+
 qvct (1.0.20210317) UNRELEASED; urgency=low
 
   * NEW RELEASE (see https://github.com/cedric-dufour/qvct for detailed changelog)
