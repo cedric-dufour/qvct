@@ -550,7 +550,11 @@ bool CChartTable::handlerMouseEvent( QMouseEvent* _pqMouseEvent )
 bool CChartTable::handlerWheelEvent( QWheelEvent* _pqWheelEvent )
 {
   if( QTabWidget::currentIndex() < 0 ) return false;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+  int __iMouseDelta = _pqWheelEvent->angleDelta().y() / 120;
+#else
   int __iMouseDelta = _pqWheelEvent->delta() / 120;
+#endif
   if( !__iMouseDelta ) return true;
   bool __bIncrease = true;
   if( __iMouseDelta < 0 ) { __bIncrease = false; __iMouseDelta = -__iMouseDelta; }

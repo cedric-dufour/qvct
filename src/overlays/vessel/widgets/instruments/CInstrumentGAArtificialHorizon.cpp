@@ -24,6 +24,7 @@
 #include <QDateTime>
 #include <QFont>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPointF>
 #include <QPen>
 #include <QPixmap>
